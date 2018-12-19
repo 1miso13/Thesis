@@ -1,0 +1,162 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\Geometry">
+      <UniqueIdentifier>{704d9481-2adf-4913-a40f-1c13e2f0400a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Geometry\Geometric objects">
+      <UniqueIdentifier>{0ddfa1f0-f33c-42b3-a5be-4604c3518bd0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Geometry\Geometric objects\0D">
+      <UniqueIdentifier>{2743622a-c007-45ed-b7ee-54c2117ea5de}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Geometry\Geometric objects\1D">
+      <UniqueIdentifier>{5bda6aba-30d0-4dfd-aced-252560683eaf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Geometry\Geometric objects\2D">
+      <UniqueIdentifier>{07f71109-f2b3-480c-a31d-aa95d5047883}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Geometry\Geometric objects\3D">
+      <UniqueIdentifier>{6d4b0789-5b68-4c28-bc0f-75cf10f67411}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Geometry">
+      <UniqueIdentifier>{5beeabd1-caae-4ddc-ac1d-507afdd76287}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Geometry\Objects">
+      <UniqueIdentifier>{c0a2965b-08b8-42f2-9488-2886bbf93fd1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Geometry\Objects\3D">
+      <UniqueIdentifier>{91548e0b-8f68-42f4-b91a-e61d28705a1d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Geometry\Objects\0D">
+      <UniqueIdentifier>{3544f9f9-4518-4e55-a01e-6ff099b9cd1c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Geometry\Objects\1D">
+      <UniqueIdentifier>{0baa08ce-43df-4dc1-8a0c-ce00e283d84e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Geometry\Objects\2D">
+      <UniqueIdentifier>{69db4a3b-80bb-4826-92a1-87dff08c8f8c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Parsing">
+      <UniqueIdentifier>{d45dd99c-937c-4fb4-a409-663ebb6dbe6b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Parsing">
+      <UniqueIdentifier>{e2093cf1-ccf5-4a78-a22b-f18ed59fb61e}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="pch.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector.h">
+      <Filter>Header Files\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="Point.h">
+      <Filter>Header Files\Geometry\Geometric objects\0D</Filter>
+    </ClInclude>
+    <ClInclude Include="Line.h">
+      <Filter>Header Files\Geometry\Geometric objects\1D</Filter>
+    </ClInclude>
+    <ClInclude Include="Triangle.h">
+      <Filter>Header Files\Geometry\Geometric objects\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="Circle.h">
+      <Filter>Header Files\Geometry\Geometric objects\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="Shape.h">
+      <Filter>Header Files\Geometry\Geometric objects\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="Surface.h">
+      <Filter>Header Files\Geometry\Geometric objects\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="Rectangle.h">
+      <Filter>Header Files\Geometry\Geometric objects\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="GeometricObject.h">
+      <Filter>Header Files\Geometry\Geometric objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Geometry.h">
+      <Filter>Header Files\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="Matrix.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Parser.h">
+      <Filter>Header Files\Parsing</Filter>
+    </ClInclude>
+    <ClInclude Include="Command.h">
+      <Filter>Header Files\Parsing</Filter>
+    </ClInclude>
+    <ClInclude Include="OperationTypeEnum.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GeometricOperation.h">
+      <Filter>Header Files\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="OperationTypes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CommandStack.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ParamRef.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ParamRefStruct.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="pch.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Thesis.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Triangle.cpp">
+      <Filter>Source Files\Geometry\Objects\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="Circle.cpp">
+      <Filter>Source Files\Geometry\Objects\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="Rectangle.cpp">
+      <Filter>Source Files\Geometry\Objects\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="Surface.cpp">
+      <Filter>Source Files\Geometry\Objects\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="Line.cpp">
+      <Filter>Source Files\Geometry\Objects\1D</Filter>
+    </ClCompile>
+    <ClCompile Include="Point.cpp">
+      <Filter>Source Files\Geometry\Objects\0D</Filter>
+    </ClCompile>
+    <ClCompile Include="Shape.cpp">
+      <Filter>Source Files\Geometry\Objects\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="Geometry.cpp">
+      <Filter>Source Files\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="Vector.cpp">
+      <Filter>Source Files\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="GeometricOperation.cpp">
+      <Filter>Source Files\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="Parser.cpp">
+      <Filter>Source Files\Parsing</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
