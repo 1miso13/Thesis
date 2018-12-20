@@ -1,5 +1,6 @@
 #include "dialog.h"
 #include "GeneratedFiles/ui_dialog.h"
+#include "Header.h"
 
 Dialog::Dialog(CommandStack *commandStack, Command ** c, DialogWindowType DialogType, int index, QWidget *parent) :
     QDialog(parent),
@@ -290,42 +291,53 @@ void Dialog::on_okButton_clicked()
 	//Test name 
 	bool validName = true;
 	std::string objectName = ui->tableWidget->item(0, 1)->text().toStdString();
-	for (size_t i = 0; i < commandStack->GraphCommand.size(); i++)
+	if (IsEmpty(objectName))
 	{
-		if (DialogType == DialogWindowType::MODIFY && i == index)
-		{//jump now editing command
-			continue;
-		}
-		if (commandStack->GraphCommand.at(i)->name == objectName)
+		validName = false;
+	}
+	else
+	{
+		for (size_t i = 0; i < commandStack->GraphCommand.size(); i++)
 		{
-			validName = false;
-			break;
+			if (DialogType == DialogWindowType::MODIFY && i == index)
+			{//jump now editing command
+				continue;
+			}
+			if (commandStack->GraphCommand.at(i)->name == objectName)
+			{
+				validName = false;
+				break;
+			}
 		}
 	}
-	std::string visibilityValue = ui->tableWidget->item(1, 1)->text().toStdString();
 
-	//visibility
-	validParameters = operationType::TestValidParameterType(operationType::ParameterTypesEnum::ParameterTypeFLOAT, visibilityValue, &commandStack->GraphCommand, index);
-	//Test parameters
-	for (size_t i = 0; i < k->size(); i++)
+
+	std::string visibilityValue = ui->tableWidget->item(1, 1)->text().toStdString();
+	if (validName)
 	{
-		std::string cellText = ui->tableWidget->item(i+2, 1)->text().toStdString();
-		if (!operationType::TestValidParameterType(k->at(i), cellText, &commandStack->GraphCommand, index))
+		//visibility
+		validParameters = operationType::TestValidParameterType(operationType::ParameterTypesEnum::ParameterTypeFLOAT, visibilityValue, &commandStack->GraphCommand, index);
+		//Test parameters
+		for (size_t i = 0; i < k->size(); i++)
 		{
-			validParameters = false;
-		}
-		if (k->at(i) == operationType::ParameterTypesEnum::ParameterTypeFLOAT)
-		{
-			std::string refname= ui->tableWidget->item(i + 2, 2)->text().toStdString();
-			for (size_t j = 0; j < ui->tableWidget->rowCount()-2; j++)
+			std::string cellText = ui->tableWidget->item(i+2, 1)->text().toStdString();
+			if (!operationType::TestValidParameterType(k->at(i), cellText, &commandStack->GraphCommand, index))
 			{
-				if (j != i && refname == ui->tableWidget->item(j+2, 2)->text().toStdString() && !IsEmpty(refname))
-				{//same as another parameter
+				validParameters = false;
+			}
+			if (k->at(i) == operationType::ParameterTypesEnum::ParameterTypeFLOAT)
+			{
+				std::string refname= ui->tableWidget->item(i + 2, 2)->text().toStdString();
+				for (size_t j = 0; j < ui->tableWidget->rowCount()-2; j++)
+				{
+					if (j != i && refname == ui->tableWidget->item(j+2, 2)->text().toStdString() && !IsEmpty(refname))
+					{//same as another parameter
+						validParameters = false;
+					}
+				}
+				if (!commandStack->TestRefParam(refname, objectName, i) && !IsEmpty(refname)) {
 					validParameters = false;
 				}
-			}
-			if (!commandStack->TestRefParam(refname, objectName, i) && !IsEmpty(refname)) {
-				validParameters = false;
 			}
 		}
 	}
@@ -384,6 +396,7 @@ void Dialog::on_okButton_clicked()
 }
 void Dialog::on_tableWidget_cellChanged(int row, int column)
 {
+	ui->tableWidget->item(row, column)->setText(QString::fromStdString(RemoveWhitespaceChars(ui->tableWidget->item(row, column)->text().toStdString())));
 	//1 - param value
 	//2 - ref param name
 	if (column != 1 && column != 2 )
@@ -395,7 +408,7 @@ void Dialog::on_tableWidget_cellChanged(int row, int column)
 		return;
 	}
 	short retType = 1;
-	std::string cellText = ui->tableWidget->item(row, column)->text().toStdString();
+	std::string cellText = RemoveWhitespaceChars(ui->tableWidget->item(row, column)->text().toStdString());
 	if (IsEmpty(cellText) )
 	{
 		

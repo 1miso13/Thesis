@@ -142,6 +142,7 @@
   <ItemGroup>
     <ClInclude Include="DialogWindowType.h" />
     <ClInclude Include="GeneratedFiles\ui_QtGuiApplication1.h" />
+    <ClInclude Include="Header.h" />
     <QtMoc Include="reftablewidget.h">
       <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName)\.;$(QTDIR)\include\Qt3DCore;$(QTDIR)\include\Qt3DAnimation;$(QTDIR)\include\Qt3DExtras;$(QTDIR)\include\Qt3DInput;$(QTDIR)\include\Qt3DLogic;$(QTDIR)\include\Qt3DRender;$(QTDIR)\include\Qt3DQuick;$(QTDIR)\include\Qt3DQuickAnimation;$(QTDIR)\include\Qt3DQuickExtras;$(QTDIR)\include\Qt3DQuickInput;$(QTDIR)\include\Qt3DQuickRender;$(QTDIR)\include\Qt3DQuickScene2D;$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtOpenGL;$(QTDIR)\include\QtOpenGLExtensions;$(QTDIR)\include\QtWidgets</IncludePath>
       <Define Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">UNICODE;_UNICODE;WIN32;WIN64;QT_DLL;QT_3DCORE_LIB;QT_3DANIMATION_LIB;QT_3DEXTRAS_LIB;QT_3DINPUT_LIB;QT_3DLOGIC_LIB;QT_3DRENDER_LIB;QT_3DQUICK_LIB;QT_3DQUICKANIMATION_LIB;QT_3DQUICKEXTRAS_LIB;QT_3DQUICKINPUT_LIB;QT_3DQUICKRENDER_LIB;QT_3DQUICKSCENE2D_LIB;QT_CORE_LIB;QT_GUI_LIB;QT_OPENGL_LIB;QT_OPENGLEXTENSIONS_LIB;QT_WIDGETS_LIB</Define>

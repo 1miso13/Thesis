@@ -248,10 +248,24 @@ bool TestCommandSemantic(CommandStack *commandStack, size_t index) {
 	//Test parameters
 	for (size_t i = 0; i < k->size(); i++)
 	{
-		std::string parameterText = commandStack->GraphCommand.at(index)->CommandParameterVector->at(i);
-		if (!operationType::TestValidParameterType(k->at(i), parameterText, &commandStack->GraphCommand, index))
+		if (k->at(i) == operationType::ParameterTypeMULTIPLEPOINTS)
 		{
-			return false;
+			for (size_t j = 0;  j + i < commandStack->GraphCommand.at(index)->CommandParameterVector->size();  j++)
+			{//Last parameter can be multipoits
+				std::string parameterText = commandStack->GraphCommand.at(index)->CommandParameterVector->at(i+j);
+				if (!operationType::TestValidParameterType(k->at(i), parameterText, &commandStack->GraphCommand, index))
+				{
+					return false;
+				}
+			}
+		}
+		else
+		{
+			std::string parameterText = commandStack->GraphCommand.at(index)->CommandParameterVector->at(i);
+			if (!operationType::TestValidParameterType(k->at(i), parameterText, &commandStack->GraphCommand, index))
+			{
+				return false;
+			}
 		}
 	}
 	
