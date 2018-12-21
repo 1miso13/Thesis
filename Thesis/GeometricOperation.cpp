@@ -43,8 +43,9 @@ Point  LinearInterpolation_Percent(Point p1, Point p2, float percentage) {
 enum Err
 {
 	LineParalell,
-	IntersectionOutsidePlane,
-	BadLine
+	//IntersectionOutsidePlane,
+	BadLine,
+	Valid
 };
 Point Intersection_Plane_Line(Surface s, Line l,Err *type) {
 	//need to test if intersection exists
