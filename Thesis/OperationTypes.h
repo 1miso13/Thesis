@@ -317,7 +317,7 @@ namespace operationType {
 					//		Intersection_Plane_Line(PointName,  lineName, surfaceName) //- Create Point on position where Line with name "lineName" intersecting Surface with name "surfaceName"
 
 		}
-		if (commandName == "SurfaceMiddle")
+		if (commandName == "SurfaceCenterBoundingSquare")
 		{
 			if (CountOfParams != 1)
 			{
@@ -327,29 +327,93 @@ namespace operationType {
 			{
 				return INVALID;
 			}
-			return  SurfaceMiddle;
-			//SurfaceMiddle(string name, Surface surfaceName, bool visible = true) //Create point on position of middle of entered surface
+			return  SurfaceCenterBoundingSquare;
+			//SurfaceCenterBoundingSquare(string name, Surface surfaceName, bool visible = true) //Create point on position of middle of entered surface
 				//	Example:
-				//		SurfaceMiddle(PointName, Circle)	//- Create Point on center of Circle
-				//		SurfaceMiddle(PointName, Rectangle)	//- Create Point on middle of Rectangle
-				//		SurfaceCenter(PointName, Shape)		//- Create Point on middle of shape 
-				//		SurfaceMiddle(PointName, Shape)		//- Create Point on middle of shape - centroid (sum of points / count of points)
+				//		SurfaceCenterBoundingSquare(PointName, Circle)	//- Create Point on center of Circle
+				//		SurfaceCenterBoundingSquare(PointName, Rectangle)	//- Create Point on middle of Rectangle
+				//		SurfaceCenterBoundingSquare(PointName, Shape)		//- Create Point on middle of shape - centroid (sum of points / count of points)
 
 		}
-		if (commandName == "ObjectMiddle")
+		if (commandName == "SurfaceCenterAverage")
 		{
 			if (CountOfParams != 1)
 			{
 				return INVALID;
 			}
-			if (!CompareTypes(OBJECT3D, Find(GraphCommand, *it)))
+			if (!CompareTypes(SURFACE, Find(GraphCommand, *it)))
 			{
 				return INVALID;
 			}
-			return  ObjectMiddle;
-			//ObjectMiddle(string name, Object3D ObjectName, bool visible = true) //Create point on position of middle of entered object
+			return  SurfaceCenterAverage;
+			//SurfaceCenterAverage(string name, Surface surfaceName, bool visible = true) //Create point on position of middle of entered surface
+				//	Example:
+				//		SurfaceCenterAverage(PointName, Circle)	//- Create Point on center of Circle
+				//		SurfaceCenterAverage(PointName, Rectangle)	//- Create Point on middle of Rectangle
+				//		SurfaceCenterAverage(PointName, Shape)		//- Create Point on middle of shape - centroid (sum of points / count of points)
+
 		}
-		if (commandName == "ObjectCenter")
+		if (commandName == "Centroid")
+		{
+			if (CountOfParams != 1)
+			{
+				return INVALID;
+			}
+			if (!CompareTypes(TRIANGLE, Find(GraphCommand, *it)))
+			{
+				return INVALID;
+			}
+			return Centroid;//(string name, Triangle triangleName, float visibility)
+		}
+		if (commandName == "Incenter")
+		{
+			if (CountOfParams != 1)
+			{
+				return INVALID;
+			}
+			if (!CompareTypes(TRIANGLE, Find(GraphCommand, *it)))
+			{
+				return INVALID;
+			}
+			return Incenter;//(string name, Triangle triangleName, float visibility)
+		}
+		if (commandName == "Circumcenter")
+		{
+			if (CountOfParams != 1)
+			{
+				return INVALID;
+			}
+			if (!CompareTypes(TRIANGLE, Find(GraphCommand, *it)))
+			{
+				return INVALID;
+			}
+			return Circumcenter;//(string name, Triangle triangleName, float visibility)
+		}
+		if (commandName == "Orthocenter")
+		{
+			if (CountOfParams != 1)
+			{
+				return INVALID;
+			}
+			if (!CompareTypes(TRIANGLE, Find(GraphCommand, *it)))
+			{
+				return INVALID;
+			}
+			return Orthocenter;//(string name, Triangle triangleName, float visibility)
+		}
+		if (commandName == "NinePointCenter")
+		{
+			if (CountOfParams != 1)
+			{
+				return INVALID;
+			}
+			if (!CompareTypes(TRIANGLE, Find(GraphCommand, *it)))
+			{
+				return INVALID;
+			}
+			return NinePointCenter;//(string name, Triangle triangleName, float visibility)
+		}
+		if (commandName == "ObjectCenterBoundingBox")
 		{
 			if (CountOfParams != 1)
 			{
@@ -359,8 +423,21 @@ namespace operationType {
 			{
 				return INVALID;
 			}
-			return  ObjectCenter;
-			//ObjectCenter(string name, Object3D ObjectName, bool visible = true) //Create point on position of center of entered object
+			return  ObjectCenterBoundingBox;
+			//ObjectCenterBoundingBox(string name, Object3D ObjectName, bool visible = true) //Create point on position of middle of entered object
+		}
+		if (commandName == "ObjectCenterAverage")
+		{
+			if (CountOfParams != 1)
+			{
+				return INVALID;
+			}
+			if (!CompareTypes(OBJECT3D, Find(GraphCommand, *it)))
+			{
+				return INVALID;
+			}
+			return  ObjectCenterAverage;
+			//ObjectCenterAverage(string name, Object3D ObjectName, bool visible = true) //Create point on position of center of entered object
 
 		}
 		if (commandName == "LineFirstPoint")
@@ -610,7 +687,7 @@ namespace operationType {
 		///Surface Commands:
 
 		}
-		if (commandName == "AddWidthToLine")
+		if (commandName == "RectangleFromLine")
 		{//1 - surface point, 2 - normal vector
 			if (CountOfParams != 4)
 			{
@@ -635,14 +712,14 @@ namespace operationType {
 						it++;
 						if (IsFloat(*it))//type is short TODO
 						{
-							return AddWidthToLine;
+							return RectangleFromLine;
 						}
 					}
 				}
 			}
 			return  INVALID;
-			//AddWidthToLine(string surfaceName, Line l, float width, Point surfacePoint, short type, bool visible = true)
-			//AddWidthToLine(string surfaceName, Line l, float width, Vector3 normalVector, short type, bool visible = true)
+			//RectangleFromLine(string surfaceName, Line l, float width, Point surfacePoint, short type, bool visible = true)
+			//RectangleFromLine(string surfaceName, Line l, float width, Vector3 normalVector, short type, bool visible = true)
 			//create Rectangle from Line l
 			/*type:
 				0 - width/2 to left, width/2 to right
@@ -836,7 +913,7 @@ namespace operationType {
 			//Pyramid(string objectName, Surface s, Point p, bool visible = true) //Create Pyramid by Point
 
 		}
-		if (commandName == "To3D")
+		if (commandName == "Extrude")
 		{
 			if (CountOfParams != 2)
 			{
@@ -852,8 +929,8 @@ namespace operationType {
 			{
 				return INVALID;
 			}
-			return  To3D;
-			//To3D(string objectName, Surface s, float distance, bool visible = true) //add width to 
+			return  Extrude;
+			//Extrude(string objectName, Surface s, float distance, bool visible = true) //add width to 
 
 		}
 		if (commandName == "SpericalCurvedSurface")
@@ -919,11 +996,17 @@ namespace operationType {
 		case LinearInterpolationDist:
 		case LinearInterpolationPerc:
 		case Intersection_Plane_Line:
-		case SurfaceMiddle:
-		case ObjectMiddle:
-		case ObjectCenter:
+		case SurfaceCenterAverage:
+		case SurfaceCenterBoundingSquare:
+		case ObjectCenterBoundingBox:
+		case ObjectCenterAverage:
 		case LineFirstPoint:
 		case LineSecondPoint:
+		case Centroid:
+		case Incenter:
+		case Circumcenter:
+		case Orthocenter:
+		case NinePointCenter:
 			return POINTObjectType;
 			///Line Commands:
 		case Line:
@@ -943,7 +1026,7 @@ namespace operationType {
 			///Surface Commands:
 
 
-		case AddWidthToLine:
+		case RectangleFromLine:
 		case Circle:
 			return CIRCLE;
 		case Triangle:
@@ -965,7 +1048,7 @@ namespace operationType {
 		case Pyramid:
 			return PYRAMID;
 			break;
-		case To3D:
+		case Extrude:
 			return OBJECT3D;
 			break;
 		case SpericalCurvedSurface:
@@ -1142,7 +1225,7 @@ namespace operationType {
 					//		Intersection_Plane_Line(PointName,  lineName, surfaceName) //- Create Point on position where Line with name "lineName" intersecting Surface with name "surfaceName"
 
 		}
-		if (commandName == "SurfaceMiddle")
+		if (commandName == "SurfaceCenterBoundingSquare")
 		{
 			/*if (CountOfParams != 1)
 			{
@@ -1165,16 +1248,16 @@ namespace operationType {
 
 				(*paramVectorsInfo)->push_back(paramInfo1);
 			}
-			return  SurfaceMiddle;
-			//SurfaceMiddle(string name, Surface surfaceName, bool visible = true) //Create point on position of middle of entered surface
+			return  SurfaceCenterBoundingSquare;
+			//SurfaceCenterBoundingSquare(string name, Surface surfaceName, bool visible = true) //Create point on position of middle of entered surface
 				//	Example:
-				//		SurfaceMiddle(PointName, Circle)	//- Create Point on center of Circle
-				//		SurfaceMiddle(PointName, Rectangle)	//- Create Point on middle of Rectangle
+				//		SurfaceCenterBoundingSquare(PointName, Circle)	//- Create Point on center of Circle
+				//		SurfaceCenterBoundingSquare(PointName, Rectangle)	//- Create Point on middle of Rectangle
 				//		SurfaceCenter(PointName, Shape)		//- Create Point on middle of shape 
-				//		SurfaceMiddle(PointName, Shape)		//- Create Point on middle of shape - centroid (sum of points / count of points)
+				//		SurfaceCenterBoundingSquare(PointName, Shape)		//- Create Point on middle of shape - centroid (sum of points / count of points)
 
 		}
-		if (commandName == "SurfaceCenter")
+		if (commandName == "SurfaceCenterAverage")
 		{
 			/*if (CountOfParams != 1)
 			{
@@ -1197,7 +1280,7 @@ namespace operationType {
 
 				(*paramVectorsInfo)->push_back(paramInfo1);
 			}
-			//return  SurfaceCenter; TODO
+			return  SurfaceCenterAverage;
 			//SurfaceCenter(string name, Surface surfaceName, bool visible = true) //Create point on position of middle of entered surface
 				//	Example:
 				//		SurfaceMiddle(PointName, Circle)	//- Create Point on center of Circle
@@ -1206,7 +1289,92 @@ namespace operationType {
 				//		SurfaceMiddle(PointName, Shape)		//- Create Point on middle of shape - centroid (sum of points / count of points)
 
 		}
-		if (commandName == "ObjectMiddle")
+		if (commandName == "Centroid")
+		{
+
+			std::vector<ParameterTypesEnum>* params1 = new std::vector<ParameterTypesEnum>();
+			params1->push_back(ParameterTypeTRIANGLE);
+
+			(*paramVectors)->push_back(params1);
+			if (info)
+			{
+				std::vector<std::string> *paramInfo1 = new std::vector<std::string>();
+				paramInfo1->push_back("Create point on centroid of triangle");
+				paramInfo1->push_back("Triangle");
+
+				(*paramVectorsInfo)->push_back(paramInfo1);
+			}
+			return  Centroid;//(string name, Triangle triangleName, float visibility)
+		}
+		if (commandName == "Incenter")
+		{
+
+			std::vector<ParameterTypesEnum>* params1 = new std::vector<ParameterTypesEnum>();
+			params1->push_back(ParameterTypeTRIANGLE);
+
+			(*paramVectors)->push_back(params1);
+			if (info)
+			{
+				std::vector<std::string> *paramInfo1 = new std::vector<std::string>();
+				paramInfo1->push_back("Create point on center of inscribed circle in triangle");
+				paramInfo1->push_back("Triangle");
+
+				(*paramVectorsInfo)->push_back(paramInfo1);
+			}
+			return  Incenter;//(string name, Triangle triangleName, float visibility)
+		}
+			if (commandName == "Circumcenter")
+			{
+
+				std::vector<ParameterTypesEnum>* params1 = new std::vector<ParameterTypesEnum>();
+				params1->push_back(ParameterTypeTRIANGLE);
+
+				(*paramVectors)->push_back(params1);
+				if (info)
+				{
+					std::vector<std::string> *paramInfo1 = new std::vector<std::string>();
+					paramInfo1->push_back("Create point on center of circumscribed circle over triangle");
+					paramInfo1->push_back("Triangle");
+
+					(*paramVectorsInfo)->push_back(paramInfo1);
+				}
+				return  Circumcenter;//(string name, Triangle triangleName, float visibility)
+			}
+			if (commandName == "Orthocenter")
+			{
+
+				std::vector<ParameterTypesEnum>* params1 = new std::vector<ParameterTypesEnum>();
+				params1->push_back(ParameterTypeTRIANGLE);
+
+				(*paramVectors)->push_back(params1);
+				if (info)
+				{
+					std::vector<std::string> *paramInfo1 = new std::vector<std::string>();
+					paramInfo1->push_back("Create orthocentrum of tringle");
+					paramInfo1->push_back("Triangle");
+
+					(*paramVectorsInfo)->push_back(paramInfo1);
+				}
+				return  Orthocenter;//(string name, Triangle triangleName, float visibility)
+			}
+			if (commandName == "NinePointCenter")
+			{
+
+				std::vector<ParameterTypesEnum>* params1 = new std::vector<ParameterTypesEnum>();
+				params1->push_back(ParameterTypeTRIANGLE);
+
+				(*paramVectors)->push_back(params1);
+				if (info)
+				{
+					std::vector<std::string> *paramInfo1 = new std::vector<std::string>();
+					paramInfo1->push_back("Create point at center of nine points circle of triangle");
+					paramInfo1->push_back("Triangle");
+
+					(*paramVectorsInfo)->push_back(paramInfo1);
+				}
+				return  NinePointCenter;//(string name, Triangle triangleName, float visibility)
+			}
+		if (commandName == "ObjectCenterBoundingBox")
 		{
 			/*if (CountOfParams != 1)
 			{
@@ -1228,10 +1396,10 @@ namespace operationType {
 
 				(*paramVectorsInfo)->push_back(paramInfo1);
 			}
-			return  ObjectMiddle;
-			//ObjectMiddle(string name, Object3D ObjectName, bool visible = true) //Create point on position of middle of entered object
+			return  ObjectCenterBoundingBox;
+			//ObjectCenterBoundingBox(string name, Object3D ObjectName, bool visible = true) //Create point on position of middle of entered object
 		}
-		if (commandName == "ObjectCenter")
+		if (commandName == "ObjectCenterAverage")
 		{
 			/*if (CountOfParams != 1)
 			{
@@ -1253,8 +1421,8 @@ namespace operationType {
 
 				(*paramVectorsInfo)->push_back(paramInfo1);
 			}
-			return  ObjectCenter;
-			//ObjectCenter(string name, Object3D ObjectName, bool visible = true) //Create point on position of center of entered object
+			return  ObjectCenterAverage;
+			//ObjectCenterAverage(string name, Object3D ObjectName, bool visible = true) //Create point on position of center of entered object
 
 		}
 		if (commandName == "LineFirstPoint")
@@ -1674,7 +1842,7 @@ namespace operationType {
 		///Surface Commands:
 
 		}
-		if (commandName == "AddWidthToLine")
+		if (commandName == "RectangleFromLine")
 		{//1 - surface point, 2 - normal vector
 			/*if (CountOfParams != 4)
 			{
@@ -1726,14 +1894,14 @@ namespace operationType {
 				(*paramVectorsInfo)->push_back(paramInfo1);
 				(*paramVectorsInfo)->push_back(paramInfo2);
 			}
-			return AddWidthToLine;
+			return RectangleFromLine;
 						/*}
 					}
 				}
 			}*/
 			//return  INVALID;
-			//AddWidthToLine(string surfaceName, Line l, float width, Point surfacePoint, short type, bool visible = true)
-			//AddWidthToLine(string surfaceName, Line l, float width, Vector3 normalVector, short type, bool visible = true)
+			//RectangleFromLine(string surfaceName, Line l, float width, Point surfacePoint, short type, bool visible = true)
+			//RectangleFromLine(string surfaceName, Line l, float width, Vector3 normalVector, short type, bool visible = true)
 			//create Rectangle from Line l
 			/*type:
 				0 - width/2 to left, width/2 to right
@@ -2046,7 +2214,7 @@ namespace operationType {
 			//Pyramid(string objectName, Surface s, Point p, bool visible = true) //Create Pyramid by Point
 
 		}
-		if (commandName == "To3D")
+		if (commandName == "Extrude")
 		{
 			/*if (CountOfParams != 2)
 			{
@@ -2076,8 +2244,8 @@ namespace operationType {
 
 				(*paramVectorsInfo)->push_back(paramInfo1);
 			}
-			return  To3D;
-			//To3D(string objectName, Surface s, float distance, bool visible = true) //add width to 
+			return  Extrude;
+			//Extrude(string objectName, Surface s, float distance, bool visible = true) //add width to 
 
 		}
 		if (commandName == "SpericalCurvedSurface") //TODO
@@ -2161,12 +2329,24 @@ namespace operationType {
 			return "LinearInterpolationPerc";
 		case Intersection_Plane_Line:
 			return "Intersection_Plane_Line";
-		case SurfaceMiddle:
-			return "SurfaceMiddle";
-		case ObjectMiddle:
-			return "ObjectMiddle";
-		case ObjectCenter:
-			return "ObjectCenter";
+		case SurfaceCenterBoundingSquare:
+			return "SurfaceCenterBoundingSquare";
+		case SurfaceCenterAverage:
+			return "SurfaceCenterAverage";
+		case Centroid:
+			return "Centroid";
+		case Incenter:
+			return "Incenter";
+		case Circumcenter:
+			return "Circumcenter";
+		case Orthocenter:
+			return "Orthocenter";
+		case NinePointCenter:
+			return "NinePointCenter";
+		case ObjectCenterBoundingBox:
+			return "ObjectCenterBoundingBox";
+		case ObjectCenterAverage:
+			return "ObjectCenterAverage";
 		case LineFirstPoint:
 			return "LineFirstPoint";
 		case LineSecondPoint:
@@ -2197,8 +2377,8 @@ namespace operationType {
 //Surface Commands:
 
 
-		case AddWidthToLine:
-			return "AddWidthToLine";
+		case RectangleFromLine:
+			return "RectangleFromLine";
 		case Circle:
 			return "Circle";
 		case Triangle:
@@ -2217,8 +2397,8 @@ namespace operationType {
 
 		case Pyramid:
 			return "Pyramid";
-		case To3D:
-			return "To3D";
+		case Extrude:
+			return "Extrude";
 		case SpericalCurvedSurface:
 			return "SpericalCurvedSurface";
 		case Cylinder:

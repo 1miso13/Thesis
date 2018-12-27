@@ -70,7 +70,7 @@ Point Intersection_Plane_Line(Surface s, Line l,Err *type) {
 	dotDenominator = DotProduct(lineVec, planeNormal);
 	Vector3 intersection = Vector3();
 	//line and plane are not parallel
-	if (abs(dotDenominator) > 0.000001)
+	if (abs(dotDenominator) > FLT_EPSILON)
 	{
 		length = dotNumerator / dotDenominator;
 
@@ -219,7 +219,7 @@ Line MinLineBetweenLineAndLine(Line l1/*p1-p2*/, Line l2/*p3-p4*/, bool *errOut)
 	p43.X = l2.endPoint.Position.X - l2.beginPoint.Position.X;
 	p43.Y = l2.endPoint.Position.Y - l2.beginPoint.Position.Y;
 	p43.Z = l2.endPoint.Position.Z - l2.beginPoint.Position.Z;
-	if (p43.Distance() < FLT_EPSILON)
+	if (abs(p43.Distance()) < FLT_EPSILON)
 	{
 		*errOut= false;
 		return Line();
@@ -228,7 +228,7 @@ Line MinLineBetweenLineAndLine(Line l1/*p1-p2*/, Line l2/*p3-p4*/, bool *errOut)
 	p21.X = l1.endPoint.Position.X - l1.beginPoint.Position.X;
 	p21.Y = l1.endPoint.Position.Y - l1.beginPoint.Position.Y;
 	p21.Z = l1.endPoint.Position.Z - l1.beginPoint.Position.Z;
-	if (p21.Distance() < FLT_EPSILON)
+	if (abs(p21.Distance()) < FLT_EPSILON)
 	{
 		*errOut = false;
 		return Line();
@@ -244,7 +244,7 @@ Line MinLineBetweenLineAndLine(Line l1/*p1-p2*/, Line l2/*p3-p4*/, bool *errOut)
 	d2121 = (double)p21.X * (double)p21.X + (double)p21.Y * (double)p21.Y + (double)p21.Z * (double)p21.Z;
 
 	double Denominator = d2121 * d4343 - d4321 * d4321;
-	if (Denominator < DBL_EPSILON)
+	if (abs(Denominator) < DBL_EPSILON)
 	{
 		*errOut = false;
 		return Line();

@@ -91,7 +91,7 @@ void Dialog::FillCommandList()
 		// Add it on our tree as the top item.
 		ui->treeWidget->addTopLevelItem(qTreeWidgetItemRoot);
 		//command name
-		qTreeWidgetItemRoot->setText(0, QString::number(i));
+		qTreeWidgetItemRoot->setText(0, QString::number(CommandsVec.at(i).operationID) + ":" + QString::number(CommandsVec.at(i).ParameterID));
 		qTreeWidgetItemRoot->setText(1, QString::fromStdString(CommandsVec.at(i).operationName));
 		qTreeWidgetItemRoot->setText(2, QString::fromStdString(CommandsVec.at(i).parameterList));
 		qTreeWidgetItemRoot->setText(3, QString::fromStdString(CommandsVec.at(i).Info));

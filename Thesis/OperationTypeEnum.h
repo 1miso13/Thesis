@@ -4,8 +4,8 @@ namespace operationType {
 		///COMMAND LIST:
 
 		///Point commands: //Commands returning points
-		Point,//(string name, Point Parent = NULL, bool visible = true) //- Create point on position 0,0,0. Parent - If entered, position is relative, else absolute
-		//Point(string name, float X, float Y, float Z, Point Parent = NULL, bool visible = true) //-Create point on position XYZ
+		Point,//(string name, Point Parent = NULL, float visibility) //- Create point on position 0,0,0. Parent - If entered, position is relative, else absolute
+		//Point(string name, float X, float Y, float Z, Point Parent = NULL, float visibility) //-Create point on position XYZ
 		///	Example:
 		//		Point("Name of point 1")	//Name can by written with "" or '' or without, Point is on absolute position [0,0,0]
 		//		Point(NameOfPoint2)		//Name can by written with "" or '' or without
@@ -16,72 +16,82 @@ namespace operationType {
 		//		Point(NameOfPoint4,1,2,3,NameOfParentPoint,true)	//- Create visible Point on relative position [1,2,3] from ParentPoint
 
 		LinearInterpolationDist,
-		LinearInterpolationPerc,//(string name, Point fromPoint, Point toPoint, float distance / percentage, bool visible = true)
+		LinearInterpolationPerc,//(string name, Point fromPoint, Point toPoint, float distance / percentage, float visibility)
 		//	Example:
 		//		LinearInterpolation(PointName, FromPoint, ToPoint, 50%)	//- Create Point in middle of entered points
 		//		LinearInterpolation(PointName, FromPoint, ToPoint, 25%)	//- Create Point on position with distance 20% of first point and 80% of second point
 		//		LinearInterpolation(PointName, FromPoint, ToPoint, 100)	//- Create Point on position with distance 100 from first point in angle to second point 
 
-		Intersection_Plane_Line,//(string name, Line lineName, Sufrace surfaceName, bool visible = true)
+		Intersection_Plane_Line,//(string name, Line lineName, Sufrace surfaceName, float visibility)
 		//	Alternative:
 		//	Intersection(string name, Line lineName, Sufrace surfaceName)
 		//	Example:
 		//		Intersection_Plane_Line(PointName,  lineName, surfaceName) //- Create Point on position where Line with name "lineName" intersecting Surface with name "surfaceName"
 
-		SurfaceMiddle,//(string name, Surface surfaceName, bool visible = true) //Create point on position of middle of entered surface
+
+		SurfaceCenterBoundingSquare,//(string name, Surface surfaceName, float visibility) //Create point on position of middle of entered surface
 		//	Example:
-		//		SurfaceMiddle(PointName, Circle)	//- Create Point on center of Circle
-		//		SurfaceMiddle(PointName, Rectangle)	//- Create Point on middle of Rectangle
+		//		SurfaceCenterBoundingSquare(PointName, Circle)	//- Create Point on center of Circle
+		//		SurfaceCenterBoundingSquare(PointName, Rectangle)	//- Create Point on middle of Rectangle
 		//		SurfaceCenter(PointName, Shape)		//- Create Point on middle of shape 
-		//		SurfaceMiddle(PointName, Shape)		//- Create Point on middle of shape - centroid (sum of points / count of points)
+		//		SurfaceCenterBoundingSquare(PointName, Shape)		//- Create Point on middle of shape - centroid (sum of points / count of points)
 
-		ObjectMiddle,//(string name, Object3D ObjectName, bool visible = true) //Create point on position of middle of entered object
-		ObjectCenter,//(string name, Object3D ObjectName, bool visible = true) //Create point on position of center of entered object
+		SurfaceCenterAverage,//(string name, Surface surfaceName, float visibility) //Create point on avarage position of entered surface
 
-		LineFirstPoint,//(string name, Line lineName, bool visible = true)
-		LineSecondPoint,//(string name, Line lineName, bool visible = true)
+		Centroid,//(string name, Triangle triangleName, float visibility)
+		Incenter,//(string name, Triangle triangleName, float visibility)
+		Circumcenter,//(string name, Triangle triangleName, float visibility)
+		Orthocenter,//(string name, Triangle triangleName, float visibility)
+		NinePointCenter,//(string name, Triangle triangleName, float visibility)
+
+		ObjectCenterBoundingBox,//(string name, Object3D ObjectName, float visibility) //Create point on position of middle of entered object
+
+		ObjectCenterAverage,//(string name, Object3D ObjectName, float visibility) //Create point on position of center of entered object
+
+		LineFirstPoint,//(string name, Line lineName, float visibility)
+		LineSecondPoint,//(string name, Line lineName, float visibility)
 
 
 
 
 		///Line Commands:
 
-		Line,//(string lineName, Point p1, Point p2, bool visible = true) //create line, where p1 is start point and p2 is end point
+		Line,//(string lineName, Point p1, Point p2, float visibility) //create line, where p1 is start point and p2 is end point
 
-		LineNormalize,//(string lineName, Line l, bool visible = true)
+		LineNormalize,//(string lineName, Line l, float visibility)
 
-		LineChangeLengthDist,//(string lineName, Line l, float distance, bool visible = true)
-		LineChangeLengthPerc,//(string lineName, Line l, float percent, bool visible = true) //percent = (0;1>
+		LineChangeLengthDist,//(string lineName, Line l, float distance, float visibility)
+		LineChangeLengthPerc,//(string lineName, Line l, float percent, float visibility) //percent = (0;1>
 
 
 
 		// these commands are based on page http://paulbourke.net/geometry/pointlineplane/
-		MinLineBetweenLineAndLine,//(string lineName, Line l1, Line l2, bool visible = true)
-		MinLineBetweenPointAndLine,//(string lineName, Point p, Line l, bool visible = true)
-		MinLineBetweenPointAndSurface,//(string lineName, Point p, Surface s, bool visible = true)
+		MinLineBetweenLineAndLine,//(string lineName, Line l1, Line l2, float visibility)
+		MinLineBetweenPointAndLine,//(string lineName, Point p, Line l, float visibility)
+		MinLineBetweenPointAndSurface,//(string lineName, Point p, Surface s, float visibility)
 
 		///Alternative:
-		MinLine,//(string lineName, Object o1, Object o2, bool visible = true) //Supported are only : [Line,Line], [Point,Line], [Point, Surface]
+		MinLine,//(string lineName, Object o1, Object o2, float visibility) //Supported are only : [Line,Line], [Point,Line], [Point, Surface]
 
 
 
-		SurfaceNormal,//(string lineName, Surface s, bool visible = true) // return normal vector of surface
+		SurfaceNormal,//(string lineName, Surface s, float visibility) // return normal vector of surface
 
 
 
-		LineRelocationByPoint,//(string lineName, Line l, Point p, bool visible = true)
+		LineRelocationByPoint,//(string lineName, Line l, Point p, float visibility)
 
-		//OrthogonalLeastSquares,//(string lineName, Point p1, Point p2, Point p3, ..., bool visible = true) //min 3
+		//OrthogonalLeastSquares,//(string lineName, Point p1, Point p2, Point p3, ..., float visibility) //min 3
 
-		//CrossProductLP,//(string lineName, Line l, Point p, bool visible = true)
-		CrossProduct,//(string lineName, Line l1, Line l2, bool visible = true)
+		//CrossProductLP,//(string lineName, Line l, Point p, float visibility)
+		CrossProduct,//(string lineName, Line l1, Line l2, float visibility)
 
 
 
 	///Surface Commands:
-
-	AddWidthToLine,//(string surfaceName, Line l, float width, Point surfacePoint, short type, bool visible = true)
-	//AddWidthToLine(string surfaceName, Line l, float width, Vector3 normalVector, short type, bool visible = true)
+	RectangleFromLine,
+	//AddWidthToLine,//(string surfaceName, Line l, float width, Point surfacePoint, short type, float visibility)
+	//AddWidthToLine(string surfaceName, Line l, float width, Vector3 normalVector, short type, float visibility)
 //create Rectangle from Line l
 /*type:
 	0 - width/2 to left, width/2 to right
@@ -91,32 +101,32 @@ namespace operationType {
 	//if normal vector is not perpendicular to line, as normal is used normalized dot product between line and normal vector
 	//if normal vector is same direction as line normal, exception occure
 	//If surface point is not on line l, exception occure
-	Circle,//(string surfaceName, Point center, float radius, Line lineNormal, bool visible = true)
-	//Circle(string surfaceName, Point center, Point outlinePoint, Point planePoint, bool visible = true)
+	Circle,//(string surfaceName, Point center, float radius, Line lineNormal, float visibility)
+	//Circle(string surfaceName, Point center, Point outlinePoint, Point planePoint, float visibility)
 
-	Triangle,//(string surfaceName, Line l, Point p, bool visible = true)
-	//Triangle(string surfaceName, Point p1, Point p2, Point p3, bool visible = true)
+	Triangle,//(string surfaceName, Line l, Point p, float visibility)
+	//Triangle(string surfaceName, Point p1, Point p2, Point p3, float visibility)
 
 	//rectangle
-	Rectangle,//(string surfaceName, Point center, float X, float Y, float Roll/*[0,360]*/, Line normal, bool visible = true)
+	Rectangle,//(string surfaceName, Point center, float X, float Y, float Roll/*[0,360]*/, Line normal, float visibility)
 
-	Shape,//(string surfaceName, Point p1, Point p2, Point p3, ..., bool visible = true)//minimum 3 points 
+	Shape,//(string surfaceName, Point p1, Point p2, Point p3, ..., float visibility)//minimum 3 points 
 
 
-	Circumscribed,//(string surfaceName, Triangle t, bool visible = true) //Create circle over triangle
-	Inscribed,//(string surfaceName, Triangle t, bool visible = true)		//Create circle in triangle
+	Circumscribed,//(string surfaceName, Triangle t, float visibility) //Create circle over triangle
+	Inscribed,//(string surfaceName, Triangle t, float visibility)		//Create circle in triangle
 
 ///Objects Commands:
 
-Pyramid,//(string objectName, Surface s, float distance, bool visible = true) //Create Pyramid by distance from center
-//Pyramid(string objectName, Surface s, Point p, bool visible = true) //Create Pyramid by Point
+Pyramid,//(string objectName, Surface s, float distance, float visibility) //Create Pyramid by distance from center
+//Pyramid(string objectName, Surface s, Point p, float visibility) //Create Pyramid by Point
 
-To3D,//(string objectName, Surface s, float distance, bool visible = true) //add width to 
+Extrude,//(string objectName, Surface s, float distance, float visibility) //add width to plane
 
-SpericalCurvedSurface,//(string objectName, Surface s, float distance, bool visible = true)
+SpericalCurvedSurface,//(string objectName, Surface s, float distance, float visibility)
 
 
-Cylinder,//(string objectName, Line l, float radius, bool visible = true)
+Cylinder,//(string objectName, Line l, float radius, float visibility)
 
 INVALID
 	};
