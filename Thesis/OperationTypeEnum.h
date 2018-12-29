@@ -90,8 +90,8 @@ namespace operationType {
 
 	///Surface Commands:
 	RectangleFromLine,
-	//AddWidthToLine,//(string surfaceName, Line l, float width, Point surfacePoint, short type, float visibility)
-	//AddWidthToLine(string surfaceName, Line l, float width, Vector3 normalVector, short type, float visibility)
+	//RectangleFromLine,//(string surfaceName, Line l, float width, Point surfacePoint, short type, float visibility)
+	//RectangleFromLine(string surfaceName, Line l, float width, Vector3 normalVector, short type, float visibility)
 //create Rectangle from Line l
 /*type:
 	0 - width/2 to left, width/2 to right
