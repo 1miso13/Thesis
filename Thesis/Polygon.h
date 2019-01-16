@@ -1,12 +1,12 @@
 #pragma once
 #include "pch.h"
 #include <vector>
-class Shape :
+class Polygon :
 	public Surface
 {
 public:
 	std::vector <Point> pointsVector;
-	Shape(std::vector <Point> pointsVector);
-	~Shape();
+	Polygon(std::vector <Point> pointsVector);
+	~Polygon();
 };
 

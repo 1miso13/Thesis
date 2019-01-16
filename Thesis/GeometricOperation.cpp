@@ -137,7 +137,7 @@ Point SurfaceMiddle(Rectangle r) {
 Point SurfaceMiddle(Circle c) {
 	return c.center;
 }
-Point SurfaceMiddle(Shape s) {
+Point SurfaceMiddle(Polygon s) {
 	//need to calculate middle
 	Vector3 MinPoint= s.pointsVector.at(0).Position;
 	Vector3 MaxPoint= s.pointsVector.at(0).Position;
@@ -172,7 +172,7 @@ Point SurfaceMiddle(Shape s) {
 	return (MinPoint + MaxPoint) / 2;
 }
 
-Point SurfaceCenter(Shape s) {
+Point SurfaceCenter(Polygon s) {
 	//need to calculate middle
 	Vector3 sumPoint;
 	for (unsigned int i = 0; i < s.pointsVector.size(); i++) {
@@ -317,9 +317,9 @@ Rectangle CreateRectangle(Point center, float X, float Y, float Roll/*[0,360]*/,
 	//TODO
 }
 
-Shape CreateShape(std::vector <Point> pointsVector) { //minimum 3 points 
+Polygon CreatePolygon(std::vector <Point> pointsVector) { //minimum 3 points 
 	
-	return Shape(pointsVector);
+	return Polygon(pointsVector);
 }
 
 //

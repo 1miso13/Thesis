@@ -8,7 +8,7 @@ class Command
 	SURFACE,
 	CIRCLE,
 	RECTANGLE,
-	SHAPE,
+	Polygon,
 	TRIANGLE,
 	PYRAMID*/
 

@@ -64,7 +64,7 @@ void CommandToQStrings(Command *c, QTreeWidgetItem* qTreeWidgetItem) {
 	std::string commandParameters = ParameterToString(l->at(0)) + " " + c->CommandParameterVector->at(0);
 	for (size_t i = 1; i < c->CommandParameterVector->size(); i++)
 	{
-		std::string parameterType = c->operationType == operationType::Shape ? "POINT" : ParameterToString(l->at(i));
+		std::string parameterType = c->operationType == operationType::Polygon ? "POINT" : ParameterToString(l->at(i));
 		commandParameters = commandParameters + ",\t" + parameterType + " " + c->CommandParameterVector->at(i);
 	}
 	// 3 - Parameters

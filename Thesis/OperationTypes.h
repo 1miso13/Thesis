@@ -52,7 +52,7 @@ namespace operationType {
 			SURFACE,
 			CIRCLE,
 			RECTANGLE,
-			SHAPE,
+			Polygon,
 			TRIANGLE,
 			PYRAMID,
 			OBJECT3D*/
@@ -63,7 +63,7 @@ namespace operationType {
 		case SURFACE:
 		case CIRCLE:
 		case RECTANGLE:
-		case SHAPE:
+		case Polygon:
 		case TRIANGLE:
 			if (commandParType == SURFACE)
 			{
@@ -126,7 +126,7 @@ namespace operationType {
 	SURFACE,
 	CIRCLE,
 	RECTANGLE,
-	SHAPE,
+	Polygon,
 	TRIANGLE,
 	PYRAMID,
 	OBJECT3D,
@@ -332,7 +332,7 @@ namespace operationType {
 				//	Example:
 				//		SurfaceCenterBoundingSquare(PointName, Circle)	//- Create Point on center of Circle
 				//		SurfaceCenterBoundingSquare(PointName, Rectangle)	//- Create Point on middle of Rectangle
-				//		SurfaceCenterBoundingSquare(PointName, Shape)		//- Create Point on middle of shape - centroid (sum of points / count of points)
+				//		SurfaceCenterBoundingSquare(PointName, Polygon)		//- Create Point on middle of Polygon - centroid (sum of points / count of points)
 
 		}
 		if (commandName == "SurfaceCenterAverage")
@@ -350,7 +350,7 @@ namespace operationType {
 				//	Example:
 				//		SurfaceCenterAverage(PointName, Circle)	//- Create Point on center of Circle
 				//		SurfaceCenterAverage(PointName, Rectangle)	//- Create Point on middle of Rectangle
-				//		SurfaceCenterAverage(PointName, Shape)		//- Create Point on middle of shape - centroid (sum of points / count of points)
+				//		SurfaceCenterAverage(PointName, Polygon)		//- Create Point on middle of Polygon - centroid (sum of points / count of points)
 
 		}
 		if (commandName == "Centroid")
@@ -838,7 +838,7 @@ namespace operationType {
 			//Rectangle(string surfaceName, Point center, float X, float Y, float Roll/*[0,360]*/, Line normal, bool visible = true)
 
 		}
-		if (commandName == "Shape")
+		if (commandName == "Polygon")
 		{
 			for (size_t i = 0; i < CountOfParams; i++)
 			{
@@ -848,8 +848,8 @@ namespace operationType {
 				}
 				it++;
 			}
-			return  Shape;
-			//Shape(string surfaceName, Point origin, Point p1, Point p2, Point p3, ..., bool visible = true)//minimum 3 points 
+			return  Polygon;
+			//Polygon(string surfaceName, Point origin, Point p1, Point p2, Point p3, ..., bool visible = true)//minimum 3 points 
 
 
 		}
@@ -987,7 +987,7 @@ namespace operationType {
 		SURFACE,
 		CIRCLE,
 		RECTANGLE,
-		SHAPE,
+		Polygon,
 		TRIANGLE,
 		PYRAMID,
 		OBJECT3D*/
@@ -1033,8 +1033,8 @@ namespace operationType {
 			return TRIANGLE;
 		case Rectangle:
 			return  RECTANGLE;
-		case Shape:
-			return SHAPE;
+		case Polygon:
+			return POLYGON;
 		case Circumscribed:
 			return CIRCLE;
 		case Inscribed:
@@ -1253,8 +1253,8 @@ namespace operationType {
 				//	Example:
 				//		SurfaceCenterBoundingSquare(PointName, Circle)	//- Create Point on center of Circle
 				//		SurfaceCenterBoundingSquare(PointName, Rectangle)	//- Create Point on middle of Rectangle
-				//		SurfaceCenter(PointName, Shape)		//- Create Point on middle of shape 
-				//		SurfaceCenterBoundingSquare(PointName, Shape)		//- Create Point on middle of shape - centroid (sum of points / count of points)
+				//		SurfaceCenter(PointName, Polygon)		//- Create Point on middle of Polygon 
+				//		SurfaceCenterBoundingSquare(PointName, Polygon)		//- Create Point on middle of Polygon - centroid (sum of points / count of points)
 
 		}
 		if (commandName == "SurfaceCenterAverage")
@@ -1285,8 +1285,8 @@ namespace operationType {
 				//	Example:
 				//		SurfaceMiddle(PointName, Circle)	//- Create Point on center of Circle
 				//		SurfaceMiddle(PointName, Rectangle)	//- Create Point on middle of Rectangle
-				//		SurfaceCenter(PointName, Shape)		//- Create Point on middle of shape 
-				//		SurfaceMiddle(PointName, Shape)		//- Create Point on middle of shape - centroid (sum of points / count of points)
+				//		SurfaceCenter(PointName, Polygon)		//- Create Point on middle of Polygon 
+				//		SurfaceMiddle(PointName, Polygon)		//- Create Point on middle of Polygon - centroid (sum of points / count of points)
 
 		}
 		if (commandName == "Centroid")
@@ -2082,7 +2082,7 @@ namespace operationType {
 			//Rectangle(string surfaceName, Point center, float X, float Y, float Roll/*[0,360]*/, Line normal, bool visible = true)
 
 		}
-		if (commandName == "Shape")//TODO
+		if (commandName == "Polygon")//TODO
 		{
 			/*for (size_t i = 0; i < CountOfParams; i++)
 			{
@@ -2100,15 +2100,15 @@ namespace operationType {
 			if (info)
 			{
 				std::vector<std::string> *paramInfo1 = new std::vector<std::string>();
-				paramInfo1->push_back("Create shape by connecting points");
+				paramInfo1->push_back("Create Polygon by connecting points");
 				paramInfo1->push_back("Origin point");
 				paramInfo1->push_back("Multiple points");
 
 				(*paramVectorsInfo)->push_back(paramInfo1);
 			}
 			(*paramVectors)->push_back(params1);
-			return  Shape;
-			//Shape(string surfaceName, Point origin, Point p1, Point p2, Point p3, ..., bool visible = true)//minimum 3 points 
+			return  Polygon;
+			//Polygon(string surfaceName, Point origin, Point p1, Point p2, Point p3, ..., bool visible = true)//minimum 3 points 
 
 
 		}
@@ -2315,7 +2315,7 @@ namespace operationType {
 		SURFACE,
 		CIRCLE,
 		RECTANGLE,
-		SHAPE,
+		Polygon,
 		TRIANGLE,
 		PYRAMID,
 		OBJECT3D*/
@@ -2385,8 +2385,8 @@ namespace operationType {
 			return "Triangle";
 		case Rectangle:
 			return "Rectangle";
-		case Shape:
-			return "Shape";
+		case Polygon:
+			return "Polygon";
 		case Circumscribed:
 			return "Circumscribed";
 		case Inscribed:

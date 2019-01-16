@@ -33,8 +33,8 @@ namespace operationType {
 		//	Example:
 		//		SurfaceCenterBoundingSquare(PointName, Circle)	//- Create Point on center of Circle
 		//		SurfaceCenterBoundingSquare(PointName, Rectangle)	//- Create Point on middle of Rectangle
-		//		SurfaceCenter(PointName, Shape)		//- Create Point on middle of shape 
-		//		SurfaceCenterBoundingSquare(PointName, Shape)		//- Create Point on middle of shape - centroid (sum of points / count of points)
+		//		SurfaceCenter(PointName, Polygon)		//- Create Point on middle of Polygon 
+		//		SurfaceCenterBoundingSquare(PointName, Polygon)		//- Create Point on middle of Polygon - centroid (sum of points / count of points)
 
 		SurfaceCenterAverage,//(string name, Surface surfaceName, float visibility) //Create point on avarage position of entered surface
 
@@ -110,7 +110,7 @@ namespace operationType {
 	//rectangle
 	Rectangle,//(string surfaceName, Point center, float X, float Y, float Roll/*[0,360]*/, Line normal, float visibility)
 
-	Shape,//(string surfaceName, Point p1, Point p2, Point p3, ..., float visibility)//minimum 3 points 
+	Polygon,//(string surfaceName, Point p1, Point p2, Point p3, ..., float visibility)//minimum 3 points 
 
 
 	Circumscribed,//(string surfaceName, Triangle t, float visibility) //Create circle over triangle

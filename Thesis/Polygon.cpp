@@ -2,7 +2,7 @@
 
 
 
-Shape::Shape(std::vector<Point> pointsVector)
+Polygon::Polygon(std::vector<Point> pointsVector)
 {
 	this->pointsVector = pointsVector;
 	this->center = pointsVector[0].Position;
@@ -11,6 +11,6 @@ Shape::Shape(std::vector<Point> pointsVector)
 }
 
 
-Shape::~Shape()
+Polygon::~Polygon()
 {
 }
