@@ -9,6 +9,7 @@ public:
 		this->center = center;
 		this->radius = radius;
 		this->normal = normal;
+		GeometricType = CIRCLE;
 	}
 	~Circle();
 

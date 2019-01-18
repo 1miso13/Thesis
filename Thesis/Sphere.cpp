@@ -6,6 +6,7 @@ Sphere::Sphere(Point center, float radius)
 {
 	this->center = center;
 	this->radius = radius;
+	GeometricType = SPHERE;
 }
 
 

@@ -2,7 +2,7 @@
 #define DIALOG_H
 
 #include <QDialog>
-#include "../Thesis/CommandStack.h"
+#include "../Thesis/ParametricModel.h"
 #include <QTableWidgetItem>
 #include <QTreeWidgetItem>
 #include <string>
@@ -26,7 +26,7 @@ class Dialog : public QDialog
     Q_OBJECT
 
 public:
-	explicit Dialog(CommandStack *commandStack, Command ** c, DialogWindowType DialogType, int  index = -1, QWidget *parent = nullptr);
+	explicit Dialog(ParametricModel *paramModel, Command ** c, DialogWindowType DialogType, int  index = -1, QWidget *parent = nullptr);
 //	explicit Dialog(QWidget *parent = nullptr);
     ~Dialog();
 
@@ -51,7 +51,7 @@ private:
 		>*
 	>* paramVectors;
 	long index=-1;
-	CommandStack *commandStack=NULL;
+	ParametricModel *paramModel=NULL;
 	Command ** c;
 
 	std::vector<CommandStruct> CommandsVec;

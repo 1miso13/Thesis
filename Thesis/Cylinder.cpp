@@ -3,6 +3,7 @@
 
 Cylinder::Cylinder()
 {
+	GeometricType = CYLINDER;
 }
 
 

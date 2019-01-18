@@ -21,6 +21,7 @@ Pyramid::Pyramid(Point apex, Surface * base, short BaseType)
 	this->base = base;
 	this->BaseType = BaseType;
 	CalculateHeight();
+	GeometricType = PYRAMID;
 }
 /// <summary>
 /// 
@@ -37,6 +38,7 @@ Pyramid::Pyramid(float height, Surface * base, short BaseType)
 	this->apex = Point(base->center) + base->normal*height;
 	this->base = base;
 	this->BaseType = BaseType;
+	GeometricType = PYRAMID;
 }
 
 Pyramid::~Pyramid()

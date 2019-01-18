@@ -4,5 +4,6 @@
 
 Surface::Surface()
 {
+	GeometricType = SURFACE;
 }
 

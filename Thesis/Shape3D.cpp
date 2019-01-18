@@ -36,6 +36,7 @@ void Shape3D::CalculateSurfaceArea()
 
 Shape3D::Shape3D()
 {
+	GeometricType = OBJECT3D;
 }
 
 

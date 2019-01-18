@@ -2,14 +2,14 @@
 #include "GeneratedFiles/ui_dialog.h"
 #include "Header.h"
 
-Dialog::Dialog(CommandStack *commandStack, Command ** c, DialogWindowType DialogType, int index, QWidget *parent) :
+Dialog::Dialog(ParametricModel *paramModel, Command ** c, DialogWindowType DialogType, int index, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::Dialog)
 {
     ui->setupUi(this);
 	this->setWindowFlags(this->windowFlags() | Qt::WindowMinMaxButtonsHint);
 	this->index = index;
-	this->commandStack = commandStack;
+	this->paramModel = paramModel;
 	this->DialogType = DialogType;
    // ui->splitter->setSizes(QList<int>() << 200 << 100 );
 	this->c = c;
@@ -17,8 +17,8 @@ Dialog::Dialog(CommandStack *commandStack, Command ** c, DialogWindowType Dialog
 	FillCommandList();
 	if (DialogType == DialogWindowType::MODIFY)
 	{
-		int operType = commandStack->GraphCommand.at(index)->operationType;
-		int paramType = commandStack->GraphCommand.at(index)->typeOfParameters-1;
+		int operType = paramModel->GraphCommand.at(index)->operationType;
+		int paramType = paramModel->GraphCommand.at(index)->typeOfParameters-1;
 		size_t i = 0;
 		for (; i < CommandsVec.size(); i++)
 		{
@@ -107,7 +107,7 @@ void Dialog::on_treeWidget_itemSelectionChanged()
 	bool modif = false;
 	if (DialogType == DialogWindowType::MODIFY)
 	{//Modify
-		if (c.operationID == commandStack->GraphCommand.at(index)->operationType && c.ParameterID == commandStack->GraphCommand.at(index)->typeOfParameters - 1)
+		if (c.operationID == paramModel->GraphCommand.at(index)->operationType && c.ParameterID == paramModel->GraphCommand.at(index)->typeOfParameters - 1)
 		{
 			modif = true;
 		}
@@ -131,10 +131,10 @@ void Dialog::on_treeWidget_itemSelectionChanged()
 	ui->tableWidget->setRowCount(0);
 
 	//Name Of Object
-	std::string objectName = c.operationName + "_" + std::to_string(commandStack->GraphCommand.size());
+	std::string objectName = c.operationName + "_" + std::to_string(paramModel->GraphCommand.size());
 	if (modif)
 	{
-		objectName = commandStack->GraphCommand.at(index)->name;
+		objectName = paramModel->GraphCommand.at(index)->name;
 	}
 	ui->tableWidget->insertRow(ui->tableWidget->rowCount());
 	QTableWidgetItem *item = new QTableWidgetItem(QString::fromStdString("Name"), QTableWidgetItem::Type);
@@ -164,7 +164,7 @@ void Dialog::on_treeWidget_itemSelectionChanged()
 	std::string visibilityVal="";
 	if (modif)
 	{
-		visibilityVal = std::to_string(commandStack->GraphCommand.at(index)->visibility);
+		visibilityVal = std::to_string(paramModel->GraphCommand.at(index)->visibility);
 	}
 	else
 	{
@@ -195,15 +195,15 @@ void Dialog::on_treeWidget_itemSelectionChanged()
 		if (modif)
 		{
 			//add existing value
-			paramValueStr = commandStack->GraphCommand.at(index)->CommandParameterVector->at(i);
+			paramValueStr = paramModel->GraphCommand.at(index)->CommandParameterVector->at(i);
 			if (sasa->at(i) ==operationType::ParameterTypesEnum::ParameterTypeMULTIPLEPOINTS)
 			{
 				/// <summary>
 				/// all parameters are merged to this param, delimited with ';'
 				/// </summary>
-				for (size_t j = i+1; j < commandStack->GraphCommand.at(index)->CommandParameterVector->size(); j++)
+				for (size_t j = i+1; j < paramModel->GraphCommand.at(index)->CommandParameterVector->size(); j++)
 				{
-					paramValueStr += ";" + commandStack->GraphCommand.at(index)->CommandParameterVector->at(j);
+					paramValueStr += ";" + paramModel->GraphCommand.at(index)->CommandParameterVector->at(j);
 				}
 			}
 		}
@@ -220,12 +220,12 @@ void Dialog::on_treeWidget_itemSelectionChanged()
 		else
 		{//test if param is referenced
 			std::string paramRefName;
-			if (commandStack->paramRef.FindRefParameterByObjectAndIndex(objectName, i, &paramRefName))
+			if (paramModel->paramRef.FindRefParameterByObjectAndIndex(objectName, i, &paramRefName))
 			{
 				item2->setText(QString::fromStdString(paramRefName));
 			} 
 			
-			//= !commandStack->TestRefParam(commandStack->paramRef.FindRefParameterByObject(), objectName, i);
+			//= !paramModel->TestRefParam(paramModel->paramRef.FindRefParameterByObject(), objectName, i);
 		}
 		ui->tableWidget->setItem(ui->tableWidget->rowCount() - 1, 2, item2);
 		QTableWidgetItem *item3 = new QTableWidgetItem(QString::fromStdString(f->at(i + 1)), QTableWidgetItem::Type);
@@ -297,13 +297,13 @@ void Dialog::on_okButton_clicked()
 	}
 	else
 	{
-		for (size_t i = 0; i < commandStack->GraphCommand.size(); i++)
+		for (size_t i = 0; i < paramModel->GraphCommand.size(); i++)
 		{
 			if (DialogType == DialogWindowType::MODIFY && i == index)
 			{//jump now editing command
 				continue;
 			}
-			if (commandStack->GraphCommand.at(i)->name == objectName)
+			if (paramModel->GraphCommand.at(i)->name == objectName)
 			{
 				validName = false;
 				break;
@@ -316,12 +316,12 @@ void Dialog::on_okButton_clicked()
 	if (validName)
 	{
 		//visibility
-		validParameters = operationType::TestValidParameterType(operationType::ParameterTypesEnum::ParameterTypeFLOAT, visibilityValue, &commandStack->GraphCommand, index);
+		validParameters = operationType::TestValidParameterType(operationType::ParameterTypesEnum::ParameterTypeFLOAT, visibilityValue, &paramModel->GraphCommand, index);
 		//Test parameters
 		for (size_t i = 0; i < k->size(); i++)
 		{
 			std::string cellText = ui->tableWidget->item(i+2, 1)->text().toStdString();
-			if (!operationType::TestValidParameterType(k->at(i), cellText, &commandStack->GraphCommand, index))
+			if (!operationType::TestValidParameterType(k->at(i), cellText, &paramModel->GraphCommand, index))
 			{
 				validParameters = false;
 			}
@@ -335,7 +335,7 @@ void Dialog::on_okButton_clicked()
 						validParameters = false;
 					}
 				}
-				if (!commandStack->TestRefParam(refname, objectName, i) && !IsEmpty(refname)) {
+				if (!paramModel->TestRefParam(refname, objectName, i) && !IsEmpty(refname)) {
 					validParameters = false;
 				}
 			}
@@ -379,10 +379,10 @@ void Dialog::on_okButton_clicked()
 			{
 				std::string paramRefName;
 				if(!IsEmpty(paramRefName = ui->tableWidget->item(i + 2, 2)->text().toStdString()))
-					commandStack->AddReferenceParamWithoutValidCheck(paramRefName, objectName, i);
+					paramModel->AddReferenceParamWithoutValidCheck(paramRefName, objectName, i);
 				else
 				{
-					commandStack->RemoveReferenceParam(objectName, i);
+					paramModel->RemoveReferenceParam(objectName, i);
 				}
 			}
 		}
@@ -423,13 +423,13 @@ void Dialog::on_tableWidget_cellChanged(int row, int column)
 			{//name
 				//test if name doesnt already exist
 				retType = 1;
-				for (size_t i = 0; i < commandStack->GraphCommand.size(); i++)
+				for (size_t i = 0; i < paramModel->GraphCommand.size(); i++)
 				{
 					if (DialogType == DialogWindowType::MODIFY && i == index)
 					{//jump now editing command
 						continue;
 					}
-					if (commandStack->GraphCommand.at(i)->name == cellText)
+					if (paramModel->GraphCommand.at(i)->name == cellText)
 					{
 						retType = 0;
 						break;
@@ -439,7 +439,7 @@ void Dialog::on_tableWidget_cellChanged(int row, int column)
 			else {
 				if (row == 1)
 				{//visibility
-					retType = operationType::TestValidParameterType(operationType::ParameterTypeFLOAT, cellText, &commandStack->GraphCommand, index);
+					retType = operationType::TestValidParameterType(operationType::ParameterTypeFLOAT, cellText, &paramModel->GraphCommand, index);
 				}
 				else
 				{
@@ -448,8 +448,8 @@ void Dialog::on_tableWidget_cellChanged(int row, int column)
 					std::vector <operationType::ParameterTypesEnum> *  k = paramVectors->at(c.ParameterID);
 					//	for (size_t i = 0; i < k->size(); i++)
 					{
-						//operationType::CompareTypes(k->at(i), operationType::Find(&(commandStack->GraphCommand), cellText));
-						retType = operationType::TestValidParameterType(k->at((size_t)(row - 2)), cellText, &commandStack->GraphCommand, index);
+						//operationType::CompareTypes(k->at(i), operationType::Find(&(paramModel->GraphCommand), cellText));
+						retType = operationType::TestValidParameterType(k->at((size_t)(row - 2)), cellText, &paramModel->GraphCommand, index);
 						//k->at(i);
 					}
 
@@ -466,7 +466,7 @@ void Dialog::on_tableWidget_cellChanged(int row, int column)
 					retType = false;
 				}
 			}
-			retType = commandStack->TestRefParam(cellText, objectName, (size_t)(row - 2)) && retType;
+			retType = paramModel->TestRefParam(cellText, objectName, (size_t)(row - 2)) && retType;
 		}
 	}
 	switch (retType)

@@ -5,6 +5,7 @@ Line::Line(Point beginPoint, Point endPoint)
 	this->beginPoint = beginPoint;
 	this->endPoint = endPoint;
 	DistanceCalc();
+	GeometricType = LINE;
 }
 
 Line::Line(Vector3 beginPoint, Vector3 endPoint)
@@ -12,11 +13,13 @@ Line::Line(Vector3 beginPoint, Vector3 endPoint)
 	this->beginPoint = beginPoint;
 	this->endPoint = endPoint;
 	DistanceCalc();
+	GeometricType = LINE;
 }
 
 Line::Line(Vector2 beginPoint, Vector2 endPoint)
 {
 	DistanceCalc();
+	GeometricType = LINE;
 }
 
 Line::Line(Vector3 point)
@@ -24,12 +27,14 @@ Line::Line(Vector3 point)
 	this->beginPoint = Vector3(0, 0, 0);
 	this->endPoint = point;
 	DistanceCalc();
+	GeometricType = LINE;
 }
 Line::Line()
 {
 	this->beginPoint = Vector3(0, 0, 0);
 	this->endPoint = Vector3(0, 0, 0);
 	DistanceCalc();
+	GeometricType = LINE;
 }
 
 

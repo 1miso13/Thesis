@@ -22,22 +22,22 @@ void RefTableWidget::Move(size_t index ,bool up) {
 	this->setCurrentCell(this->currentIndex().row() + (up ? -1 : 1), this->currentIndex().column());
 }
 
-void RefTableWidget::RefillRefTable(CommandStack *commandStack)
+void RefTableWidget::RefillRefTable(ParametricModel *paramModel)
 {
 	//clear all
 	this->setRowCount(0);
-	size_t count = commandStack->paramRef.paramRefVec.size();
-	std::vector <paramRefStruct> * paramRefVec = &commandStack->paramRef.paramRefVec;
+	size_t count = paramModel->paramRef.paramRefVec.size();
+	std::vector <paramRefStruct> * paramRefVec = &paramModel->paramRef.paramRefVec;
 	std::string value = "";
 	for (size_t i = 0; i < count; i++)
 	{
 		//find value 
-		for (size_t j = 0; j < commandStack->GraphCommand.size(); j++)
+		for (size_t j = 0; j < paramModel->GraphCommand.size(); j++)
 		{
 
-			if (commandStack->GraphCommand.at(j)->name == paramRefVec->at(i).ObjectName)
+			if (paramModel->GraphCommand.at(j)->name == paramRefVec->at(i).ObjectName)
 			{
-				value = commandStack->GraphCommand.at(j)->CommandParameterVector->at(paramRefVec->at(i).paramindex);
+				value = paramModel->GraphCommand.at(j)->CommandParameterVector->at(paramRefVec->at(i).paramindex);
 				break;
 			}
 		}

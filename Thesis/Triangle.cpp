@@ -11,6 +11,7 @@ Triangle::Triangle(Point p1, Point p2, Point p3)
 	Vector3 AC = p3 - p1;
 	normal = crossProduct2Vectors(AB, AC).Normalize();
 	center = ((p1 + p2 + p3) / 3);
+	GeometricType = TRIANGLE;
 }
 
 

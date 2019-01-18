@@ -4,18 +4,24 @@
 #include "Parser.h"
 #include "ParamRef.h"
 #include <string>
-class CommandStack
+#include "TreeBuilder.h"
+class ParametricModel
 {
 public:
 	ParamRef paramRef;
 	std::vector <Command*> GraphCommand;
-	void Build() {
-		for (size_t i = 0; i < GraphCommand.size(); i++) {
-			Command *c = GraphCommand[i];
-			if ((*c).visibility>0) {
+	std::vector <GeometricObject*> Objects;
 
-			}//else invisible
+	TreeBuilder treeBuilder;
+	void ReBuildTree() {
+		//clear objects
+		for (size_t i = 0; i < Objects.size(); i++)
+		{
+			delete Objects[i];
 		}
+		Objects.clear();
+		treeBuilder.Build(&GraphCommand, &Objects);
+			
 	}
 	/// <summary>
 	/// Can cause instability!
@@ -99,7 +105,7 @@ public:
 		}
 	}
 	
-	~CommandStack()
+	~ParametricModel()
 	{
 		for (size_t i = 0; i < GraphCommand.size(); i++)
 		{

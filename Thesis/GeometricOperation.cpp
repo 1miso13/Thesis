@@ -339,7 +339,7 @@ Rectangle AddWidthToLine(Line l, float width, Vector3 normalVector, short type) 
 		2 - width to right
 		*/
 		//TODO
-	float X = l.distance;
+	float X = (float)l.distance;
 	float Y = width;
 	Point center;
 	Vector3 VecToEdge;

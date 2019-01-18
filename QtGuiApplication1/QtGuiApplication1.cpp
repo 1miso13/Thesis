@@ -2,12 +2,12 @@
 #include <QTreeWidgetItem>
 #include <QTreeWidget>
 #include "dialog.h"
-#include "../Thesis/CommandStack.h"
+#include "../Thesis/ParametricModel.h"
 #include "../Thesis/OperationTypes.h"
 #include "DialogWindowType.h"
 #include <qgraphicsscene.h>
 
-CommandStack commandStack;
+ParametricModel paramModel;
 QtGuiApplication1::QtGuiApplication1(QWidget *parent)
 	: QMainWindow(parent)
 {
@@ -84,21 +84,21 @@ void QtGuiApplication1::on_pushButton_clicked()
    for (size_t i = 0; i < commandsVec.size(); i++)
    {
 
-	   if (commandStack.AddCommand(commandsVec.at(i)))
+	   if (paramModel.AddCommand(commandsVec.at(i)))
 	   {
 		   ui.lineEdit->setStyleSheet("color: #00FF00");
 
-		   size_t commandID = commandStack.GraphCommand.size() - 1;
+		   size_t commandID = paramModel.GraphCommand.size() - 1;
 		   // Create new item (top level item)
 		   QTreeWidgetItem *qTreeWidgetItem = new QTreeWidgetItem(ui.treeWidget);
 		   // Add it on our tree as the top item.
 		   ui.treeWidget->addTopLevelItem(qTreeWidgetItem);
 	   
-		   CommandToQStrings(commandStack.GraphCommand[commandID], qTreeWidgetItem);
+		   CommandToQStrings(paramModel.GraphCommand[commandID], qTreeWidgetItem);
 	   }
 
    }
-   ui.RefParam_tableWidget->RefillRefTable(&commandStack);
+   ui.RefParam_tableWidget->RefillRefTable(&paramModel);
 }
 /*
 void QtGuiApplication1::on_listWidget_itemDoubleClicked(QListWidgetItem *item)
@@ -119,7 +119,7 @@ void QtGuiApplication1::on_actionQuit_triggered()
 void QtGuiApplication1::on_actionAdd_triggered()
 {//add new command
 	Command *c;
-	Dialog dialog(&commandStack, &c, DialogWindowType::NEW, -1/*new*/, this);
+	Dialog dialog(&paramModel, &c, DialogWindowType::NEW, -1/*new*/, this);
 	dialog.setModal(true);
 	dialog.setWindowTitle("New command");
 	if (dialog.exec())
@@ -130,7 +130,7 @@ void QtGuiApplication1::on_actionAdd_triggered()
 		// Add it on our tree as the top item.
 		ui.treeWidget->addTopLevelItem(qTreeWidgetItem);
 
-		commandStack.AddCommand(c);
+		paramModel.AddCommand(c);
 		CommandToQStrings(c, qTreeWidgetItem);
 		
 	}
@@ -152,8 +152,8 @@ void QtGuiApplication1::on_actionDelete_all_triggered()
 		size_t index = 0;
 		//delete
 		delete ui.treeWidget->takeTopLevelItem(index);
-		commandStack.RemoveCommand(index);
-		//commandStack.GraphCommand.erase(commandStack.GraphCommand.begin() + index);
+		paramModel.RemoveCommand(index);
+		//paramModel.GraphCommand.erase(paramModel.GraphCommand.begin() + index);
 		
 	}
 	DisableButtons();
@@ -197,16 +197,16 @@ void QtGuiApplication1::on_lineEdit_textEdited(const QString &arg1)
 	std::vector<std::string> commandsVec;
 	ParseCommands(&commandsVec, arg1.toStdString());
 
-	commandStack.resetTest();
+	paramModel.resetTest();
 	for (size_t i = 0; i < commandsVec.size(); i++)
 	{
 
-		if (!commandStack.TestCommand(commandsVec.at(i)))
+		if (!paramModel.TestCommand(commandsVec.at(i)))
 		{
 			noError = false;
 		}
 	}
-	commandStack.resetTest();
+	paramModel.resetTest();
 	if (noError)
 	{
 		ui.lineEdit->setStyleSheet("color: #000000");
@@ -235,25 +235,25 @@ void CopyCommand(Command * cFROM, Command *& cTO) {
 /// <summary>
 /// Test command referienciesat index
 /// </summary>
-/// <param name="commandStack">Command list</param>
+/// <param name="paramModel">Command list</param>
 /// <param name="index">item index</param>
 /// <returns>If all referencies in command are valid</returns>
-bool TestCommandSemantic(CommandStack *commandStack, size_t index) {
-	std::string operationName = operationType::OperationToString(commandStack->GraphCommand.at(index)->operationType);//operationType::OperationToString((operationType::OperationTypeEnum) i);
+bool TestCommandSemantic(ParametricModel *paramModel, size_t index) {
+	std::string operationName = operationType::OperationToString(paramModel->GraphCommand.at(index)->operationType);//operationType::OperationToString((operationType::OperationTypeEnum) i);
 	std::vector<std::vector<operationType::ParameterTypesEnum>*> *paramVectors;
 	operationType::GetOperationParameters(operationName,
 		&paramVectors);
 
-	std::vector <operationType::ParameterTypesEnum> * k = paramVectors->at(commandStack->GraphCommand.at(index)->typeOfParameters - 1);
+	std::vector <operationType::ParameterTypesEnum> * k = paramVectors->at(paramModel->GraphCommand.at(index)->typeOfParameters - 1);
 	//Test parameters
 	for (size_t i = 0; i < k->size(); i++)
 	{
 		if (k->at(i) == operationType::ParameterTypeMULTIPLEPOINTS)
 		{
-			for (size_t j = 0;  j + i < commandStack->GraphCommand.at(index)->CommandParameterVector->size();  j++)
+			for (size_t j = 0;  j + i < paramModel->GraphCommand.at(index)->CommandParameterVector->size();  j++)
 			{//Last parameter can be multipoits
-				std::string parameterText = commandStack->GraphCommand.at(index)->CommandParameterVector->at(i+j);
-				if (!operationType::TestValidParameterType(k->at(i), parameterText, &commandStack->GraphCommand, index))
+				std::string parameterText = paramModel->GraphCommand.at(index)->CommandParameterVector->at(i+j);
+				if (!operationType::TestValidParameterType(k->at(i), parameterText, &paramModel->GraphCommand, index))
 				{
 					return false;
 				}
@@ -261,8 +261,8 @@ bool TestCommandSemantic(CommandStack *commandStack, size_t index) {
 		}
 		else
 		{
-			std::string parameterText = commandStack->GraphCommand.at(index)->CommandParameterVector->at(i);
-			if (!operationType::TestValidParameterType(k->at(i), parameterText, &commandStack->GraphCommand, index))
+			std::string parameterText = paramModel->GraphCommand.at(index)->CommandParameterVector->at(i);
+			if (!operationType::TestValidParameterType(k->at(i), parameterText, &paramModel->GraphCommand, index))
 			{
 				return false;
 			}
@@ -273,10 +273,10 @@ bool TestCommandSemantic(CommandStack *commandStack, size_t index) {
 }
 void QtGuiApplication1::TestCommandsValidity(size_t indexFrom) {
 	size_t countOfInvalid = 0;
-	for (size_t i = indexFrom; i < commandStack.GraphCommand.size(); i++)
+	for (size_t i = indexFrom; i < paramModel.GraphCommand.size(); i++)
 	{
 		//TODO;
-		if (!TestCommandSemantic(&commandStack, i))
+		if (!TestCommandSemantic(&paramModel, i))
 		{
 			countOfInvalid++;
 			//set red color on invalid item
@@ -295,28 +295,28 @@ void QtGuiApplication1::on_treeWidget_itemDoubleClicked(QTreeWidgetItem *item, i
 	QTreeWidgetItem* currentItem = ui.treeWidget->currentItem();
 	int index = ui.treeWidget->currentIndex().row();
 	Command * c;
-	CopyCommand(commandStack.GraphCommand[index], c);
-	Dialog dialog(&commandStack, &c, DialogWindowType::MODIFY, index, this);
+	CopyCommand(paramModel.GraphCommand[index], c);
+	Dialog dialog(&paramModel, &c, DialogWindowType::MODIFY, index, this);
 	dialog.setModal(true);
 	dialog.setWindowTitle("Modify command");
 	if (dialog.exec())
 	{//OK
-		//modify commandStack
-		if (commandStack.GraphCommand.at(index)->operationType == c->operationType)
+		//modify paramModel
+		if (paramModel.GraphCommand.at(index)->operationType == c->operationType)
 		{///Changed value in command
-			commandStack.ModifyCommand(index,c);
+			paramModel.ModifyCommand(index,c);
 		}
 		else
 		{///change whole command
 			//delete old command
-			commandStack.RemoveCommand(index);
-			//delete commandStack.GraphCommand[index];
+			paramModel.RemoveCommand(index);
+			//delete paramModel.GraphCommand[index];
 			//add new command
-			commandStack.InsertCommand(index, c);
-			//commandStack.GraphCommand[index] = c;		
+			paramModel.InsertCommand(index, c);
+			//paramModel.GraphCommand[index] = c;		
 		}
 		//modify tree wiev
-		CommandToQStrings(commandStack.GraphCommand[index], currentItem);
+		CommandToQStrings(paramModel.GraphCommand[index], currentItem);
 
 		//need to find all missing referencies after index and highlight
 		{
@@ -340,7 +340,7 @@ void QtGuiApplication1::on_InsertButton_clicked()
 {
 	int index = ui.treeWidget->currentIndex().row();
 	Command *c;
-	Dialog dialog(&commandStack, &c, DialogWindowType::INSERT, index/*insert position*/,this);
+	Dialog dialog(&paramModel, &c, DialogWindowType::INSERT, index/*insert position*/,this);
 	dialog.setModal(true);
 	dialog.setWindowTitle("Insert command");
 	if (dialog.exec())
@@ -351,7 +351,7 @@ void QtGuiApplication1::on_InsertButton_clicked()
 		// Add it on our tree as the top item.
 		ui.treeWidget->insertTopLevelItem(index,qTreeWidgetItem);
 
-		commandStack.InsertCommand(index,c);
+		paramModel.InsertCommand(index,c);
 		CommandToQStrings(c, qTreeWidgetItem);
 		ui.treeWidget->repaint();
 
@@ -379,7 +379,7 @@ void QtGuiApplication1::on_DeleteButton_clicked()
 	size_t index = ui.treeWidget->currentIndex().row();
 	//delete
 	delete ui.treeWidget->takeTopLevelItem(index);
-	commandStack.RemoveCommand(index); //.GraphCommand.erase(commandStack.GraphCommand.begin()+index);
+	paramModel.RemoveCommand(index); //.GraphCommand.erase(paramModel.GraphCommand.begin()+index);
 	//test
 	TestCommandsValidity(index);
 	if (ui.treeWidget->topLevelItemCount()==0)
@@ -403,7 +403,7 @@ void QtGuiApplication1::on_tabWidget_currentChanged(int index){
 		break;
 	case 1://Referenced Variables
 		//refill ref param list
-		ui.RefParam_tableWidget->RefillRefTable(&commandStack);
+		ui.RefParam_tableWidget->RefillRefTable(&paramModel);
 		break;
 	case 2://Objects
 		break;
@@ -437,21 +437,21 @@ void QtGuiApplication1::on_tableWidget_cellChanged(int row, int column)
 		ui.RefParam_tableWidget->item(row, column)->setBackgroundColor(QColor(255, 255, 255));
 	}
 	
-	if(commandStack.TestRefParam(ParamValue, commandStack.paramRef.paramRefVec.at(row).ObjectName, commandStack.paramRef.paramRefVec.at(row).paramindex))
+	if(paramModel.TestRefParam(ParamValue, paramModel.paramRef.paramRefVec.at(row).ObjectName, paramModel.paramRef.paramRefVec.at(row).paramindex))
 	{
 		size_t i = 0;
-		for (; i < commandStack.GraphCommand.size(); i++)
+		for (; i < paramModel.GraphCommand.size(); i++)
 		{
-			if (commandStack.GraphCommand.at(i)->name == commandStack.paramRef.paramRefVec.at(row).ObjectName)
+			if (paramModel.GraphCommand.at(i)->name == paramModel.paramRef.paramRefVec.at(row).ObjectName)
 			{
 				break;
 			}
 		}
 		//set new value d
-		commandStack.SetRefValue(commandStack.paramRef.paramRefVec.at(row).ObjectName,commandStack.paramRef.paramRefVec.at(row).paramindex, ParamValue);
+		paramModel.SetRefValue(paramModel.paramRef.paramRefVec.at(row).ObjectName,paramModel.paramRef.paramRefVec.at(row).paramindex, ParamValue);
 		//modify tree view
 		//ui.RefParam_tableWidget->item(1, 1)
-		CommandToQStrings(commandStack.GraphCommand[i], ui.treeWidget->topLevelItem(i) );
+		CommandToQStrings(paramModel.GraphCommand[i], ui.treeWidget->topLevelItem(i) );
 	}
 }
 
@@ -462,7 +462,7 @@ void QtGuiApplication1::on_RefParam_UPButton_clicked()
 		if (position != 0)
 		{//not first
 			//move in vec
-			std::swap(commandStack.paramRef.paramRefVec[position], commandStack.paramRef.paramRefVec[position - 1]);
+			std::swap(paramModel.paramRef.paramRefVec[position], paramModel.paramRef.paramRefVec[position - 1]);
 			//move item in table
 			ui.RefParam_tableWidget->Move(position, true);
 
@@ -474,11 +474,11 @@ void QtGuiApplication1::on_RefParam_DOWNButton_clicked()
 {
 	if (ui.RefParam_tableWidget->rowCount() > 0) {
 		size_t position = ui.RefParam_tableWidget->currentIndex().row();
-		if (position != commandStack.paramRef.paramRefVec.size() - 1)
+		if (position != paramModel.paramRef.paramRefVec.size() - 1)
 		{//not last
 
 			//move in vec
-			std::swap(commandStack.paramRef.paramRefVec[position], commandStack.paramRef.paramRefVec[position + 1]);
+			std::swap(paramModel.paramRef.paramRefVec[position], paramModel.paramRef.paramRefVec[position + 1]);
 
 			//move item in table
 			ui.RefParam_tableWidget->Move(position, false);
@@ -500,7 +500,7 @@ void QtGuiApplication1::on_DOWN_command_Button_clicked()
 		if (item && row < ui.treeWidget->topLevelItemCount()-1)
 		{
 			//move in vec
-			std::swap(commandStack.GraphCommand[row], commandStack.GraphCommand[row + 1]);
+			std::swap(paramModel.GraphCommand[row], paramModel.GraphCommand[row + 1]);
 
 			//swap in tree
 			QTreeWidgetItem* A = ui.treeWidget->takeTopLevelItem(row + 1);
@@ -520,7 +520,7 @@ void QtGuiApplication1::on_UP_command_Button_clicked()
 		if (item && row > 0)
 		{
 			//move in vec
-			std::swap(commandStack.GraphCommand[row], commandStack.GraphCommand[row - 1]);
+			std::swap(paramModel.GraphCommand[row], paramModel.GraphCommand[row - 1]);
 
 
 			//swap in tree

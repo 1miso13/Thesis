@@ -111,9 +111,6 @@
     <ClInclude Include="OperationTypes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CommandStack.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ParamRef.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -137,6 +134,12 @@
     </ClInclude>
     <ClInclude Include="Shape3D.h">
       <Filter>Header Files\Geometry\Geometric objects\3D\base</Filter>
+    </ClInclude>
+    <ClInclude Include="ParametricModel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TreeBuilder.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -190,6 +193,9 @@
     </ClCompile>
     <ClCompile Include="Shape3D.cpp">
       <Filter>Source Files\Geometry\Objects\3D\base</Filter>
+    </ClCompile>
+    <ClCompile Include="TreeBuilder.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -167,11 +167,12 @@
     <ClInclude Include="Polygon.h" />
     <ClInclude Include="Shape3D.h" />
     <ClInclude Include="Sphere.h" />
+    <ClInclude Include="TreeBuilder.h" />
     <ClInclude Include="Triangle.h" />
     <ClInclude Include="Vector.h" />
     <ClInclude Include="Line.h" />
     <ClInclude Include="GeometricObject.h" />
-    <ClInclude Include="CommandStack.h" />
+    <ClInclude Include="ParametricModel.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Point.h" />
     <ClInclude Include="Surface.h" />
@@ -197,6 +198,7 @@
     <ClCompile Include="Sphere.cpp" />
     <ClCompile Include="Surface.cpp" />
     <ClCompile Include="Thesis.cpp" />
+    <ClCompile Include="TreeBuilder.cpp" />
     <ClCompile Include="Triangle.cpp" />
     <ClCompile Include="Vector.cpp" />
   </ItemGroup>

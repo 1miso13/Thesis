@@ -18,6 +18,7 @@ public:
 		this->sizeY = sizeY;
 		this->planeVector = planeVector;
 		this->normal= normal;
+		GeometricType = RECTANGLE;
 	}
 	~Rectangle();
 

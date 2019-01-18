@@ -5,6 +5,7 @@
 
 Polygon::Polygon(std::vector<Point> points)
 {
+	GeometricType = POLYGON;
 	this->points = points;
 
 	this->normal = crossProduct3Points(points[0].Position, points[1].Position, points[2].Position).Normalize();

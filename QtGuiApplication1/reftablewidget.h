@@ -1,14 +1,14 @@
 #pragma once
 #include <QTableWidget>
 #include <QLineEdit>
-#include "../Thesis/CommandStack.h"
+#include "../Thesis/ParametricModel.h"
 class RefTableWidget :
 	public QTableWidget
 {
 	Q_OBJECT
 public:
 	void Move(size_t index, bool up);
-	void RefillRefTable(CommandStack *commandStack);
+	void RefillRefTable(ParametricModel *paramModel);
 	explicit RefTableWidget(QWidget *parent = nullptr);
 };
 
