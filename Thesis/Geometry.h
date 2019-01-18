@@ -1,4 +1,5 @@
 #include "pch.h"
+#include <vector>
 
 Vector3 crossProduct2Vectors(Vector3 VectorA, Vector3 VectorB);
 
@@ -13,3 +14,4 @@ void Plane3DTo2D(Vector3 * arrayOfPoints, unsigned int pointsCount, Vector3 * no
 
 void Plane2DTo3D(Vector3 * arrayOfPoints, unsigned int pointsCount, Vector3 * normal, Vector3 origin);
 
+float PolygonArea(std::vector <Point> points);

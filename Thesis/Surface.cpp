@@ -6,8 +6,3 @@ Surface::Surface()
 {
 }
 
-
-Surface::~Surface()
-{
-	
-}

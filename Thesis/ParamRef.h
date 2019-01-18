@@ -64,7 +64,7 @@ public:
 	~ParamRef();
 };
 inline void ParamRef::RemoveRefParamByObjectName(std::string refObjectName) {
-	for (int i = paramRefVec.size() - 1; i >= 0; i--)
+	for (int i = (int)paramRefVec.size() - 1; i >= 0; i--)
 	{
 		if (paramRefVec.at(i).ObjectName == refObjectName)
 		{
@@ -120,7 +120,7 @@ inline bool ParamRef::AddRefParameter(std::string ParamRefName, std::string refO
 	{
 		if (paramRefVec.at(i).ObjectName == refObjectName && paramRefVec.at(i).paramindex == paramIndex)
 		{
-			Index = i;
+			Index = (int)i;
 			continue;
 		}
 		if (paramRefVec.at(i).refName == ParamRefName)
@@ -151,7 +151,7 @@ inline bool ParamRef::AddRefParameter(std::string ParamRefName, std::string refO
 }
 
 inline void ParamRef::DeleteRefParameter(std::string ParamRefName) {
-	for (int i = paramRefVec.size()-1; i >= 0;i--)
+	for (int i = (int)paramRefVec.size()-1; i >= 0;i--)
 	{
 		if (paramRefVec.at(i).refName == ParamRefName)
 		{
@@ -161,7 +161,7 @@ inline void ParamRef::DeleteRefParameter(std::string ParamRefName) {
 	}
 }
 inline void ParamRef::DeleteRefParameter(std::string refObjectName, size_t paramIndex) {
-	for (int i = paramRefVec.size()-1; i >= 0;i--)
+	for (int i = (int)paramRefVec.size()-1; i >= 0;i--)
 	{
 		if (paramRefVec.at(i).ObjectName == refObjectName && paramRefVec.at(i).paramindex == paramIndex)
 		{

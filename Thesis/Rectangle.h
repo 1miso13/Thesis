@@ -6,22 +6,22 @@ class Rectangle:
 public:
 	float sizeX;
 	float sizeY;
-	float RotationAroundNormal;//[0,360]
-	Rectangle() {//TEMPORAL TODO
-
-	}
+	Vector3 planeVector;
 	Rectangle(
 		float sizeX,
 		float sizeY,
-		float RotationAroundNormal/*[0,360]*/,
+		Vector3 planeVector,
 		Point center, 
 		Vector3 normal) {
-		this->center = center.Position;
+		this->center = center;
 		this->sizeX = sizeX;
 		this->sizeY = sizeY;
-		this->RotationAroundNormal = RotationAroundNormal;
+		this->planeVector = planeVector;
 		this->normal= normal;
 	}
 	~Rectangle();
+
+	void CalculatePerimeter();
+	void CalculateArea();
 };
 

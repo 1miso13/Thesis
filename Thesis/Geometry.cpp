@@ -1,7 +1,6 @@
 #include "pch.h"
 
 
-using namespace std; 
 
 Vector3 crossProduct2Vectors(Vector3 VectorA, Vector3 VectorB) {
 	float X = VectorA.Y*VectorB.Z + VectorB.Y*VectorA.Z;
@@ -11,8 +10,8 @@ Vector3 crossProduct2Vectors(Vector3 VectorA, Vector3 VectorB) {
 	return Vector3(X, Y, Z);
 }
 Vector3 crossProduct3Points(Vector3 *arrayOfPoints) {
-	Vector3 VectorA = arrayOfPoints[1] - arrayOfPoints[0];
-	Vector3 VectorB = arrayOfPoints[1] - arrayOfPoints[2];
+	Vector3 VectorA = arrayOfPoints[0] - arrayOfPoints[1];
+	Vector3 VectorB = arrayOfPoints[2] - arrayOfPoints[1];
 
 	return crossProduct2Vectors(VectorA, VectorB);
 }
@@ -90,4 +89,27 @@ void Plane2DTo3D(Vector3 *arrayOfPoints, unsigned int pointsCount, Vector3 *norm
 		}
 	}
 	MovePlane(arrayOfPoints, pointsCount, Vector3(0,0,0)-origin);
+}
+
+float PolygonArea(std::vector<Point> points)
+{
+	return 0.0f;
+}
+
+Vector3 PolygonCentroid(std::vector<Vector3> pointVec) {
+	double sumX = 0;
+	double sumY = 0;
+	double sumZ = 0;
+	for (size_t i = 0; i < pointVec.size(); i++)
+	{
+		sumX += pointVec[i].X;
+		sumY += pointVec[i].Y;
+		sumZ += pointVec[i].Z;
+	}
+
+	sumX /= pointVec.size();
+	sumY /= pointVec.size();
+	sumZ /= pointVec.size();
+
+	 return Vector3((float)sumX, (float)sumY, (float)sumZ)/3;
 }

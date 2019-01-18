@@ -5,9 +5,12 @@
 class Line :
 	public GeometricObject
 {
+private:
+	void DistanceCalc();
 public:
 	Point beginPoint;
 	Point endPoint;
+	double distance;
 
 	Line(Point beginPoint, Point endPoint);
 	Line(Vector3 beginPoint, Vector3 endPoint);
@@ -16,8 +19,9 @@ public:
 	Line();
 	~Line();
 	Vector3 Normal();
-	double Distance();
+	float Distance();
 	Vector3 Middle();
+	Vector3 Vector();
 };
 
 #endif

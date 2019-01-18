@@ -22,7 +22,7 @@ class Parser
 			}
 		}
 		//remove last empty char
-		int j = param.size()-1;
+		int j = (int)param.size()-1;
 		for (; j >0; j--)
 		{
 
@@ -161,7 +161,7 @@ class Parser
 		{
 			std::string s = CommandParameterVectorPtr->at(i);
 			char delimiter = ':';
-			int pos=0;
+			size_t pos=0;
 			if ((pos = s.find(delimiter)) != std::string::npos)
 			{
 				std::string token;

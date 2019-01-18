@@ -5,12 +5,14 @@ class Circle :
 {
 public:
 	float radius;
-	Circle();//TEMP TODO
 	Circle(Point center, float radius, Vector3 normal) {
-		this->center = center.Position;
+		this->center = center;
 		this->radius = radius;
 		this->normal = normal;
 	}
 	~Circle();
+
+	void CalculatePerimeter();
+	void CalculateArea();
 };
 

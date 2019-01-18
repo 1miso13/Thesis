@@ -5,8 +5,10 @@ class Polygon :
 	public Surface
 {
 public:
-	std::vector <Point> pointsVector;
-	Polygon(std::vector <Point> pointsVector);
+	std::vector <Point> points;
+	Polygon(std::vector <Point> points);
 	~Polygon();
+	void CalculatePerimeter();
+	void CalculateArea();
 };
 

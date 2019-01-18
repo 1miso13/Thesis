@@ -4,11 +4,18 @@ class Surface :
 	public GeometricObject
 {
 public:
-	short type;
 	Vector3 normal;
-	Vector3 center;
+	Point center;
+	double perimeter;
+	double area;
 	Surface();
-	~Surface();
-	void CreateMesh();//TODO
+	/// <summary>
+	/// Create polygonal mesh
+	/// Must be overloaded
+	/// </summary>
+	void CreateMesh();//TODO pure virtual
+
+	virtual void CalculatePerimeter() = 0;
+	virtual void CalculateArea() = 0;
 };
 
