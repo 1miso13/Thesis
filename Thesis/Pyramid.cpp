@@ -1,8 +1,8 @@
 
-#include "GeometricOperation.h"
 #include "pch.h"
 #include "Pyramid.h"
-
+#include "Geometry.h"
+#include "Polygon.h"
 #define M_PI           3.14159265358979323846
 #define INTEGRAL_STEP_COUNT 100
 
@@ -11,15 +11,11 @@
 /// </summary>
 /// <param name="apex"></param>
 /// <param name="base"></param>
-/// <param name="BaseType">1-circle
-/// 2-triangle
-/// 3-rectangle
-/// 4-polygon</param>
-Pyramid::Pyramid(Point apex, Surface * base, short BaseType)
+Pyramid::Pyramid(Point apex, Surface * base)
 {
 	this->apex = apex;
 	this->base = base;
-	this->BaseType = BaseType;
+	this->BaseType = GetBaseType();
 	CalculateHeight();
 	GeometricType = PYRAMID;
 }
@@ -32,12 +28,12 @@ Pyramid::Pyramid(Point apex, Surface * base, short BaseType)
 /// 2-triangle
 /// 3-rectangle
 /// 4-polygon</param>
-Pyramid::Pyramid(float height, Surface * base, short BaseType)
+Pyramid::Pyramid(float height, Surface * base)
 {
 	this->height = height;
 	this->apex = Point(base->center) + base->normal*height;
 	this->base = base;
-	this->BaseType = BaseType;
+	this->BaseType = GetBaseType();
 	GeometricType = PYRAMID;
 }
 
@@ -118,4 +114,26 @@ void Pyramid::CalculateSurfaceArea()
 					Vector3 BA = basePolygon->points[0] - this->apex;
 					surfaceArea += crossProduct2Vectors(AA, BA).Distance() / 2;
 				}
+}
+
+short Pyramid::GetBaseType()
+{
+/// 1-circle
+/// 2-triangle
+/// 3-rectangle
+/// 4-polygon
+	switch (base->GeometricType)
+	{
+	case ObjectTypeEnum::CIRCLE:
+		return 1;
+	case ObjectTypeEnum::TRIANGLE:
+		return 2;
+	case ObjectTypeEnum::RECTANGLE:
+		return 3;
+	case ObjectTypeEnum::POLYGON:
+		return 4;
+	default:
+		break;
+	}
+	return 0;
 }

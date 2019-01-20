@@ -5,6 +5,7 @@
 #include <vector>
 #include "Command.h"
 #include "OperationTypeEnum.h"
+#include "GeometricObject.h"
 namespace operationType {
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -849,7 +850,7 @@ namespace operationType {
 				it++;
 			}
 			return  Polygon;
-			//Polygon(string surfaceName, Point origin, Point p1, Point p2, Point p3, ..., bool visible = true)//minimum 3 points 
+			//Polygon(string surfaceName, Point p1, Point p2, Point p3, ..., bool visible = true)//minimum 3 points 
 
 
 		}
@@ -933,47 +934,47 @@ namespace operationType {
 			//Extrude(string objectName, Surface s, float distance, bool visible = true) //add width to 
 
 		}
-		if (commandName == "SpericalCurvedSurface")
-		{
-			if (CountOfParams != 2)
-			{
-				return INVALID;
-			}
+		//if (commandName == "SpericalCurvedSurface")
+		//{
+		//	if (CountOfParams != 2)
+		//	{
+		//		return INVALID;
+		//	}
 
-			if (!CompareTypes(SURFACE, Find(GraphCommand, *it)))//center
-			{
-				return INVALID;
-			}
-			it++;
-			if (!IsFloat(*it))//center
-			{
-				return INVALID;
-			}
-			return  SpericalCurvedSurface;
+		//	if (!CompareTypes(SURFACE, Find(GraphCommand, *it)))//center
+		//	{
+		//		return INVALID;
+		//	}
+		//	it++;
+		//	if (!IsFloat(*it))//center
+		//	{
+		//		return INVALID;
+		//	}
+		//	return  SpericalCurvedSurface;
 			//SpericalCurvedSurface(string objectName, Surface s, float distance, bool visible = true)
 
 
-		}
-		if (commandName == "Cylinder")
-		{
-			if (CountOfParams != 2)
-			{
-				return INVALID;
-			}
+		//}
+		//if (commandName == "Cylinder")
+		//{
+		//	if (CountOfParams != 2)
+		//	{
+		//		return INVALID;
+		//	}
 
-			if (!CompareTypes(LINE, Find(GraphCommand, *it)))//center
-			{
-				return INVALID;
-			}
-			it++;
-			if (!IsFloat(*it))//center
-			{
-				return INVALID;
-			}
-			return  Cylinder;
-			//Cylinder(string objectName, Line l, float radius, bool visible = true)
+		//	if (!CompareTypes(LINE, Find(GraphCommand, *it)))//center
+		//	{
+		//		return INVALID;
+		//	}
+		//	it++;
+		//	if (!IsFloat(*it))//center
+		//	{
+		//		return INVALID;
+		//	}
+		//	return  Cylinder;
+		//	//Cylinder(string objectName, Line l, float radius, bool visible = true)
 
-		}
+		//}
 		return INVALID;
 	}
 
@@ -1051,10 +1052,10 @@ namespace operationType {
 		case Extrude:
 			return OBJECT3D;
 			break;
-		case SpericalCurvedSurface:
-			return OBJECT3D;
-		case Cylinder:
-			return OBJECT3D;
+		//case SpericalCurvedSurface:
+		//	return OBJECT3D;
+		//case Cylinder:
+		//	return OBJECT3D;
 		default://INVALID
 			return POINTObjectType;
 		}
@@ -2094,21 +2095,21 @@ namespace operationType {
 			}*/
 
 			std::vector<ParameterTypesEnum>* params1 = new std::vector<ParameterTypesEnum>();
-			params1->push_back(ParameterTypePOINT);
+			//params1->push_back(ParameterTypePOINT);
 			params1->push_back(ParameterTypeMULTIPLEPOINTS);
 
 			if (info)
 			{
 				std::vector<std::string> *paramInfo1 = new std::vector<std::string>();
 				paramInfo1->push_back("Create Polygon by connecting points");
-				paramInfo1->push_back("Origin point");
-				paramInfo1->push_back("Multiple points");
+				//paramInfo1->push_back("Origin point");
+				paramInfo1->push_back("Multiple points - ; divider");
 
 				(*paramVectorsInfo)->push_back(paramInfo1);
 			}
 			(*paramVectors)->push_back(params1);
 			return  Polygon;
-			//Polygon(string surfaceName, Point origin, Point p1, Point p2, Point p3, ..., bool visible = true)//minimum 3 points 
+			//Polygon(string surfaceName, Point p1, Point p2, Point p3, ..., bool visible = true)//minimum 3 points 
 
 
 		}
@@ -2248,61 +2249,61 @@ namespace operationType {
 			//Extrude(string objectName, Surface s, float distance, bool visible = true) //add width to 
 
 		}
-		if (commandName == "SpericalCurvedSurface") //TODO
-		{
-			std::vector<ParameterTypesEnum>* params1 = new std::vector<ParameterTypesEnum>();
-			params1->push_back(ParameterTypeSURFACE);
-			params1->push_back(ParameterTypeFLOAT);
+		//if (commandName == "SpericalCurvedSurface") //TODO
+		//{
+		//	std::vector<ParameterTypesEnum>* params1 = new std::vector<ParameterTypesEnum>();
+		//	params1->push_back(ParameterTypeSURFACE);
+		//	params1->push_back(ParameterTypeFLOAT);
 
-			(*paramVectors)->push_back(params1);
-			if (info)
-			{
-				std::vector<std::string> *paramInfo1 = new std::vector<std::string>();
-				paramInfo1->push_back("Create spherical curved surfaces from surface");
-				paramInfo1->push_back("Base");
-				paramInfo1->push_back("Distance");
+		//	(*paramVectors)->push_back(params1);
+		//	if (info)
+		//	{
+		//		std::vector<std::string> *paramInfo1 = new std::vector<std::string>();
+		//		paramInfo1->push_back("Create spherical curved surfaces from surface");
+		//		paramInfo1->push_back("Base");
+		//		paramInfo1->push_back("Distance");
 
-				(*paramVectorsInfo)->push_back(paramInfo1);
-			}
-			return  SpericalCurvedSurface;
-			//SpericalCurvedSurface(string objectName, Surface s, float distance, bool visible = true)
+		//		(*paramVectorsInfo)->push_back(paramInfo1);
+		//	}
+		//	return  SpericalCurvedSurface;
+		//	//SpericalCurvedSurface(string objectName, Surface s, float distance, bool visible = true)
 
 
-		}
-		if (commandName == "Cylinder")
-		{
-			/*if (CountOfParams != 2)
-			{
-				return INVALID;
-			}
+		//}
+		//if (commandName == "Cylinder")
+		//{
+		//	/*if (CountOfParams != 2)
+		//	{
+		//		return INVALID;
+		//	}
 
-			if (!CompareTypes(LINE, Find(GraphCommand, *it)))//center
-			{
-				return INVALID;
-			}
-			it++;
-			if (!IsFloat(*it))//center
-			{
-				return INVALID;
-			}*/
-			std::vector<ParameterTypesEnum>* params1 = new std::vector<ParameterTypesEnum>();
-			params1->push_back(ParameterTypeLINE);
-			params1->push_back(ParameterTypeFLOAT);
+		//	if (!CompareTypes(LINE, Find(GraphCommand, *it)))//center
+		//	{
+		//		return INVALID;
+		//	}
+		//	it++;
+		//	if (!IsFloat(*it))//center
+		//	{
+		//		return INVALID;
+		//	}*/
+		//	std::vector<ParameterTypesEnum>* params1 = new std::vector<ParameterTypesEnum>();
+		//	params1->push_back(ParameterTypeLINE);
+		//	params1->push_back(ParameterTypeFLOAT);
 
-			(*paramVectors)->push_back(params1);
-			if (info)
-			{
-				std::vector<std::string> *paramInfo1 = new std::vector<std::string>();
-				paramInfo1->push_back("Create cylinder from line and radius");
-				paramInfo1->push_back("Line");
-				paramInfo1->push_back("Radius");
+		//	(*paramVectors)->push_back(params1);
+		//	if (info)
+		//	{
+		//		std::vector<std::string> *paramInfo1 = new std::vector<std::string>();
+		//		paramInfo1->push_back("Create cylinder from line and radius");
+		//		paramInfo1->push_back("Line");
+		//		paramInfo1->push_back("Radius");
 
-				(*paramVectorsInfo)->push_back(paramInfo1);
-			}
-			return  Cylinder;
-			//Cylinder(string objectName, Line l, float radius, bool visible = true)
+		//		(*paramVectorsInfo)->push_back(paramInfo1);
+		//	}
+		//	return  Cylinder;
+		//	//Cylinder(string objectName, Line l, float radius, bool visible = true)
 
-		}
+		//}
 		return INVALID;
 	}
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -2399,10 +2400,10 @@ namespace operationType {
 			return "Pyramid";
 		case Extrude:
 			return "Extrude";
-		case SpericalCurvedSurface:
+		/*case SpericalCurvedSurface:
 			return "SpericalCurvedSurface";
 		case Cylinder:
-			return "Cylinder";
+			return "Cylinder";*/
 		default://INVALID
 			return "INVALID";
 		}

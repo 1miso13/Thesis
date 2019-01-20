@@ -12,15 +12,13 @@ public:
 	std::vector <Command*> GraphCommand;
 	std::vector <GeometricObject*> Objects;
 
-	TreeBuilder treeBuilder;
+	TreeBuilder *treeBuilder;
+	ParametricModel() {
+		treeBuilder = new TreeBuilder(&GraphCommand,&Objects);
+	}
+
 	void ReBuildTree() {
-		//clear objects
-		for (size_t i = 0; i < Objects.size(); i++)
-		{
-			delete Objects[i];
-		}
-		Objects.clear();
-		treeBuilder.Build(&GraphCommand, &Objects);
+		treeBuilder->Build();
 			
 	}
 	/// <summary>
@@ -107,6 +105,7 @@ public:
 	
 	~ParametricModel()
 	{
+		delete treeBuilder;
 		for (size_t i = 0; i < GraphCommand.size(); i++)
 		{
 			delete(GraphCommand[i]);
@@ -167,7 +166,14 @@ public:
 	}
 	void SetRefValue(std::string RefName,float value) {
 		//find by refname objectName and paramIndex
-		//SetRefValue(std::string ObjectName, size_t paramindex); TODO
+		for (size_t i = 0; i < paramRef.paramRefVec.size(); i++)
+		{
+			if (paramRef.paramRefVec.at(i).refName == RefName)
+			{
+				SetRefValue(paramRef.paramRefVec.at(i).ObjectName, paramRef.paramRefVec.at(i).paramindex,  value);
+				break;
+			}
+		}
 	}
 };
 

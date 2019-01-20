@@ -1,13 +1,20 @@
 #pragma once
+#include "GeometricOperation.h"
+#include "Command.h"
 class TreeBuilder
 {
+private:
+	GeometricObject* BuildObject(Command* command);
 public:
-	void Build(
-		std::vector <Command*> *GraphCommand,
-		std::vector <GeometricObject*> *Objects);
-	TreeBuilder();
-	~TreeBuilder();
+	TreeBuilder(std::vector <Command*> *GraphCommand,
+		std::vector <GeometricObject*> *Objects) {
+		this->GraphCommand = GraphCommand;
+		this->Objects = Objects;
+	}
+	std::vector <GeometricObject*> *Objects;
+	std::vector <Command*> *GraphCommand;
+	void Build();
 
-	GeometricObject* BuildObject(Command* command)
+	GeometricObject* FindObjectByName(std::vector <GeometricObject*> *Objects,std::string objectName);
 };
 

@@ -1,5 +1,6 @@
 #pragma once
 #include "Shape3D.h"
+#include "Point.h"
 class Sphere :
 	public Shape3D
 {

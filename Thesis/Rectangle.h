@@ -1,5 +1,6 @@
-#pragma once
-#include "pch.h"
+
+#include "Surface.h"
+
 class Rectangle:
 	public Surface
 {
@@ -26,3 +27,18 @@ public:
 	void CalculateArea();
 };
 
+
+
+inline Rectangle::~Rectangle()
+{
+}
+
+inline void Rectangle::CalculatePerimeter()
+{
+	perimeter = (double)sizeX + (double)sizeX + (double)sizeY + (double)sizeY;
+}
+
+inline void Rectangle::CalculateArea()
+{
+	area = (double)sizeX * (double)sizeY;
+}

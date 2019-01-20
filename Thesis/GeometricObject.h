@@ -1,4 +1,6 @@
 #pragma once
+#include "Vector.h"
+#include <string>
 enum ObjectTypeEnum
 {
 	POINTObjectType,
@@ -8,7 +10,6 @@ enum ObjectTypeEnum
 	RECTANGLE,
 	POLYGON,
 	TRIANGLE,
-	PYRAMID,
 	OBJECT3D,
 	CYLINDER,
 	PYRAMID,
@@ -19,6 +20,7 @@ enum ObjectTypeEnum
 class GeometricObject
 {
 public:
-	ObjectTypeEnum GeometricType;
+	float visibility=0;
+	ObjectTypeEnum GeometricType = INVALIDObjectType;
 	std::string ObjectName;
 };

@@ -1,7 +1,8 @@
 #pragma once
 #ifndef LINE_CLASS
 #define LINE_CLASS
-#include "pch.h"
+#include "GeometricObject.h"
+#include "Point.h"
 class Line :
 	public GeometricObject
 {

@@ -1,5 +1,6 @@
 #pragma once
-#include "pch.h"
+#include "Surface.h"
+#include "Point.h"
 #include <vector>
 class Polygon :
 	public Surface

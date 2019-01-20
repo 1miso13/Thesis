@@ -1,5 +1,5 @@
 #pragma once
-#include "pch.h"
+#include "Surface.h"
 class Triangle :
 	public Surface
 {

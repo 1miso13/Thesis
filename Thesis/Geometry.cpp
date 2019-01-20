@@ -1,6 +1,8 @@
 #include "pch.h"
-
-
+#include "Vector.h"
+#include "Matrix.h"
+#include "Point.h"
+#include <vector>
 
 Vector3 crossProduct2Vectors(Vector3 VectorA, Vector3 VectorB) {
 	float X = VectorA.Y*VectorB.Z + VectorB.Y*VectorA.Z;
@@ -49,9 +51,9 @@ void Plane3DTo2D(Vector3 *arrayOfPoints, unsigned int pointsCount, Vector3 *norm
 							[y*x*C + z * s  y*y*C + c	    y*z*C - x * s]
 							[z*x*C - y * s  z*y*C + x * s	z*z*C + c])*/
 		Matrix rotationMatrix = Matrix();
-		rotationMatrix.m00 = axis.X * axis.X *C + c;					rotationMatrix.m01 = axis.X * axis.Y*C - axis.Z * s;			rotationMatrix.m02 = axis.X * axis.Z*C + axis.Y * s;
-		rotationMatrix.m10 = axis.Y * axis.X*C + axis.Z * s;			rotationMatrix.m11 = axis.Y * axis.Y*C + c;						rotationMatrix.m12 = axis.Y * axis.Z*C - axis.X * s;
-		rotationMatrix.m20 = axis.Z * axis.X*C - axis.Y * s;			rotationMatrix.m21 = axis.Z * axis.Y*C + axis.X * s;			rotationMatrix.m22 = axis.Z * axis.Z*C + c;
+		rotationMatrix.m00 = (double)axis.X * (double)axis.X * C + c;					rotationMatrix.m01 = (double)axis.X * (double)axis.Y * C - axis.Z * s;			rotationMatrix.m02 = (double)axis.X * (double)axis.Z*C + axis.Y * s;
+		rotationMatrix.m10 = (double)axis.Y * (double)axis.X * C + axis.Z * s;			rotationMatrix.m11 = (double)axis.Y * (double)axis.Y * C + c;					rotationMatrix.m12 = (double)axis.Y * (double)axis.Z*C - axis.X * s;
+		rotationMatrix.m20 = (double)axis.Z * (double)axis.X * C - axis.Y * s;			rotationMatrix.m21 = (double)axis.Z * (double)axis.Y * C + axis.X * s;			rotationMatrix.m22 = (double)axis.Z * (double)axis.Z*C + c;
 
 		//rotate points to 2D by rotating normal
 		for (size_t i = 0; i < pointsCount; i++)

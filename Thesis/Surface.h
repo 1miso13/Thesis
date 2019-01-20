@@ -1,5 +1,6 @@
 #pragma once
 #include "GeometricObject.h"
+#include "Point.h"
 class Surface :
 	public GeometricObject
 {
@@ -13,7 +14,7 @@ public:
 	/// Create polygonal mesh
 	/// Must be overloaded
 	/// </summary>
-	void CreateMesh();//TODO pure virtual
+	void CreateMesh() {};//TODO pure virtual
 
 	virtual void CalculatePerimeter() = 0;
 	virtual void CalculateArea() = 0;

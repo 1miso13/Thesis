@@ -1,8 +1,8 @@
 #pragma once
 #ifndef POINT_CLASS
 #define POINT_CLASS
-#include "pch.h"
-
+#include "GeometricObject.h"
+#include "Vector.h"
 class Point :
 	public GeometricObject
 {
@@ -14,7 +14,9 @@ public:
 	Point();
 	Point(float X, float Y, float Z);
 	Point(Vector3 pos);
-	~Point();
+	~Point() {
+
+	}
 
 	Vector3 GetPosition();
 
@@ -61,5 +63,42 @@ inline Point operator /(Point A, float B) {
 	float Z = A.Position.Z / B;
 	return Point(X, Y, Z);
 }
+inline Point operator *(Point A, float B) {
+	float X = A.Position.X * B;
+	float Y = A.Position.Y * B;
+	float Z = A.Position.Z * B;
+	return Point(X, Y, Z);
+}
+inline Point operator *(float B, Point A) {
+	float X = A.Position.X * B;
+	float Y = A.Position.Y * B;
+	float Z = A.Position.Z * B;
+	return Point(X, Y, Z);
+}
+inline Point::Point()
+{
+	Position = Vector3(0, 0, 0);
+	GeometricType = POINTObjectType;
+}
+
+inline Point::Point(float X, float Y, float Z)
+{
+	Position = Vector3(X, Y, Z);
+	GeometricType = POINTObjectType;
+}
+
+inline Point::Point(Vector3 pos)
+{
+	Position = pos;
+	GeometricType = POINTObjectType;
+}
+
+
+
+inline Vector3 Point::GetPosition()
+{
+	return Position;
+}
+
 
 #endif

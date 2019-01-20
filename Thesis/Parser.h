@@ -2,7 +2,6 @@
 #include <vector>
 #include <string>
 #include "pch.h"
-#include "GeometricOperation.h"
 #include "Command.h"
 #include <ctype.h>
 #include "OperationTypes.h"

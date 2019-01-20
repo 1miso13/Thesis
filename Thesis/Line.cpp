@@ -1,5 +1,6 @@
 #include "pch.h"
-
+#include "Line.h"
+#include "Point.h"
 Line::Line(Point beginPoint, Point endPoint)
 {
 	this->beginPoint = beginPoint;

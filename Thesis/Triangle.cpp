@@ -1,5 +1,8 @@
 #include "pch.h"
 #include "Geometry.h"
+#include "Triangle.h"
+#include "Point.h"
+#include "Vector.h"
 
 Triangle::Triangle(Point p1, Point p2, Point p3)
 {
@@ -25,7 +28,7 @@ void Triangle::CalculatePerimeter()
 	float b = (p3 - p2).Distance();
 	float c = (p1 - p3).Distance();
 
-	perimeter = a+b+c;
+	perimeter = (double)a+ (double)b+ (double)c;
 }
 
 void Triangle::CalculateArea()

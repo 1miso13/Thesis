@@ -123,10 +123,10 @@ Pyramid,//(string objectName, Surface s, float distance, float visibility) //Cre
 
 Extrude,//(string objectName, Surface s, float distance, float visibility) //add width to plane
 
-SpericalCurvedSurface,//(string objectName, Surface s, float distance, float visibility)
+//SpericalCurvedSurface,//(string objectName, Surface s, float distance, float visibility)
 
 
-Cylinder,//(string objectName, Line l, float radius, float visibility)
+//Cylinder,//(string objectName, Line l, float radius, float visibility)
 
 INVALID
 	};

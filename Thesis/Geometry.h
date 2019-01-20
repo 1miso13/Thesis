@@ -1,5 +1,7 @@
 #include "pch.h"
 #include <vector>
+#include "Vector.h"
+#include "Point.h"
 
 Vector3 crossProduct2Vectors(Vector3 VectorA, Vector3 VectorB);
 

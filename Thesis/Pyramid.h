@@ -1,5 +1,10 @@
 #pragma once
+#include "Point.h"
 #include "Shape3D.h"
+#include "Surface.h"
+#include "Line.h"
+#include "Triangle.h"
+#include "Circle.h"
 class Pyramid :
 	public Shape3D
 {
@@ -15,8 +20,8 @@ public:
 	Point apex;
 	Surface *base;
 	float height;
-	Pyramid(Point apex, Surface* base, short BaseType);
-	Pyramid(float height, Surface* base, short BaseType);
+	Pyramid(Point apex, Surface* base);
+	Pyramid(float height, Surface* base);
 	~Pyramid();
 
 	void CalculateHeight();
@@ -30,5 +35,6 @@ public:
 	/// </summary>
 	void CalculateSurfaceArea();
 
+	short GetBaseType();
 };
 

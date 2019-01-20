@@ -1,5 +1,6 @@
 #pragma once
 #include "OperationTypeEnum.h"
+#include <vector>
 class Command
 {
 	/*
