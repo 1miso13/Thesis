@@ -73,6 +73,8 @@ public:
     QPushButton *RefParam_UPButton;
     QPushButton *RefParam_DOWNButton;
     QWidget *objects_tab;
+    QVBoxLayout *verticalLayout_3;
+    QTreeWidget *treeWidget_2;
     QWidget *layoutWidget;
     QHBoxLayout *horizontalLayout_6;
     QLineEdit *lineEdit;
@@ -261,6 +263,15 @@ public:
         tabWidget->addTab(ref_Params_tab, QString());
         objects_tab = new QWidget();
         objects_tab->setObjectName(QStringLiteral("objects_tab"));
+        verticalLayout_3 = new QVBoxLayout(objects_tab);
+        verticalLayout_3->setSpacing(6);
+        verticalLayout_3->setContentsMargins(11, 11, 11, 11);
+        verticalLayout_3->setObjectName(QStringLiteral("verticalLayout_3"));
+        treeWidget_2 = new QTreeWidget(objects_tab);
+        treeWidget_2->setObjectName(QStringLiteral("treeWidget_2"));
+
+        verticalLayout_3->addWidget(treeWidget_2);
+
         tabWidget->addTab(objects_tab, QString());
         splitter->addWidget(tabWidget);
         splitter_2->addWidget(splitter);
@@ -289,7 +300,7 @@ public:
         QtGuiApplication1Class->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(QtGuiApplication1Class);
         menuBar->setObjectName(QStringLiteral("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 956, 26));
+        menuBar->setGeometry(QRect(0, 0, 956, 21));
         menuHelp = new QMenu(menuBar);
         menuHelp->setObjectName(QStringLiteral("menuHelp"));
         menuFile = new QMenu(menuBar);
@@ -324,7 +335,7 @@ public:
 
         retranslateUi(QtGuiApplication1Class);
 
-        tabWidget->setCurrentIndex(0);
+        tabWidget->setCurrentIndex(2);
 
 
         QMetaObject::connectSlotsByName(QtGuiApplication1Class);
@@ -348,13 +359,13 @@ public:
         ___qtreewidgetitem->setText(3, QApplication::translate("QtGuiApplication1Class", "Parameters", nullptr));
         ___qtreewidgetitem->setText(2, QApplication::translate("QtGuiApplication1Class", "Visibility", nullptr));
         ___qtreewidgetitem->setText(1, QApplication::translate("QtGuiApplication1Class", "ObjectName", nullptr));
-        ___qtreewidgetitem->setText(0, QApplication::translate("QtGuiApplication1Class", "Command", nullptr));
+        ___qtreewidgetitem->setText(0, QApplication::translate("QtGuiApplication1Class", "Operation", nullptr));
         UP_command_Button->setText(QApplication::translate("QtGuiApplication1Class", "UP", nullptr));
         DOWN_command_Button->setText(QApplication::translate("QtGuiApplication1Class", "DOWN", nullptr));
         NewButton->setText(QApplication::translate("QtGuiApplication1Class", "New", nullptr));
         InsertButton->setText(QApplication::translate("QtGuiApplication1Class", "Insert", nullptr));
         DeleteButton->setText(QApplication::translate("QtGuiApplication1Class", "Delete", nullptr));
-        tabWidget->setTabText(tabWidget->indexOf(commands_tab), QApplication::translate("QtGuiApplication1Class", "Commands", nullptr));
+        tabWidget->setTabText(tabWidget->indexOf(commands_tab), QApplication::translate("QtGuiApplication1Class", "Operations", nullptr));
         QTableWidgetItem *___qtablewidgetitem = RefParam_tableWidget->horizontalHeaderItem(0);
         ___qtablewidgetitem->setText(QApplication::translate("QtGuiApplication1Class", "Reference name", nullptr));
         QTableWidgetItem *___qtablewidgetitem1 = RefParam_tableWidget->horizontalHeaderItem(1);
@@ -365,7 +376,11 @@ public:
         ___qtablewidgetitem3->setText(QApplication::translate("QtGuiApplication1Class", "Index", nullptr));
         RefParam_UPButton->setText(QApplication::translate("QtGuiApplication1Class", "UP", nullptr));
         RefParam_DOWNButton->setText(QApplication::translate("QtGuiApplication1Class", "DOWN", nullptr));
-        tabWidget->setTabText(tabWidget->indexOf(ref_Params_tab), QApplication::translate("QtGuiApplication1Class", "Ref Params", nullptr));
+        tabWidget->setTabText(tabWidget->indexOf(ref_Params_tab), QApplication::translate("QtGuiApplication1Class", "Parameters", nullptr));
+        QTreeWidgetItem *___qtreewidgetitem1 = treeWidget_2->headerItem();
+        ___qtreewidgetitem1->setText(2, QApplication::translate("QtGuiApplication1Class", "Visibility", nullptr));
+        ___qtreewidgetitem1->setText(1, QApplication::translate("QtGuiApplication1Class", "Type", nullptr));
+        ___qtreewidgetitem1->setText(0, QApplication::translate("QtGuiApplication1Class", "Name", nullptr));
         tabWidget->setTabText(tabWidget->indexOf(objects_tab), QApplication::translate("QtGuiApplication1Class", "Objects", nullptr));
         pushButton->setText(QApplication::translate("QtGuiApplication1Class", "Push", nullptr));
         menuHelp->setTitle(QApplication::translate("QtGuiApplication1Class", "Help", nullptr));

@@ -110,7 +110,7 @@ public:
         QTreeWidgetItem *___qtreewidgetitem = treeWidget->headerItem();
         ___qtreewidgetitem->setText(3, QApplication::translate("Dialog", "Info", nullptr));
         ___qtreewidgetitem->setText(2, QApplication::translate("Dialog", "Parameters", nullptr));
-        ___qtreewidgetitem->setText(1, QApplication::translate("Dialog", "Command", nullptr));
+        ___qtreewidgetitem->setText(1, QApplication::translate("Dialog", "Operation", nullptr));
         ___qtreewidgetitem->setText(0, QApplication::translate("Dialog", "ID", nullptr));
         QTableWidgetItem *___qtablewidgetitem = tableWidget->horizontalHeaderItem(0);
         ___qtablewidgetitem->setText(QApplication::translate("Dialog", "Type", nullptr));

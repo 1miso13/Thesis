@@ -62,9 +62,13 @@ private slots:
 
     void on_DOWN_command_Button_clicked();
 
+
 private:
 	Ui::QtGuiApplication1Class ui;
-	bool ReadyToBuild = false;
+	bool ReadyToBuild = true;
 	void TestCommandsValidity(size_t indexFrom);
 	void DisableButtons();
+	void RefreshObjectList();
+
+	ParametricModel paramModel;
 };

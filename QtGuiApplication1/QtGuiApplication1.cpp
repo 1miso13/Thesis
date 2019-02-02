@@ -2,12 +2,16 @@
 #include <QTreeWidgetItem>
 #include <QTreeWidget>
 #include "dialog.h"
-#include "../Thesis/ParametricModel.h"
-#include "../Thesis/OperationTypes.h"
+//#include "../Thesis/ParametricModel.h"
+//#include "../Thesis/OperationTypes.h"
 #include "DialogWindowType.h"
 #include <qgraphicsscene.h>
 
-ParametricModel paramModel;
+
+#include "ParametricModel.h"
+#include "OperationTypes.h"
+
+
 QtGuiApplication1::QtGuiApplication1(QWidget *parent)
 	: QMainWindow(parent)
 {
@@ -69,6 +73,7 @@ void CommandToQStrings(Command *c, QTreeWidgetItem* qTreeWidgetItem) {
 	}
 	// 3 - Parameters
 	qTreeWidgetItem->setText(3, QString::fromStdString(commandParameters));
+	operationType::ClearParamVectors(&paramVectors);
 }
 /// <summary>
 /// Push button
@@ -99,6 +104,7 @@ void QtGuiApplication1::on_pushButton_clicked()
 
    }
    ui.RefParam_tableWidget->RefillRefTable(&paramModel);
+   RefreshObjectList();
 }
 /*
 void QtGuiApplication1::on_listWidget_itemDoubleClicked(QListWidgetItem *item)
@@ -132,7 +138,8 @@ void QtGuiApplication1::on_actionAdd_triggered()
 
 		paramModel.AddCommand(c);
 		CommandToQStrings(c, qTreeWidgetItem);
-		
+
+		RefreshObjectList();
 	}
 }
 
@@ -141,6 +148,7 @@ void QtGuiApplication1::on_actionDelete_triggered()
 	if ((ui.treeWidget->currentItem() != NULL))
 	{
 		on_DeleteButton_clicked();
+		RefreshObjectList();
 	}
 }
 
@@ -154,9 +162,10 @@ void QtGuiApplication1::on_actionDelete_all_triggered()
 		delete ui.treeWidget->takeTopLevelItem(index);
 		paramModel.RemoveCommand(index);
 		//paramModel.GraphCommand.erase(paramModel.GraphCommand.begin() + index);
-		
+
 	}
 	DisableButtons();
+	RefreshObjectList();
 }
 
 void QtGuiApplication1::on_actionOpen_triggered()
@@ -245,6 +254,7 @@ bool TestCommandSemantic(ParametricModel *paramModel, size_t index) {
 		&paramVectors);
 
 	std::vector <operationType::ParameterTypesEnum> * k = paramVectors->at(paramModel->GraphCommand.at(index)->typeOfParameters - 1);
+	operationType::ClearParamVectors(&paramVectors);
 	//Test parameters
 	for (size_t i = 0; i < k->size(); i++)
 	{
@@ -322,6 +332,8 @@ void QtGuiApplication1::on_treeWidget_itemDoubleClicked(QTreeWidgetItem *item, i
 		{
 			TestCommandsValidity(index);
 		}
+
+		RefreshObjectList();
 	}
 	else
 	{
@@ -355,6 +367,7 @@ void QtGuiApplication1::on_InsertButton_clicked()
 		CommandToQStrings(c, qTreeWidgetItem);
 		ui.treeWidget->repaint();
 
+		RefreshObjectList();
 	}
 	//ui.treeWidget->topLevelItem(3)->setBackgroundColor(1, QColor(123, 147, 158));
 	//test
@@ -386,6 +399,7 @@ void QtGuiApplication1::on_DeleteButton_clicked()
 	{
 		DisableButtons();
 	}
+	RefreshObjectList();
 }
 /// <summary>
 /// Disable Insert and delete buttons
@@ -394,7 +408,44 @@ void QtGuiApplication1::DisableButtons() {
 	ui.InsertButton->setEnabled(false);
 	ui.DeleteButton->setEnabled(false);
 }
+/// <summary>
+/// refresh object list
+/// </summary>
+void QtGuiApplication1::RefreshObjectList()
+{
+	//rebuild tree
+	if (ReadyToBuild)
+	{
+		paramModel.ReBuildTree();
+	}
 
+	//delete 
+
+	if (ReadyToBuild)
+	{
+		for (size_t i = 0; i < paramModel.Objects.size(); i++)
+		{
+
+			// Create new item (top level item)
+			QTreeWidgetItem *qTreeWidgetItem = new QTreeWidgetItem(ui.treeWidget_2);
+			// Add it on our tree as the top item.
+			ui.treeWidget_2->addTopLevelItem(qTreeWidgetItem);
+
+			qTreeWidgetItem->setText(0, QString::fromStdString(paramModel.Objects.at(i)->ObjectName));
+			qTreeWidgetItem->setText(1, QString::fromStdString(paramModel.Objects.at(i)->TypeToText()));
+			qTreeWidgetItem->setText(2, QString::number(paramModel.Objects.at(i)->visibility));
+		
+			ui.treeWidget_2->repaint();
+		}
+	}
+	//
+}
+
+/// <summary>
+/// prepinanie tabov 
+/// operations-parameters-objects
+/// </summary>
+/// <param name="index"></param>
 void QtGuiApplication1::on_tabWidget_currentChanged(int index){
 	switch (index)
 	{
@@ -420,6 +471,11 @@ bool isFloat(const std::string& s) {
 		return false;
 	}
 }
+/// <summary>
+/// Parameter list
+/// </summary>
+/// <param name="row"></param>
+/// <param name="column"></param>
 void QtGuiApplication1::on_tableWidget_cellChanged(int row, int column)
 {
 	if (column != 1)
@@ -508,6 +564,7 @@ void QtGuiApplication1::on_DOWN_command_Button_clicked()
 		}
 		//test
 		TestCommandsValidity(row);
+		RefreshObjectList();
 	}
 }
 
@@ -529,5 +586,6 @@ void QtGuiApplication1::on_UP_command_Button_clicked()
 		}
 		//test
 		TestCommandsValidity(row-1);
+		RefreshObjectList();
 	}
 }

@@ -93,3 +93,6 @@ inline Vector3 operator /(Vector3 A, int B) {
 	float Z = A.Z / B;
 	return Vector3(X, Y, Z);
 }
+inline float Vector3::Dot(Vector3 VectorA, Vector3 VectorB) {
+	return VectorA.X*VectorB.X + VectorA.Y*VectorB.Y + VectorA.Z*VectorB.Z;
+}

@@ -42,20 +42,11 @@ Dialog::Dialog(ParametricModel *paramModel, Command ** c, DialogWindowType Dialo
 
 Dialog::~Dialog()
 {
+	operationType::ClearParamVectors(&paramVectors);
     delete ui;
 }
 
-void ClearParamVectors(std::vector <
-	std::vector<
-	operationType::ParameterTypesEnum
-	>*
->** paramVectors) {
-	for (size_t i = 0; i < (*paramVectors)->size(); i++)
-	{
-		delete (*paramVectors)->at(i);
-	}
-	delete (*paramVectors);
-}
+
 void Dialog::FillCommandList()
 {
 	
@@ -83,7 +74,7 @@ void Dialog::FillCommandList()
 			c.Info = paramInfo->at(j)->at(0);
 			CommandsVec.push_back(c);
 		}
-		ClearParamVectors(&paramVectors);
+		operationType::ClearParamVectors(&paramVectors);
 	}	
 	for (size_t i = 0; i < CommandsVec.size(); i++)
 	{

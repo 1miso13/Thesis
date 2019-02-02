@@ -118,6 +118,8 @@ namespace operationType {
 
 ///Objects Commands:
 
+
+
 Pyramid,//(string objectName, Surface s, float distance, float visibility) //Create Pyramid by distance from center
 //Pyramid(string objectName, Surface s, Point p, float visibility) //Create Pyramid by Point
 
@@ -128,6 +130,11 @@ Extrude,//(string objectName, Surface s, float distance, float visibility) //add
 
 //Cylinder,//(string objectName, Line l, float radius, float visibility)
 
+Sphere,
+
+BooleanUnion,
+BooleanIntersection,
+BooleanNOT,
 INVALID
 	};
 	

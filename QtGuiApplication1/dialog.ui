@@ -41,7 +41,7 @@
         </column>
         <column>
          <property name="text">
-          <string>Command</string>
+          <string>Operation</string>
          </property>
         </column>
         <column>

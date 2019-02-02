@@ -208,10 +208,16 @@ public:
 		//test commands
 		operationType::OperationTypeEnum operationType;
 		size_t typeOfParameters=0;
-		if ((operationType = operationType::GetOperationType(commandName, CommandParameterVector, GraphCommand ,&typeOfParameters))== operationType::INVALID)
+		//if ((operationType = operationType::GetOperationType(commandName, CommandParameterVector, GraphCommand ,&typeOfParameters))== operationType::INVALID)
+		//{
+		//	return false;
+		//}
+
+		if ((operationType = operationType::GetOperation(commandName, &typeOfParameters , GraphCommand, CommandParameterVector)) == operationType::INVALID)
 		{
 			return false;
 		}
+
 
 		if (!TestValidObjectName(objectName)) {
 			//bad name ERROR

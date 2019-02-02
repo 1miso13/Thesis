@@ -1,6 +1,7 @@
-
+#pragma once
 #include "Surface.h"
 
+namespace Object{
 class Rectangle:
 	public Surface
 {
@@ -41,4 +42,5 @@ inline void Rectangle::CalculatePerimeter()
 inline void Rectangle::CalculateArea()
 {
 	area = (double)sizeX * (double)sizeY;
+}
 }

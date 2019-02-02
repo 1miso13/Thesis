@@ -20,12 +20,12 @@ namespace operationType {
 		ParameterTypeTRIANGLE,
 		ParameterTypeOBJECT3D
 	};
-	inline ObjectTypeEnum findTypeOfOperation(operationType::OperationTypeEnum operationType);
+	inline Object::ObjectTypeEnum findTypeOfOperation(operationType::OperationTypeEnum operationType);
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
-	inline ObjectTypeEnum Find(std::vector <Command*> *GraphCommand, std::string objectName,int to =-1) {
+	inline Object::ObjectTypeEnum Find(std::vector <Command*> *GraphCommand, std::string objectName,int to =-1) {
 		std::vector<Command*>::iterator it= (*GraphCommand).begin();
 		std::vector<Command*>::iterator toit;
 		if (to==-1)
@@ -41,13 +41,13 @@ namespace operationType {
 			if ((*it)->name == objectName)
 				return findTypeOfOperation((*it)->operationType);
 		}
-		return INVALIDObjectType;
+		return Object::INVALIDObjectType;
 	}
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
-	inline  bool CompareTypes(ObjectTypeEnum commandParType, ObjectTypeEnum tested) {
+	inline  bool CompareTypes(Object::ObjectTypeEnum commandParType, Object::ObjectTypeEnum tested) {
 		/*POINT,
 			LINE,
 			SURFACE,
@@ -61,19 +61,19 @@ namespace operationType {
 			return true;
 		switch (tested)
 		{
-		case SURFACE:
-		case CIRCLE:
-		case RECTANGLE:
-		case Polygon:
-		case TRIANGLE:
-			if (commandParType == SURFACE)
+		case Object::SURFACE:
+		case Object::CIRCLE:
+		case Object::RECTANGLE:
+		case Object::POLYGON:
+		case Object::TRIANGLE:
+			if (commandParType == Object::SURFACE)
 			{
 				return true;
 			}
 			break;
-		case PYRAMID:
-		case OBJECT3D:
-			if (commandParType == OBJECT3D)
+		case Object::PYRAMID:
+		case Object::OBJECT3D:
+			if (commandParType == Object::OBJECT3D)
 			{
 				return true;
 			}
@@ -142,13 +142,13 @@ namespace operationType {
 				bool retVal = true;
 				while ((pos = paramValue.find(';')) != std::string::npos) {
 					token = paramValue.substr(0, pos);
-						if (!CompareTypes(POINTObjectType, Find(GraphCommand, token, to)))
+						if (!CompareTypes(Object::POINTObjectType, Find(GraphCommand, token, to)))
 						{
 							retVal = false;
 						}
 					paramValue.erase(0, pos + 1);
 				}
-			if (!CompareTypes(POINTObjectType, Find(GraphCommand, paramValue, to)))
+			if (!CompareTypes(Object::POINTObjectType, Find(GraphCommand, paramValue, to)))
 			{
 				retVal = false;
 			}
@@ -159,22 +159,22 @@ namespace operationType {
 		switch (parameterType)
 		{
 		case ParameterTypePOINT:
-			return CompareTypes(POINTObjectType, Find(GraphCommand, paramValue,to));
+			return CompareTypes(Object::POINTObjectType, Find(GraphCommand, paramValue,to));
 			break;
 		case ParameterTypeFLOAT:
 			return IsFloat(paramValue);
 			break;
 		case ParameterTypeLINE:
-			return CompareTypes(LINE, Find(GraphCommand, paramValue, to));
+			return CompareTypes(Object::LINE, Find(GraphCommand, paramValue, to));
 			break;
 		case ParameterTypeSURFACE:
-			return CompareTypes(SURFACE, Find(GraphCommand, paramValue, to));
+			return CompareTypes(Object::SURFACE, Find(GraphCommand, paramValue, to));
 			break;
 		case ParameterTypeTRIANGLE:
-			return CompareTypes(TRIANGLE, Find(GraphCommand, paramValue,to));
+			return CompareTypes(Object::TRIANGLE, Find(GraphCommand, paramValue,to));
 			break;
 		case ParameterTypeOBJECT3D:
-			return CompareTypes(OBJECT3D, Find(GraphCommand, paramValue,to));
+			return CompareTypes(Object::OBJECT3D, Find(GraphCommand, paramValue,to));
 			break;
 		default:
 			return false;
@@ -182,807 +182,813 @@ namespace operationType {
 		}
 
 	}
+
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
-	inline OperationTypeEnum GetOperationType(
-		std::string commandName,
-		std::vector<std::string>* paramVectors/*contain vector of parameters*/,
-		std::vector <Command*> *GraphCommand,
-		size_t * typeOfParams
-	) {
-		size_t CountOfParams = paramVectors->size();
-		*typeOfParams = 1;
-		std::vector<std::string>::iterator it = (*paramVectors).begin();
-		if (commandName == "Point")
-		{
-			if (CountOfParams == 3 || CountOfParams == 4)
+#ifdef DEPRECATED
+
+
+		[[deprecated]]
+		inline OperationTypeEnum GetOperationTypeOLD(
+			std::string commandName,
+			std::vector<std::string>* paramVectors/*contain vector of parameters*/,
+			std::vector <Command*> *GraphCommand,
+			size_t * typeOfParams
+		) {
+			size_t CountOfParams = paramVectors->size();
+			*typeOfParams = 1;
+			std::vector<std::string>::iterator it = (*paramVectors).begin();
+			if (commandName == "Point")
 			{
-				if (!IsFloat(*it))
+				if (CountOfParams == 3 || CountOfParams == 4)
 				{
-					return INVALID;
+					if (!IsFloat(*it))
+					{
+						return INVALID;
+					}
+					it++;
+					if (!IsFloat(*it))
+					{
+						return INVALID;
+					}
+					it++;
+					if (!IsFloat(*it))
+					{
+						return INVALID;
+					}
+					it++;
+					if (CountOfParams == 4)//with parent point
+					{
+						if (!CompareTypes(Object::POINTObjectType, Find(GraphCommand, *it)))
+						{
+							return INVALID;
+						}
+						*typeOfParams = 2;
+					}
+					return  Point;
 				}
-				it++;
-				if (!IsFloat(*it))
+				return INVALID;
+				//Point(string name, Point Parent = NULL, bool visible = true) //- Create point on position 0,0,0. Parent - If entered, position is relative, else absolute
+				//Point(string name, float X, float Y, float Z, Point Parent = NULL, bool visible = true) //-Create point on position XYZ
+				///	Example:
+				//		Point("Name of point 1")	//Name can by written with "" or '' or without, Point is on absolute position [0,0,0]
+				//		Point(NameOfPoint2)		//Name can by written with "" or '' or without
+				//		Point('NameOfPoint3')	//Name can by written with "" or '' or without
+				//		Point(NameOfPoint4,1.1,2.2,3.3)	//- Create visible Point on position [1,2,3] 
+				//		Point(NameOfPoint4,1,2,3,true)	//- Create visible Point on position [1,2,3] 
+				//		Point(NameOfPoint4,1,2,3,false)	//- Create invisible Point on position [1,2,3]
+				//		Point(NameOfPoint4,1,2,3,NameOfParentPoint,true)	//- Create visible Point on relative position [1,2,3] from ParentPoint
+			}
+			if (commandName == "LinearInterpolationDist")
+			{
+				if (CountOfParams == 3)
 				{
-					return INVALID;
+					if (!CompareTypes(Object::POINTObjectType, Find(GraphCommand, *it)))
+					{
+						return INVALID;
+					}
+					it++;
+					if (!CompareTypes(Object::POINTObjectType, Find(GraphCommand, *it)))
+					{
+						return INVALID;
+					}
+					it++;
+					if (!IsFloat(*it))//distance or %
+					{
+						return INVALID;
+					}
+					return  LinearInterpolationDist;
 				}
-				it++;
-				if (!IsFloat(*it))
-				{
-					return INVALID;
-				}
-				it++;
-				if (CountOfParams == 4)//with parent point
+				return INVALID;//1 - %, 2- distance
+			//LinearInterpolation(string name, Point fromPoint, Point toPoint, float distance / percentage, bool visible = true)
+					//	Example:
+					//		LinearInterpolation(PointName, FromPoint, ToPoint, 50%)	//- Create Point in middle of entered points
+					//		LinearInterpolation(PointName, FromPoint, ToPoint, 25%)	//- Create Point on position with distance 20% of first point and 80% of second point
+					//		LinearInterpolation(PointName, FromPoint, ToPoint, 100)	//- Create Point on position with distance 100 from first point in angle to second point 
+
+
+			}
+			if (commandName == "LinearInterpolationPerc")
+			{
+				if (CountOfParams == 3)
 				{
 					if (!CompareTypes(POINTObjectType, Find(GraphCommand, *it)))
 					{
 						return INVALID;
 					}
-					*typeOfParams = 2;
+					it++;
+					if (!CompareTypes(POINTObjectType, Find(GraphCommand, *it)))
+					{
+						return INVALID;
+					}
+					it++;
+					if (!IsFloat(*it))
+					{
+						return INVALID;
+					}
+					return  LinearInterpolationPerc;
 				}
-				return  Point;
-			}
-			return INVALID;
-			//Point(string name, Point Parent = NULL, bool visible = true) //- Create point on position 0,0,0. Parent - If entered, position is relative, else absolute
-			//Point(string name, float X, float Y, float Z, Point Parent = NULL, bool visible = true) //-Create point on position XYZ
-			///	Example:
-			//		Point("Name of point 1")	//Name can by written with "" or '' or without, Point is on absolute position [0,0,0]
-			//		Point(NameOfPoint2)		//Name can by written with "" or '' or without
-			//		Point('NameOfPoint3')	//Name can by written with "" or '' or without
-			//		Point(NameOfPoint4,1.1,2.2,3.3)	//- Create visible Point on position [1,2,3] 
-			//		Point(NameOfPoint4,1,2,3,true)	//- Create visible Point on position [1,2,3] 
-			//		Point(NameOfPoint4,1,2,3,false)	//- Create invisible Point on position [1,2,3]
-			//		Point(NameOfPoint4,1,2,3,NameOfParentPoint,true)	//- Create visible Point on relative position [1,2,3] from ParentPoint
-		}
-		if (commandName == "LinearInterpolationDist")
-		{
-			if (CountOfParams == 3)
-			{
-				if (!CompareTypes(POINTObjectType, Find(GraphCommand, *it)))
-				{
-					return INVALID;
-				}
-				it++;
-				if (!CompareTypes(POINTObjectType, Find(GraphCommand, *it)))
-				{
-					return INVALID;
-				}
-				it++;
-				if (!IsFloat(*it))//distance or %
-				{
-					return INVALID;
-				}
-				return  LinearInterpolationDist;
-			}
-			return INVALID;//1 - %, 2- distance
-		//LinearInterpolation(string name, Point fromPoint, Point toPoint, float distance / percentage, bool visible = true)
-				//	Example:
-				//		LinearInterpolation(PointName, FromPoint, ToPoint, 50%)	//- Create Point in middle of entered points
-				//		LinearInterpolation(PointName, FromPoint, ToPoint, 25%)	//- Create Point on position with distance 20% of first point and 80% of second point
-				//		LinearInterpolation(PointName, FromPoint, ToPoint, 100)	//- Create Point on position with distance 100 from first point in angle to second point 
-
-
-		}
-		if (commandName == "LinearInterpolationPerc")
-		{
-			if (CountOfParams == 3)
-			{
-				if (!CompareTypes(POINTObjectType, Find(GraphCommand, *it)))
-				{
-					return INVALID;
-				}
-				it++;
-				if (!CompareTypes(POINTObjectType, Find(GraphCommand, *it)))
-				{
-					return INVALID;
-				}
-				it++;
-				if (!IsFloat(*it))
-				{
-					return INVALID;
-				}
-				return  LinearInterpolationPerc;
-			}
-			return INVALID;//1 - %, 2- distance
-		//LinearInterpolation(string name, Point fromPoint, Point toPoint, float  percentage, bool visible = true)
-				//	Example:
-				//		LinearInterpolation(PointName, FromPoint, ToPoint, 50%)	//- Create Point in middle of entered points
-				//		LinearInterpolation(PointName, FromPoint, ToPoint, 25%)	//- Create Point on position with distance 20% of first point and 80% of second point
-				//		LinearInterpolation(PointName, FromPoint, ToPoint, 100)	//- Create Point on position with distance 100 from first point in angle to second point 
-
-
-		}
-		if (commandName == "Intersection_Plane_Line")
-		{
-			if (CountOfParams != 2)
-			{
-				return INVALID;
-			}
-			if (!CompareTypes(LINE, Find(GraphCommand, *it)))
-			{
-				return INVALID;
-			}
-			it++;
-			if (!CompareTypes(SURFACE, Find(GraphCommand, *it)))
-			{
-				return INVALID;
-			}
-			return  Intersection_Plane_Line;
-
-			//Intersection_Plane_Line(string name, Line lineName, Sufrace surfaceName, bool visible = true)
-					//	Alternative:
-					//	Intersection(string name, Line lineName, Sufrace surfaceName)
+				return INVALID;//1 - %, 2- distance
+			//LinearInterpolation(string name, Point fromPoint, Point toPoint, float  percentage, bool visible = true)
 					//	Example:
-					//		Intersection_Plane_Line(PointName,  lineName, surfaceName) //- Create Point on position where Line with name "lineName" intersecting Surface with name "surfaceName"
-
-		}
-		if (commandName == "SurfaceCenterBoundingSquare")
-		{
-			if (CountOfParams != 1)
-			{
-				return INVALID;
-			}
-			if (!CompareTypes(SURFACE, Find(GraphCommand, *it)))
-			{
-				return INVALID;
-			}
-			return  SurfaceCenterBoundingSquare;
-			//SurfaceCenterBoundingSquare(string name, Surface surfaceName, bool visible = true) //Create point on position of middle of entered surface
-				//	Example:
-				//		SurfaceCenterBoundingSquare(PointName, Circle)	//- Create Point on center of Circle
-				//		SurfaceCenterBoundingSquare(PointName, Rectangle)	//- Create Point on middle of Rectangle
-				//		SurfaceCenterBoundingSquare(PointName, Polygon)		//- Create Point on middle of Polygon - centroid (sum of points / count of points)
-
-		}
-		if (commandName == "SurfaceCenterAverage")
-		{
-			if (CountOfParams != 1)
-			{
-				return INVALID;
-			}
-			if (!CompareTypes(SURFACE, Find(GraphCommand, *it)))
-			{
-				return INVALID;
-			}
-			return  SurfaceCenterAverage;
-			//SurfaceCenterAverage(string name, Surface surfaceName, bool visible = true) //Create point on position of middle of entered surface
-				//	Example:
-				//		SurfaceCenterAverage(PointName, Circle)	//- Create Point on center of Circle
-				//		SurfaceCenterAverage(PointName, Rectangle)	//- Create Point on middle of Rectangle
-				//		SurfaceCenterAverage(PointName, Polygon)		//- Create Point on middle of Polygon - centroid (sum of points / count of points)
-
-		}
-		if (commandName == "Centroid")
-		{
-			if (CountOfParams != 1)
-			{
-				return INVALID;
-			}
-			if (!CompareTypes(TRIANGLE, Find(GraphCommand, *it)))
-			{
-				return INVALID;
-			}
-			return Centroid;//(string name, Triangle triangleName, float visibility)
-		}
-		if (commandName == "Incenter")
-		{
-			if (CountOfParams != 1)
-			{
-				return INVALID;
-			}
-			if (!CompareTypes(TRIANGLE, Find(GraphCommand, *it)))
-			{
-				return INVALID;
-			}
-			return Incenter;//(string name, Triangle triangleName, float visibility)
-		}
-		if (commandName == "Circumcenter")
-		{
-			if (CountOfParams != 1)
-			{
-				return INVALID;
-			}
-			if (!CompareTypes(TRIANGLE, Find(GraphCommand, *it)))
-			{
-				return INVALID;
-			}
-			return Circumcenter;//(string name, Triangle triangleName, float visibility)
-		}
-		if (commandName == "Orthocenter")
-		{
-			if (CountOfParams != 1)
-			{
-				return INVALID;
-			}
-			if (!CompareTypes(TRIANGLE, Find(GraphCommand, *it)))
-			{
-				return INVALID;
-			}
-			return Orthocenter;//(string name, Triangle triangleName, float visibility)
-		}
-		if (commandName == "NinePointCenter")
-		{
-			if (CountOfParams != 1)
-			{
-				return INVALID;
-			}
-			if (!CompareTypes(TRIANGLE, Find(GraphCommand, *it)))
-			{
-				return INVALID;
-			}
-			return NinePointCenter;//(string name, Triangle triangleName, float visibility)
-		}
-		if (commandName == "ObjectCenterBoundingBox")
-		{
-			if (CountOfParams != 1)
-			{
-				return INVALID;
-			}
-			if (!CompareTypes(OBJECT3D, Find(GraphCommand, *it)))
-			{
-				return INVALID;
-			}
-			return  ObjectCenterBoundingBox;
-			//ObjectCenterBoundingBox(string name, Object3D ObjectName, bool visible = true) //Create point on position of middle of entered object
-		}
-		if (commandName == "ObjectCenterAverage")
-		{
-			if (CountOfParams != 1)
-			{
-				return INVALID;
-			}
-			if (!CompareTypes(OBJECT3D, Find(GraphCommand, *it)))
-			{
-				return INVALID;
-			}
-			return  ObjectCenterAverage;
-			//ObjectCenterAverage(string name, Object3D ObjectName, bool visible = true) //Create point on position of center of entered object
-
-		}
-		if (commandName == "LineFirstPoint")
-		{
-			if (CountOfParams != 1)
-			{
-				return INVALID;
-			}
-			if (!CompareTypes(LINE, Find(GraphCommand, *it)))
-			{
-				return INVALID;
-			}
-			return  LineFirstPoint;
-			//LineFirstPoint(string name, Line lineName, bool visible = true)
-		}
-		if (commandName == "LineSecondPoint")
-		{
-			if (CountOfParams != 1)
-			{
-				return INVALID;
-			}
-			if (!CompareTypes(LINE, Find(GraphCommand, *it)))
-			{
-				return INVALID;
-			}
-			return  LineSecondPoint;
-			//LineSecondPoint(string name, Line lineName, bool visible = true)
+					//		LinearInterpolation(PointName, FromPoint, ToPoint, 50%)	//- Create Point in middle of entered points
+					//		LinearInterpolation(PointName, FromPoint, ToPoint, 25%)	//- Create Point on position with distance 20% of first point and 80% of second point
+					//		LinearInterpolation(PointName, FromPoint, ToPoint, 100)	//- Create Point on position with distance 100 from first point in angle to second point 
 
 
-
-
-				///Line Commands:
-
-		}
-		if (commandName == "Line")
-		{
-			if (CountOfParams != 2)
+			}
+			if (commandName == "Intersection_Plane_Line")
 			{
-				return INVALID;
-			}
-			if (!CompareTypes(POINTObjectType, Find(GraphCommand, *it)))
-			{
-				return INVALID;
-			}
-			it++;
-			if (!CompareTypes(POINTObjectType, Find(GraphCommand, *it)))
-			{
-				return INVALID;
-			}
-			return  Line;//Line(string lineName, Point p1, Point p2, bool visible = true) //create line, where p1 is start point and p2 is end point
-
-		}
-		if (commandName == "LineNormalize")
-		{
-			if (CountOfParams != 1)
-			{
-				return INVALID;
-			}
-			if (!CompareTypes(LINE, Find(GraphCommand, *it)))
-			{
-				return INVALID;
-			}
-			return  LineNormalize;//LineNormalize(string lineName, Line l, bool visible = true)
-
-		}
-		if (commandName == "LineChangeLengthDist")
-		{
-			if (CountOfParams != 2)
-			{
-				return INVALID;
-			}
-			if (!CompareTypes(LINE, Find(GraphCommand, *it)))
-			{
-				return INVALID;
-			}
-			it++;
-			if (!IsFloat(*it)) {
-				return INVALID;
-			}
-			return  LineChangeLengthDist;//LineChangeLengthDist(string lineName, Line l, float distance, bool visible = true)
-		}
-		if (commandName == "LineChangeLengthPerc")
-		{
-			if (CountOfParams != 2)
-			{
-				return INVALID;
-			}
-			if (!CompareTypes(LINE, Find(GraphCommand, *it)))
-			{
-				return INVALID;
-			}
-			it++;
-			if (!IsFloat(*it)) {
-				return INVALID;
-			}
-			return  LineChangeLengthPerc;//LineChangeLengthPerc(string lineName, Line l, float percent, bool visible = true) //percent = (0;100>
-
-
-
-				// these commands are based on page http://paulbourke.net/geometry/pointlineplane/
-		}
-		if (commandName == "MinLineBetweenLineAndLine")
-		{
-			if (CountOfParams != 2)
-			{
-				return INVALID;
-			}
-			if (!CompareTypes(LINE, Find(GraphCommand, *it)))
-			{
-				return INVALID;
-			}
-			it++;
-			if (!CompareTypes(LINE, Find(GraphCommand, *it))) {
-				return INVALID;
-			}
-			return  MinLineBetweenLineAndLine;//MinLineBetweenLineAndLine(string lineName, Line l1, Line l2, bool visible = true)
-		}
-		if (commandName == "MinLineBetweenPointAndLine")
-		{
-			if (CountOfParams != 2)
-			{
-				return INVALID;
-			}
-			if (!CompareTypes(POINTObjectType, Find(GraphCommand, *it)))
-			{
-				return INVALID;
-			}
-			it++;
-			if (!CompareTypes(LINE, Find(GraphCommand, *it))) {
-				return INVALID;
-			}
-			return  MinLineBetweenPointAndLine;//MinLineBetweenPointAndLine(string lineName, Point p, Line l, bool visible = true)
-		}
-		if (commandName == "MinLineBetweenPointAndSurface")
-		{
-			if (CountOfParams != 2)
-			{
-				return INVALID;
-			}
-			if (!CompareTypes(POINTObjectType, Find(GraphCommand, *it)))
-			{
-				return INVALID;
-			}
-			it++;
-			if (!CompareTypes(SURFACE, Find(GraphCommand, *it))) {
-				return INVALID;
-			}
-			return  MinLineBetweenPointAndSurface;//MinLineBetweenPointAndSurface(string lineName, Point p, Surface s, bool visible = true)
-
-				///Alternative:
-		}
-		if (commandName == "MinLine")
-		{
-			if (CountOfParams != 2)
-			{
-				return INVALID;
-			}
-			if (CompareTypes(POINTObjectType, Find(GraphCommand, *it)))
-			{
+				if (CountOfParams != 2)
+				{
+					return INVALID;
+				}
+				if (!CompareTypes(LINE, Find(GraphCommand, *it)))
+				{
+					return INVALID;
+				}
 				it++;
-				if (CompareTypes(LINE, Find(GraphCommand, *it))) {
-					*typeOfParams = 1;
-					return MinLine;
-				}
-				if(CompareTypes(SURFACE, Find(GraphCommand, *it)))
+				if (!CompareTypes(SURFACE, Find(GraphCommand, *it)))
 				{
-					*typeOfParams = 2;
-					return MinLine;
-						
+					return INVALID;
 				}
-			}
-			else
-			{
-				if (CompareTypes(LINE, Find(GraphCommand, *it))) {
+				return  Intersection_Plane_Line;
 
-					it++;
-					if (CompareTypes(LINE, Find(GraphCommand, *it))) {
-						*typeOfParams = 3;
-						return MinLine;
-					}
+				//Intersection_Plane_Line(string name, Line lineName, Sufrace surfaceName, bool visible = true)
+						//	Alternative:
+						//	Intersection(string name, Line lineName, Sufrace surfaceName)
+						//	Example:
+						//		Intersection_Plane_Line(PointName,  lineName, surfaceName) //- Create Point on position where Line with name "lineName" intersecting Surface with name "surfaceName"
+
+			}
+			if (commandName == "SurfaceCenterBoundingSquare")
+			{
+				if (CountOfParams != 1)
+				{
+					return INVALID;
 				}
+				if (!CompareTypes(SURFACE, Find(GraphCommand, *it)))
+				{
+					return INVALID;
+				}
+				return  SurfaceCenterBoundingSquare;
+				//SurfaceCenterBoundingSquare(string name, Surface surfaceName, bool visible = true) //Create point on position of middle of entered surface
+					//	Example:
+					//		SurfaceCenterBoundingSquare(PointName, Circle)	//- Create Point on center of Circle
+					//		SurfaceCenterBoundingSquare(PointName, Rectangle)	//- Create Point on middle of Rectangle
+					//		SurfaceCenterBoundingSquare(PointName, Polygon)		//- Create Point on middle of Polygon - centroid (sum of points / count of points)
+
 			}
-
-			return  INVALID;//MinLine(string lineName, Object o1, Object o2, bool visible = true) //Supported are only : [Line,Line], [Point,Line], [Point, Surface]
-
-
-
-		}
-		if (commandName == "SurfaceNormal")
-		{
-			if (CountOfParams != 1)
+			if (commandName == "SurfaceCenterAverage")
 			{
-				return INVALID;
+				if (CountOfParams != 1)
+				{
+					return INVALID;
+				}
+				if (!CompareTypes(SURFACE, Find(GraphCommand, *it)))
+				{
+					return INVALID;
+				}
+				return  SurfaceCenterAverage;
+				//SurfaceCenterAverage(string name, Surface surfaceName, bool visible = true) //Create point on position of middle of entered surface
+					//	Example:
+					//		SurfaceCenterAverage(PointName, Circle)	//- Create Point on center of Circle
+					//		SurfaceCenterAverage(PointName, Rectangle)	//- Create Point on middle of Rectangle
+					//		SurfaceCenterAverage(PointName, Polygon)		//- Create Point on middle of Polygon - centroid (sum of points / count of points)
+
 			}
-			if (!CompareTypes(SURFACE, Find(GraphCommand, *it)))
+			if (commandName == "Centroid")
 			{
-				return INVALID;
+				if (CountOfParams != 1)
+				{
+					return INVALID;
+				}
+				if (!CompareTypes(TRIANGLE, Find(GraphCommand, *it)))
+				{
+					return INVALID;
+				}
+				return Centroid;//(string name, Triangle triangleName, float visibility)
 			}
-			return  SurfaceNormal;//SurfaceNormal(string lineName, Surface s, bool visible = true) // return normal vector of surface
-
-
-
-		}
-		if (commandName == "LineRelocationByPoint")
-		{
-			if (CountOfParams != 2)
+			if (commandName == "Incenter")
 			{
-				return INVALID;
+				if (CountOfParams != 1)
+				{
+					return INVALID;
+				}
+				if (!CompareTypes(TRIANGLE, Find(GraphCommand, *it)))
+				{
+					return INVALID;
+				}
+				return Incenter;//(string name, Triangle triangleName, float visibility)
 			}
-			if (!CompareTypes(LINE, Find(GraphCommand, *it)))
+			if (commandName == "Circumcenter")
 			{
-				return INVALID;
+				if (CountOfParams != 1)
+				{
+					return INVALID;
+				}
+				if (!CompareTypes(TRIANGLE, Find(GraphCommand, *it)))
+				{
+					return INVALID;
+				}
+				return Circumcenter;//(string name, Triangle triangleName, float visibility)
 			}
-			it++;
-			if (!CompareTypes(POINTObjectType, Find(GraphCommand, *it)))
+			if (commandName == "Orthocenter")
 			{
-				return INVALID;
+				if (CountOfParams != 1)
+				{
+					return INVALID;
+				}
+				if (!CompareTypes(TRIANGLE, Find(GraphCommand, *it)))
+				{
+					return INVALID;
+				}
+				return Orthocenter;//(string name, Triangle triangleName, float visibility)
 			}
-			return  LineRelocationByPoint;//LineRelocationByPoint(string lineName, Line l, Point p, bool visible = true)
-
-		}
-		/*if (commandName == "OrthogonalLeastSquares")
-		{
-			return  OrthogonalLeastSquares;//OrthogonalLeastSquares(string lineName, Point p1, Point p2, Point p3, ..., bool visible = true) //min 3
-
-		}*/
-		if (commandName == "CrossProduct")
-		{
-			if (CountOfParams != 2)
+			if (commandName == "NinePointCenter")
 			{
-				return INVALID;
+				if (CountOfParams != 1)
+				{
+					return INVALID;
+				}
+				if (!CompareTypes(TRIANGLE, Find(GraphCommand, *it)))
+				{
+					return INVALID;
+				}
+				return NinePointCenter;//(string name, Triangle triangleName, float visibility)
 			}
-			if (!CompareTypes(LINE, Find(GraphCommand, *it)))
+			if (commandName == "ObjectCenterBoundingBox")
 			{
-				return INVALID;
+				if (CountOfParams != 1)
+				{
+					return INVALID;
+				}
+				if (!CompareTypes(OBJECT3D, Find(GraphCommand, *it)))
+				{
+					return INVALID;
+				}
+				return  ObjectCenterBoundingBox;
+				//ObjectCenterBoundingBox(string name, Object3D ObjectName, bool visible = true) //Create point on position of middle of entered object
 			}
-			it++;
-			if (!CompareTypes(LINE, Find(GraphCommand, *it)))
+			if (commandName == "ObjectCenterAverage")
 			{
-				return INVALID;
+				if (CountOfParams != 1)
+				{
+					return INVALID;
+				}
+				if (!CompareTypes(OBJECT3D, Find(GraphCommand, *it)))
+				{
+					return INVALID;
+				}
+				return  ObjectCenterAverage;
+				//ObjectCenterAverage(string name, Object3D ObjectName, bool visible = true) //Create point on position of center of entered object
+
 			}
-			return  CrossProduct;
-			//CrossProduct(string lineName, Line l1, Line l2, bool visible = true)
-
-
-
-		///Surface Commands:
-
-		}
-		if (commandName == "RectangleFromLine")
-		{//1 - surface point, 2 - normal vector
-			if (CountOfParams != 4)
+			if (commandName == "LineFirstPoint")
 			{
-				return INVALID;
+				if (CountOfParams != 1)
+				{
+					return INVALID;
+				}
+				if (!CompareTypes(LINE, Find(GraphCommand, *it)))
+				{
+					return INVALID;
+				}
+				return  LineFirstPoint;
+				//LineFirstPoint(string name, Line lineName, bool visible = true)
 			}
-			if (CompareTypes(LINE, Find(GraphCommand, *it)))
+			if (commandName == "LineSecondPoint")
 			{
+				if (CountOfParams != 1)
+				{
+					return INVALID;
+				}
+				if (!CompareTypes(LINE, Find(GraphCommand, *it)))
+				{
+					return INVALID;
+				}
+				return  LineSecondPoint;
+				//LineSecondPoint(string name, Line lineName, bool visible = true)
+
+
+
+
+					///Line Commands:
+
+			}
+			if (commandName == "Line")
+			{
+				if (CountOfParams != 2)
+				{
+					return INVALID;
+				}
+				if (!CompareTypes(POINTObjectType, Find(GraphCommand, *it)))
+				{
+					return INVALID;
+				}
 				it++;
-				if (IsFloat(*it))
+				if (!CompareTypes(POINTObjectType, Find(GraphCommand, *it)))
 				{
-
-					it++;
-					if (CompareTypes(POINTObjectType, Find(GraphCommand, *it)) || CompareTypes(LINE, Find(GraphCommand, *it)))
-					{
-
-						*typeOfParams = 1;
-						if (CompareTypes(LINE, Find(GraphCommand, *it)))
-						{
-
-							*typeOfParams = 2;
-						}
-						it++;
-						if (IsFloat(*it))//type is short TODO
-						{
-							return RectangleFromLine;
-						}
-					}
+					return INVALID;
 				}
+				return  Line;//Line(string lineName, Point p1, Point p2, bool visible = true) //create line, where p1 is start point and p2 is end point
+
 			}
-			return  INVALID;
-			//RectangleFromLine(string surfaceName, Line l, float width, Point surfacePoint, short type, bool visible = true)
-			//RectangleFromLine(string surfaceName, Line l, float width, Vector3 normalVector, short type, bool visible = true)
-			//create Rectangle from Line l
-			/*type:
-				0 - width/2 to left, width/2 to right
-				1 - width to left
-				2 - width to right
-				*/
-				//if normal vector is not perpendicular to line, as normal is used normalized dot product between line and normal vector
-				//if normal vector is same direction as line normal, exception occure
-				//If surface point is not on line l, exception occure
-		}
-		if (commandName == "Circle")
-		{
-			if (CountOfParams != 3)
+			if (commandName == "LineNormalize")
 			{
-				return INVALID;
+				if (CountOfParams != 1)
+				{
+					return INVALID;
+				}
+				if (!CompareTypes(LINE, Find(GraphCommand, *it)))
+				{
+					return INVALID;
+				}
+				return  LineNormalize;//LineNormalize(string lineName, Line l, bool visible = true)
+
 			}
-			if (CompareTypes(POINTObjectType, Find(GraphCommand, *it)))
+			if (commandName == "LineChangeLengthDist")
 			{
+				if (CountOfParams != 2)
+				{
+					return INVALID;
+				}
+				if (!CompareTypes(LINE, Find(GraphCommand, *it)))
+				{
+					return INVALID;
+				}
 				it++;
-				if (IsFloat(*it))
-				{
-					it++;
-					if (CompareTypes(LINE, Find(GraphCommand, *it)))
-					{
-						*typeOfParams = 1;
-						return Circle;
-					}
+				if (!IsFloat(*it)) {
+					return INVALID;
 				}
-				else if (CompareTypes(POINTObjectType, Find(GraphCommand, *it)))
-				{
-					it++;
-					if (CompareTypes(POINTObjectType, Find(GraphCommand, *it)))
-					{
-						*typeOfParams = 2;
-						return Circle;
-					}
-				}
+				return  LineChangeLengthDist;//LineChangeLengthDist(string lineName, Line l, float distance, bool visible = true)
 			}
-			//1 - radius + line normal
-			//2 - 3 points
-			return INVALID;
-			//Circle(string surfaceName, Point center, float radius, Line lineNormal, bool visible = true)
-			//Circle(string surfaceName, Point center, Point outlinePoint, Point planePoint, bool visible = true)
-
-		}
-		if (commandName == "Triangle")
-		{
-			if (CountOfParams == 3)
+			if (commandName == "LineChangeLengthPerc")
 			{
+				if (CountOfParams != 2)
+				{
+					return INVALID;
+				}
+				if (!CompareTypes(LINE, Find(GraphCommand, *it)))
+				{
+					return INVALID;
+				}
+				it++;
+				if (!IsFloat(*it)) {
+					return INVALID;
+				}
+				return  LineChangeLengthPerc;//LineChangeLengthPerc(string lineName, Line l, float percent, bool visible = true) //percent = (0;100>
+
+
+
+					// these commands are based on page http://paulbourke.net/geometry/pointlineplane/
+			}
+			if (commandName == "MinLineBetweenLineAndLine")
+			{
+				if (CountOfParams != 2)
+				{
+					return INVALID;
+				}
+				if (!CompareTypes(LINE, Find(GraphCommand, *it)))
+				{
+					return INVALID;
+				}
+				it++;
+				if (!CompareTypes(LINE, Find(GraphCommand, *it))) {
+					return INVALID;
+				}
+				return  MinLineBetweenLineAndLine;//MinLineBetweenLineAndLine(string lineName, Line l1, Line l2, bool visible = true)
+			}
+			if (commandName == "MinLineBetweenPointAndLine")
+			{
+				if (CountOfParams != 2)
+				{
+					return INVALID;
+				}
+				if (!CompareTypes(POINTObjectType, Find(GraphCommand, *it)))
+				{
+					return INVALID;
+				}
+				it++;
+				if (!CompareTypes(LINE, Find(GraphCommand, *it))) {
+					return INVALID;
+				}
+				return  MinLineBetweenPointAndLine;//MinLineBetweenPointAndLine(string lineName, Point p, Line l, bool visible = true)
+			}
+			if (commandName == "MinLineBetweenPointAndSurface")
+			{
+				if (CountOfParams != 2)
+				{
+					return INVALID;
+				}
+				if (!CompareTypes(POINTObjectType, Find(GraphCommand, *it)))
+				{
+					return INVALID;
+				}
+				it++;
+				if (!CompareTypes(SURFACE, Find(GraphCommand, *it))) {
+					return INVALID;
+				}
+				return  MinLineBetweenPointAndSurface;//MinLineBetweenPointAndSurface(string lineName, Point p, Surface s, bool visible = true)
+
+					///Alternative:
+			}
+			if (commandName == "MinLine")
+			{
+				if (CountOfParams != 2)
+				{
+					return INVALID;
+				}
 				if (CompareTypes(POINTObjectType, Find(GraphCommand, *it)))
 				{
 					it++;
-					if (CompareTypes(POINTObjectType, Find(GraphCommand, *it)))
+					if (CompareTypes(LINE, Find(GraphCommand, *it))) {
+						*typeOfParams = 1;
+						return MinLine;
+					}
+					if (CompareTypes(SURFACE, Find(GraphCommand, *it)))
+					{
+						*typeOfParams = 2;
+						return MinLine;
+
+					}
+				}
+				else
+				{
+					if (CompareTypes(LINE, Find(GraphCommand, *it))) {
+
+						it++;
+						if (CompareTypes(LINE, Find(GraphCommand, *it))) {
+							*typeOfParams = 3;
+							return MinLine;
+						}
+					}
+				}
+
+				return  INVALID;//MinLine(string lineName, Object o1, Object o2, bool visible = true) //Supported are only : [Line,Line], [Point,Line], [Point, Surface]
+
+
+
+			}
+			if (commandName == "SurfaceNormal")
+			{
+				if (CountOfParams != 1)
+				{
+					return INVALID;
+				}
+				if (!CompareTypes(SURFACE, Find(GraphCommand, *it)))
+				{
+					return INVALID;
+				}
+				return  SurfaceNormal;//SurfaceNormal(string lineName, Surface s, bool visible = true) // return normal vector of surface
+
+
+
+			}
+			if (commandName == "LineRelocationByPoint")
+			{
+				if (CountOfParams != 2)
+				{
+					return INVALID;
+				}
+				if (!CompareTypes(LINE, Find(GraphCommand, *it)))
+				{
+					return INVALID;
+				}
+				it++;
+				if (!CompareTypes(POINTObjectType, Find(GraphCommand, *it)))
+				{
+					return INVALID;
+				}
+				return  LineRelocationByPoint;//LineRelocationByPoint(string lineName, Line l, Point p, bool visible = true)
+
+			}
+			/*if (commandName == "OrthogonalLeastSquares")
+			{
+				return  OrthogonalLeastSquares;//OrthogonalLeastSquares(string lineName, Point p1, Point p2, Point p3, ..., bool visible = true) //min 3
+
+			}*/
+			if (commandName == "CrossProduct")
+			{
+				if (CountOfParams != 2)
+				{
+					return INVALID;
+				}
+				if (!CompareTypes(LINE, Find(GraphCommand, *it)))
+				{
+					return INVALID;
+				}
+				it++;
+				if (!CompareTypes(LINE, Find(GraphCommand, *it)))
+				{
+					return INVALID;
+				}
+				return  CrossProduct;
+				//CrossProduct(string lineName, Line l1, Line l2, bool visible = true)
+
+
+
+			///Surface Commands:
+
+			}
+			if (commandName == "RectangleFromLine")
+			{//1 - surface point, 2 - normal vector
+				if (CountOfParams != 4)
+				{
+					return INVALID;
+				}
+				if (CompareTypes(LINE, Find(GraphCommand, *it)))
+				{
+					it++;
+					if (IsFloat(*it))
+					{
+
+						it++;
+						if (CompareTypes(POINTObjectType, Find(GraphCommand, *it)) || CompareTypes(LINE, Find(GraphCommand, *it)))
+						{
+
+							*typeOfParams = 1;
+							if (CompareTypes(LINE, Find(GraphCommand, *it)))
+							{
+
+								*typeOfParams = 2;
+							}
+							it++;
+							if (IsFloat(*it))//type is short TODO
+							{
+								return RectangleFromLine;
+							}
+						}
+					}
+				}
+				return  INVALID;
+				//RectangleFromLine(string surfaceName, Line l, float width, Point surfacePoint, short type, bool visible = true)
+				//RectangleFromLine(string surfaceName, Line l, float width, Vector3 normalVector, short type, bool visible = true)
+				//create Rectangle from Line l
+				/*type:
+					0 - width/2 to left, width/2 to right
+					1 - width to left
+					2 - width to right
+					*/
+					//if normal vector is not perpendicular to line, as normal is used normalized dot product between line and normal vector
+					//if normal vector is same direction as line normal, exception occure
+					//If surface point is not on line l, exception occure
+			}
+			if (commandName == "Circle")
+			{
+				if (CountOfParams != 3)
+				{
+					return INVALID;
+				}
+				if (CompareTypes(POINTObjectType, Find(GraphCommand, *it)))
+				{
+					it++;
+					if (IsFloat(*it))
+					{
+						it++;
+						if (CompareTypes(LINE, Find(GraphCommand, *it)))
+						{
+							*typeOfParams = 1;
+							return Circle;
+						}
+					}
+					else if (CompareTypes(POINTObjectType, Find(GraphCommand, *it)))
 					{
 						it++;
 						if (CompareTypes(POINTObjectType, Find(GraphCommand, *it)))
 						{
 							*typeOfParams = 2;
+							return Circle;
+						}
+					}
+				}
+				//1 - radius + line normal
+				//2 - 3 points
+				return INVALID;
+				//Circle(string surfaceName, Point center, float radius, Line lineNormal, bool visible = true)
+				//Circle(string surfaceName, Point center, Point outlinePoint, Point planePoint, bool visible = true)
+
+			}
+			if (commandName == "Triangle")
+			{
+				if (CountOfParams == 3)
+				{
+					if (CompareTypes(POINTObjectType, Find(GraphCommand, *it)))
+					{
+						it++;
+						if (CompareTypes(POINTObjectType, Find(GraphCommand, *it)))
+						{
+							it++;
+							if (CompareTypes(POINTObjectType, Find(GraphCommand, *it)))
+							{
+								*typeOfParams = 2;
+								return Triangle;
+							}
+						}
+					}
+				}
+				if (CountOfParams == 2)
+				{
+					if (CompareTypes(LINE, Find(GraphCommand, *it)))
+					{
+						it++;
+						if (CompareTypes(POINTObjectType, Find(GraphCommand, *it)))
+						{
+							*typeOfParams = 1;
 							return Triangle;
 						}
 					}
 				}
+				//1 - Line + point
+				//2 - 3 Points
+				return  INVALID;
+				//Triangle(string surfaceName, Line l, Point p, bool visible = true)
+				//Triangle(string surfaceName, Point p1, Point p2, Point p3, bool visible = true)
+
+					//rectangle
 			}
-			if (CountOfParams == 2)
+			if (commandName == "Rectangle")
 			{
-				if (CompareTypes(LINE, Find(GraphCommand, *it)))
+				if (CountOfParams != 5)
 				{
-					it++;
-					if (CompareTypes(POINTObjectType, Find(GraphCommand, *it)))
-					{
-						*typeOfParams = 1;
-						return Triangle;
-					}
+					return INVALID;
 				}
-			}
-			//1 - Line + point
-			//2 - 3 Points
-			return  INVALID;
-			//Triangle(string surfaceName, Line l, Point p, bool visible = true)
-			//Triangle(string surfaceName, Point p1, Point p2, Point p3, bool visible = true)
 
-				//rectangle
-		}
-		if (commandName == "Rectangle")
-		{
-			if (CountOfParams != 5)
-			{
-				return INVALID;
-			}
-
-			if (!CompareTypes(POINTObjectType, Find(GraphCommand, *it)))//center
-			{
-				return INVALID;
-			}
-			it++;
-			if (!IsFloat(*it))//X
-			{
-				return INVALID;
-			}
-			it++;
-			if (!IsFloat(*it))//Y
-			{
-				return INVALID;
-			}
-			it++;
-			if (!IsFloat(*it))//roll
-			{
-				return INVALID;
-			}
-			it++;
-			if (!CompareTypes(LINE, Find(GraphCommand, *it)))//normal
-			{
-				return INVALID;
-			}
-			return  Rectangle;
-			//Rectangle(string surfaceName, Point center, float X, float Y, float Roll/*[0,360]*/, Line normal, bool visible = true)
-
-		}
-		if (commandName == "Polygon")
-		{
-			for (size_t i = 0; i < CountOfParams; i++)
-			{
-				if (!CompareTypes(POINTObjectType, Find(GraphCommand, *it)))//normal
+				if (!CompareTypes(POINTObjectType, Find(GraphCommand, *it)))//center
 				{
 					return INVALID;
 				}
 				it++;
-			}
-			return  Polygon;
-			//Polygon(string surfaceName, Point p1, Point p2, Point p3, ..., bool visible = true)//minimum 3 points 
-
-
-		}
-		if (commandName == "Circumscribed")
-		{
-			if (CountOfParams != 1)
-			{
-				return INVALID;
-			}
-
-			if (!CompareTypes(TRIANGLE, Find(GraphCommand, *it)))//center
-			{
-				return INVALID;
-			}
-			return  Circumscribed;
-			//Circumscribed(string surfaceName, Triangle t, bool visible = true) //Create circle over triangle
-		}
-		if (commandName == "Inscribed")
-		{
-			if (CountOfParams != 1)
-			{
-				return INVALID;
-			}
-
-			if (!CompareTypes(TRIANGLE, Find(GraphCommand, *it)))//center
-			{
-				return INVALID;
-			}
-			return  Inscribed;
-			//Inscribed(string surfaceName, Triangle t, bool visible = true)		//Create circle in triangle
-
-			///Objects Commands:
-
-		}
-		if (commandName == "Pyramid")
-		{
-			if (CountOfParams != 2)
-			{
-				return INVALID;
-			}
-
-			if (CompareTypes(SURFACE, Find(GraphCommand, *it)))//center
-			{
+				if (!IsFloat(*it))//X
+				{
+					return INVALID;
+				}
 				it++;
-				if (IsFloat(*it))//center
+				if (!IsFloat(*it))//Y
 				{
-					*typeOfParams = 1;
-					return Pyramid;
+					return INVALID;
 				}
-				if (CompareTypes(POINTObjectType, Find(GraphCommand, *it)))
+				it++;
+				if (!IsFloat(*it))//roll
 				{
-					*typeOfParams = 2;
-					return Pyramid;
+					return INVALID;
+				}
+				it++;
+				if (!CompareTypes(LINE, Find(GraphCommand, *it)))//normal
+				{
+					return INVALID;
+				}
+				return  Rectangle;
+				//Rectangle(string surfaceName, Point center, float X, float Y, float Roll/*[0,360]*/, Line normal, bool visible = true)
+
+			}
+			if (commandName == "Polygon")
+			{
+				for (size_t i = 0; i < CountOfParams; i++)
+				{
+					if (!CompareTypes(POINTObjectType, Find(GraphCommand, *it)))//normal
+					{
+						return INVALID;
+					}
+					it++;
+				}
+				return  Polygon;
+				//Polygon(string surfaceName, Point p1, Point p2, Point p3, ..., bool visible = true)//minimum 3 points 
+
+
+			}
+			if (commandName == "Circumscribed")
+			{
+				if (CountOfParams != 1)
+				{
+					return INVALID;
 				}
 
+				if (!CompareTypes(TRIANGLE, Find(GraphCommand, *it)))//center
+				{
+					return INVALID;
+				}
+				return  Circumscribed;
+				//Circumscribed(string surfaceName, Triangle t, bool visible = true) //Create circle over triangle
 			}
-			//1 - distance
-			//2 - point
-			return  INVALID;
-			//Pyramid(string objectName, Surface s, float distance, bool visible = true) //Create Pyramid by distance from center
-			//Pyramid(string objectName, Surface s, Point p, bool visible = true) //Create Pyramid by Point
+			if (commandName == "Inscribed")
+			{
+				if (CountOfParams != 1)
+				{
+					return INVALID;
+				}
 
+				if (!CompareTypes(TRIANGLE, Find(GraphCommand, *it)))//center
+				{
+					return INVALID;
+				}
+				return  Inscribed;
+				//Inscribed(string surfaceName, Triangle t, bool visible = true)		//Create circle in triangle
+
+				///Objects Commands:
+
+			}
+			if (commandName == "Pyramid")
+			{
+				if (CountOfParams != 2)
+				{
+					return INVALID;
+				}
+
+				if (CompareTypes(SURFACE, Find(GraphCommand, *it)))//center
+				{
+					it++;
+					if (IsFloat(*it))//center
+					{
+						*typeOfParams = 1;
+						return Pyramid;
+					}
+					if (CompareTypes(POINTObjectType, Find(GraphCommand, *it)))
+					{
+						*typeOfParams = 2;
+						return Pyramid;
+					}
+
+				}
+				//1 - distance
+				//2 - point
+				return  INVALID;
+				//Pyramid(string objectName, Surface s, float distance, bool visible = true) //Create Pyramid by distance from center
+				//Pyramid(string objectName, Surface s, Point p, bool visible = true) //Create Pyramid by Point
+
+			}
+			if (commandName == "Extrude")
+			{
+				if (CountOfParams != 2)
+				{
+					return INVALID;
+				}
+
+				if (!CompareTypes(SURFACE, Find(GraphCommand, *it)))//center
+				{
+					return INVALID;
+				}
+				it++;
+				if (!IsFloat(*it))//center
+				{
+					return INVALID;
+				}
+				return  Extrude;
+				//Extrude(string objectName, Surface s, float distance, bool visible = true) //add width to 
+
+			}
+			//if (commandName == "SpericalCurvedSurface")
+			//{
+			//	if (CountOfParams != 2)
+			//	{
+			//		return INVALID;
+			//	}
+
+			//	if (!CompareTypes(SURFACE, Find(GraphCommand, *it)))//center
+			//	{
+			//		return INVALID;
+			//	}
+			//	it++;
+			//	if (!IsFloat(*it))//center
+			//	{
+			//		return INVALID;
+			//	}
+			//	return  SpericalCurvedSurface;
+				//SpericalCurvedSurface(string objectName, Surface s, float distance, bool visible = true)
+
+
+			//}
+			//if (commandName == "Cylinder")
+			//{
+			//	if (CountOfParams != 2)
+			//	{
+			//		return INVALID;
+			//	}
+
+			//	if (!CompareTypes(LINE, Find(GraphCommand, *it)))//center
+			//	{
+			//		return INVALID;
+			//	}
+			//	it++;
+			//	if (!IsFloat(*it))//center
+			//	{
+			//		return INVALID;
+			//	}
+			//	return  Cylinder;
+			//	//Cylinder(string objectName, Line l, float radius, bool visible = true)
+
+			//}
+			return INVALID;
 		}
-		if (commandName == "Extrude")
-		{
-			if (CountOfParams != 2)
-			{
-				return INVALID;
-			}
 
-			if (!CompareTypes(SURFACE, Find(GraphCommand, *it)))//center
-			{
-				return INVALID;
-			}
-			it++;
-			if (!IsFloat(*it))//center
-			{
-				return INVALID;
-			}
-			return  Extrude;
-			//Extrude(string objectName, Surface s, float distance, bool visible = true) //add width to 
-
-		}
-		//if (commandName == "SpericalCurvedSurface")
-		//{
-		//	if (CountOfParams != 2)
-		//	{
-		//		return INVALID;
-		//	}
-
-		//	if (!CompareTypes(SURFACE, Find(GraphCommand, *it)))//center
-		//	{
-		//		return INVALID;
-		//	}
-		//	it++;
-		//	if (!IsFloat(*it))//center
-		//	{
-		//		return INVALID;
-		//	}
-		//	return  SpericalCurvedSurface;
-			//SpericalCurvedSurface(string objectName, Surface s, float distance, bool visible = true)
-
-
-		//}
-		//if (commandName == "Cylinder")
-		//{
-		//	if (CountOfParams != 2)
-		//	{
-		//		return INVALID;
-		//	}
-
-		//	if (!CompareTypes(LINE, Find(GraphCommand, *it)))//center
-		//	{
-		//		return INVALID;
-		//	}
-		//	it++;
-		//	if (!IsFloat(*it))//center
-		//	{
-		//		return INVALID;
-		//	}
-		//	return  Cylinder;
-		//	//Cylinder(string objectName, Line l, float radius, bool visible = true)
-
-		//}
-		return INVALID;
-	}
-
+#endif // DEPRECATED
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
-	inline ObjectTypeEnum findTypeOfOperation(operationType::OperationTypeEnum operationType) {
+	inline Object::ObjectTypeEnum findTypeOfOperation(operationType::OperationTypeEnum operationType) {
 		/*POINT,
 		LINE,
 		SURFACE,
@@ -1008,7 +1014,7 @@ namespace operationType {
 		case Circumcenter:
 		case Orthocenter:
 		case NinePointCenter:
-			return POINTObjectType;
+			return Object::POINTObjectType;
 			///Line Commands:
 		case Line:
 		case LineNormalize:
@@ -1023,41 +1029,43 @@ namespace operationType {
 			//case OrthogonalLeastSquares:
 		case CrossProduct:
 		//case CrossProductLP:
-			return LINE;
+			return Object::LINE;
 			///Surface Commands:
 
 
 		case RectangleFromLine:
 		case Circle:
-			return CIRCLE;
+			return Object::CIRCLE;
 		case Triangle:
-			return TRIANGLE;
+			return Object::TRIANGLE;
 		case Rectangle:
-			return  RECTANGLE;
+			return  Object::RECTANGLE;
 		case Polygon:
-			return POLYGON;
+			return Object::POLYGON;
 		case Circumscribed:
-			return CIRCLE;
+			return Object::CIRCLE;
 		case Inscribed:
-			return CIRCLE;
-			break;
+			return Object::CIRCLE;
 
 			///Objects Commands:
 
 
-			break;
 		case Pyramid:
-			return PYRAMID;
-			break;
+			return Object::PYRAMID;
 		case Extrude:
-			return OBJECT3D;
-			break;
+			return Object::OBJECT3D;
 		//case SpericalCurvedSurface:
 		//	return OBJECT3D;
 		//case Cylinder:
 		//	return OBJECT3D;
+		case Sphere:
+			return Object::SPHERE;
+		case BooleanUnion:
+		case BooleanIntersection:
+		case BooleanNOT:
+			return Object::OBJECT3D;
 		default://INVALID
-			return POINTObjectType;
+			return Object::INVALIDObjectType;
 		}
 	}
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1998,13 +2006,13 @@ namespace operationType {
 			params1->push_back(ParameterTypeLINE);
 			params1->push_back(ParameterTypePOINT);
 
-			(*paramVectors)->push_back(params1);
 			std::vector<ParameterTypesEnum>* params2 = new std::vector<ParameterTypesEnum>();
 			params2->push_back(ParameterTypePOINT);
 			params2->push_back(ParameterTypePOINT);
 			params2->push_back(ParameterTypePOINT);
 
 			(*paramVectors)->push_back(params2);
+			(*paramVectors)->push_back(params1);
 			if (info)
 			{
 				std::vector<std::string> *paramInfo1 = new std::vector<std::string>();
@@ -2017,8 +2025,8 @@ namespace operationType {
 				paramInfo2->push_back("Second point");
 				paramInfo2->push_back("Third point");
 
-				(*paramVectorsInfo)->push_back(paramInfo1);
 				(*paramVectorsInfo)->push_back(paramInfo2);
+				(*paramVectorsInfo)->push_back(paramInfo1);
 			}
 			return Triangle;
 			//1 - Line + point
@@ -2304,6 +2312,94 @@ namespace operationType {
 		//	//Cylinder(string objectName, Line l, float radius, bool visible = true)
 
 		//}
+		if (commandName == "Sphere")
+		{
+			std::vector<ParameterTypesEnum>* params1 = new std::vector<ParameterTypesEnum>();
+			params1->push_back(ParameterTypePOINT);
+			params1->push_back(ParameterTypeFLOAT);
+
+			(*paramVectors)->push_back(params1);
+			if (info)
+			{
+				std::vector<std::string> *paramInfo1 = new std::vector<std::string>();
+				paramInfo1->push_back("Sphere");
+				paramInfo1->push_back("Center");
+				paramInfo1->push_back("Radius");
+
+				(*paramVectorsInfo)->push_back(paramInfo1);
+			}
+			return  Sphere;
+			//Sphere(string objectName, Point p, float radius, bool visible = true)
+
+		}
+		if (commandName == "BooleanUnion")
+		{
+			std::vector<ParameterTypesEnum>* params1 = new std::vector<ParameterTypesEnum>();
+			params1->push_back(ParameterTypeOBJECT3D);
+			params1->push_back(ParameterTypeOBJECT3D);
+
+			(*paramVectors)->push_back(params1);
+			if (info)
+			{
+				std::vector<std::string> *paramInfo1 = new std::vector<std::string>();
+				paramInfo1->push_back("Union objects");
+				paramInfo1->push_back("Object to be merged");
+				paramInfo1->push_back("Object to be merged");
+
+				(*paramVectorsInfo)->push_back(paramInfo1);
+			}
+			return  BooleanUnion;
+			//BooleanUnion(string objectName, object3D o1, object3D o2, bool visible = true)
+
+		}
+		if (commandName == "BooleanIntersection")
+		{
+			std::vector<ParameterTypesEnum>* params1 = new std::vector<ParameterTypesEnum>();
+			params1->push_back(ParameterTypeOBJECT3D);
+			params1->push_back(ParameterTypeOBJECT3D);
+
+			(*paramVectors)->push_back(params1);
+			if (info)
+			{
+				std::vector<std::string> *paramInfo1 = new std::vector<std::string>();
+				paramInfo1->push_back("Intersection between objects");
+				paramInfo1->push_back("Intersecting object");
+				paramInfo1->push_back("Intersecting object");
+
+				(*paramVectorsInfo)->push_back(paramInfo1);
+			}
+			return  BooleanIntersection;
+			//BooleanIntersection(string objectName, object3D o1, object3D o2, bool visible = true)
+
+		}
+		if (commandName == "BooleanNOT")
+		{
+			std::vector<ParameterTypesEnum>* params1 = new std::vector<ParameterTypesEnum>();
+			params1->push_back(ParameterTypeOBJECT3D);
+			params1->push_back(ParameterTypeOBJECT3D);
+
+			(*paramVectors)->push_back(params1);
+			if (info)
+			{
+				std::vector<std::string> *paramInfo1 = new std::vector<std::string>();
+				paramInfo1->push_back("First object minus second object");
+				paramInfo1->push_back("Object to be cutted");
+				paramInfo1->push_back("Minus object");
+
+				(*paramVectorsInfo)->push_back(paramInfo1);
+			}
+			return  BooleanNOT;
+			//BooleanNOT(string objectName, object3D o1, object3D o2, bool visible = true)
+
+		}
+			
+			
+			
+
+
+
+
+
 		return INVALID;
 	}
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -2404,6 +2500,14 @@ namespace operationType {
 			return "SpericalCurvedSurface";
 		case Cylinder:
 			return "Cylinder";*/
+		case Sphere:
+			return "Sphere";
+		case BooleanUnion:
+			return "BooleanUnion";
+		case BooleanIntersection:
+			return "BooleanIntersection";
+		case BooleanNOT:
+			return "BooleanNOT";
 		default://INVALID
 			return "INVALID";
 		}
@@ -2436,6 +2540,63 @@ namespace operationType {
 		};
 		return "";
 	}
+
+	inline void ClearParamVectors(std::vector <
+		std::vector<
+		operationType::ParameterTypesEnum
+		>*
+	>** paramVectors) {
+		for (size_t i = 0; i < (*paramVectors)->size(); i++)
+		{
+			delete (*paramVectors)->at(i);
+		}
+		delete (*paramVectors);
+	}
+
+	inline OperationTypeEnum GetOperation(std::string commandName,size_t *paramIndex, std::vector <Command*> *GraphCommand, std::vector <std::string> *CommandParameterVector) {
+		size_t parameterCount= CommandParameterVector->size();
+		std::vector <
+			std::vector<
+			ParameterTypesEnum
+			>*
+		>* paramVectors;
+		OperationTypeEnum ret = GetOperationParameters(commandName, &paramVectors);
+
+		
+		bool found = false;
+		for (size_t i = 0; i < paramVectors->size(); i++)
+		{
+			 found = false;
+			if (parameterCount != paramVectors->at(i)->size())
+			{
+				continue;
+			}
+			found = true;
+			for (size_t j = 0; j < parameterCount; j++)
+			{
+				if (!TestValidParameterType(paramVectors->at(i)->at(j),CommandParameterVector->at(j),GraphCommand))
+				{
+					found = false;
+				}
+			}
+			if (found)
+			{
+				*paramIndex = i+1;
+				break;
+			}
+		}
+		ClearParamVectors(&paramVectors);
+		if (found)
+		{
+			return ret;
+		}
+		else
+		{
+			return operationType::INVALID;
+		}
+	}
+
+
 }
 
 #endif // !OPERATIONTYPES_HEADER

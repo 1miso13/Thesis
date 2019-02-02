@@ -194,8 +194,8 @@
     <ClCompile Include="TreeBuilder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Test.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="GeometricObject.cpp">
+      <Filter>Source Files\Geometry\Objects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
