@@ -37,7 +37,7 @@ void RefTableWidget::RefillRefTable(ParametricModel *paramModel)
 
 			if (paramModel->GraphCommand.at(j)->name == paramRefVec->at(i).ObjectName)
 			{
-				value = paramModel->GraphCommand.at(j)->CommandParameterVector->at(paramRefVec->at(i).paramindex);
+				value = paramModel->GraphCommand.at(j)->OperationParametersVec->at(paramRefVec->at(i).paramindex);
 				break;
 			}
 		}

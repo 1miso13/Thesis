@@ -10,11 +10,13 @@
 
 #include "ParametricModel.h"
 #include "OperationTypes.h"
+#include "OperationTypes.h"
 
 
 QtGuiApplication1::QtGuiApplication1(QWidget *parent)
 	: QMainWindow(parent)
 {
+	graph = new GVGraph("graph");
 	ui.setupUi(this);
 }
 bool IsNotEmpty(std::string s)
@@ -45,10 +47,11 @@ void ParseCommands(std::vector<std::string>* commandsVec, std::string s) {
 		(*commandsVec).push_back(s);
 	}
 }
-void CommandToQStrings(Command *c, QTreeWidgetItem* qTreeWidgetItem) {
+void QtGuiApplication1::CommandToQStrings(Operation *c, QTreeWidgetItem* qTreeWidgetItem) {
 	// 0 - Operation Name
 	qTreeWidgetItem->setText(0, QString::fromStdString(operationType::OperationToString(c->operationType)));
-	// 1 - Command Name
+	qTreeWidgetItem->setIcon(0,setObjectIcon(operationType::findTypeOfOperation(c->operationType)));
+	// 1 - Operation Name
 	qTreeWidgetItem->setText(1, QString::fromStdString(c->name));
 	// 2 - Visibility
 	qTreeWidgetItem->setText(2, QString::number(c->visibility));
@@ -65,11 +68,11 @@ void CommandToQStrings(Command *c, QTreeWidgetItem* qTreeWidgetItem) {
 	size_t typeOfParameters = c->typeOfParameters - 1;
 
 	auto l = (paramVectors)->at(typeOfParameters);
-	std::string commandParameters = ParameterToString(l->at(0)) + " " + c->CommandParameterVector->at(0);
-	for (size_t i = 1; i < c->CommandParameterVector->size(); i++)
+	std::string commandParameters = ParameterToString(l->at(0)) + " " + c->OperationParametersVec->at(0);
+	for (size_t i = 1; i < c->OperationParametersVec->size(); i++)
 	{
 		std::string parameterType = c->operationType == operationType::Polygon ? "POINT" : ParameterToString(l->at(i));
-		commandParameters = commandParameters + ",\t" + parameterType + " " + c->CommandParameterVector->at(i);
+		commandParameters = commandParameters + ",\t" + parameterType + " " + c->OperationParametersVec->at(i);
 	}
 	// 3 - Parameters
 	qTreeWidgetItem->setText(3, QString::fromStdString(commandParameters));
@@ -124,7 +127,7 @@ void QtGuiApplication1::on_actionQuit_triggered()
 
 void QtGuiApplication1::on_actionAdd_triggered()
 {//add new command
-	Command *c;
+	Operation *c;
 	Dialog dialog(&paramModel, &c, DialogWindowType::NEW, -1/*new*/, this);
 	dialog.setModal(true);
 	dialog.setWindowTitle("New command");
@@ -193,7 +196,7 @@ void QtGuiApplication1::on_actionCommand_list_triggered()
 
 }
 /// <summary>
-/// Command line color
+/// Operation line color
 /// </summary>
 /// <param name="arg1"></param>
 void QtGuiApplication1::on_lineEdit_textEdited(const QString &arg1)
@@ -231,20 +234,20 @@ void QtGuiApplication1::on_lineEdit_textEdited(const QString &arg1)
 /// </summary>
 /// <param name="cFROM"></param>
 /// <param name="cTO"></param>
-void CopyCommand(Command * cFROM, Command *& cTO) {
+void CopyCommand(Operation * cFROM, Operation *& cTO) {
 	std::vector <std::string> * commandParameterVector = new std::vector <std::string>();
-	for (size_t i = 0; i < cFROM->CommandParameterVector->size(); i++)
+	for (size_t i = 0; i < cFROM->OperationParametersVec->size(); i++)
 	{
-		std::string s = (cFROM->CommandParameterVector)->at(i);
+		std::string s = (cFROM->OperationParametersVec)->at(i);
 		commandParameterVector->push_back(s);
 	}
-	cTO = new Command(cFROM->name,cFROM->visibility,cFROM->operationType,commandParameterVector,cFROM->typeOfParameters);
+	cTO = new Operation(cFROM->name,cFROM->visibility,cFROM->operationType,commandParameterVector,cFROM->typeOfParameters);
 }
 
 /// <summary>
 /// Test command referienciesat index
 /// </summary>
-/// <param name="paramModel">Command list</param>
+/// <param name="paramModel">Operation list</param>
 /// <param name="index">item index</param>
 /// <returns>If all referencies in command are valid</returns>
 bool TestCommandSemantic(ParametricModel *paramModel, size_t index) {
@@ -260,9 +263,9 @@ bool TestCommandSemantic(ParametricModel *paramModel, size_t index) {
 	{
 		if (k->at(i) == operationType::ParameterTypeMULTIPLEPOINTS)
 		{
-			for (size_t j = 0;  j + i < paramModel->GraphCommand.at(index)->CommandParameterVector->size();  j++)
+			for (size_t j = 0;  j + i < paramModel->GraphCommand.at(index)->OperationParametersVec->size();  j++)
 			{//Last parameter can be multipoits
-				std::string parameterText = paramModel->GraphCommand.at(index)->CommandParameterVector->at(i+j);
+				std::string parameterText = paramModel->GraphCommand.at(index)->OperationParametersVec->at(i+j);
 				if (!operationType::TestValidParameterType(k->at(i), parameterText, &paramModel->GraphCommand, index))
 				{
 					return false;
@@ -271,7 +274,7 @@ bool TestCommandSemantic(ParametricModel *paramModel, size_t index) {
 		}
 		else
 		{
-			std::string parameterText = paramModel->GraphCommand.at(index)->CommandParameterVector->at(i);
+			std::string parameterText = paramModel->GraphCommand.at(index)->OperationParametersVec->at(i);
 			if (!operationType::TestValidParameterType(k->at(i), parameterText, &paramModel->GraphCommand, index))
 			{
 				return false;
@@ -304,7 +307,7 @@ void QtGuiApplication1::on_treeWidget_itemDoubleClicked(QTreeWidgetItem *item, i
 {
 	QTreeWidgetItem* currentItem = ui.treeWidget->currentItem();
 	int index = ui.treeWidget->currentIndex().row();
-	Command * c;
+	Operation * c;
 	CopyCommand(paramModel.GraphCommand[index], c);
 	Dialog dialog(&paramModel, &c, DialogWindowType::MODIFY, index, this);
 	dialog.setModal(true);
@@ -351,7 +354,7 @@ void QtGuiApplication1::on_treeWidget_itemDoubleClicked(QTreeWidgetItem *item, i
 void QtGuiApplication1::on_InsertButton_clicked()
 {
 	int index = ui.treeWidget->currentIndex().row();
-	Command *c;
+	Operation *c;
 	Dialog dialog(&paramModel, &c, DialogWindowType::INSERT, index/*insert position*/,this);
 	dialog.setModal(true);
 	dialog.setWindowTitle("Insert command");
@@ -409,6 +412,76 @@ void QtGuiApplication1::DisableButtons() {
 	ui.DeleteButton->setEnabled(false);
 }
 /// <summary>
+/// Remove whole graph and create new  
+/// </summary>
+void QtGuiApplication1::CreateGraph() {
+	graph->clearNodes();
+
+	std::vector <
+		std::vector<
+		operationType::ParameterTypesEnum
+		>*
+	>* paramVectors;
+	for (size_t i = 0; i < paramModel.GraphCommand.size(); i++)
+	{
+		Operation * o = paramModel.GraphCommand.at(i);
+		graph->addNode(QString::fromStdString(o->name));
+
+		operationType::GetOperationParameters(operationType::OperationToString(o->operationType), &paramVectors);
+		/// <summary>
+		/// for all non float parameters
+		/// </summary>
+		for (size_t j = 0; j < o->OperationParametersVec->size(); j++)
+		{
+			if (paramVectors->at(o->typeOfParameters - 1)->at(0) == operationType::ParameterTypesEnum::ParameterTypeMULTIPLEPOINTS || paramVectors->at(o->typeOfParameters-1)->at(j) != operationType::ParameterTypesEnum::ParameterTypeFLOAT)
+			{
+				//find parent object
+				std::string par = o->OperationParametersVec->at(j);
+				std::string parent = paramModel.OperationMap[par]->name;
+				//add edge from parent to this
+				graph->addEdge(QString::fromStdString(parent), QString::fromStdString(o->name), parent + "_" + o->name);
+			}
+
+		}
+		operationType::ClearParamVectors(&paramVectors);
+	}
+	graph->applyLayout();
+	graph->print();
+}
+//QtGuiApplication1::~QtGuiApplication1()
+//{
+//	//delete graph;
+//}
+QIcon QtGuiApplication1::setObjectIcon(Object::ObjectTypeEnum type) {
+	switch (type)
+	{
+	case Object::POINTObjectType:
+		return QIcon("Icons/Object icons/point.jpg");
+	case Object::LINE:
+		return QIcon("Icons/Object icons/Line.ico");
+	case Object::SURFACE:
+		return QIcon("Icons/Object icons/Invalid.png");
+	case Object::CIRCLE:
+		return QIcon("Icons/Object icons/Circle.png");
+	case Object::RECTANGLE:
+		return QIcon("Icons/Object icons/Rectangle.png");
+	case Object::POLYGON:
+		return QIcon("Icons/Object icons/Polygon.png");
+	case Object::TRIANGLE:
+		return QIcon("Icons/Object icons/Triangle.png");
+	case Object::OBJECT3D:
+		return QIcon("Icons/Object icons/point.jpg");
+	case Object::PYRAMID:
+		return QIcon("Icons/Object icons/Pyramid.png");
+	case Object::SPHERE:
+		return QIcon("Icons/Object icons/Sphere.png");
+	case Object::INVALIDObjectType:
+		return QIcon("Icons/Object icons/Invalid.png");
+	default:
+		break;
+	}
+}
+/// <summary>
 /// refresh object list
 /// </summary>
 void QtGuiApplication1::RefreshObjectList()
@@ -434,11 +507,13 @@ void QtGuiApplication1::RefreshObjectList()
 			qTreeWidgetItem->setText(0, QString::fromStdString(paramModel.Objects.at(i)->ObjectName));
 			qTreeWidgetItem->setText(1, QString::fromStdString(paramModel.Objects.at(i)->TypeToText()));
 			qTreeWidgetItem->setText(2, QString::number(paramModel.Objects.at(i)->visibility));
+			qTreeWidgetItem->setIcon(0, setObjectIcon(paramModel.Objects.at(i)->GeometricType));
 		
 			ui.treeWidget_2->repaint();
 		}
 	}
 	//
+	CreateGraph();
 }
 
 /// <summary>

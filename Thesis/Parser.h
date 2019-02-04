@@ -2,13 +2,13 @@
 #include <vector>
 #include <string>
 #include "pch.h"
-#include "Command.h"
+#include "Operation.h"
 #include <ctype.h>
 #include "OperationTypes.h"
 #include "ParamRef.h"
 class Parser
 {
-	std::vector <Command*> *GraphCommand=NULL;
+	std::vector <Operation*> *GraphCommand=NULL;
 	ParamRef *paramRef;
 	std::string removeSpace(std::string param) {
 		//remove first empty char
@@ -39,20 +39,20 @@ class Parser
 		}
 		return in;
 	}
-/*(std::string s,std::vector<std::string> *CommandParameterVector) {
+/*(std::string s,std::vector<std::string> *OperationParametersVec) {
 		size_t  pos;
 		std::string token; 
 		std::string delimiter = ",";
 		while ((pos = s.find(delimiter)) != std::string::npos) {
 			token = s.substr(0, pos);
-			CommandParameterVector->push_back(removeSpace(token));
+			OperationParametersVec->push_back(removeSpace(token));
 			s.erase(0, pos + delimiter.length());
 		}
-		CommandParameterVector->push_back(removeSpace(s));
+		OperationParametersVec->push_back(removeSpace(s));
 	}*/
 	bool TestValidObjectName(std::string objectName) {
 		//test valid name
-		std::vector<Command*>::iterator it;
+		std::vector<Operation*>::iterator it;
 		//test, if name not exist
 		for (it= (*GraphCommand).begin(); it != (*GraphCommand).end();it++)
 		{
@@ -75,7 +75,7 @@ class Parser
 		}
 		return ret;
 	}
-	bool ParseCom(std::string *sPtr, std::string *commandNamePtr, std::vector<std::string> *CommandParameterVector) {
+	bool ParseCom(std::string *sPtr, std::string *commandNamePtr, std::vector<std::string> *OperationParametersVec) {
 		size_t length=(*sPtr).length();
 
 		std::string token = "";
@@ -109,7 +109,7 @@ class Parser
 				{
 					return false;
 				}
-				CommandParameterVector->push_back(removeSpace(token));
+				OperationParametersVec->push_back(removeSpace(token));
 				token = "";
 			}
 			else
@@ -123,7 +123,7 @@ class Parser
 			return false;
 		}
 
-		CommandParameterVector->push_back(removeSpace(token));
+		OperationParametersVec->push_back(removeSpace(token));
 
 		return true;
 	}
@@ -182,11 +182,11 @@ class Parser
 	}
 public:
 	void InitParser(
-		std::vector <Command*> *GraphCommand, ParamRef *paramRef) {
+		std::vector <Operation*> *GraphCommand, ParamRef *paramRef) {
 		this->GraphCommand = GraphCommand;
 		this->paramRef = paramRef;
 	}
-	bool CreateCommand(std::string commandString,Command **cPtrPtr) {
+	bool CreateCommand(std::string commandString,Operation **cPtrPtr) {
 		std::string commandName;
 		std::string objectName;
 		*cPtrPtr = NULL;
@@ -196,10 +196,10 @@ public:
 		}
 		float visibility = 1;
 			//parse parameters
-		std::vector <std::string> *CommandParameterVector = new std::vector <std::string>();
+		std::vector <std::string> *OperationParametersVec = new std::vector <std::string>();
 
 		std::vector <paramRefStruct> refStructVec;
-		if (!ParseCommand(&commandString, &commandName, &objectName, CommandParameterVector,&visibility, &refStructVec))//test command syntax
+		if (!ParseCommand(&commandString, &commandName, &objectName, OperationParametersVec,&visibility, &refStructVec))//test command syntax
 		{
 			
 			return false;
@@ -208,12 +208,12 @@ public:
 		//test commands
 		operationType::OperationTypeEnum operationType;
 		size_t typeOfParameters=0;
-		//if ((operationType = operationType::GetOperationType(commandName, CommandParameterVector, GraphCommand ,&typeOfParameters))== operationType::INVALID)
+		//if ((operationType = operationType::GetOperationType(commandName, OperationParametersVec, GraphCommand ,&typeOfParameters))== operationType::INVALID)
 		//{
 		//	return false;
 		//}
 
-		if ((operationType = operationType::GetOperation(commandName, &typeOfParameters , GraphCommand, CommandParameterVector)) == operationType::INVALID)
+		if ((operationType = operationType::GetOperation(commandName, &typeOfParameters , GraphCommand, OperationParametersVec)) == operationType::INVALID)
 		{
 			return false;
 		}
@@ -233,15 +233,15 @@ public:
 		}
 		
 			//add parameter list to command parameter vector
-		*cPtrPtr = new Command(objectName, visibility,operationType,CommandParameterVector,typeOfParameters);
+		*cPtrPtr = new Operation(objectName, visibility,operationType,OperationParametersVec,typeOfParameters);
 
 		return true;
 	}
-	std::vector <Command> * Parse(std::string inputString) {//TODO multiple commands
-		std::vector <Command*> *commandsVector = new std::vector<Command*>();
+	std::vector <Operation> * Parse(std::string inputString) {//TODO multiple commands
+		std::vector <Operation*> *commandsVector = new std::vector<Operation*>();
 		//get command;
 		std::string s;
-		Command *c;
+		Operation *c;
 		if (CreateCommand(s,&c)) {
 			commandsVector->push_back(c);
 		}

@@ -2,7 +2,7 @@
 #include "GeneratedFiles/ui_dialog.h"
 #include "Header.h"
 
-Dialog::Dialog(ParametricModel *paramModel, Command ** c, DialogWindowType DialogType, int index, QWidget *parent) :
+Dialog::Dialog(ParametricModel *paramModel, Operation ** c, DialogWindowType DialogType, int index, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::Dialog)
 {
@@ -35,14 +35,17 @@ Dialog::Dialog(ParametricModel *paramModel, Command ** c, DialogWindowType Dialo
 	}
 	else
 	{
-		//new Command
+		//new Operation
 	}
 	//ui->tableWidget->setItem(0, 1, new QTableWidgetItem("dvddfvdvsd"));
 }
 
 Dialog::~Dialog()
 {
-	operationType::ClearParamVectors(&paramVectors);
+	if (ui->okButton->isEnabled())
+	{
+		operationType::ClearParamVectors(&paramVectors);
+	}
     delete ui;
 }
 
@@ -86,6 +89,36 @@ void Dialog::FillCommandList()
 		qTreeWidgetItemRoot->setText(1, QString::fromStdString(CommandsVec.at(i).operationName));
 		qTreeWidgetItemRoot->setText(2, QString::fromStdString(CommandsVec.at(i).parameterList));
 		qTreeWidgetItemRoot->setText(3, QString::fromStdString(CommandsVec.at(i).Info));
+		qTreeWidgetItemRoot->setIcon(0, setObjectIcon(operationType::findTypeOfOperation(operationType::GetOperationParameters(CommandsVec.at(i).operationName))));
+	}
+}
+QIcon Dialog::setObjectIcon(Object::ObjectTypeEnum type) {
+	switch (type)
+	{
+	case Object::POINTObjectType:
+		return QIcon("Icons/Object icons/point.jpg");
+	case Object::LINE:
+		return QIcon("Icons/Object icons/Line.ico");
+	case Object::SURFACE:
+		return QIcon("Icons/Object icons/Invalid.png");
+	case Object::CIRCLE:
+		return QIcon("Icons/Object icons/Circle.png");
+	case Object::RECTANGLE:
+		return QIcon("Icons/Object icons/Rectangle.png");
+	case Object::POLYGON:
+		return QIcon("Icons/Object icons/Polygon.png");
+	case Object::TRIANGLE:
+		return QIcon("Icons/Object icons/Triangle.png");
+	case Object::OBJECT3D:
+		return QIcon("Icons/Object icons/point.jpg");
+	case Object::PYRAMID:
+		return QIcon("Icons/Object icons/Pyramid.png");
+	case Object::SPHERE:
+		return QIcon("Icons/Object icons/Sphere.png");
+	case Object::INVALIDObjectType:
+		return QIcon("Icons/Object icons/Invalid.png");
+	default:
+		break;
 	}
 }
 /// <summary>
@@ -186,15 +219,15 @@ void Dialog::on_treeWidget_itemSelectionChanged()
 		if (modif)
 		{
 			//add existing value
-			paramValueStr = paramModel->GraphCommand.at(index)->CommandParameterVector->at(i);
+			paramValueStr = paramModel->GraphCommand.at(index)->OperationParametersVec->at(i);
 			if (sasa->at(i) ==operationType::ParameterTypesEnum::ParameterTypeMULTIPLEPOINTS)
 			{
 				/// <summary>
 				/// all parameters are merged to this param, delimited with ';'
 				/// </summary>
-				for (size_t j = i+1; j < paramModel->GraphCommand.at(index)->CommandParameterVector->size(); j++)
+				for (size_t j = i+1; j < paramModel->GraphCommand.at(index)->OperationParametersVec->size(); j++)
 				{
-					paramValueStr += ";" + paramModel->GraphCommand.at(index)->CommandParameterVector->at(j);
+					paramValueStr += ";" + paramModel->GraphCommand.at(index)->OperationParametersVec->at(j);
 				}
 			}
 		}
@@ -379,7 +412,7 @@ void Dialog::on_okButton_clicked()
 		}
 	}
 
-	*c = new Command(objectName, std::stof(visibilityValue),(operationType::OperationTypeEnum)cStruct.operationID,commandParamVec,cStruct.ParameterID+1);
+	*c = new Operation(objectName, std::stof(visibilityValue),(operationType::OperationTypeEnum)cStruct.operationID,commandParamVec,cStruct.ParameterID+1);
 
 	//clean
 	Clean();

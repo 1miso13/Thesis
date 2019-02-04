@@ -6,7 +6,7 @@ const qreal GVGraph::DotDefaultDPI = 72.0;
 
 GVGraph::GVGraph(QString name, QFont font, qreal node_size) :
 	_context(gvContext()),
-	_graph(_agopen(name, Agstrictdirected)) // Strict directed graph, see libgraph doc
+	_graph(this->_agopen(name, Agstrictdirected)) // Strict directed graph, see libgraph doc
 {
 	//Set graph attributes
 	_agset(_graph, "overlap", "prism");
@@ -22,7 +22,7 @@ GVGraph::GVGraph(QString name, QFont font, qreal node_size) :
 
 	//Divide the wanted width by the DPI to get the value in points
 	QString nodePtsWidth("%1");
-	nodePtsWidth.arg(node_size / _agget(_graph, "dpi", "96,0").toDouble());
+	 nodePtsWidth = nodePtsWidth.arg(node_size / _agget(_graph, "dpi", "96,0").toDouble());
 	//GV uses , instead of . for the separator in floats
 	_agnodeattr(_graph, "width", nodePtsWidth.replace('.', ","));
 
@@ -112,7 +112,15 @@ void GVGraph::setFont(QFont font)
 void GVGraph::applyLayout()
 {
 	gvFreeLayout(_context, _graph);
-	_gvLayout(_context, _graph, "dot");
+	gvLayout(_context, _graph, "dot");
+}
+
+void GVGraph::print()
+{
+	//gvLayout(_context, _graph, "dot"); gvRender(_context, _graph, "dot", NULL); gvFreeLayout(_context, _graph); gvLayout(_context, _graph, "nop"); gvRender(_context, _graph, "png", stdout);
+	FILE * file = fopen("out.png", "wb");
+	gvRender(_context, _graph, "png", file );
+	fclose(file);
 }
 
 

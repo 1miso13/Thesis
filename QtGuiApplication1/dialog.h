@@ -26,7 +26,7 @@ class Dialog : public QDialog
     Q_OBJECT
 
 public:
-	explicit Dialog(ParametricModel *paramModel, Command ** c, DialogWindowType DialogType, int  index = -1, QWidget *parent = nullptr);
+	explicit Dialog(ParametricModel *paramModel, Operation ** c, DialogWindowType DialogType, int  index = -1, QWidget *parent = nullptr);
 //	explicit Dialog(QWidget *parent = nullptr);
     ~Dialog();
 
@@ -52,11 +52,12 @@ private:
 	>* paramVectors;
 	long index=-1;
 	ParametricModel *paramModel=NULL;
-	Command ** c;
+	Operation ** c;
 
 	std::vector<CommandStruct> CommandsVec;
 	void Clean();
 	DialogWindowType DialogType;
+	QIcon setObjectIcon(Object::ObjectTypeEnum type);
 };
 
 #endif // DIALOG_H

@@ -1,7 +1,7 @@
 #pragma once
 #include "OperationTypeEnum.h"
 #include <vector>
-class Command
+class Operation
 {
 	/*
 	POINT,
@@ -14,23 +14,25 @@ class Command
 	PYRAMID*/
 
 public:
-	std::vector <std::string> *CommandParameterVector=NULL;
+	std::vector <Operation*> * childs;
+	std::vector <std::string> *OperationParametersVec=NULL;
 	operationType::OperationTypeEnum operationType;
 	float visibility = true;
 	std::string name; 
 	size_t typeOfParameters;
 	//Enter only VALID command
-	Command(std::string name,float visibility, operationType::OperationTypeEnum operationType,
-		std::vector <std::string> *CommandParameterVector,
+	Operation(std::string name,float visibility, operationType::OperationTypeEnum operationType,
+		std::vector <std::string> *OperationParametersVec,
 		size_t typeOfParameters) {
-		this->CommandParameterVector = CommandParameterVector;
+		this->childs = new std::vector <Operation*>();
+		this->OperationParametersVec = OperationParametersVec;
 		this->operationType = operationType;
 		this->visibility = visibility;
 		this->name = name;
 		this->typeOfParameters = typeOfParameters;
 	}
-	~Command() {
+	~Operation() {
 		//free commandParamsVector
-		delete(CommandParameterVector);
+		delete(OperationParametersVec);
 	}
 };

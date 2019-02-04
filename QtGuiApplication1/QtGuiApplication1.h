@@ -2,6 +2,7 @@
 
 #include <QtWidgets/QMainWindow>
 #include "GeneratedFiles/ui_QtGuiApplication1.h"
+#include "GraphViz.h"
 
 class QtGuiApplication1 : public QMainWindow
 {
@@ -9,9 +10,13 @@ class QtGuiApplication1 : public QMainWindow
 
 public:
 	QtGuiApplication1(QWidget *parent = Q_NULLPTR);
-
+	static QIcon setObjectIcon(Object::ObjectTypeEnum type);
+	GVGraph *graph;
 private slots:
 
+	/// <summary>
+	/// add new operations from text
+	/// </summary>
     void on_pushButton_clicked();
 
    // void on_listWidget_itemDoubleClicked(QListWidgetItem *item);
@@ -20,10 +25,19 @@ private slots:
 
     void on_actionQuit_triggered();
 
+	/// <summary>
+	/// Add new operation
+	/// </summary>
     void on_actionAdd_triggered();
 
+	/// <summary>
+	/// remove selected operation
+	/// </summary>
     void on_actionDelete_triggered();
 
+	/// <summary>
+	/// remove all operation
+	/// </summary>
     void on_actionDelete_all_triggered();
 
     void on_actionOpen_triggered();
@@ -40,6 +54,9 @@ private slots:
 
     void on_treeWidget_itemDoubleClicked(QTreeWidgetItem *item, int column);
 
+	/// <summary>
+	/// insert new operation
+	/// </summary>
     void on_InsertButton_clicked();
 
     void on_treeWidget_itemClicked(QTreeWidgetItem *item, int column);
@@ -69,6 +86,10 @@ private:
 	void TestCommandsValidity(size_t indexFrom);
 	void DisableButtons();
 	void RefreshObjectList();
+	void CreateGraph();
 
+
+	void CommandToQStrings(Operation *c, QTreeWidgetItem* qTreeWidgetItem);
 	ParametricModel paramModel;
+	//~QtGuiApplication1();
 };
