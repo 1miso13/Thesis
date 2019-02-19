@@ -17,8 +17,8 @@ Dialog::Dialog(ParametricModel *paramModel, Operation ** c, DialogWindowType Dia
 	FillCommandList();
 	if (DialogType == DialogWindowType::MODIFY)
 	{
-		int operType = paramModel->GraphCommand.at(index)->operationType;
-		int paramType = paramModel->GraphCommand.at(index)->typeOfParameters-1;
+		int operType = paramModel->OperationsVec.at(index)->operationType;
+		int paramType = paramModel->OperationsVec.at(index)->typeOfParameters-1;
 		size_t i = 0;
 		for (; i < CommandsVec.size(); i++)
 		{
@@ -131,7 +131,7 @@ void Dialog::on_treeWidget_itemSelectionChanged()
 	bool modif = false;
 	if (DialogType == DialogWindowType::MODIFY)
 	{//Modify
-		if (c.operationID == paramModel->GraphCommand.at(index)->operationType && c.ParameterID == paramModel->GraphCommand.at(index)->typeOfParameters - 1)
+		if (c.operationID == paramModel->OperationsVec.at(index)->operationType && c.ParameterID == paramModel->OperationsVec.at(index)->typeOfParameters - 1)
 		{
 			modif = true;
 		}
@@ -155,10 +155,10 @@ void Dialog::on_treeWidget_itemSelectionChanged()
 	ui->tableWidget->setRowCount(0);
 
 	//Name Of Object
-	std::string objectName = c.operationName + "_" + std::to_string(paramModel->GraphCommand.size());
+	std::string objectName = c.operationName + "_" + std::to_string(paramModel->OperationsVec.size());
 	if (modif)
 	{
-		objectName = paramModel->GraphCommand.at(index)->name;
+		objectName = paramModel->OperationsVec.at(index)->name;
 	}
 	ui->tableWidget->insertRow(ui->tableWidget->rowCount());
 	QTableWidgetItem *item = new QTableWidgetItem(QString::fromStdString("Name"), QTableWidgetItem::Type);
@@ -188,7 +188,7 @@ void Dialog::on_treeWidget_itemSelectionChanged()
 	std::string visibilityVal="";
 	if (modif)
 	{
-		visibilityVal = std::to_string(paramModel->GraphCommand.at(index)->visibility);
+		visibilityVal = std::to_string(paramModel->OperationsVec.at(index)->visibility);
 	}
 	else
 	{
@@ -219,15 +219,15 @@ void Dialog::on_treeWidget_itemSelectionChanged()
 		if (modif)
 		{
 			//add existing value
-			paramValueStr = paramModel->GraphCommand.at(index)->OperationParametersVec->at(i);
+			paramValueStr = paramModel->OperationsVec.at(index)->OperationParametersVec->at(i);
 			if (sasa->at(i) ==operationType::ParameterTypesEnum::ParameterTypeMULTIPLEPOINTS)
 			{
 				/// <summary>
 				/// all parameters are merged to this param, delimited with ';'
 				/// </summary>
-				for (size_t j = i+1; j < paramModel->GraphCommand.at(index)->OperationParametersVec->size(); j++)
+				for (size_t j = i+1; j < paramModel->OperationsVec.at(index)->OperationParametersVec->size(); j++)
 				{
-					paramValueStr += ";" + paramModel->GraphCommand.at(index)->OperationParametersVec->at(j);
+					paramValueStr += ";" + paramModel->OperationsVec.at(index)->OperationParametersVec->at(j);
 				}
 			}
 		}
@@ -321,13 +321,13 @@ void Dialog::on_okButton_clicked()
 	}
 	else
 	{
-		for (size_t i = 0; i < paramModel->GraphCommand.size(); i++)
+		for (size_t i = 0; i < paramModel->OperationsVec.size(); i++)
 		{
 			if (DialogType == DialogWindowType::MODIFY && i == index)
 			{//jump now editing command
 				continue;
 			}
-			if (paramModel->GraphCommand.at(i)->name == objectName)
+			if (paramModel->OperationsVec.at(i)->name == objectName)
 			{
 				validName = false;
 				break;
@@ -340,12 +340,12 @@ void Dialog::on_okButton_clicked()
 	if (validName)
 	{
 		//visibility
-		validParameters = operationType::TestValidParameterType(operationType::ParameterTypesEnum::ParameterTypeFLOAT, visibilityValue, &paramModel->GraphCommand, index);
+		validParameters = operationType::TestValidParameterType(operationType::ParameterTypesEnum::ParameterTypeFLOAT, visibilityValue, &paramModel->OperationsVec, index);
 		//Test parameters
 		for (size_t i = 0; i < k->size(); i++)
 		{
 			std::string cellText = ui->tableWidget->item(i+2, 1)->text().toStdString();
-			if (!operationType::TestValidParameterType(k->at(i), cellText, &paramModel->GraphCommand, index))
+			if (!operationType::TestValidParameterType(k->at(i), cellText, &paramModel->OperationsVec, index))
 			{
 				validParameters = false;
 			}
@@ -447,13 +447,13 @@ void Dialog::on_tableWidget_cellChanged(int row, int column)
 			{//name
 				//test if name doesnt already exist
 				retType = 1;
-				for (size_t i = 0; i < paramModel->GraphCommand.size(); i++)
+				for (size_t i = 0; i < paramModel->OperationsVec.size(); i++)
 				{
 					if (DialogType == DialogWindowType::MODIFY && i == index)
 					{//jump now editing command
 						continue;
 					}
-					if (paramModel->GraphCommand.at(i)->name == cellText)
+					if (paramModel->OperationsVec.at(i)->name == cellText)
 					{
 						retType = 0;
 						break;
@@ -463,7 +463,7 @@ void Dialog::on_tableWidget_cellChanged(int row, int column)
 			else {
 				if (row == 1)
 				{//visibility
-					retType = operationType::TestValidParameterType(operationType::ParameterTypeFLOAT, cellText, &paramModel->GraphCommand, index);
+					retType = operationType::TestValidParameterType(operationType::ParameterTypeFLOAT, cellText, &paramModel->OperationsVec, index);
 				}
 				else
 				{
@@ -472,8 +472,8 @@ void Dialog::on_tableWidget_cellChanged(int row, int column)
 					std::vector <operationType::ParameterTypesEnum> *  k = paramVectors->at(c.ParameterID);
 					//	for (size_t i = 0; i < k->size(); i++)
 					{
-						//operationType::CompareTypes(k->at(i), operationType::Find(&(paramModel->GraphCommand), cellText));
-						retType = operationType::TestValidParameterType(k->at((size_t)(row - 2)), cellText, &paramModel->GraphCommand, index);
+						//operationType::CompareTypes(k->at(i), operationType::Find(&(paramModel->OperationsVec), cellText));
+						retType = operationType::TestValidParameterType(k->at((size_t)(row - 2)), cellText, &paramModel->OperationsVec, index);
 						//k->at(i);
 					}
 

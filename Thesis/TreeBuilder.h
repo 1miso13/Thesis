@@ -393,12 +393,12 @@ public:
 	TreeBuilder(std::vector <Operation*> *GraphCommandPtr,
 		std::vector <Object::GeometricObject*> *ObjectsPtr,
 		std::map<std::string, Object::GeometricObject*> *ObjectMapPtr) {
-		this->GraphCommand = GraphCommandPtr;
+		this->OperationsVec = GraphCommandPtr;
 		this->Objects = ObjectsPtr;
 		this->ObjectMap = ObjectMapPtr;
 	}
 	std::vector <Object::GeometricObject*> *Objects;
-	std::vector <Operation*> *GraphCommand;
+	std::vector <Operation*> *OperationsVec;
 	void Build() {
 		//clear objects
 		try
@@ -418,9 +418,9 @@ public:
 
 		Object::GeometricObject * o = NULL;
 		//Create new objects
-		for (size_t i = 0; i < GraphCommand->size(); i++)
+		for (size_t i = 0; i < OperationsVec->size(); i++)
 		{
-			if ((o = BuildObject(GraphCommand->at(i))) != NULL) {
+			if ((o = BuildObject(OperationsVec->at(i))) != NULL) {
 				Objects->push_back(o);
 				(*ObjectMap)[o->ObjectName] = o;
 			}

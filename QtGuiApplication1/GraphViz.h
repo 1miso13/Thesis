@@ -39,13 +39,13 @@ public:
 
 	void applyLayout();
 
+	QMap<QPair<QString, QString>, Agedge_t*> _edges;
 	void print();
 private:
 	GVC_t *_context;
 	Agraph_t *_graph;
 	QFont _font;
 	QMap<QString, Agnode_t*> _nodes;
-	QMap<QPair<QString, QString>, Agedge_t*> _edges;
 
 
 	///// The agopen method for opening a graph

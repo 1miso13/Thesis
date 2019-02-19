@@ -8,7 +8,7 @@
 #include "ParamRef.h"
 class Parser
 {
-	std::vector <Operation*> *GraphCommand=NULL;
+	std::vector <Operation*> *OperationsVec=NULL;
 	ParamRef *paramRef;
 	std::string removeSpace(std::string param) {
 		//remove first empty char
@@ -54,7 +54,7 @@ class Parser
 		//test valid name
 		std::vector<Operation*>::iterator it;
 		//test, if name not exist
-		for (it= (*GraphCommand).begin(); it != (*GraphCommand).end();it++)
+		for (it= (*OperationsVec).begin(); it != (*OperationsVec).end();it++)
 		{
 			if ((*it)->name == objectName)
 				return false;
@@ -182,15 +182,15 @@ class Parser
 	}
 public:
 	void InitParser(
-		std::vector <Operation*> *GraphCommand, ParamRef *paramRef) {
-		this->GraphCommand = GraphCommand;
+		std::vector <Operation*> *OperationsVec, ParamRef *paramRef) {
+		this->OperationsVec = OperationsVec;
 		this->paramRef = paramRef;
 	}
 	bool CreateCommand(std::string commandString,Operation **cPtrPtr) {
 		std::string commandName;
 		std::string objectName;
 		*cPtrPtr = NULL;
-		if (GraphCommand==NULL)
+		if (OperationsVec==NULL)
 		{
 			return false;
 		}
@@ -208,12 +208,12 @@ public:
 		//test commands
 		operationType::OperationTypeEnum operationType;
 		size_t typeOfParameters=0;
-		//if ((operationType = operationType::GetOperationType(commandName, OperationParametersVec, GraphCommand ,&typeOfParameters))== operationType::INVALID)
+		//if ((operationType = operationType::GetOperationType(commandName, OperationParametersVec, OperationsVec ,&typeOfParameters))== operationType::INVALID)
 		//{
 		//	return false;
 		//}
 
-		if ((operationType = operationType::GetOperation(commandName, &typeOfParameters , GraphCommand, OperationParametersVec)) == operationType::INVALID)
+		if ((operationType = operationType::GetOperation(commandName, &typeOfParameters , OperationsVec, OperationParametersVec)) == operationType::INVALID)
 		{
 			return false;
 		}

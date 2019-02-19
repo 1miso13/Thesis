@@ -36,18 +36,18 @@ namespace operationType {
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
-	inline Object::ObjectTypeEnum Find(std::vector <Operation*> *GraphCommand, std::string objectName,int to =-1) {
-		std::vector<Operation*>::iterator it= (*GraphCommand).begin();
+	inline Object::ObjectTypeEnum Find(std::vector <Operation*> *OperationsVec, std::string objectName,int to =-1) {
+		std::vector<Operation*>::iterator it= (*OperationsVec).begin();
 		std::vector<Operation*>::iterator toit;
 		if (to==-1)
 		{
-			toit = (*GraphCommand).end();
+			toit = (*OperationsVec).end();
 		}
 		else
 		{
 			toit = it + to;
 		}
-		for (; it != toit && it != (*GraphCommand).end(); it++)
+		for (; it != toit && it != (*OperationsVec).end(); it++)
 		{
 			if ((*it)->name == objectName)
 				return findTypeOfOperation((*it)->operationType);
@@ -132,7 +132,7 @@ namespace operationType {
 	}
 
 	//TODO
-	inline bool TestValidParameterType(ParameterTypesEnum parameterType, std::string paramValue, std::vector <Operation*> *GraphCommand,int to=-1) {
+	inline bool TestValidParameterType(ParameterTypesEnum parameterType, std::string paramValue, std::vector <Operation*> *OperationsVec,int to=-1) {
 		/*POINTObjectType,
 	LINE,
 	SURFACE,
@@ -153,13 +153,13 @@ namespace operationType {
 				bool retVal = true;
 				while ((pos = paramValue.find(';')) != std::string::npos) {
 					token = paramValue.substr(0, pos);
-						if (!CompareTypes(Object::POINTObjectType, Find(GraphCommand, token, to)))
+						if (!CompareTypes(Object::POINTObjectType, Find(OperationsVec, token, to)))
 						{
 							retVal = false;
 						}
 					paramValue.erase(0, pos + 1);
 				}
-			if (!CompareTypes(Object::POINTObjectType, Find(GraphCommand, paramValue, to)))
+			if (!CompareTypes(Object::POINTObjectType, Find(OperationsVec, paramValue, to)))
 			{
 				retVal = false;
 			}
@@ -170,22 +170,22 @@ namespace operationType {
 		switch (parameterType)
 		{
 		case ParameterTypePOINT:
-			return CompareTypes(Object::POINTObjectType, Find(GraphCommand, paramValue,to));
+			return CompareTypes(Object::POINTObjectType, Find(OperationsVec, paramValue,to));
 			break;
 		case ParameterTypeFLOAT:
 			return IsFloat(paramValue);
 			break;
 		case ParameterTypeLINE:
-			return CompareTypes(Object::LINE, Find(GraphCommand, paramValue, to));
+			return CompareTypes(Object::LINE, Find(OperationsVec, paramValue, to));
 			break;
 		case ParameterTypeSURFACE:
-			return CompareTypes(Object::SURFACE, Find(GraphCommand, paramValue, to));
+			return CompareTypes(Object::SURFACE, Find(OperationsVec, paramValue, to));
 			break;
 		case ParameterTypeTRIANGLE:
-			return CompareTypes(Object::TRIANGLE, Find(GraphCommand, paramValue,to));
+			return CompareTypes(Object::TRIANGLE, Find(OperationsVec, paramValue,to));
 			break;
 		case ParameterTypeOBJECT3D:
-			return CompareTypes(Object::OBJECT3D, Find(GraphCommand, paramValue,to));
+			return CompareTypes(Object::OBJECT3D, Find(OperationsVec, paramValue,to));
 			break;
 		default:
 			return false;
@@ -205,7 +205,7 @@ namespace operationType {
 		inline OperationTypeEnum GetOperationTypeOLD(
 			std::string commandName,
 			std::vector<std::string>* paramVectors/*contain vector of parameters*/,
-			std::vector <Operation*> *GraphCommand,
+			std::vector <Operation*> *OperationsVec,
 			size_t * typeOfParams
 		) {
 			size_t CountOfParams = paramVectors->size();
@@ -232,7 +232,7 @@ namespace operationType {
 					it++;
 					if (CountOfParams == 4)//with parent point
 					{
-						if (!CompareTypes(Object::POINTObjectType, Find(GraphCommand, *it)))
+						if (!CompareTypes(Object::POINTObjectType, Find(OperationsVec, *it)))
 						{
 							return INVALID;
 						}
@@ -256,12 +256,12 @@ namespace operationType {
 			{
 				if (CountOfParams == 3)
 				{
-					if (!CompareTypes(Object::POINTObjectType, Find(GraphCommand, *it)))
+					if (!CompareTypes(Object::POINTObjectType, Find(OperationsVec, *it)))
 					{
 						return INVALID;
 					}
 					it++;
-					if (!CompareTypes(Object::POINTObjectType, Find(GraphCommand, *it)))
+					if (!CompareTypes(Object::POINTObjectType, Find(OperationsVec, *it)))
 					{
 						return INVALID;
 					}
@@ -285,12 +285,12 @@ namespace operationType {
 			{
 				if (CountOfParams == 3)
 				{
-					if (!CompareTypes(POINTObjectType, Find(GraphCommand, *it)))
+					if (!CompareTypes(POINTObjectType, Find(OperationsVec, *it)))
 					{
 						return INVALID;
 					}
 					it++;
-					if (!CompareTypes(POINTObjectType, Find(GraphCommand, *it)))
+					if (!CompareTypes(POINTObjectType, Find(OperationsVec, *it)))
 					{
 						return INVALID;
 					}
@@ -316,12 +316,12 @@ namespace operationType {
 				{
 					return INVALID;
 				}
-				if (!CompareTypes(LINE, Find(GraphCommand, *it)))
+				if (!CompareTypes(LINE, Find(OperationsVec, *it)))
 				{
 					return INVALID;
 				}
 				it++;
-				if (!CompareTypes(SURFACE, Find(GraphCommand, *it)))
+				if (!CompareTypes(SURFACE, Find(OperationsVec, *it)))
 				{
 					return INVALID;
 				}
@@ -340,7 +340,7 @@ namespace operationType {
 				{
 					return INVALID;
 				}
-				if (!CompareTypes(SURFACE, Find(GraphCommand, *it)))
+				if (!CompareTypes(SURFACE, Find(OperationsVec, *it)))
 				{
 					return INVALID;
 				}
@@ -358,7 +358,7 @@ namespace operationType {
 				{
 					return INVALID;
 				}
-				if (!CompareTypes(SURFACE, Find(GraphCommand, *it)))
+				if (!CompareTypes(SURFACE, Find(OperationsVec, *it)))
 				{
 					return INVALID;
 				}
@@ -376,7 +376,7 @@ namespace operationType {
 				{
 					return INVALID;
 				}
-				if (!CompareTypes(TRIANGLE, Find(GraphCommand, *it)))
+				if (!CompareTypes(TRIANGLE, Find(OperationsVec, *it)))
 				{
 					return INVALID;
 				}
@@ -388,7 +388,7 @@ namespace operationType {
 				{
 					return INVALID;
 				}
-				if (!CompareTypes(TRIANGLE, Find(GraphCommand, *it)))
+				if (!CompareTypes(TRIANGLE, Find(OperationsVec, *it)))
 				{
 					return INVALID;
 				}
@@ -400,7 +400,7 @@ namespace operationType {
 				{
 					return INVALID;
 				}
-				if (!CompareTypes(TRIANGLE, Find(GraphCommand, *it)))
+				if (!CompareTypes(TRIANGLE, Find(OperationsVec, *it)))
 				{
 					return INVALID;
 				}
@@ -412,7 +412,7 @@ namespace operationType {
 				{
 					return INVALID;
 				}
-				if (!CompareTypes(TRIANGLE, Find(GraphCommand, *it)))
+				if (!CompareTypes(TRIANGLE, Find(OperationsVec, *it)))
 				{
 					return INVALID;
 				}
@@ -424,7 +424,7 @@ namespace operationType {
 				{
 					return INVALID;
 				}
-				if (!CompareTypes(TRIANGLE, Find(GraphCommand, *it)))
+				if (!CompareTypes(TRIANGLE, Find(OperationsVec, *it)))
 				{
 					return INVALID;
 				}
@@ -436,7 +436,7 @@ namespace operationType {
 				{
 					return INVALID;
 				}
-				if (!CompareTypes(OBJECT3D, Find(GraphCommand, *it)))
+				if (!CompareTypes(OBJECT3D, Find(OperationsVec, *it)))
 				{
 					return INVALID;
 				}
@@ -449,7 +449,7 @@ namespace operationType {
 				{
 					return INVALID;
 				}
-				if (!CompareTypes(OBJECT3D, Find(GraphCommand, *it)))
+				if (!CompareTypes(OBJECT3D, Find(OperationsVec, *it)))
 				{
 					return INVALID;
 				}
@@ -463,7 +463,7 @@ namespace operationType {
 				{
 					return INVALID;
 				}
-				if (!CompareTypes(LINE, Find(GraphCommand, *it)))
+				if (!CompareTypes(LINE, Find(OperationsVec, *it)))
 				{
 					return INVALID;
 				}
@@ -476,7 +476,7 @@ namespace operationType {
 				{
 					return INVALID;
 				}
-				if (!CompareTypes(LINE, Find(GraphCommand, *it)))
+				if (!CompareTypes(LINE, Find(OperationsVec, *it)))
 				{
 					return INVALID;
 				}
@@ -495,12 +495,12 @@ namespace operationType {
 				{
 					return INVALID;
 				}
-				if (!CompareTypes(POINTObjectType, Find(GraphCommand, *it)))
+				if (!CompareTypes(POINTObjectType, Find(OperationsVec, *it)))
 				{
 					return INVALID;
 				}
 				it++;
-				if (!CompareTypes(POINTObjectType, Find(GraphCommand, *it)))
+				if (!CompareTypes(POINTObjectType, Find(OperationsVec, *it)))
 				{
 					return INVALID;
 				}
@@ -513,7 +513,7 @@ namespace operationType {
 				{
 					return INVALID;
 				}
-				if (!CompareTypes(LINE, Find(GraphCommand, *it)))
+				if (!CompareTypes(LINE, Find(OperationsVec, *it)))
 				{
 					return INVALID;
 				}
@@ -526,7 +526,7 @@ namespace operationType {
 				{
 					return INVALID;
 				}
-				if (!CompareTypes(LINE, Find(GraphCommand, *it)))
+				if (!CompareTypes(LINE, Find(OperationsVec, *it)))
 				{
 					return INVALID;
 				}
@@ -542,7 +542,7 @@ namespace operationType {
 				{
 					return INVALID;
 				}
-				if (!CompareTypes(LINE, Find(GraphCommand, *it)))
+				if (!CompareTypes(LINE, Find(OperationsVec, *it)))
 				{
 					return INVALID;
 				}
@@ -562,12 +562,12 @@ namespace operationType {
 				{
 					return INVALID;
 				}
-				if (!CompareTypes(LINE, Find(GraphCommand, *it)))
+				if (!CompareTypes(LINE, Find(OperationsVec, *it)))
 				{
 					return INVALID;
 				}
 				it++;
-				if (!CompareTypes(LINE, Find(GraphCommand, *it))) {
+				if (!CompareTypes(LINE, Find(OperationsVec, *it))) {
 					return INVALID;
 				}
 				return  MinLineBetweenLineAndLine;//MinLineBetweenLineAndLine(string lineName, Line l1, Line l2, bool visible = true)
@@ -578,12 +578,12 @@ namespace operationType {
 				{
 					return INVALID;
 				}
-				if (!CompareTypes(POINTObjectType, Find(GraphCommand, *it)))
+				if (!CompareTypes(POINTObjectType, Find(OperationsVec, *it)))
 				{
 					return INVALID;
 				}
 				it++;
-				if (!CompareTypes(LINE, Find(GraphCommand, *it))) {
+				if (!CompareTypes(LINE, Find(OperationsVec, *it))) {
 					return INVALID;
 				}
 				return  MinLineBetweenPointAndLine;//MinLineBetweenPointAndLine(string lineName, Point p, Line l, bool visible = true)
@@ -594,12 +594,12 @@ namespace operationType {
 				{
 					return INVALID;
 				}
-				if (!CompareTypes(POINTObjectType, Find(GraphCommand, *it)))
+				if (!CompareTypes(POINTObjectType, Find(OperationsVec, *it)))
 				{
 					return INVALID;
 				}
 				it++;
-				if (!CompareTypes(SURFACE, Find(GraphCommand, *it))) {
+				if (!CompareTypes(SURFACE, Find(OperationsVec, *it))) {
 					return INVALID;
 				}
 				return  MinLineBetweenPointAndSurface;//MinLineBetweenPointAndSurface(string lineName, Point p, Surface s, bool visible = true)
@@ -612,14 +612,14 @@ namespace operationType {
 				{
 					return INVALID;
 				}
-				if (CompareTypes(POINTObjectType, Find(GraphCommand, *it)))
+				if (CompareTypes(POINTObjectType, Find(OperationsVec, *it)))
 				{
 					it++;
-					if (CompareTypes(LINE, Find(GraphCommand, *it))) {
+					if (CompareTypes(LINE, Find(OperationsVec, *it))) {
 						*typeOfParams = 1;
 						return MinLine;
 					}
-					if (CompareTypes(SURFACE, Find(GraphCommand, *it)))
+					if (CompareTypes(SURFACE, Find(OperationsVec, *it)))
 					{
 						*typeOfParams = 2;
 						return MinLine;
@@ -628,10 +628,10 @@ namespace operationType {
 				}
 				else
 				{
-					if (CompareTypes(LINE, Find(GraphCommand, *it))) {
+					if (CompareTypes(LINE, Find(OperationsVec, *it))) {
 
 						it++;
-						if (CompareTypes(LINE, Find(GraphCommand, *it))) {
+						if (CompareTypes(LINE, Find(OperationsVec, *it))) {
 							*typeOfParams = 3;
 							return MinLine;
 						}
@@ -649,7 +649,7 @@ namespace operationType {
 				{
 					return INVALID;
 				}
-				if (!CompareTypes(SURFACE, Find(GraphCommand, *it)))
+				if (!CompareTypes(SURFACE, Find(OperationsVec, *it)))
 				{
 					return INVALID;
 				}
@@ -664,12 +664,12 @@ namespace operationType {
 				{
 					return INVALID;
 				}
-				if (!CompareTypes(LINE, Find(GraphCommand, *it)))
+				if (!CompareTypes(LINE, Find(OperationsVec, *it)))
 				{
 					return INVALID;
 				}
 				it++;
-				if (!CompareTypes(POINTObjectType, Find(GraphCommand, *it)))
+				if (!CompareTypes(POINTObjectType, Find(OperationsVec, *it)))
 				{
 					return INVALID;
 				}
@@ -687,12 +687,12 @@ namespace operationType {
 				{
 					return INVALID;
 				}
-				if (!CompareTypes(LINE, Find(GraphCommand, *it)))
+				if (!CompareTypes(LINE, Find(OperationsVec, *it)))
 				{
 					return INVALID;
 				}
 				it++;
-				if (!CompareTypes(LINE, Find(GraphCommand, *it)))
+				if (!CompareTypes(LINE, Find(OperationsVec, *it)))
 				{
 					return INVALID;
 				}
@@ -710,18 +710,18 @@ namespace operationType {
 				{
 					return INVALID;
 				}
-				if (CompareTypes(LINE, Find(GraphCommand, *it)))
+				if (CompareTypes(LINE, Find(OperationsVec, *it)))
 				{
 					it++;
 					if (IsFloat(*it))
 					{
 
 						it++;
-						if (CompareTypes(POINTObjectType, Find(GraphCommand, *it)) || CompareTypes(LINE, Find(GraphCommand, *it)))
+						if (CompareTypes(POINTObjectType, Find(OperationsVec, *it)) || CompareTypes(LINE, Find(OperationsVec, *it)))
 						{
 
 							*typeOfParams = 1;
-							if (CompareTypes(LINE, Find(GraphCommand, *it)))
+							if (CompareTypes(LINE, Find(OperationsVec, *it)))
 							{
 
 								*typeOfParams = 2;
@@ -753,22 +753,22 @@ namespace operationType {
 				{
 					return INVALID;
 				}
-				if (CompareTypes(POINTObjectType, Find(GraphCommand, *it)))
+				if (CompareTypes(POINTObjectType, Find(OperationsVec, *it)))
 				{
 					it++;
 					if (IsFloat(*it))
 					{
 						it++;
-						if (CompareTypes(LINE, Find(GraphCommand, *it)))
+						if (CompareTypes(LINE, Find(OperationsVec, *it)))
 						{
 							*typeOfParams = 1;
 							return Circle;
 						}
 					}
-					else if (CompareTypes(POINTObjectType, Find(GraphCommand, *it)))
+					else if (CompareTypes(POINTObjectType, Find(OperationsVec, *it)))
 					{
 						it++;
-						if (CompareTypes(POINTObjectType, Find(GraphCommand, *it)))
+						if (CompareTypes(POINTObjectType, Find(OperationsVec, *it)))
 						{
 							*typeOfParams = 2;
 							return Circle;
@@ -786,13 +786,13 @@ namespace operationType {
 			{
 				if (CountOfParams == 3)
 				{
-					if (CompareTypes(POINTObjectType, Find(GraphCommand, *it)))
+					if (CompareTypes(POINTObjectType, Find(OperationsVec, *it)))
 					{
 						it++;
-						if (CompareTypes(POINTObjectType, Find(GraphCommand, *it)))
+						if (CompareTypes(POINTObjectType, Find(OperationsVec, *it)))
 						{
 							it++;
-							if (CompareTypes(POINTObjectType, Find(GraphCommand, *it)))
+							if (CompareTypes(POINTObjectType, Find(OperationsVec, *it)))
 							{
 								*typeOfParams = 2;
 								return Triangle;
@@ -802,10 +802,10 @@ namespace operationType {
 				}
 				if (CountOfParams == 2)
 				{
-					if (CompareTypes(LINE, Find(GraphCommand, *it)))
+					if (CompareTypes(LINE, Find(OperationsVec, *it)))
 					{
 						it++;
-						if (CompareTypes(POINTObjectType, Find(GraphCommand, *it)))
+						if (CompareTypes(POINTObjectType, Find(OperationsVec, *it)))
 						{
 							*typeOfParams = 1;
 							return Triangle;
@@ -827,7 +827,7 @@ namespace operationType {
 					return INVALID;
 				}
 
-				if (!CompareTypes(POINTObjectType, Find(GraphCommand, *it)))//center
+				if (!CompareTypes(POINTObjectType, Find(OperationsVec, *it)))//center
 				{
 					return INVALID;
 				}
@@ -847,7 +847,7 @@ namespace operationType {
 					return INVALID;
 				}
 				it++;
-				if (!CompareTypes(LINE, Find(GraphCommand, *it)))//normal
+				if (!CompareTypes(LINE, Find(OperationsVec, *it)))//normal
 				{
 					return INVALID;
 				}
@@ -859,7 +859,7 @@ namespace operationType {
 			{
 				for (size_t i = 0; i < CountOfParams; i++)
 				{
-					if (!CompareTypes(POINTObjectType, Find(GraphCommand, *it)))//normal
+					if (!CompareTypes(POINTObjectType, Find(OperationsVec, *it)))//normal
 					{
 						return INVALID;
 					}
@@ -877,7 +877,7 @@ namespace operationType {
 					return INVALID;
 				}
 
-				if (!CompareTypes(TRIANGLE, Find(GraphCommand, *it)))//center
+				if (!CompareTypes(TRIANGLE, Find(OperationsVec, *it)))//center
 				{
 					return INVALID;
 				}
@@ -891,7 +891,7 @@ namespace operationType {
 					return INVALID;
 				}
 
-				if (!CompareTypes(TRIANGLE, Find(GraphCommand, *it)))//center
+				if (!CompareTypes(TRIANGLE, Find(OperationsVec, *it)))//center
 				{
 					return INVALID;
 				}
@@ -908,7 +908,7 @@ namespace operationType {
 					return INVALID;
 				}
 
-				if (CompareTypes(SURFACE, Find(GraphCommand, *it)))//center
+				if (CompareTypes(SURFACE, Find(OperationsVec, *it)))//center
 				{
 					it++;
 					if (IsFloat(*it))//center
@@ -916,7 +916,7 @@ namespace operationType {
 						*typeOfParams = 1;
 						return Pyramid;
 					}
-					if (CompareTypes(POINTObjectType, Find(GraphCommand, *it)))
+					if (CompareTypes(POINTObjectType, Find(OperationsVec, *it)))
 					{
 						*typeOfParams = 2;
 						return Pyramid;
@@ -937,7 +937,7 @@ namespace operationType {
 					return INVALID;
 				}
 
-				if (!CompareTypes(SURFACE, Find(GraphCommand, *it)))//center
+				if (!CompareTypes(SURFACE, Find(OperationsVec, *it)))//center
 				{
 					return INVALID;
 				}
@@ -957,7 +957,7 @@ namespace operationType {
 			//		return INVALID;
 			//	}
 
-			//	if (!CompareTypes(SURFACE, Find(GraphCommand, *it)))//center
+			//	if (!CompareTypes(SURFACE, Find(OperationsVec, *it)))//center
 			//	{
 			//		return INVALID;
 			//	}
@@ -978,7 +978,7 @@ namespace operationType {
 			//		return INVALID;
 			//	}
 
-			//	if (!CompareTypes(LINE, Find(GraphCommand, *it)))//center
+			//	if (!CompareTypes(LINE, Find(OperationsVec, *it)))//center
 			//	{
 			//		return INVALID;
 			//	}
@@ -1225,12 +1225,12 @@ namespace operationType {
 			{
 				RetType = INVALID;
 			}
-			if (!CompareTypes(LINE, Find(GraphCommand, *it)))
+			if (!CompareTypes(LINE, Find(OperationsVec, *it)))
 			{
 				RetType = INVALID;
 			}
 			it++;
-			if (!CompareTypes(SURFACE, Find(GraphCommand, *it)))
+			if (!CompareTypes(SURFACE, Find(OperationsVec, *it)))
 			{
 				RetType = INVALID;
 			}*/
@@ -1263,7 +1263,7 @@ namespace operationType {
 			{
 				RetType = INVALID;
 			}
-			if (!CompareTypes(SURFACE, Find(GraphCommand, *it)))
+			if (!CompareTypes(SURFACE, Find(OperationsVec, *it)))
 			{
 				RetType = INVALID;
 			}*/
@@ -1295,7 +1295,7 @@ namespace operationType {
 			{
 				RetType = INVALID;
 			}
-			if (!CompareTypes(SURFACE, Find(GraphCommand, *it)))
+			if (!CompareTypes(SURFACE, Find(OperationsVec, *it)))
 			{
 				RetType = INVALID;
 			}*/
@@ -1412,7 +1412,7 @@ namespace operationType {
 			{
 				RetType = INVALID;
 			}
-			if (!CompareTypes(OBJECT3D, Find(GraphCommand, *it)))
+			if (!CompareTypes(OBJECT3D, Find(OperationsVec, *it)))
 			{
 				RetType = INVALID;
 			}*/
@@ -1437,7 +1437,7 @@ namespace operationType {
 			{
 				RetType = INVALID;
 			}
-			if (!CompareTypes(OBJECT3D, Find(GraphCommand, *it)))
+			if (!CompareTypes(OBJECT3D, Find(OperationsVec, *it)))
 			{
 				RetType = INVALID;
 			}*/
@@ -1463,7 +1463,7 @@ namespace operationType {
 			{
 				RetType = INVALID;
 			}
-			if (!CompareTypes(LINE, Find(GraphCommand, *it)))
+			if (!CompareTypes(LINE, Find(OperationsVec, *it)))
 			{
 				RetType = INVALID;
 			}*/
@@ -1487,7 +1487,7 @@ namespace operationType {
 			{
 				RetType = INVALID;
 			}
-			if (!CompareTypes(LINE, Find(GraphCommand, *it)))
+			if (!CompareTypes(LINE, Find(OperationsVec, *it)))
 			{
 				RetType = INVALID;
 			}*/
@@ -1518,12 +1518,12 @@ namespace operationType {
 			{
 				RetType = INVALID;
 			}
-			if (!CompareTypes(POINTObjectType, Find(GraphCommand, *it)))
+			if (!CompareTypes(POINTObjectType, Find(OperationsVec, *it)))
 			{
 				RetType = INVALID;
 			}
 			it++;
-			if (!CompareTypes(POINTObjectType, Find(GraphCommand, *it)))
+			if (!CompareTypes(POINTObjectType, Find(OperationsVec, *it)))
 			{
 				RetType = INVALID;
 			}*/
@@ -1550,7 +1550,7 @@ namespace operationType {
 			{
 				RetType = INVALID;
 			}
-			if (!CompareTypes(LINE, Find(GraphCommand, *it)))
+			if (!CompareTypes(LINE, Find(OperationsVec, *it)))
 			{
 				RetType = INVALID;
 			}*/
@@ -1575,7 +1575,7 @@ namespace operationType {
 			{
 				RetType = INVALID;
 			}
-			if (!CompareTypes(LINE, Find(GraphCommand, *it)))
+			if (!CompareTypes(LINE, Find(OperationsVec, *it)))
 			{
 				RetType = INVALID;
 			}
@@ -1605,7 +1605,7 @@ namespace operationType {
 			{
 				RetType = INVALID;
 			}
-			if (!CompareTypes(LINE, Find(GraphCommand, *it)))
+			if (!CompareTypes(LINE, Find(OperationsVec, *it)))
 			{
 				RetType = INVALID;
 			}
@@ -1639,12 +1639,12 @@ namespace operationType {
 			{
 				RetType = INVALID;
 			}
-			if (!CompareTypes(LINE, Find(GraphCommand, *it)))
+			if (!CompareTypes(LINE, Find(OperationsVec, *it)))
 			{
 				RetType = INVALID;
 			}
 			it++;
-			if (!CompareTypes(LINE, Find(GraphCommand, *it))) {
+			if (!CompareTypes(LINE, Find(OperationsVec, *it))) {
 				RetType = INVALID;
 			}*/
 			std::vector<ParameterTypesEnum>* params1 = new std::vector<ParameterTypesEnum>();
@@ -1669,12 +1669,12 @@ namespace operationType {
 			{
 				RetType = INVALID;
 			}
-			if (!CompareTypes(POINTObjectType, Find(GraphCommand, *it)))
+			if (!CompareTypes(POINTObjectType, Find(OperationsVec, *it)))
 			{
 				RetType = INVALID;
 			}
 			it++;
-			if (!CompareTypes(LINE, Find(GraphCommand, *it))) {
+			if (!CompareTypes(LINE, Find(OperationsVec, *it))) {
 				RetType = INVALID;
 			}*/
 			std::vector<ParameterTypesEnum>* params1 = new std::vector<ParameterTypesEnum>();
@@ -1699,12 +1699,12 @@ namespace operationType {
 			{
 				RetType = INVALID;
 			}
-			if (!CompareTypes(POINTObjectType, Find(GraphCommand, *it)))
+			if (!CompareTypes(POINTObjectType, Find(OperationsVec, *it)))
 			{
 				RetType = INVALID;
 			}
 			it++;
-			if (!CompareTypes(SURFACE, Find(GraphCommand, *it))) {
+			if (!CompareTypes(SURFACE, Find(OperationsVec, *it))) {
 				RetType = INVALID;
 			}*/
 			std::vector<ParameterTypesEnum>* params1 = new std::vector<ParameterTypesEnum>();
@@ -1779,7 +1779,7 @@ namespace operationType {
 			{
 				RetType = INVALID;
 			}
-			if (!CompareTypes(SURFACE, Find(GraphCommand, *it)))
+			if (!CompareTypes(SURFACE, Find(OperationsVec, *it)))
 			{
 				RetType = INVALID;
 			}*/
@@ -1806,12 +1806,12 @@ namespace operationType {
 			{
 				RetType = INVALID;
 			}
-			if (!CompareTypes(LINE, Find(GraphCommand, *it)))
+			if (!CompareTypes(LINE, Find(OperationsVec, *it)))
 			{
 				RetType = INVALID;
 			}
 			it++;
-			if (!CompareTypes(POINTObjectType, Find(GraphCommand, *it)))
+			if (!CompareTypes(POINTObjectType, Find(OperationsVec, *it)))
 			{
 				RetType = INVALID;
 			}*/
@@ -1843,12 +1843,12 @@ namespace operationType {
 			{
 				RetType = INVALID;
 			}
-			if (!CompareTypes(LINE, Find(GraphCommand, *it)))
+			if (!CompareTypes(LINE, Find(OperationsVec, *it)))
 			{
 				RetType = INVALID;
 			}
 			it++;
-			if (!CompareTypes(LINE, Find(GraphCommand, *it)))
+			if (!CompareTypes(LINE, Find(OperationsVec, *it)))
 			{
 				RetType = INVALID;
 			}*/
@@ -1880,14 +1880,14 @@ namespace operationType {
 			{
 				RetType = INVALID;
 			}
-			if (CompareTypes(LINE, Find(GraphCommand, *it)))
+			if (CompareTypes(LINE, Find(OperationsVec, *it)))
 			{
 				it++;
 				if (IsFloat(*it))
 				{
 
 					it++;
-					if (CompareTypes(POINTObjectType, Find(GraphCommand, *it)) || CompareTypes(LINE, Find(GraphCommand, *it)))
+					if (CompareTypes(POINTObjectType, Find(OperationsVec, *it)) || CompareTypes(LINE, Find(OperationsVec, *it)))
 					{
 						it++;
 						//	if ()type is short TODO
@@ -1950,21 +1950,21 @@ namespace operationType {
 			{
 				RetType = INVALID;
 			}
-			if (CompareTypes(POINTObjectType, Find(GraphCommand, *it)))
+			if (CompareTypes(POINTObjectType, Find(OperationsVec, *it)))
 			{
 				it++;
 				if (IsFloat(*it))
 				{
 					it++;
-					if (CompareTypes(LINE, Find(GraphCommand, *it)))
+					if (CompareTypes(LINE, Find(OperationsVec, *it)))
 					{
 						RetType = Circle;
 					}
 				}
-				else if (CompareTypes(POINTObjectType, Find(GraphCommand, *it)))
+				else if (CompareTypes(POINTObjectType, Find(OperationsVec, *it)))
 				{
 					it++;
-					if (CompareTypes(POINTObjectType, Find(GraphCommand, *it)))
+					if (CompareTypes(POINTObjectType, Find(OperationsVec, *it)))
 					{*/
 
 
@@ -2005,13 +2005,13 @@ namespace operationType {
 		{
 			/*if (CountOfParams == 3)
 			{
-				if (CompareTypes(POINTObjectType, Find(GraphCommand, *it)))
+				if (CompareTypes(POINTObjectType, Find(OperationsVec, *it)))
 				{
 					it++;
-					if (CompareTypes(POINTObjectType, Find(GraphCommand, *it)))
+					if (CompareTypes(POINTObjectType, Find(OperationsVec, *it)))
 					{
 						it++;
-						if (CompareTypes(POINTObjectType, Find(GraphCommand, *it)))
+						if (CompareTypes(POINTObjectType, Find(OperationsVec, *it)))
 						{
 							RetType = Triangle;
 						}
@@ -2020,10 +2020,10 @@ namespace operationType {
 			}
 			if (CountOfParams == 2)
 			{
-				if (CompareTypes(LINE, Find(GraphCommand, *it)))
+				if (CompareTypes(LINE, Find(OperationsVec, *it)))
 				{
 					it++;
-					if (CompareTypes(POINTObjectType, Find(GraphCommand, *it)))
+					if (CompareTypes(POINTObjectType, Find(OperationsVec, *it)))
 					{*/
 			std::vector<ParameterTypesEnum>* params1 = new std::vector<ParameterTypesEnum>();
 			params1->push_back(ParameterTypeLINE);
@@ -2066,7 +2066,7 @@ namespace operationType {
 				RetType = INVALID;
 			}
 
-			if (!CompareTypes(POINTObjectType, Find(GraphCommand, *it)))//center
+			if (!CompareTypes(POINTObjectType, Find(OperationsVec, *it)))//center
 			{
 				RetType = INVALID;
 			}
@@ -2086,7 +2086,7 @@ namespace operationType {
 				RetType = INVALID;
 			}
 			it++;
-			if (!CompareTypes(LINE, Find(GraphCommand, *it)))//normal
+			if (!CompareTypes(LINE, Find(OperationsVec, *it)))//normal
 			{
 				RetType = INVALID;
 			}*/
@@ -2118,7 +2118,7 @@ namespace operationType {
 		{
 			/*for (size_t i = 0; i < CountOfParams; i++)
 			{
-				if (!CompareTypes(POINTObjectType, Find(GraphCommand, *it)))//normal
+				if (!CompareTypes(POINTObjectType, Find(OperationsVec, *it)))//normal
 				{
 					RetType = INVALID;
 				}
@@ -2151,7 +2151,7 @@ namespace operationType {
 				RetType = INVALID;
 			}
 
-			if (!CompareTypes(TRIANGLE, Find(GraphCommand, *it)))//center
+			if (!CompareTypes(TRIANGLE, Find(OperationsVec, *it)))//center
 			{
 				RetType = INVALID;
 			}*/
@@ -2177,7 +2177,7 @@ namespace operationType {
 				RetType = INVALID;
 			}
 
-			if (!CompareTypes(TRIANGLE, Find(GraphCommand, *it)))//center
+			if (!CompareTypes(TRIANGLE, Find(OperationsVec, *it)))//center
 			{
 				RetType = INVALID;
 			}*/
@@ -2206,10 +2206,10 @@ namespace operationType {
 				RetType = INVALID;
 			}
 
-			if (CompareTypes(SURFACE, Find(GraphCommand, *it)))//center
+			if (CompareTypes(SURFACE, Find(OperationsVec, *it)))//center
 			{
 				it++;
-				if (IsFloat(*it) || CompareTypes(POINTObjectType, Find(GraphCommand, *it)))//center
+				if (IsFloat(*it) || CompareTypes(POINTObjectType, Find(OperationsVec, *it)))//center
 				{*/
 			std::vector<ParameterTypesEnum>* params1 = new std::vector<ParameterTypesEnum>();
 			params1->push_back(ParameterTypeSURFACE);
@@ -2253,7 +2253,7 @@ namespace operationType {
 				RetType = INVALID;
 			}
 
-			if (!CompareTypes(SURFACE, Find(GraphCommand, *it)))//center
+			if (!CompareTypes(SURFACE, Find(OperationsVec, *it)))//center
 			{
 				RetType = INVALID;
 			}
@@ -2308,7 +2308,7 @@ namespace operationType {
 		//		RetType = INVALID;
 		//	}
 
-		//	if (!CompareTypes(LINE, Find(GraphCommand, *it)))//center
+		//	if (!CompareTypes(LINE, Find(OperationsVec, *it)))//center
 		//	{
 		//		RetType = INVALID;
 		//	}
@@ -2566,7 +2566,7 @@ namespace operationType {
 
 
 
-	inline OperationTypeEnum GetOperation(std::string commandName,size_t *paramIndex, std::vector <Operation*> *GraphCommand, std::vector <std::string> *OperationParametersVec) {
+	inline OperationTypeEnum GetOperation(std::string commandName,size_t *paramIndex, std::vector <Operation*> *OperationsVec, std::vector <std::string> *OperationParametersVec) {
 		size_t parameterCount= OperationParametersVec->size();
 		std::vector <
 			std::vector<
@@ -2590,7 +2590,7 @@ namespace operationType {
 				if (!TestValidParameterType(
 					paramVectors->at(i)->at(0) == ParameterTypesEnum::ParameterTypeMULTIPLEPOINTS ? 
 					ParameterTypesEnum::ParameterTypePOINT : paramVectors->at(i)->at(j), 
-					OperationParametersVec->at(j),GraphCommand))
+					OperationParametersVec->at(j),OperationsVec))
 				{
 					found = false;
 				}

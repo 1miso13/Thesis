@@ -64,6 +64,9 @@
     <Filter Include="Source Files\Geometry\Objects\3D\base">
       <UniqueIdentifier>{b3641c92-587d-434f-a984-50329b6bab16}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Renderer">
+      <UniqueIdentifier>{a5ceddda-0ab7-4881-bf24-0aa72a9a4e8a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -140,6 +143,9 @@
     </ClInclude>
     <ClInclude Include="Operation.h">
       <Filter>Header Files\Parsing</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer.h">
+      <Filter>Header Files\Renderer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

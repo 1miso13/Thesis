@@ -118,7 +118,7 @@ void GVGraph::applyLayout()
 void GVGraph::print()
 {
 	//gvLayout(_context, _graph, "dot"); gvRender(_context, _graph, "dot", NULL); gvFreeLayout(_context, _graph); gvLayout(_context, _graph, "nop"); gvRender(_context, _graph, "png", stdout);
-	FILE * file = fopen("out.png", "wb");
+	FILE * file = fopen("out.png", "w");
 	gvRender(_context, _graph, "png", file );
 	fclose(file);
 }

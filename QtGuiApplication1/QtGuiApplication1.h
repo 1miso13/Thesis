@@ -83,13 +83,13 @@ private slots:
 private:
 	Ui::QtGuiApplication1Class ui;
 	bool ReadyToBuild = true;
-	void TestCommandsValidity(size_t indexFrom);
+	void TestOperationsValidity(size_t indexFrom);
 	void DisableButtons();
 	void RefreshObjectList();
 	void CreateGraph();
 
 
-	void CommandToQStrings(Operation *c, QTreeWidgetItem* qTreeWidgetItem);
+	void OperationToQStrings(Operation *c, QTreeWidgetItem* qTreeWidgetItem);
 	ParametricModel paramModel;
 	//~QtGuiApplication1();
 };

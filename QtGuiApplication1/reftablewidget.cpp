@@ -32,12 +32,12 @@ void RefTableWidget::RefillRefTable(ParametricModel *paramModel)
 	for (size_t i = 0; i < count; i++)
 	{
 		//find value 
-		for (size_t j = 0; j < paramModel->GraphCommand.size(); j++)
+		for (size_t j = 0; j < paramModel->OperationsVec.size(); j++)
 		{
 
-			if (paramModel->GraphCommand.at(j)->name == paramRefVec->at(i).ObjectName)
+			if (paramModel->OperationsVec.at(j)->name == paramRefVec->at(i).ObjectName)
 			{
-				value = paramModel->GraphCommand.at(j)->OperationParametersVec->at(paramRefVec->at(i).paramindex);
+				value = paramModel->OperationsVec.at(j)->OperationParametersVec->at(paramRefVec->at(i).paramindex);
 				break;
 			}
 		}
