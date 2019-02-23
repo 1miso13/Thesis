@@ -4,6 +4,7 @@
 class ParamRef
 {
 public:
+	static std::vector <paramRefStruct> *paramRefVecPtr;
 	std::vector <paramRefStruct> paramRefVec;
 	/*std::vector <std::string>	referecedObjectVec;
 	std::vector <size_t>		referecedParamIndexVec;
@@ -11,7 +12,13 @@ public:
 	void Reset() {
 		paramRefVec.clear();
 	}
+	void InitPrimary() {
+		paramRefVecPtr = &paramRefVec;
+	}
 
+	std::vector <paramRefStruct>* GetVec() {
+		return &paramRefVec;
+	}
 	/// <summary>
 	/// Add reference of parameter, if is possible
 	/// If already exist, old reference name is changed to new

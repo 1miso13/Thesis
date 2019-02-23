@@ -6,6 +6,8 @@
 #include "Operation.h"
 #include "OperationTypeEnum.h"
 #include "GeometricObject.h"
+#include "Expression.h"
+#include "ParamRef.h"
 namespace operationType {
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -15,6 +17,7 @@ namespace operationType {
 		ParameterTypePOINT,
 		ParameterTypeMULTIPLEPOINTS,
 		ParameterTypeFLOAT,
+		//ParameterTypeEXPRESSION,
 		ParameterTypeLINE,
 		ParameterTypeSURFACE,
 		ParameterTypeTRIANGLE,
@@ -98,16 +101,26 @@ namespace operationType {
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
-	inline bool IsFloat(const std::string& num) {
-		try
+	inline bool IsFloat(const std::string& num, bool only = false) {
+		if (only)
 		{
-			std::stof(num);
+			char* end;
+			strtod(num.c_str(), &end);
+			return end != "";
 		}
-		catch (...)
+		else
 		{
-			return false;
+
+			try
+			{
+				std::stof(num);
+			}
+			catch (...)
+			{
+				return false;
+			}
+			return true;
 		}
-		return true;
 	}
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -130,8 +143,38 @@ namespace operationType {
 		return ret;
 
 	}
+	inline bool TestExpressionsIdentifiers(Expression *e, std::vector <Operation*> *OperationsVec){
+		//TODO
+		bool valid = true;
+		for (size_t i = 0; i < OperationsVec->size(); i++)
+		{
+			std::string token;
+			Expression::tokenType t;
+			if ((t = (*e).getToken(i,& token)) == Expression::tokenType::tokenTypeParameter)
+			{
+				bool foundParameter = false;
+				for (size_t i = 0; i < ParamRef::paramRefVecPtr->size(); i++)
+				{
+					if(ParamRef::paramRefVecPtr->at(i).refName == token){
+						foundParameter = true;
+					}
+				}
+				if (!foundParameter)
+				{
+					valid = false;//NOT FOUND PARAMETER WITH SAME NAME - NOT VALID
+				}
+			}
+			else
+			{
+				if (t == Expression::tokenType::tokenTypeObjectValue)
+				{
+					 
+				}
+			}
+		}
+		return valid;
+	}
 
-	//TODO
 	inline bool TestValidParameterType(ParameterTypesEnum parameterType, std::string paramValue, std::vector <Operation*> *OperationsVec,int to=-1) {
 		/*POINTObjectType,
 	LINE,
@@ -173,7 +216,13 @@ namespace operationType {
 			return CompareTypes(Object::POINTObjectType, Find(OperationsVec, paramValue,to));
 			break;
 		case ParameterTypeFLOAT:
-			return IsFloat(paramValue);
+			if (IsFloat(paramValue,true))
+				return true;
+			else
+			{
+				Expression e(paramValue);
+				return TestExpressionsIdentifiers(&e, OperationsVec);
+			}
 			break;
 		case ParameterTypeLINE:
 			return CompareTypes(Object::LINE, Find(OperationsVec, paramValue, to));

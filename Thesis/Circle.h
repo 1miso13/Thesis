@@ -6,21 +6,10 @@ namespace Object {
 	{
 	public:
 		float radius;
-		Circle(Point center, float radius, Vector3 normal) {
-			this->center = center;
-			this->radius = radius;
-			this->normal = normal;
-			GeometricType = CIRCLE;
-		}
-		void CalculatePerimeter()
-		{
-			perimeter = 2 * (4. * atan(1.))/*PI*/ * radius;
-		}
+		Circle(Point center, float radius, Vector3 normal);
+		void CalculatePerimeter();
 
-		void CalculateArea()
-		{
-			area = (4. * atan(1.)) * radius * radius;
-		}
+		void CalculateArea();
 
 
 		~Circle()

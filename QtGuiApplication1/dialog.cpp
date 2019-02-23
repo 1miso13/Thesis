@@ -118,6 +118,7 @@ QIcon Dialog::setObjectIcon(Object::ObjectTypeEnum type) {
 	case Object::INVALIDObjectType:
 		return QIcon("Icons/Object icons/Invalid.png");
 	default:
+		return QIcon("Icons/Object icons/Invalid.png");
 		break;
 	}
 }

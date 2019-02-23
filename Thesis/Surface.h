@@ -11,10 +11,7 @@ namespace Object {
 		double perimeter;
 		double area;
 
-		Surface()
-		{
-			GeometricType = SURFACE;
-		}
+		Surface();
 		~Surface() {
 
 		}

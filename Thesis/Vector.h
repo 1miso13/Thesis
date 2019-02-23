@@ -1,4 +1,5 @@
 #pragma once
+#include <math.h>
 struct Vector3
 {
 	float X, Y, Z;

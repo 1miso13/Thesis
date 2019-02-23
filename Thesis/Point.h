@@ -76,30 +76,30 @@ namespace Object {
 		float Z = A.Position.Z * B;
 		return Point(X, Y, Z);
 	}
-	inline Point::Point()
-	{
-		Position = Vector3(0, 0, 0);
-		GeometricType = POINTObjectType;
-	}
+	//inline Point::Point()
+	//{
+	//	Position = Vector3(0, 0, 0);
+	//	GeometricType = POINTObjectType;
+	//}
 
-	inline Point::Point(float X, float Y, float Z)
-	{
-		Position = Vector3(X, Y, Z);
-		GeometricType = POINTObjectType;
-	}
+	//inline Point::Point(float X, float Y, float Z)
+	//{
+	//	Position = Vector3(X, Y, Z);
+	//	GeometricType = POINTObjectType;
+	//}
 
-	inline Point::Point(Vector3 pos)
-	{
-		Position = pos;
-		GeometricType = POINTObjectType;
-	}
+	//inline Point::Point(Vector3 pos)
+	//{
+	//	Position = pos;
+	//	GeometricType = POINTObjectType;
+	//}
 
 
 
-	inline Vector3 Point::GetPosition()
-	{
-		return Position;
-	}
+	//inline Vector3 Point::GetPosition()
+	//{
+	//	return Position;
+	//}
 }
 
 #endif

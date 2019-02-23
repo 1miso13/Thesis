@@ -36,8 +36,11 @@ public:
 	ParamRef paramRef;
 	ParametricModel() {
 		treeBuilder = new TreeBuilder(&OperationsVec,&Objects,&ObjectMap);
+		paramRef.InitPrimary();
 	}
-
+	Object::GeometricObject* GetObject(std::string objectName) {
+		return ObjectMap[objectName];
+	}
 	void ReBuildTree() {
 		treeBuilder->Build();
 			

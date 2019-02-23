@@ -570,19 +570,19 @@ void QtGuiApplication1::on_tableWidget_cellChanged(int row, int column)
 	{
 		ui.RefParam_tableWidget->item(row, column)->setBackgroundColor(QColor(255, 255, 255));
 	}
-	
-	if(paramModel.TestRefParam(ParamValue, paramModel.paramRef.paramRefVec.at(row).ObjectName, paramModel.paramRef.paramRefVec.at(row).paramindex))
+	auto paramRefVec = paramModel.paramRef.GetVec();
+	if(paramModel.TestRefParam(ParamValue, paramRefVec->at(row).ObjectName, paramRefVec->at(row).paramindex))
 	{
 		size_t i = 0;
 		for (; i < paramModel.OperationsVec.size(); i++)
 		{
-			if (paramModel.OperationsVec.at(i)->name == paramModel.paramRef.paramRefVec.at(row).ObjectName)
+			if (paramModel.OperationsVec.at(i)->name == paramRefVec->at(row).ObjectName)
 			{
 				break;
 			}
 		}
 		//set new value d
-		paramModel.SetRefValue(paramModel.paramRef.paramRefVec.at(row).ObjectName,paramModel.paramRef.paramRefVec.at(row).paramindex, ParamValue);
+		paramModel.SetRefValue(paramRefVec->at(row).ObjectName, paramRefVec->at(row).paramindex, ParamValue);
 		//modify tree view
 		//ui.RefParam_tableWidget->item(1, 1)
 		OperationToQStrings(paramModel.OperationsVec[i], ui.treeWidget->topLevelItem(i) );
@@ -596,7 +596,9 @@ void QtGuiApplication1::on_RefParam_UPButton_clicked()
 		if (position != 0)
 		{//not first
 			//move in vec
-			std::swap(paramModel.paramRef.paramRefVec[position], paramModel.paramRef.paramRefVec[position - 1]);
+
+			auto paramRefVec = paramModel.paramRef.GetVec();
+			std::swap((*paramRefVec)[position], (*paramRefVec)[position - 1]);
 			//move item in table
 			ui.RefParam_tableWidget->Move(position, true);
 
@@ -608,11 +610,12 @@ void QtGuiApplication1::on_RefParam_DOWNButton_clicked()
 {
 	if (ui.RefParam_tableWidget->rowCount() > 0) {
 		size_t position = ui.RefParam_tableWidget->currentIndex().row();
-		if (position != paramModel.paramRef.paramRefVec.size() - 1)
+		auto paramRefVec = paramModel.paramRef.GetVec();
+		if (position != (*paramRefVec).size() - 1)
 		{//not last
 
 			//move in vec
-			std::swap(paramModel.paramRef.paramRefVec[position], paramModel.paramRef.paramRefVec[position + 1]);
+			std::swap((*paramRefVec)[position], (*paramRefVec)[position + 1]);
 
 			//move item in table
 			ui.RefParam_tableWidget->Move(position, false);
