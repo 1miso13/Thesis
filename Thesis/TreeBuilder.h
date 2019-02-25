@@ -42,7 +42,9 @@ class TreeBuilder
 {
 private:
 	//RECTANGLE BUG
-	
+	float GetNumber(std::string n) {
+		return std::stof(n);
+	}
 	/// <summary>
 	/// Return NULL if operation error
 	/// </summary>
@@ -52,9 +54,9 @@ private:
 	{
 		Object::GeometricObject * RetObject = NULL;
 		if (command->operationType == operationType::Point) {
-			float X = std::stof(command->OperationParametersVec->at(0));
-			float Y = std::stof(command->OperationParametersVec->at(1));
-			float Z = std::stof(command->OperationParametersVec->at(2));
+			float X = GetNumber(command->OperationParametersVec->at(0));
+			float Y = GetNumber(command->OperationParametersVec->at(1));
+			float Z = GetNumber(command->OperationParametersVec->at(2));
 			if (command->typeOfParameters == 1) {
 				RetObject = new Object::Point(Operations::CreatePoint(X, Y, Z));
 			}
@@ -70,7 +72,7 @@ private:
 				Object::Point* p1 = (Object::Point*)FindObjectByName(Objects, command->OperationParametersVec->at(0));
 				Object::Point* p2 = (Object::Point*)FindObjectByName(Objects, command->OperationParametersVec->at(1));
 
-				float distance = std::stof(command->OperationParametersVec->at(2));
+				float distance = GetNumber(command->OperationParametersVec->at(2));
 				RetObject = new Object::Point(Operations::LinearInterpolation_Distance(p1, p2, distance));
 			}
 			else
@@ -78,7 +80,7 @@ private:
 					Object::Point* p1 = (Object::Point*)FindObjectByName(Objects, command->OperationParametersVec->at(0));
 					Object::Point* p2 = (Object::Point*)FindObjectByName(Objects, command->OperationParametersVec->at(1));
 
-					float distance = std::stof(command->OperationParametersVec->at(2));
+					float distance = GetNumber(command->OperationParametersVec->at(2));
 					RetObject = new Object::Point(Operations::LinearInterpolation_Percent(*p1, *p2, distance));
 				}
 				else
@@ -172,13 +174,13 @@ private:
 		else
 			if (command->operationType == operationType::LineChangeLengthDist) {
 				Object::Line *l = (Object::Line*)FindObjectByName(Objects, command->OperationParametersVec->at(0));
-				float Dist = std::stof(command->OperationParametersVec->at(1));
+				float Dist = GetNumber(command->OperationParametersVec->at(1));
 				RetObject = new Object::Line(l->beginPoint, Object::Point(Operations::LinearInterpolation_Distance(&l->beginPoint, &l->endPoint, Dist)));
 			}
 		else
 			if (command->operationType == operationType::LineChangeLengthPerc) {
 				Object::Line *l = (Object::Line*)FindObjectByName(Objects, command->OperationParametersVec->at(0));
-				float Perc = std::stof(command->OperationParametersVec->at(1));
+				float Perc = GetNumber(command->OperationParametersVec->at(1));
 				RetObject = new Object::Line(l->beginPoint, Object::Point(Operations::LinearInterpolation_Percent(l->beginPoint, l->endPoint, Perc)));
 			}
 		else
@@ -254,7 +256,7 @@ private:
 
 			if (command->operationType == operationType::RectangleFromLine) {
 				Object::Line *l = (Object::Line*)FindObjectByName(Objects, command->OperationParametersVec->at(0));
-				float width = std::stof(command->OperationParametersVec->at(1));
+				float width = GetNumber(command->OperationParametersVec->at(1));
 				short type = (short)std::stoi(command->OperationParametersVec->at(3));
 				if (command->typeOfParameters == 1)
 				{
@@ -273,7 +275,7 @@ private:
 				Object::Point center = *(Object::Point*)FindObjectByName(Objects, command->OperationParametersVec->at(0));
 				if (command->typeOfParameters == 1)
 				{
-					float radius = std::stof(command->OperationParametersVec->at(1));
+					float radius = GetNumber(command->OperationParametersVec->at(1));
 					Object::Line *normalVector = (Object::Line*)FindObjectByName(Objects, command->OperationParametersVec->at(2));
 					RetObject = new Object::Circle(Operations::CreateCircle(center, radius, normalVector));
 				}
@@ -303,9 +305,9 @@ private:
 		else
 			if (command->operationType == operationType::Rectangle) {
 				Object::Point *center = (Object::Point*)FindObjectByName(Objects, command->OperationParametersVec->at(0));
-				float height = std::stof(command->OperationParametersVec->at(1));
-				float width = std::stof(command->OperationParametersVec->at(2));
-				float roll = std::stof(command->OperationParametersVec->at(3));
+				float height = GetNumber(command->OperationParametersVec->at(1));
+				float width = GetNumber(command->OperationParametersVec->at(2));
+				float roll = GetNumber(command->OperationParametersVec->at(3));
 				Object::Line *normal = (Object::Line*)FindObjectByName(Objects, command->OperationParametersVec->at(4));
 				Vector3 planeVector = Vector3(sin(roll), cos(roll), 0);
 				Plane2DTo3D(&planeVector, 1, &normal->Normal(), Vector3());
@@ -343,7 +345,7 @@ private:
 				if (command->typeOfParameters == 1)
 				{
 					Object::Surface *s = (Object::Surface*)FindObjectByName(Objects, command->OperationParametersVec->at(0));
-					float height = std::stof(command->OperationParametersVec->at(1));
+					float height = GetNumber(command->OperationParametersVec->at(1));
 					RetObject = new Object::Pyramid(height, s);
 				}
 				else

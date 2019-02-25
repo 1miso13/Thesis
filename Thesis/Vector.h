@@ -16,12 +16,12 @@ struct Vector3
 
 	Vector3 Normalize() {
 		//distance
-		float dist = sqrt(X * X + Y * Y + Z * Z);
+		float dist = (float)sqrt(double(X) * double(X) + (double)Y * (double)Y + (double)Z * (double)Z);
 		return Vector3( X / dist,  Y / dist,  Z / dist);
 	}
 	float Distance()
 	{	
-		return sqrt(X*X + Y*Y + Z*Z);
+		return (float)sqrt(double(X) * double(X) + (double)Y * (double)Y + (double)Z * (double)Z);
 	}
 	Vector3& operator +=(Vector3& B) {
 		this->X = this->X + B.X;

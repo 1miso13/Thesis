@@ -266,7 +266,7 @@ bool TestCommandSemantic(ParametricModel *paramModel, size_t index) {
 			for (size_t j = 0;  j + i < paramModel->OperationsVec.at(index)->OperationParametersVec->size();  j++)
 			{//Last parameter can be multipoits
 				std::string parameterText = paramModel->OperationsVec.at(index)->OperationParametersVec->at(i+j);
-				if (!operationType::TestValidParameterType(k->at(i), parameterText, &paramModel->OperationsVec, index))
+				if (!operationType::TestValidParameterType(k->at(i), parameterText, &paramModel->OperationsVec, &paramModel->OperationMap, index))
 				{
 					return false;
 				}
@@ -275,7 +275,7 @@ bool TestCommandSemantic(ParametricModel *paramModel, size_t index) {
 		else
 		{
 			std::string parameterText = paramModel->OperationsVec.at(index)->OperationParametersVec->at(i);
-			if (!operationType::TestValidParameterType(k->at(i), parameterText, &paramModel->OperationsVec, index))
+			if (!operationType::TestValidParameterType(k->at(i), parameterText, &paramModel->OperationsVec, &paramModel->OperationMap, index))
 			{
 				return false;
 			}
@@ -458,30 +458,30 @@ void QtGuiApplication1::CreateGraph() {
 QIcon QtGuiApplication1::setObjectIcon(Object::ObjectTypeEnum type) {
 	switch (type)
 	{
-	case Object::POINTObjectType:
+	case Object::POINT_ObjectType:
 		return QIcon("Icons/Object icons/point.jpg");
-	case Object::LINE:
+	case Object::LINE_ObjectType:
 		return QIcon("Icons/Object icons/Line.ico");
-	case Object::SURFACE:
+	case Object::SURFACE_ObjectType:
 		return QIcon("Icons/Object icons/Invalid.png");
-	case Object::CIRCLE:
+	case Object::CIRCLE_ObjectType:
 		return QIcon("Icons/Object icons/Circle.png");
-	case Object::RECTANGLE:
+	case Object::RECTANGLE_ObjectType:
 		return QIcon("Icons/Object icons/Rectangle.png");
-	case Object::POLYGON:
+	case Object::POLYGON_ObjectType:
 		return QIcon("Icons/Object icons/Polygon.png");
-	case Object::TRIANGLE:
+	case Object::TRIANGLE_ObjectType:
 		return QIcon("Icons/Object icons/Triangle.png");
-	case Object::OBJECT3D:
+	case Object::OBJECT3D_ObjectType:
 		return QIcon("Icons/Object icons/point.jpg");
-	case Object::PYRAMID:
+	case Object::PYRAMID_ObjectType:
 		return QIcon("Icons/Object icons/Pyramid.png");
-	case Object::SPHERE:
+	case Object::SPHERE_ObjectType:
 		return QIcon("Icons/Object icons/Sphere.png");
-	case Object::INVALIDObjectType:
+	case Object::INVALID_ObjectType:
 		return QIcon("Icons/Object icons/Invalid.png");
 	default:
-		break;
+		return QIcon("Icons/Object icons/Invalid.png");
 	}
 }
 /// <summary>

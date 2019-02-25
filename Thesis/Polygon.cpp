@@ -7,7 +7,7 @@
 namespace Object {
 
 	Polygon::Polygon(std::vector <Point> points) {
-		GeometricType = POLYGON;
+		GeometricType = POLYGON_ObjectType;
 		this->points = points;
 
 		this->normal = crossProduct3Points(points[0].Position, points[1].Position, points[2].Position).Normalize();

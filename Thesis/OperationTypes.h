@@ -8,6 +8,8 @@
 #include "GeometricObject.h"
 #include "Expression.h"
 #include "ParamRef.h"
+#include <map>
+#include "ObjectsValues.h"
 namespace operationType {
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -55,7 +57,7 @@ namespace operationType {
 			if ((*it)->name == objectName)
 				return findTypeOfOperation((*it)->operationType);
 		}
-		return Object::INVALIDObjectType;
+		return Object::INVALID_ObjectType;
 	}
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -75,19 +77,19 @@ namespace operationType {
 			return true;
 		switch (tested)
 		{
-		case Object::SURFACE:
-		case Object::CIRCLE:
-		case Object::RECTANGLE:
-		case Object::POLYGON:
-		case Object::TRIANGLE:
-			if (commandParType == Object::SURFACE)
+		case Object::SURFACE_ObjectType:
+		case Object::CIRCLE_ObjectType:
+		case Object::RECTANGLE_ObjectType:
+		case Object::POLYGON_ObjectType:
+		case Object::TRIANGLE_ObjectType:
+			if (commandParType == Object::SURFACE_ObjectType)
 			{
 				return true;
 			}
 			break;
-		case Object::PYRAMID:
-		case Object::OBJECT3D:
-			if (commandParType == Object::OBJECT3D)
+		case Object::PYRAMID_ObjectType:
+		case Object::OBJECT3D_ObjectType:
+			if (commandParType == Object::OBJECT3D_ObjectType)
 			{
 				return true;
 			}
@@ -106,7 +108,7 @@ namespace operationType {
 		{
 			char* end;
 			strtod(num.c_str(), &end);
-			return end != "";
+			return *end == '\0';
 		}
 		else
 		{
@@ -143,14 +145,174 @@ namespace operationType {
 		return ret;
 
 	}
-	inline bool TestExpressionsIdentifiers(Expression *e, std::vector <Operation*> *OperationsVec){
+	inline Object::ObjectTypeEnum findTypeOfOperation(operationType::OperationTypeEnum operationType) {
+		/*POINT,
+		LINE,
+		SURFACE,
+		CIRCLE,
+		RECTANGLE,
+		Polygon,
+		TRIANGLE,
+		PYRAMID,
+		OBJECT3D*/
+		switch (operationType) {
+		case Point:
+		case LinearInterpolationDist:
+		case LinearInterpolationPerc:
+		case Intersection_Plane_Line:
+		case SurfaceCenterAverage:
+		case SurfaceCenterBoundingSquare:
+		case ObjectCenterBoundingBox:
+		case ObjectCenterAverage:
+		case LineFirstPoint:
+		case LineSecondPoint:
+		case Centroid:
+		case Incenter:
+		case Circumcenter:
+		case Orthocenter:
+		case NinePointCenter:
+			return Object::POINT_ObjectType;
+			///Line Commands:
+		case Line:
+		case LineNormalize:
+		case LineChangeLengthDist:
+		case LineChangeLengthPerc:
+		case MinLineBetweenLineAndLine:
+		case MinLineBetweenPointAndLine:
+		case MinLineBetweenPointAndSurface:
+		case MinLine:
+		case SurfaceNormal:
+		case LineRelocationByPoint:
+			//case OrthogonalLeastSquares:
+		case CrossProduct:
+			//case CrossProductLP:
+			return Object::LINE_ObjectType;
+			///Surface Commands:
+
+
+		case Circle:
+			return Object::CIRCLE_ObjectType;
+		case Triangle:
+			return Object::TRIANGLE_ObjectType;
+		case Rectangle:
+		case RectangleFromLine:
+			return  Object::RECTANGLE_ObjectType;
+		case Polygon:
+			return Object::POLYGON_ObjectType;
+		case Circumscribed:
+			return Object::CIRCLE_ObjectType;
+		case Inscribed:
+			return Object::CIRCLE_ObjectType;
+
+			///Objects Commands:
+
+
+		case Pyramid:
+			return Object::PYRAMID_ObjectType;
+		case Extrude:
+			return Object::OBJECT3D_ObjectType;
+			//case SpericalCurvedSurface:
+			//	return OBJECT3D;
+			//case Cylinder:
+			//	return OBJECT3D;
+		case Sphere:
+			return Object::SPHERE_ObjectType;
+		case BooleanUnion:
+		case BooleanIntersection:
+		case BooleanNOT:
+			return Object::OBJECT3D_ObjectType;
+		default://INVALID
+			return Object::INVALID_ObjectType;
+		}
+	}
+	//////////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////////////////
+	inline bool IsValidObjectValue(Operation *o,std::string objectName, std::string token) {
+		
+		std::vector <std::string> v;
+		size_t pos = 0;
+		std::string t;
+		while ((pos = token.find('.')) != std::string::npos) {
+			t = token.substr(0, pos);
+			v.push_back(t);
+			token.erase(0, pos + 1);
+		}
+		v.push_back(token);
+
+		auto typpe = findTypeOfOperation(o->operationType);
+		for (size_t i = 0; i < v.size(); i++)
+		{
+			std::vector<std::string> ObjectValues_Options;
+			
+
+			std::vector<Object::ObjectTypeEnum> typeList =  ObjectsValues::getObjectValues_lists(typpe, &ObjectValues_Options);
+
+			bool found = false;
+			size_t k = 0;
+			for (; k < ObjectValues_Options.size(); k++)
+			{
+				if (ObjectValues_Options[k]==v[i])
+				{
+					found = true;
+					break;
+				}
+			}
+			if (found)
+			{
+				if (typeList[k] == Object::INVALID_ObjectType)
+				{
+					return true;
+				}
+				//move to next object
+				typpe = typeList[k];
+			}
+			else
+			{
+				return false;
+			}
+			//switch (findTypeOfOperation(o->operationType))
+			//{
+			//case Object::ObjectTypeEnum::POINT_ObjectType:
+			//	
+			//		break;
+			//case Object::ObjectTypeEnum::LINE_ObjectType:
+			//	break;
+			//case Object::ObjectTypeEnum::SURFACE_ObjectType:
+			//	break;
+			//case Object::ObjectTypeEnum::CIRCLE_ObjectType:
+			//	break;
+			//case Object::ObjectTypeEnum::RECTANGLE_ObjectType:
+			//	break;
+			//case Object::ObjectTypeEnum::POLYGON_ObjectType:
+			//	break;
+			//case Object::ObjectTypeEnum::TRIANGLE_ObjectType:
+			//	break;
+			//case Object::ObjectTypeEnum::OBJECT3D_ObjectType:
+			//	break;
+			//case Object::ObjectTypeEnum::PYRAMID_ObjectType:
+			//	break;
+			//case Object::ObjectTypeEnum::SPHERE_ObjectType:
+			//	break;
+			//default:
+			//	break;
+			//}
+		}
+		return false;
+	}
+	inline bool TestExpressionsIdentifiers(Expression *e, std::map <std::string, Operation*> *OperationsMap){
 		//TODO
 		bool valid = true;
-		for (size_t i = 0; i < OperationsVec->size(); i++)
+		if (OperationsMap->size()==0)
+		{
+			return false;
+		}
+		for (size_t i = 0; i < e->tokenCount(); i++)
 		{
 			std::string token;
 			Expression::tokenType t;
-			if ((t = (*e).getToken(i,& token)) == Expression::tokenType::tokenTypeParameter)
+			if ((t = (*e).getToken(i,& token)) == Expression::tokenType::tokenTypeParameter)///Test parameters
 			{
 				bool foundParameter = false;
 				for (size_t i = 0; i < ParamRef::paramRefVecPtr->size(); i++)
@@ -166,16 +328,29 @@ namespace operationType {
 			}
 			else
 			{
-				if (t == Expression::tokenType::tokenTypeObjectValue)
+				if (t == Expression::tokenType::tokenTypeObjectValue)///Test ObjectValues
 				{
-					 
+					size_t delimiterPosition =  token.find('.');
+					if (delimiterPosition==token.length()-1)//delimiter cant be as last character
+					{
+						return false;
+					}
+					std::string objectName = token.substr(0, delimiterPosition);
+					token.erase(0, delimiterPosition + 1);
+
+					Operation* o = (*OperationsMap)[objectName];
+					
+					if (!IsValidObjectValue(o, objectName, token))
+					{
+						valid = false;//NOT FOUND PARAMETER WITH SAME NAME - NOT VALID
+					}
 				}
 			}
 		}
 		return valid;
 	}
 
-	inline bool TestValidParameterType(ParameterTypesEnum parameterType, std::string paramValue, std::vector <Operation*> *OperationsVec,int to=-1) {
+	inline bool TestValidParameterType(ParameterTypesEnum parameterType, std::string paramValue, std::vector <Operation*> *OperationsVec, std::map <std::string, Operation*> * OperationsMap,int to=-1) {
 		/*POINTObjectType,
 	LINE,
 	SURFACE,
@@ -196,13 +371,13 @@ namespace operationType {
 				bool retVal = true;
 				while ((pos = paramValue.find(';')) != std::string::npos) {
 					token = paramValue.substr(0, pos);
-						if (!CompareTypes(Object::POINTObjectType, Find(OperationsVec, token, to)))
+						if (!CompareTypes(Object::POINT_ObjectType, Find(OperationsVec, token, to)))
 						{
 							retVal = false;
 						}
 					paramValue.erase(0, pos + 1);
 				}
-			if (!CompareTypes(Object::POINTObjectType, Find(OperationsVec, paramValue, to)))
+			if (!CompareTypes(Object::POINT_ObjectType, Find(OperationsVec, paramValue, to)))
 			{
 				retVal = false;
 			}
@@ -213,7 +388,7 @@ namespace operationType {
 		switch (parameterType)
 		{
 		case ParameterTypePOINT:
-			return CompareTypes(Object::POINTObjectType, Find(OperationsVec, paramValue,to));
+			return CompareTypes(Object::POINT_ObjectType, Find(OperationsVec, paramValue,to));
 			break;
 		case ParameterTypeFLOAT:
 			if (IsFloat(paramValue,true))
@@ -221,20 +396,20 @@ namespace operationType {
 			else
 			{
 				Expression e(paramValue);
-				return TestExpressionsIdentifiers(&e, OperationsVec);
+				return e.isValid ? TestExpressionsIdentifiers(&e, OperationsMap) : false;
 			}
 			break;
 		case ParameterTypeLINE:
-			return CompareTypes(Object::LINE, Find(OperationsVec, paramValue, to));
+			return CompareTypes(Object::LINE_ObjectType, Find(OperationsVec, paramValue, to));
 			break;
 		case ParameterTypeSURFACE:
-			return CompareTypes(Object::SURFACE, Find(OperationsVec, paramValue, to));
+			return CompareTypes(Object::SURFACE_ObjectType, Find(OperationsVec, paramValue, to));
 			break;
 		case ParameterTypeTRIANGLE:
-			return CompareTypes(Object::TRIANGLE, Find(OperationsVec, paramValue,to));
+			return CompareTypes(Object::TRIANGLE_ObjectType, Find(OperationsVec, paramValue,to));
 			break;
 		case ParameterTypeOBJECT3D:
-			return CompareTypes(Object::OBJECT3D, Find(OperationsVec, paramValue,to));
+			return CompareTypes(Object::OBJECT3D_ObjectType, Find(OperationsVec, paramValue,to));
 			break;
 		default:
 			return false;
@@ -1044,90 +1219,6 @@ namespace operationType {
 		}
 
 #endif // DEPRECATED
-	//////////////////////////////////////////////////////////////////////////////////////////////////////
-	//////////////////////////////////////////////////////////////////////////////////////////////////////
-	//////////////////////////////////////////////////////////////////////////////////////////////////////
-	//////////////////////////////////////////////////////////////////////////////////////////////////////
-	inline Object::ObjectTypeEnum findTypeOfOperation(operationType::OperationTypeEnum operationType) {
-		/*POINT,
-		LINE,
-		SURFACE,
-		CIRCLE,
-		RECTANGLE,
-		Polygon,
-		TRIANGLE,
-		PYRAMID,
-		OBJECT3D*/
-		switch (operationType) {
-		case Point:
-		case LinearInterpolationDist:
-		case LinearInterpolationPerc:
-		case Intersection_Plane_Line:
-		case SurfaceCenterAverage:
-		case SurfaceCenterBoundingSquare:
-		case ObjectCenterBoundingBox:
-		case ObjectCenterAverage:
-		case LineFirstPoint:
-		case LineSecondPoint:
-		case Centroid:
-		case Incenter:
-		case Circumcenter:
-		case Orthocenter:
-		case NinePointCenter:
-			return Object::POINTObjectType;
-			///Line Commands:
-		case Line:
-		case LineNormalize:
-		case LineChangeLengthDist:
-		case LineChangeLengthPerc:
-		case MinLineBetweenLineAndLine:
-		case MinLineBetweenPointAndLine:
-		case MinLineBetweenPointAndSurface:
-		case MinLine:
-		case SurfaceNormal:
-		case LineRelocationByPoint:
-			//case OrthogonalLeastSquares:
-		case CrossProduct:
-		//case CrossProductLP:
-			return Object::LINE;
-			///Surface Commands:
-
-
-		case Circle:
-			return Object::CIRCLE;
-		case Triangle:
-			return Object::TRIANGLE;
-		case Rectangle:
-		case RectangleFromLine:
-			return  Object::RECTANGLE;
-		case Polygon:
-			return Object::POLYGON;
-		case Circumscribed:
-			return Object::CIRCLE;
-		case Inscribed:
-			return Object::CIRCLE;
-
-			///Objects Commands:
-
-
-		case Pyramid:
-			return Object::PYRAMID;
-		case Extrude:
-			return Object::OBJECT3D;
-		//case SpericalCurvedSurface:
-		//	return OBJECT3D;
-		//case Cylinder:
-		//	return OBJECT3D;
-		case Sphere:
-			return Object::SPHERE;
-		case BooleanUnion:
-		case BooleanIntersection:
-		case BooleanNOT:
-			return Object::OBJECT3D;
-		default://INVALID
-			return Object::INVALIDObjectType;
-		}
-	}
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -2615,7 +2706,7 @@ namespace operationType {
 
 
 
-	inline OperationTypeEnum GetOperation(std::string commandName,size_t *paramIndex, std::vector <Operation*> *OperationsVec, std::vector <std::string> *OperationParametersVec) {
+	inline OperationTypeEnum GetOperation(std::string commandName,size_t *paramIndex, std::vector <Operation*> *OperationsVec, std::map <std::string, Operation*> *OperationMap, std::vector <std::string> *OperationParametersVec) {
 		size_t parameterCount= OperationParametersVec->size();
 		std::vector <
 			std::vector<
@@ -2639,7 +2730,7 @@ namespace operationType {
 				if (!TestValidParameterType(
 					paramVectors->at(i)->at(0) == ParameterTypesEnum::ParameterTypeMULTIPLEPOINTS ? 
 					ParameterTypesEnum::ParameterTypePOINT : paramVectors->at(i)->at(j), 
-					OperationParametersVec->at(j),OperationsVec))
+					OperationParametersVec->at(j),OperationsVec,OperationMap))
 				{
 					found = false;
 				}

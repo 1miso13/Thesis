@@ -15,7 +15,7 @@ namespace Object {
 		Vector3 AC = p3 - p1;
 		normal = crossProduct2Vectors(AB, AC).Normalize();
 		center = ((p1 + p2 + p3) / 3);
-		GeometricType = TRIANGLE;
+		GeometricType = TRIANGLE_ObjectType;
 	}
 
 

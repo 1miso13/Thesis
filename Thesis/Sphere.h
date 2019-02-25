@@ -19,7 +19,7 @@ namespace Object {
 	{
 		this->center = center;
 		this->radius = radius;
-		GeometricType = SPHERE;
+		GeometricType = SPHERE_ObjectType;
 	}
 
 

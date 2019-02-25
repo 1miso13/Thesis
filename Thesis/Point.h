@@ -3,6 +3,7 @@
 #define POINT_CLASS
 #include "GeometricObject.h"
 #include "Vector.h"
+#include <list>
 namespace Object {
 	class Point :
 		public GeometricObject

@@ -19,7 +19,7 @@ namespace Object {
 		this->base = base;
 		this->BaseType = GetBaseType();
 		CalculateHeight();
-		GeometricType = PYRAMID;
+		GeometricType = PYRAMID_ObjectType;
 	}
 	/// <summary>
 	/// 
@@ -36,7 +36,7 @@ namespace Object {
 		this->apex = Point(base->center) + base->normal*height;
 		this->base = base;
 		this->BaseType = GetBaseType();
-		GeometricType = PYRAMID;
+		GeometricType = PYRAMID_ObjectType;
 	}
 
 	Object::Pyramid::~Pyramid()
@@ -126,13 +126,13 @@ namespace Object {
 		/// 4-polygon
 		switch (base->GeometricType)
 		{
-		case Object::ObjectTypeEnum::CIRCLE:
+		case Object::ObjectTypeEnum::CIRCLE_ObjectType:
 			return 1;
-		case Object::ObjectTypeEnum::TRIANGLE:
+		case Object::ObjectTypeEnum::TRIANGLE_ObjectType:
 			return 2;
-		case Object::ObjectTypeEnum::RECTANGLE:
+		case Object::ObjectTypeEnum::RECTANGLE_ObjectType:
 			return 3;
-		case Object::ObjectTypeEnum::POLYGON:
+		case Object::ObjectTypeEnum::POLYGON_ObjectType:
 			return 4;
 		default:
 			break;

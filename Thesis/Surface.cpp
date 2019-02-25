@@ -3,10 +3,10 @@
 
 
 namespace Object {
+
 	Surface::Surface()
 	{
-		GeometricType = SURFACE;
+		GeometricType = SURFACE_ObjectType;
 	}
-
 
 }

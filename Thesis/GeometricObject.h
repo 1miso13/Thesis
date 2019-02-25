@@ -4,51 +4,51 @@
 namespace Object {
 	enum ObjectTypeEnum
 	{
-		POINTObjectType,
-		LINE,
-		SURFACE,
-		CIRCLE,
-		RECTANGLE,
-		POLYGON,
-		TRIANGLE,
-		OBJECT3D,
-		//CYLINDER,
-		PYRAMID,
-		SPHERE,
-		INVALIDObjectType
+		POINT_ObjectType,
+		LINE_ObjectType,
+		SURFACE_ObjectType,
+		CIRCLE_ObjectType,
+		RECTANGLE_ObjectType,
+		POLYGON_ObjectType,
+		TRIANGLE_ObjectType,
+		OBJECT3D_ObjectType,
+		//CYLINDER_ObjectType,
+		PYRAMID_ObjectType,
+		SPHERE_ObjectType,
+		INVALID_ObjectType
 	};
 
 	class GeometricObject
 	{
 	public:
 		float visibility = 0;
-		ObjectTypeEnum GeometricType = INVALIDObjectType;
+		ObjectTypeEnum GeometricType = INVALID_ObjectType;
 		std::string ObjectName;
 		std::string TypeToText()
 		{
 			switch (GeometricType)
 			{
-			case POINTObjectType:
+			case POINT_ObjectType:
 				return "Point";
-			case LINE:
+			case LINE_ObjectType:
 				return "Line";
-			case SURFACE:
+			case SURFACE_ObjectType:
 				return "Surface";
-			case CIRCLE:
+			case CIRCLE_ObjectType:
 				return "Circle";
-			case RECTANGLE:
+			case RECTANGLE_ObjectType:
 				return "Rectangle";
-			case POLYGON:
+			case POLYGON_ObjectType:
 				return "Polygon";
-			case TRIANGLE:
+			case TRIANGLE_ObjectType:
 				return "Triangle";
-			case OBJECT3D:
+			case OBJECT3D_ObjectType:
 				return "3D object";
-			case PYRAMID:
+			case PYRAMID_ObjectType:
 				return "Pyramid";
-			case SPHERE:
+			case SPHERE_ObjectType:
 				return "Sphere";
-			case INVALIDObjectType:
+			case INVALID_ObjectType:
 				return "Invalid";
 			default:
 				break;

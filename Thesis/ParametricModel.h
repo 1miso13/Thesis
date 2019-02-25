@@ -69,7 +69,7 @@ public:
 		{
 			Parser parser;
 			Operation *c = NULL;
-			parser.InitParser(&OperationsVec,&paramRef);
+			parser.InitParser(&OperationsVec,&OperationMap,&paramRef);
 			if (parser.CreateCommand(s, &c))
 			{
 				AddOperation(c);
@@ -84,6 +84,7 @@ public:
 		}
 	}
 	std::vector <Operation*> GraphCommandTMP;
+	std::map <std::string,Operation*> OperationMapTMP;
 	ParamRef paramRefTMP;
 	size_t InsertedTests=0;
 	void resetTest() {
@@ -93,6 +94,7 @@ public:
 		}
 		GraphCommandTMP.clear();
 		paramRefTMP.Reset();
+		OperationMapTMP.clear();
 		StartTest();
 	}
 	void StartTest() {
@@ -100,6 +102,7 @@ public:
 		for (size_t i = 0; i < OperationsVec.size(); i++)
 		{
 			GraphCommandTMP.push_back(OperationsVec.at(i));
+			OperationMapTMP[OperationsVec.at(i)->name] = OperationsVec.at(i);
 		}
 		for (size_t i = 0; i < paramRef.paramRefVec.size(); i++)
 		{
@@ -114,7 +117,7 @@ public:
 
 			//copy GCs
 
-			parser.InitParser(&GraphCommandTMP, &paramRefTMP);
+			parser.InitParser(&GraphCommandTMP, &OperationMapTMP ,&paramRefTMP);
 
 			if (parser.CreateCommand(s, &c))
 			{

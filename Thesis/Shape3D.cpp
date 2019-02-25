@@ -7,7 +7,7 @@ namespace Object {
 
 	Shape3D::Shape3D()
 	{
-		GeometricType = OBJECT3D;
+		GeometricType = OBJECT3D_ObjectType;
 	}
 	Shape3D::~Shape3D()
 	{

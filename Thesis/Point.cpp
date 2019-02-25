@@ -2,23 +2,22 @@
 #include "pch.h"
 #include "Point.h"
 namespace Object {
-
-	Point::Point()
+Point::Point()
 	{
 		Position = Vector3(0, 0, 0);
-		GeometricType = POINTObjectType;
+		GeometricType = POINT_ObjectType;
 	}
 
 	Point::Point(float X, float Y, float Z)
 	{
 		Position = Vector3(X, Y, Z);
-		GeometricType = POINTObjectType;
+		GeometricType = POINT_ObjectType;
 	}
 
 	Point::Point(Vector3 pos)
 	{
 		Position = pos;
-		GeometricType = POINTObjectType;
+		GeometricType = POINT_ObjectType;
 	}
 
 	 Vector3 Point::GetPosition()

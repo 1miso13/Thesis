@@ -7,7 +7,7 @@ namespace Object {
 		this->center = center;
 		this->radius = radius;
 		this->normal = normal;
-		GeometricType = CIRCLE;
+		GeometricType = CIRCLE_ObjectType;
 	}
 	void Circle::CalculatePerimeter()
 	{

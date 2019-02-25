@@ -6,9 +6,11 @@
 #include <ctype.h>
 #include "OperationTypes.h"
 #include "ParamRef.h"
+#include <map>
 class Parser
 {
-	std::vector <Operation*> *OperationsVec=NULL;
+	std::vector <Operation*> *OperationsVec = NULL;
+	std::map <std::string,Operation*> *OperationsMap = NULL;
 	ParamRef *paramRef;
 	std::string removeSpace(std::string param) {
 		//remove first empty char
@@ -52,14 +54,15 @@ class Parser
 	}*/
 	bool TestValidObjectName(std::string objectName) {
 		//test valid name
-		std::vector<Operation*>::iterator it;
+		/*std::vector<Operation*>::iterator it;
 		//test, if name not exist
 		for (it= (*OperationsVec).begin(); it != (*OperationsVec).end();it++)
 		{
 			if ((*it)->name == objectName)
 				return false;
 		}
-		return true;
+		return true;*/
+		return (*OperationsMap)[objectName] == NULL;
 	}
 	bool toFloat(const std::string s,float * val) {
 		const char *begin = s.c_str();
@@ -182,15 +185,16 @@ class Parser
 	}
 public:
 	void InitParser(
-		std::vector <Operation*> *OperationsVec, ParamRef *paramRef) {
+		std::vector <Operation*> *OperationsVec, std::map <std::string, Operation*> *OperationsMap, ParamRef *paramRef) {
 		this->OperationsVec = OperationsVec;
+		this->OperationsMap = OperationsMap;
 		this->paramRef = paramRef;
 	}
 	bool CreateCommand(std::string commandString,Operation **cPtrPtr) {
 		std::string commandName;
 		std::string objectName;
 		*cPtrPtr = NULL;
-		if (OperationsVec==NULL)
+		if (OperationsVec==NULL || OperationsMap== NULL)
 		{
 			return false;
 		}
@@ -213,7 +217,7 @@ public:
 		//	return false;
 		//}
 
-		if ((operationType = operationType::GetOperation(commandName, &typeOfParameters , OperationsVec, OperationParametersVec)) == operationType::INVALID)
+		if ((operationType = operationType::GetOperation(commandName, &typeOfParameters , OperationsVec, OperationsMap, OperationParametersVec)) == operationType::INVALID)
 		{
 			return false;
 		}

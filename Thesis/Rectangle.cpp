@@ -3,6 +3,7 @@
 
 
 namespace Object {
+
 	Rectangle::Rectangle(
 		float sizeX,
 		float sizeY,
@@ -14,7 +15,7 @@ namespace Object {
 		this->sizeY = sizeY;
 		this->planeVector = planeVector;
 		this->normal = normal;
-		GeometricType = RECTANGLE;
+		GeometricType = RECTANGLE_ObjectType;
 	}
 	Rectangle::~Rectangle()
 	{

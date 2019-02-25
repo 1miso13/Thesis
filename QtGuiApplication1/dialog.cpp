@@ -95,27 +95,27 @@ void Dialog::FillCommandList()
 QIcon Dialog::setObjectIcon(Object::ObjectTypeEnum type) {
 	switch (type)
 	{
-	case Object::POINTObjectType:
+	case Object::POINT_ObjectType:
 		return QIcon("Icons/Object icons/point.jpg");
-	case Object::LINE:
+	case Object::LINE_ObjectType:
 		return QIcon("Icons/Object icons/Line.ico");
-	case Object::SURFACE:
+	case Object::SURFACE_ObjectType:
 		return QIcon("Icons/Object icons/Invalid.png");
-	case Object::CIRCLE:
+	case Object::CIRCLE_ObjectType:
 		return QIcon("Icons/Object icons/Circle.png");
-	case Object::RECTANGLE:
+	case Object::RECTANGLE_ObjectType:
 		return QIcon("Icons/Object icons/Rectangle.png");
-	case Object::POLYGON:
+	case Object::POLYGON_ObjectType:
 		return QIcon("Icons/Object icons/Polygon.png");
-	case Object::TRIANGLE:
+	case Object::TRIANGLE_ObjectType:
 		return QIcon("Icons/Object icons/Triangle.png");
-	case Object::OBJECT3D:
+	case Object::OBJECT3D_ObjectType:
 		return QIcon("Icons/Object icons/point.jpg");
-	case Object::PYRAMID:
+	case Object::PYRAMID_ObjectType:
 		return QIcon("Icons/Object icons/Pyramid.png");
-	case Object::SPHERE:
+	case Object::SPHERE_ObjectType:
 		return QIcon("Icons/Object icons/Sphere.png");
-	case Object::INVALIDObjectType:
+	case Object::INVALID_ObjectType:
 		return QIcon("Icons/Object icons/Invalid.png");
 	default:
 		return QIcon("Icons/Object icons/Invalid.png");
@@ -341,12 +341,12 @@ void Dialog::on_okButton_clicked()
 	if (validName)
 	{
 		//visibility
-		validParameters = operationType::TestValidParameterType(operationType::ParameterTypesEnum::ParameterTypeFLOAT, visibilityValue, &paramModel->OperationsVec, index);
+		validParameters = operationType::TestValidParameterType(operationType::ParameterTypesEnum::ParameterTypeFLOAT, visibilityValue, &paramModel->OperationsVec, &paramModel->OperationMap, index);
 		//Test parameters
 		for (size_t i = 0; i < k->size(); i++)
 		{
 			std::string cellText = ui->tableWidget->item(i+2, 1)->text().toStdString();
-			if (!operationType::TestValidParameterType(k->at(i), cellText, &paramModel->OperationsVec, index))
+			if (cellText == "" || !operationType::TestValidParameterType(k->at(i), cellText, &paramModel->OperationsVec, &paramModel->OperationMap, index))
 			{
 				validParameters = false;
 			}
@@ -464,7 +464,7 @@ void Dialog::on_tableWidget_cellChanged(int row, int column)
 			else {
 				if (row == 1)
 				{//visibility
-					retType = operationType::TestValidParameterType(operationType::ParameterTypeFLOAT, cellText, &paramModel->OperationsVec, index);
+					retType = operationType::TestValidParameterType(operationType::ParameterTypeFLOAT, cellText, &paramModel->OperationsVec, &paramModel->OperationMap, index);
 				}
 				else
 				{
@@ -474,7 +474,7 @@ void Dialog::on_tableWidget_cellChanged(int row, int column)
 					//	for (size_t i = 0; i < k->size(); i++)
 					{
 						//operationType::CompareTypes(k->at(i), operationType::Find(&(paramModel->OperationsVec), cellText));
-						retType = operationType::TestValidParameterType(k->at((size_t)(row - 2)), cellText, &paramModel->OperationsVec, index);
+						retType = operationType::TestValidParameterType(k->at((size_t)(row - 2)), cellText, &paramModel->OperationsVec, &paramModel->OperationMap, index);
 						//k->at(i);
 					}
 
