@@ -13,6 +13,8 @@
 #include "OperationTypes.h"
 
 
+ParametricModel QtGuiApplication1::paramModel;
+
 QtGuiApplication1::QtGuiApplication1(QWidget *parent)
 	: QMainWindow(parent)
 {

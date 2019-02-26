@@ -220,6 +220,7 @@
     <ClCompile Include="Pyramid.cpp" />
     <ClCompile Include="Rectangle.cpp" />
     <ClCompile Include="Polygon.cpp" />
+    <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="Shape3D.cpp" />
     <ClCompile Include="Sphere.cpp" />
     <ClCompile Include="Surface.cpp" />

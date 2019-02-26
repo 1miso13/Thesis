@@ -1,0 +1,11 @@
+GeneratedFiles/Debug/moc_QtGuiApplication2.cpp
+GeneratedFiles/Release/moc_QtGuiApplication2.cpp
+GeneratedFiles/qrc_QtGuiApplication2.cpp
+GeneratedFiles/ui_QtGuiApplication2.h
+QtGuiApplication2.cpp
+QtGuiApplication2.h
+QtGuiApplication2.qrc
+QtGuiApplication2.ui
+main.cpp
+oglwidget.cpp
+oglwidget.h

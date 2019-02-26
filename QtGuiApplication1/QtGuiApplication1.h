@@ -8,6 +8,8 @@ class QtGuiApplication1 : public QMainWindow
 {
 	Q_OBJECT
 
+private:
+	static ParametricModel paramModel;
 public:
 	QtGuiApplication1(QWidget *parent = Q_NULLPTR);
 	static QIcon setObjectIcon(Object::ObjectTypeEnum type);
@@ -90,6 +92,5 @@ private:
 
 
 	void OperationToQStrings(Operation *c, QTreeWidgetItem* qTreeWidgetItem);
-	ParametricModel paramModel;
 	//~QtGuiApplication1();
 };
