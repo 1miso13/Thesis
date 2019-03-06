@@ -5,11 +5,20 @@ VisualStudioVersion = 15.0.28010.2016
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Thesis", "Thesis\Thesis.vcxproj", "{52136361-4F44-41F1-9429-FE888391D4CC}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "QtGuiApplication1", "QtGuiApplication1\QtGuiApplication1.vcxproj", "{B12702AD-ABFB-343A-A199-8E24837244A3}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ParametricModel_Editor", "QtGuiApplication1\QtGuiApplication1.vcxproj", "{B12702AD-ABFB-343A-A199-8E24837244A3}"
+	ProjectSection(ProjectDependencies) = postProject
+		{52136361-4F44-41F1-9429-FE888391D4CC} = {52136361-4F44-41F1-9429-FE888391D4CC}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestProgram", "TestProgram\TestProgram.vcxproj", "{D8A50A2D-C012-4DC0-9A29-0BACDA17AC83}"
+	ProjectSection(ProjectDependencies) = postProject
+		{52136361-4F44-41F1-9429-FE888391D4CC} = {52136361-4F44-41F1-9429-FE888391D4CC}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "QtGuiApplication2", "QtGuiApplication2\QtGuiApplication2.vcxproj", "{89499FDC-4B3C-4145-983D-2215EA236742}"
+	ProjectSection(ProjectDependencies) = postProject
+		{52136361-4F44-41F1-9429-FE888391D4CC} = {52136361-4F44-41F1-9429-FE888391D4CC}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

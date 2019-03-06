@@ -15,24 +15,18 @@ namespace operationType {
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
-	enum ParameterTypesEnum {
-		ParameterTypePOINT,
-		ParameterTypeMULTIPLEPOINTS,
-		ParameterTypeFLOAT,
-		//ParameterTypeEXPRESSION,
-		ParameterTypeLINE,
-		ParameterTypeSURFACE,
-		ParameterTypeTRIANGLE,
-		ParameterTypeOBJECT3D
-	};
+
 	inline void ClearParamVectors(std::vector <
 		std::vector<
 		operationType::ParameterTypesEnum
 		>*
-	>** paramVectors) {
-		for (size_t i = 0; i < (*paramVectors)->size(); i++)
+	>** paramVectors, long except = -1) {
+		for (long i = 0; i < (long)(*paramVectors)->size(); i++)
 		{
-			delete (*paramVectors)->at(i);
+			if (i != except)
+			{
+				delete (*paramVectors)->at(i);
+			}
 		}
 		delete (*paramVectors);
 	}
@@ -304,10 +298,7 @@ namespace operationType {
 	inline bool TestExpressionsIdentifiers(Expression *e, std::map <std::string, Operation*> *OperationsMap){
 		//TODO
 		bool valid = true;
-		if (OperationsMap->size()==0)
-		{
-			return false;
-		}
+		
 		for (size_t i = 0; i < e->tokenCount(); i++)
 		{
 			std::string token;
@@ -337,7 +328,10 @@ namespace operationType {
 					}
 					std::string objectName = token.substr(0, delimiterPosition);
 					token.erase(0, delimiterPosition + 1);
-
+					if (OperationsMap->size() == 0)
+					{
+						return false;
+					}
 					Operation* o = (*OperationsMap)[objectName];
 					
 					if (!IsValidObjectValue(o, objectName, token))
@@ -2697,6 +2691,8 @@ namespace operationType {
 					return "TRIANGLE";
 				case ParameterTypeOBJECT3D:
 					return "OBJECT3D";
+				//case ParameterTypeEXPRESSION:
+				//	return "EXPRESSION";
 			default:
 				break;
 			}
@@ -2706,15 +2702,14 @@ namespace operationType {
 
 
 
-	inline OperationTypeEnum GetOperation(std::string commandName,size_t *paramIndex, std::vector <Operation*> *OperationsVec, std::map <std::string, Operation*> *OperationMap, std::vector <std::string> *OperationParametersVec) {
+	inline OperationTypeEnum GetOperation(std::string commandName,size_t *paramIndex, std::vector <Operation*> *OperationsVec, std::map <std::string, Operation*> *OperationMap, std::vector <std::string> *OperationParametersVec,std::vector <ParameterTypesEnum> **paramTypes) {
 		size_t parameterCount= OperationParametersVec->size();
 		std::vector <
 			std::vector<
 			ParameterTypesEnum
 			>*
-		>* paramVectors;
-		OperationTypeEnum ret = GetOperationParameters(commandName, &paramVectors);
-
+		>* paramVectors;		OperationTypeEnum ret = GetOperationParameters(commandName, &paramVectors);
+		*paramIndex = 0;
 		
 		bool found = false;
 		for (size_t i = 0; i < paramVectors->size(); i++)
@@ -2741,7 +2736,12 @@ namespace operationType {
 				break;
 			}
 		}
-		ClearParamVectors(&paramVectors);
+		if (*paramIndex == 0)
+		{
+			return operationType::INVALID;
+		}
+		*paramTypes =(*paramVectors)[*paramIndex-1];
+		ClearParamVectors(&paramVectors,(long)*paramIndex-1);
 		if (found)
 		{
 			return ret;

@@ -35,12 +35,16 @@ public:
 	/// </summary>
 	ParamRef paramRef;
 	ParametricModel() {
-		treeBuilder = new TreeBuilder(&OperationsVec,&Objects,&ObjectMap);
+		treeBuilder = new TreeBuilder(&OperationsVec,&Objects,&ObjectMap, &paramRef,&OperationMap);
 		paramRef.InitPrimary();
 	}
 	Object::GeometricObject* GetObject(std::string objectName) {
 		return ObjectMap[objectName];
 	}
+	/// <summary>
+	/// Rebuild objects in model
+	/// Call this to apply modifications
+	/// </summary>
 	void ReBuildTree() {
 		treeBuilder->Build();
 			
@@ -83,10 +87,12 @@ public:
 			return false;
 		}
 	}
+private:
 	std::vector <Operation*> GraphCommandTMP;
 	std::map <std::string,Operation*> OperationMapTMP;
 	ParamRef paramRefTMP;
 	size_t InsertedTests=0;
+public:
 	void resetTest() {
 		for (size_t i = OperationsVec.size() ; i < GraphCommandTMP.size(); i++)
 		{
@@ -97,6 +103,7 @@ public:
 		OperationMapTMP.clear();
 		StartTest();
 	}
+private:
 	void StartTest() {
 
 		for (size_t i = 0; i < OperationsVec.size(); i++)
@@ -109,7 +116,8 @@ public:
 			paramRefTMP.paramRefVec.push_back(paramRef.paramRefVec.at(i));
 		}
 	}
-	bool TestCommand(std::string s) {
+public:
+	bool TestOperation(std::string s) {
 		try
 		{
 			Parser parser;
@@ -133,7 +141,6 @@ public:
 			return false;
 		}
 	}
-	
 	~ParametricModel()
 	{
 		delete treeBuilder;
@@ -144,7 +151,7 @@ public:
 		OperationsVec.clear();
 	}
 
-
+public:
 	bool AddReferenceParam(std::string ParamRefName, std::string refObjectName, size_t paramIndex) {
 		//test if Object with name really exist
 		if (OperationMap[refObjectName]!= NULL) {
@@ -222,6 +229,13 @@ public:
 				break;
 			}
 		}
+	}
+	/// <summary>
+	/// Get object value in string form
+	/// </summary>
+	/// <returns>object value</returns>
+	float GetObjectValue(std::string s,bool* Err) {
+		return ObjectsValues::GetObjectValue(&ObjectMap, s, Err);
 	}
 };
 

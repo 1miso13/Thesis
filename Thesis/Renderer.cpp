@@ -20,7 +20,11 @@
    OutputDebugString( os_.str().c_str() );  \
 }
 #endif // DEBUG
-
+float vertices[] = {
+	-0.5f, -0.5f, 0.0f,
+	 0.5f, -0.5f, 0.0f,
+	 0.0f,  0.5f, 0.0f
+};
 
 void Renderer::init(){
 
@@ -41,13 +45,12 @@ void Renderer::init(){
 	{
 		vs = glCreateShader(GL_VERTEX_SHADER);
 		const char *vertexShaderSourceCode = R"(
-#version 450"
-
-in vec3 position;
+#version 330 core
+layout (location = 0) in vec3 aPos;
 
 void main()
 {
-	gl_Position = vec4(position, 1.0);
+    gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);
 }
 )";
 		glShaderSource(vs, 1, &vertexShaderSourceCode, NULL);
@@ -65,14 +68,13 @@ void main()
 	{
 		fs = glCreateShader(GL_FRAGMENT_SHADER);
 		const char *fragmentShaderSourceCode = R"(
-#version 450
- 
-out vec4 colorOut;
- 
+#version 330 core
+out vec4 FragColor;
+
 void main()
 {
-    colorOut = vec4(1.0, 0.0, 0.0, 1.0);
-}
+    FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);
+} 
 )";
 		glShaderSource(fs, 1, &fragmentShaderSourceCode, NULL);
 		glCompileShader(fs);
@@ -109,6 +111,8 @@ void main()
 		DBOUT("VS Shader Error" << infoLog);
 #endif
 	}
+	glDeleteShader(vs);
+	glDeleteShader(fs);
 
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
@@ -124,19 +128,22 @@ void main()
 	//glCreateVertexArrays()
 
 	// Create VBO vertices, normals, uvs
-	//glCreateBuffers
-	//glBindBuffer
-	//glBufferData
+	// glGenBuffers(1, &VBO);
+	glCreateBuffers(1,&VBO);
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
 	// Setup vertex pointer arrays
 	//glEnableVertexArrayAttrib(0);
 	//glVertexAttribPointer(0, 2, ...)
-
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(0);
 }
 void Renderer::draw(float aspect) {
 
 	glClearColor(1, 0, 0, 1);
-	glLoadIdentity();
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	/*glLoadIdentity();
 
 	glBegin(GL_TRIANGLES);
 
@@ -155,7 +162,7 @@ void Renderer::draw(float aspect) {
 	glVertex3f(-1, 1, 0);
 	glVertex3f(-1, -1, 0);
 	glVertex3f(0, 0, 1.2);
-	glEnd();
+	glEnd();*/
 	//glUseProgram(program);
 	// Setup program unifroms: transform, colors, etc ..
 	//glUniform
@@ -167,4 +174,16 @@ void Renderer::draw(float aspect) {
 	//glDrawElements
 
 	//SwapBuffers(this);
+
+	// 0. copy our vertices array in a buffer for OpenGL to use
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+	// 1. then set the vertex attributes pointers
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(0);
+	// 2. use our shader program when we want to render an object
+	glUseProgram(program);
+	// 3. now draw the object 
+	glDrawArrays(GL_TRIANGLES, 0, 3);
+
 }

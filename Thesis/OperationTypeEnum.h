@@ -1,5 +1,15 @@
 #pragma once
 namespace operationType {
+	enum ParameterTypesEnum {
+		ParameterTypePOINT,
+		ParameterTypeMULTIPLEPOINTS,
+		ParameterTypeFLOAT,
+		//ParameterTypeEXPRESSION,
+		ParameterTypeLINE,
+		ParameterTypeSURFACE,
+		ParameterTypeTRIANGLE,
+		ParameterTypeOBJECT3D
+	};
 	enum OperationTypeEnum {
 		///COMMAND LIST:
 

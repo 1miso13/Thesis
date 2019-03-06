@@ -85,16 +85,20 @@ inline bool ParamRef::FindRefParameter(std::string ParamRefName, std::string *re
 		{
 			*refObjectNamePtr = paramRefVec.at(i).ObjectName;
 			*paramIndexPtr = paramRefVec.at(i).paramindex;
+			return true;
 		}
 	}
+	return false;
 }
 inline bool ParamRef::FindRefParameterByObject(std::string refObjectName, std::vector <paramRefStruct> * paramStructVecPtr) {
 	for (size_t i = 0; i < paramRefVec.size(); i++) {
 		if (paramRefVec.at(i).ObjectName == refObjectName)
 		{
 			paramStructVecPtr->push_back(paramRefVec.at(i));
+			return true;
 		}
 	}
+	return false;
 }
 inline bool ParamRef::FindRefParameterByObjectAndIndex(std::string refObjectName, size_t paramIndex, std::string *paramRefName) {
 	for (size_t i = 0; i < paramRefVec.size(); i++) {

@@ -1,6 +1,8 @@
 #pragma once
 #include "Vector.h"
 #include <string>
+#include <vector>
+#include <map>
 namespace Object {
 	enum ObjectTypeEnum
 	{

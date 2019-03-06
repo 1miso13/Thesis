@@ -30,13 +30,13 @@
     <QtMsBuild>$(MSBuildProjectDirectory)\QtMsBuild</QtMsBuild>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\$(ProjectName)</OutDir>
+    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\$(ProjectName)\</OutDir>
     <IncludePath>D:\Workspace\lib\glew-2.1.0\include;D:\Workspace\lib\Graphviz 2.41.20190122.1819\include;$(IncludePath)</IncludePath>
     <LibraryPath>D:\Workspace\Master Thesis\Thesis\x64\Debug;D:\Workspace\lib\Graphviz 2.41.20190122.1819\lib;D:\Workspace\lib\glew-2.1.0\lib\Release\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\$(ProjectName)</OutDir>
-    <IncludePath>D:\Workspace\lib\glew-2.1.0\include;D:\Workspace\lib\Graphviz 2.41.20190122.1819\include;$(IncludePath)</IncludePath>
+    <IncludePath>D:\Workspace\lib\glew-2.1.0\include;D:\Workspace\lib\graphviz\include;$(IncludePath)</IncludePath>
     <LibraryPath>D:\Workspace\Master Thesis\Thesis\x64\Release;D:\Workspace\lib\Graphviz 2.41.20190122.1819\lib;D:\Workspace\lib\glew-2.1.0\lib\Release\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <Target Name="QtMsBuildNotFound" BeforeTargets="CustomBuild;ClCompile" Condition="!Exists('$(QtMsBuild)\qt.targets') or !Exists('$(QtMsBuild)\qt.props')">

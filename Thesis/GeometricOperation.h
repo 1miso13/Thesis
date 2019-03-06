@@ -34,10 +34,10 @@ namespace Operations{
 
 enum Err
 {
+	Valid,
 	LineParalell,
 	//IntersectionOutsidePlane,
-	BadLine,
-	Valid
+	BadLine
 };
 Object::Point Intersection_Plane_Line(Object::Surface *s, Object::Line *l, Err *type);
 

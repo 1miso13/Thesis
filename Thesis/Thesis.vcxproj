@@ -124,6 +124,7 @@
     </Bscmake>
     <Lib>
       <AdditionalDependencies>glew32s.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -208,6 +209,7 @@
     <ClCompile Include="GeometricOperation.cpp" />
     <ClCompile Include="Geometry.cpp" />
     <ClCompile Include="Line.cpp" />
+    <ClCompile Include="Operation.cpp" />
     <ClCompile Include="ParamRef.cpp" />
     <ClCompile Include="Parser.cpp" />
     <ClCompile Include="pch.cpp">

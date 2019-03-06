@@ -11,6 +11,7 @@
 #include "ParametricModel.h"
 #include "OperationTypes.h"
 #include "OperationTypes.h"
+#include <utility>
 
 
 ParametricModel QtGuiApplication1::paramModel;
@@ -215,7 +216,7 @@ void QtGuiApplication1::on_lineEdit_textEdited(const QString &arg1)
 	for (size_t i = 0; i < commandsVec.size(); i++)
 	{
 
-		if (!paramModel.TestCommand(commandsVec.at(i)))
+		if (!paramModel.TestOperation(commandsVec.at(i)))
 		{
 			noError = false;
 		}
@@ -243,7 +244,12 @@ void CopyCommand(Operation * cFROM, Operation *& cTO) {
 		std::string s = (cFROM->OperationParametersVec)->at(i);
 		commandParameterVector->push_back(s);
 	}
-	cTO = new Operation(cFROM->name,cFROM->visibility,cFROM->operationType,commandParameterVector,cFROM->typeOfParameters);
+	std::vector<operationType::ParameterTypesEnum>* paramTypes = new std::vector<operationType::ParameterTypesEnum>();
+	for (size_t i = 0; i < cFROM->Parameters->size(); i++)
+	{
+		paramTypes->push_back((*cFROM->Parameters)[i].first);
+	}
+	cTO = new Operation(cFROM->name,cFROM->visibility,cFROM->operationType,commandParameterVector,cFROM->typeOfParameters, paramTypes);
 }
 
 /// <summary>
@@ -259,7 +265,6 @@ bool TestCommandSemantic(ParametricModel *paramModel, size_t index) {
 		&paramVectors);
 
 	std::vector <operationType::ParameterTypesEnum> * k = paramVectors->at(paramModel->OperationsVec.at(index)->typeOfParameters - 1);
-	operationType::ClearParamVectors(&paramVectors);
 	//Test parameters
 	for (size_t i = 0; i < k->size(); i++)
 	{
@@ -283,10 +288,11 @@ bool TestCommandSemantic(ParametricModel *paramModel, size_t index) {
 			}
 		}
 	}
+	operationType::ClearParamVectors(&paramVectors);
 	
 	return true;
 }
-void QtGuiApplication1::TestOperationsValidity(size_t indexFrom) {
+void QtGuiApplication1::TestOperationsValidity(size_t indexFrom=0) {
 	size_t countOfInvalid = 0;
 	for (size_t i = indexFrom; i < paramModel.OperationsVec.size(); i++)
 	{
@@ -303,7 +309,7 @@ void QtGuiApplication1::TestOperationsValidity(size_t indexFrom) {
 			ui.treeWidget->topLevelItem(i)->setBackgroundColor(1, QColor(255, 255, 255));
 		}
 	}
-	ReadyToBuild = countOfInvalid == 0;
+	//ReadyToBuild = countOfInvalid == 0;
 }
 void QtGuiApplication1::on_treeWidget_itemDoubleClicked(QTreeWidgetItem *item, int column)
 {
@@ -439,9 +445,14 @@ void QtGuiApplication1::CreateGraph() {
 			{
 				//find parent object
 				std::string par = o->OperationParametersVec->at(j);
-				std::string parent = paramModel.OperationMap[par]->name;
+				auto parent = paramModel.OperationMap[par];
+				if (parent == NULL)
+				{
+					continue;
+				}
+				std::string parentStr = parent->name;
 				//add edge from parent to this
-				graph->addEdge(QString::fromStdString(parent), QString::fromStdString(o->name), parent + "_" + o->name);
+				graph->addEdge(QString::fromStdString(parentStr), QString::fromStdString(o->name), parentStr + "_" + o->name);
 			}
 
 		}
@@ -497,7 +508,8 @@ void QtGuiApplication1::RefreshObjectList()
 		paramModel.ReBuildTree();
 	}
 
-	//delete 
+	//delete
+	ui.treeWidget_2->clear();
 
 	if (ReadyToBuild)
 	{
@@ -563,7 +575,9 @@ void QtGuiApplication1::on_tableWidget_cellChanged(int row, int column)
 		return;
 	}
 	std::string ParamValue = ui.RefParam_tableWidget->item(row, 1)->text().toStdString();
-	if (!isFloat(ParamValue))
+	//if (!isFloat(ParamValue))
+	Expression e(ParamValue);
+	if (!e.isValid)
 	{
 		ui.RefParam_tableWidget->item(row, column)->setBackgroundColor(QColor(200, 0, 0));
 		return;

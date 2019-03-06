@@ -32,15 +32,16 @@ void RefTableWidget::RefillRefTable(ParametricModel *paramModel)
 	for (size_t i = 0; i < count; i++)
 	{
 		//find value 
-		for (size_t j = 0; j < paramModel->OperationsVec.size(); j++)
-		{
+		//for (size_t j = 0; j < paramModel->OperationsVec.size(); j++)
+		//{
 
-			if (paramModel->OperationsVec.at(j)->name == paramRefVec->at(i).ObjectName)
-			{
-				value = paramModel->OperationsVec.at(j)->OperationParametersVec->at(paramRefVec->at(i).paramindex);
-				break;
-			}
-		}
+		//	if (paramModel->OperationsVec.at(j)->name == paramRefVec->at(i).ObjectName)
+		//	{
+		Operation * o = paramModel->OperationMap[paramRefVec->at(i).ObjectName];
+
+		value = o->OperationParametersVec->at(paramRefVec->at(i).paramindex);
+		//	}
+		//}
 		insertRow(rowCount());
 		QTableWidgetItem *item = new QTableWidgetItem(QString::fromStdString(paramRefVec->at(i).refName), QTableWidgetItem::Type);
 		item->setFlags(item->flags() ^ Qt::ItemIsEditable);

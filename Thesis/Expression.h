@@ -1,9 +1,15 @@
 #pragma once
 #include <string>
 #include <vector>
+#include <map>
+
+#include "GeometricObject.h"
+#include "ParamRef.h"
+#include "Operation.h"
+
 class Expression
 {
-	static char PrecedenceTable[10][10]; 
+	static char PrecedenceTable[11][11]; 
 //	=
 // 	{	/*	  +    -	*	 /	  %	   i	 (	  )		trig   $*/
 // /*+*/		{'>', '>', '<', '<', '<', '<',	'<', '>',   '<',  '>'},
@@ -25,19 +31,19 @@ public:
 		tokenTypeNumber,
 		tokenTypeParameter,
 		tokenTypeObjectValue,
-		tokenTypeTrigonometric
+		tokenTypeUnary
 	};
+	float VALUE = 0;
 private:
 	std::vector <tokenType> tokenTypes;
-	std::vector <std::string> EvaluationStack;
 	std::vector <std::string> tokens;
+	std::vector <std::pair<tokenType,std::string>> EvaluationStack;
 	bool parseExp(std::string s);
 
 	bool parseNum(std::string s/*whole expression*/,size_t i/*from index*/,size_t *numLength/*return length of number*/,std::string *token/*return number in string form*/);
 	void getIdentifier(std::string s/*whole expression*/, size_t i/*from index*/, size_t *length/*return length*/, std::string *token/*return string*/);
-
 public:
-	Expression();
+	//Expression();
 	/// <summary>
 	/// Build tree from entered string
 	/// 
@@ -66,9 +72,10 @@ public:
 	~Expression();
 	/// <summary>
 	/// Evaluate expression
+	/// Expression can contain invalid identifier, if invalid return 0 and error = true
 	/// </summary>
 	/// <returns></returns>
-	float Evaluate();
+	float Evaluate(std::map<std::string, Object::GeometricObject*> *ObjectMap, std::map<std::string, Operation*>* OperationMap, ParamRef *paramRef, bool * Err);
 	bool isValid = false;
 	tokenType getToken(size_t pos, std::string  *token = NULL) {
 		if (token != NULL)
@@ -78,6 +85,10 @@ public:
 		return tokenTypes.at(pos);
 	}
 	size_t tokenCount();
+private:
+	std::string BinaryOperation(std::string operation, std::string left, std::string right);
+	std::string UnaryOperation(std::string operation, std::string param);
+	size_t GetCharacterPosition(Expression::tokenType, std::string s);
 };
 
 

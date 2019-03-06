@@ -10,6 +10,8 @@ public:
 
 	unsigned int /*GLuint*/ vs = 0, fs = 0, program = 0;
 
+	unsigned int VBO;
+
 	void setCameraPosition(float X, float Y, float Z) {
 
 	}

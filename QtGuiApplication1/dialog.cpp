@@ -42,10 +42,7 @@ Dialog::Dialog(ParametricModel *paramModel, Operation ** c, DialogWindowType Dia
 
 Dialog::~Dialog()
 {
-	if (ui->okButton->isEnabled())
-	{
-		operationType::ClearParamVectors(&paramVectors);
-	}
+
     delete ui;
 }
 
@@ -413,8 +410,11 @@ void Dialog::on_okButton_clicked()
 		}
 	}
 
-	*c = new Operation(objectName, std::stof(visibilityValue),(operationType::OperationTypeEnum)cStruct.operationID,commandParamVec,cStruct.ParameterID+1);
-
+	*c = new Operation(objectName, std::stof(visibilityValue),(operationType::OperationTypeEnum)cStruct.operationID,commandParamVec,cStruct.ParameterID+1, (*paramVectors)[cStruct.ParameterID]);
+	if (ui->okButton->isEnabled())
+	{
+		operationType::ClearParamVectors(&paramVectors, cStruct.ParameterID);
+	}
 	//clean
 	Clean();
     this->accept();

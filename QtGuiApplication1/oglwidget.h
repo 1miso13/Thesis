@@ -27,7 +27,7 @@ public:
 
 	virtual void paintGL() {
 		//glClearColor(1, 0, 0, 1);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		//glViewport(0, 0, width(), height());
 
@@ -35,6 +35,7 @@ public:
 		float aspect = (float)width() / (float)height();
 		renderer.draw(aspect);
 
+		//auto s = glGetString(GL_VERSION);
 		
 		//SwapBuffers(this);
 		//glFinish();

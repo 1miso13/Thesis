@@ -78,6 +78,19 @@ class Parser
 		}
 		return ret;
 	}
+private:
+	bool RemoveParenthesisChar(std::string& s) {
+		if (s.length()>0 && s[s.length()-1]==')')
+		{
+			s.pop_back();
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+public:
 	bool ParseCom(std::string *sPtr, std::string *commandNamePtr, std::vector<std::string> *OperationParametersVec) {
 		size_t length=(*sPtr).length();
 
@@ -102,10 +115,10 @@ class Parser
 		size_t paramIndex = 0;
 		for (;  i< length; i++)
 		{
-			if ((*sPtr)[i] == ')')
-			{
-				break;
-			}
+			//if ((*sPtr)[i] == ')')
+			//{
+			//	break;
+			//}
 			if ((*sPtr)[i] == ',')
 			{
 				if (token=="")
@@ -120,11 +133,14 @@ class Parser
 				token = token + (*sPtr)[i];
 			}
 		}
-
-		if (token == "")
-		{
+		//remove last character )
+		if (!RemoveParenthesisChar(token)) {
 			return false;
 		}
+		//if (token == "")
+		//{
+		//	return false;
+		//}
 
 		OperationParametersVec->push_back(removeSpace(token));
 
@@ -216,8 +232,8 @@ public:
 		//{
 		//	return false;
 		//}
-
-		if ((operationType = operationType::GetOperation(commandName, &typeOfParameters , OperationsVec, OperationsMap, OperationParametersVec)) == operationType::INVALID)
+		std::vector<operationType::ParameterTypesEnum> *paramTypes;
+		if ((operationType = operationType::GetOperation(commandName, &typeOfParameters , OperationsVec, OperationsMap, OperationParametersVec,&paramTypes)) == operationType::INVALID)
 		{
 			return false;
 		}
@@ -237,7 +253,7 @@ public:
 		}
 		
 			//add parameter list to command parameter vector
-		*cPtrPtr = new Operation(objectName, visibility,operationType,OperationParametersVec,typeOfParameters);
+		*cPtrPtr = new Operation(objectName, visibility,operationType,OperationParametersVec,typeOfParameters, paramTypes);
 
 		return true;
 	}

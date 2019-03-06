@@ -73,12 +73,12 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>D:\Workspace\Master Thesis\Thesis\Thesis;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\Workspace\Master Thesis\Thesis\x64\Debug;$(LibraryPath)</LibraryPath>
+    <IncludePath>D:\Workspace\lib\glfw-3.2.1.bin.WIN64\include;D:\Workspace\Master Thesis\Thesis\Thesis;$(IncludePath)</IncludePath>
+    <LibraryPath>D:\Workspace\lib\glfw-3.2.1.bin.WIN64\lib-vc2015;D:\Workspace\Master Thesis\Thesis\x64\Debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>D:\Workspace\Master Thesis\Thesis\Thesis;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\Workspace\Master Thesis\Thesis\x64\Debug;$(LibraryPath)</LibraryPath>
+    <IncludePath>D:\Workspace\lib\glfw-3.2.1.bin.WIN64\include;D:\Workspace\Master Thesis\Thesis\Thesis;$(IncludePath)</IncludePath>
+    <LibraryPath>D:\Workspace\lib\glfw-3.2.1.bin.WIN64\lib-vc2015;D:\Workspace\Master Thesis\Thesis\x64\Debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -89,7 +89,7 @@
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>Thesis.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Thesis.lib;glfw3.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -127,7 +127,7 @@
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>Thesis.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Thesis.lib;glfw3.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
