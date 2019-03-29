@@ -343,7 +343,48 @@ namespace operationType {
 		}
 		return valid;
 	}
-
+	inline unsigned char HEXtoUChar(unsigned char c[], bool *Err)
+	{
+		unsigned char value = 0;
+		if (!	(((c[0] >= '0' && c[0] <= '9') || (c[0] >= 'A' && c[0] <= 'F')))&&
+				(((c[1] >= '0' && c[1] <= '9') || (c[1] >= 'A' && c[1] <= 'F')))
+			)
+		{
+			*Err = true;
+			return 0;
+		}
+		if (c[1] <= '9')
+		{
+			value = c[1] - '0';
+		}
+		else
+		{
+			value = c[1] - 'A';
+		}
+		if (c[1] <= '9')
+		{
+			value += (c[0] - '0')*16;
+		}
+		else
+		{
+			value += (c[0] - 'A')*16;
+		}
+		return value;
+	}
+	static unsigned char defColorArray[] = {0, 0, 0, 0};
+	inline bool colorParser(std::string colorHEXStr_RRGGBBAA, unsigned char color[4] = defColorArray) {
+		if (colorHEXStr_RRGGBBAA.length() != 8)
+		{
+			return false;
+		}
+		bool Err = false;
+		for (unsigned char i = 0; i < 4; i++)
+		{
+			unsigned char c[] = { (unsigned char)colorHEXStr_RRGGBBAA[i * 2], (unsigned char)colorHEXStr_RRGGBBAA[i * 2 + 1] };
+			color[i] = HEXtoUChar(c, &Err);
+		}
+		return !Err;
+	}
 	inline bool TestValidParameterType(ParameterTypesEnum parameterType, std::string paramValue, std::vector <Operation*> *OperationsVec, std::map <std::string, Operation*> * OperationsMap,int to=-1) {
 		/*POINTObjectType,
 	LINE,

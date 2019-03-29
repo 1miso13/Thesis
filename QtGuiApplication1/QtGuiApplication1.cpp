@@ -14,13 +14,14 @@
 #include <utility>
 
 
-ParametricModel QtGuiApplication1::paramModel;
+//ParametricModel QtGuiApplication1::paramModel;
 
 QtGuiApplication1::QtGuiApplication1(QWidget *parent)
 	: QMainWindow(parent)
 {
 	graph = new GVGraph("graph");
 	ui.setupUi(this);
+	ui.openGLWidget->setParamModel(&paramModel);
 }
 bool IsNotEmpty(std::string s)
 {
@@ -56,8 +57,8 @@ void QtGuiApplication1::OperationToQStrings(Operation *c, QTreeWidgetItem* qTree
 	qTreeWidgetItem->setIcon(0,setObjectIcon(operationType::findTypeOfOperation(c->operationType)));
 	// 1 - Operation Name
 	qTreeWidgetItem->setText(1, QString::fromStdString(c->name));
-	// 2 - Visibility
-	qTreeWidgetItem->setText(2, QString::number(c->visibility));
+	// 2 - Color
+	qTreeWidgetItem->setText(2, QString::fromStdString(c->getColorHEX()));
 
 	std::vector <
 		std::vector<
@@ -249,7 +250,7 @@ void CopyCommand(Operation * cFROM, Operation *& cTO) {
 	{
 		paramTypes->push_back((*cFROM->Parameters)[i].first);
 	}
-	cTO = new Operation(cFROM->name,cFROM->visibility,cFROM->operationType,commandParameterVector,cFROM->typeOfParameters, paramTypes);
+	cTO = new Operation(cFROM->name,cFROM->color,cFROM->operationType,commandParameterVector,cFROM->typeOfParameters, paramTypes);
 }
 
 /// <summary>
@@ -434,7 +435,11 @@ void QtGuiApplication1::CreateGraph() {
 	{
 		Operation * o = paramModel.OperationsVec.at(i);
 		graph->addNode(QString::fromStdString(o->name));
-
+		/*if (i==0)
+		{
+			graph->setRootNode(QString::fromStdString(o->name));
+		}*/
+		
 		operationType::GetOperationParameters(operationType::OperationToString(o->operationType), &paramVectors);
 		/// <summary>
 		/// for all non float parameters
@@ -523,7 +528,7 @@ void QtGuiApplication1::RefreshObjectList()
 
 			qTreeWidgetItem->setText(0, QString::fromStdString(paramModel.Objects.at(i)->ObjectName));
 			qTreeWidgetItem->setText(1, QString::fromStdString(paramModel.Objects.at(i)->TypeToText()));
-			qTreeWidgetItem->setText(2, QString::number(paramModel.Objects.at(i)->visibility));
+			qTreeWidgetItem->setText(2, QString::fromStdString(paramModel.Objects.at(i)->getColorHEX()));
 			qTreeWidgetItem->setIcon(0, setObjectIcon(paramModel.Objects.at(i)->GeometricType));
 		
 			ui.treeWidget_2->repaint();

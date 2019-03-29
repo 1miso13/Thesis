@@ -8,9 +8,8 @@ class QtGuiApplication1 : public QMainWindow
 {
 	Q_OBJECT
 
-private:
-	static ParametricModel paramModel;
 public:
+	ParametricModel paramModel;
 	QtGuiApplication1(QWidget *parent = Q_NULLPTR);
 	static QIcon setObjectIcon(Object::ObjectTypeEnum type);
 	GVGraph *graph;

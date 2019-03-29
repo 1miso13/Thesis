@@ -146,7 +146,7 @@ public:
 
 		return true;
 	}
-	bool ParseCommand(std::string *commandStringPtr, std::string *commandNamePtr, std::string *objectNamePtr, std::vector <std::string> *CommandParameterVectorPtr,float *visibilityPtr, std::vector <paramRefStruct> *refStructVec) {
+	bool ParseCommand(std::string *commandStringPtr, std::string *commandNamePtr, std::string *objectNamePtr, std::vector <std::string> *CommandParameterVectorPtr, unsigned char color[4], std::vector <paramRefStruct> *refStructVec) {
 		///divide command name and parameters
 		///"commandName(parameter1,parameter2,...,parameterN)"
 
@@ -165,12 +165,12 @@ public:
 
 		(*CommandParameterVectorPtr).erase((*CommandParameterVectorPtr).begin());
 
-		///Last parameter is drawable - optional
-		//visibility parameter is float 
-		if (!toFloat((*CommandParameterVectorPtr).at((*CommandParameterVectorPtr).size() - 1), visibilityPtr)) {
+		///Last parameter is color in format RRGGBBAA
+		if (!operationType::colorParser((*CommandParameterVectorPtr).at((*CommandParameterVectorPtr).size() - 1), color))
+		{
 			return false;
 		}
-			//remove visibility parameter
+		//remove color parameter
 		(*CommandParameterVectorPtr).erase((*CommandParameterVectorPtr).end()-1);
 
 		//REFERENCE params
@@ -214,14 +214,13 @@ public:
 		{
 			return false;
 		}
-		float visibility = 1;
+		unsigned char color[4] = {0,0,0,0};
 			//parse parameters
 		std::vector <std::string> *OperationParametersVec = new std::vector <std::string>();
 
 		std::vector <paramRefStruct> refStructVec;
-		if (!ParseCommand(&commandString, &commandName, &objectName, OperationParametersVec,&visibility, &refStructVec))//test command syntax
+		if (!ParseCommand(&commandString, &commandName, &objectName, OperationParametersVec,color, &refStructVec))//test command syntax
 		{
-			
 			return false;
 		}
 
@@ -253,7 +252,7 @@ public:
 		}
 		
 			//add parameter list to command parameter vector
-		*cPtrPtr = new Operation(objectName, visibility,operationType,OperationParametersVec,typeOfParameters, paramTypes);
+		*cPtrPtr = new Operation(objectName, color,operationType,OperationParametersVec,typeOfParameters, paramTypes);
 
 		return true;
 	}

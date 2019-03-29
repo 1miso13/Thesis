@@ -51,7 +51,11 @@ void GVGraph::addNodes(const QStringList& names)
 	for (int i = 0; i < names.size(); ++i)
 		addNode(names.at(i));
 }
-
+void GVGraph::setRootNode(const QString& name)
+{
+	if (_nodes.contains(name))
+		_agset(_graph, "root", name);
+}
 void GVGraph::removeNode(const QString& name)
 {
 	if (_nodes.contains(name))
@@ -112,16 +116,99 @@ void GVGraph::setFont(QFont font)
 void GVGraph::applyLayout()
 {
 	gvFreeLayout(_context, _graph);
-	gvLayout(_context, _graph, "dot");
+	_gvLayout(_context, _graph, "dot");
 }
 
 void GVGraph::print()
 {
 	//gvLayout(_context, _graph, "dot"); gvRender(_context, _graph, "dot", NULL); gvFreeLayout(_context, _graph); gvLayout(_context, _graph, "nop"); gvRender(_context, _graph, "png", stdout);
-	FILE * file = fopen("out.png", "w");
+	FILE * file = fopen("out.png", "wb");
+	//fprintf(file,"qwerty\n");
+	gvLayout(_context, _graph, "nop");
 	gvRender(_context, _graph, "png", file );
 	fclose(file);
 }
 
-
-
+//QList<GVNode> GVGraph::nodes()
+//{
+//	QList<GVNode> list;
+//	qreal dpi = _agget(_graph, "dpi", "96,0").toDouble();
+//
+//	for (QMap<QString, Agnode_t*>::const_iterator it = _nodes.begin(); it != _nodes.end(); ++it)
+//	{
+//		Agnode_t *node = it.value();
+//		GVNode object;
+//
+//		//Set the name of the node
+//		object.name = node->name;
+//
+//		//Fetch the X coordinate, apply the DPI conversion rate (actual DPI / 72, used by dot)
+//		qreal x = node->u.coord.x*(dpi / DotDefaultDPI);
+//
+//		//Translate the Y coordinate from bottom-left to top-left corner
+//		qreal y = (_graph->u.bb.UR.y - node->u.coord.y)*(dpi / DotDefaultDPI);
+//		object.centerPos = QPoint(x, y);
+//
+//		//Transform the width and height from inches to pixels
+//		object.height = node->u.height*dpi;
+//		object.width = node->u.width*dpi;
+//
+//		list << object;
+//	}
+//
+//	return list;
+//}
+//
+//QList<GVEdge> GVGraph::edges()
+//{
+//	QList<GVEdge> list;
+//	qreal dpi = _agget(_graph, "dpi", "96,0").toDouble();
+//
+//	for (QMap<QPair<QString, QString>, Agedge_t*>::iterator it = _edges.begin();
+//		it != _edges.end(); ++it)
+//	{
+//		Agedge_t *edge = it.value().first;
+//		GVEdge object;
+//
+//		//Fill the source and target node names
+//		object.source = edge->tail->name;
+//		object.target = edge->head->name;
+//
+//		//Calculate the path from the spline (only one spline, as the graph is strict. If it
+//		//wasn't, we would have to iterate over the first list too)
+//		//Calculate the path from the spline (only one as the graph is strict)
+//		if ((edge->u.spl->list != 0) && (edge->u.spl->list->size % 3 == 1))
+//		{
+//			//If there is a starting point, draw a line from it to the first curve point
+//			if (edge->u.spl->list->sflag)
+//			{
+//				object.path.moveTo(edge->u.spl->list->sp.x*(dpi / DotDefaultDPI),
+//					(_graph->u.bb.UR.y - edge->u.spl->list->sp.y)*(dpi / DotDefaultDPI));
+//				object.path.lineTo(edge->u.spl->list->list[0].x*(dpi / DotDefaultDPI),
+//					(_graph->u.bb.UR.y - edge->u.spl->list->list[0].y)*(dpi / DotDefaultDPI));
+//			}
+//			else
+//				object.path.moveTo(edge->u.spl->list->list[0].x*(dpi / DotDefaultDPI),
+//				(_graph->u.bb.UR.y - edge->u.spl->list->list[0].y)*(dpi / DotDefaultDPI));
+//
+//			//Loop over the curve points
+//			for (int i = 1; i < edge->u.spl->list->size; i += 3)
+//				object.path.cubicTo(edge->u.spl->list->list[i].x*(dpi / DotDefaultDPI),
+//				(_graph->u.bb.UR.y - edge->u.spl->list->list[i].y)*(dpi / DotDefaultDPI),
+//					edge->u.spl->list->list[i + 1].x*(dpi / DotDefaultDPI),
+//					(_graph->u.bb.UR.y - edge->u.spl->list->list[i + 1].y)*(dpi / DotDefaultDPI),
+//					edge->u.spl->list->list[i + 2].x*(dpi / DotDefaultDPI),
+//					(_graph->u.bb.UR.y - edge->u.spl->list->list[i + 2].y)*(dpi / DotDefaultDPI));
+//
+//			//If there is an ending point, draw a line to it
+//			if (edge->u.spl->list->eflag)
+//				object.path.lineTo(edge->u.spl->list->ep.x*(dpi / DotDefaultDPI),
+//				(_graph->u.bb.UR.y - edge->u.spl->list->ep.y)*(dpi / DotDefaultDPI));
+//		}
+//
+//		list << object;
+//	}
+//
+//	return list;
+//}
+//

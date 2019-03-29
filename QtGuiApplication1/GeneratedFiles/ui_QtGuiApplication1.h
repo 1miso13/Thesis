@@ -357,7 +357,7 @@ public:
         actionCommand_list->setText(QApplication::translate("QtGuiApplication1Class", "Command list", nullptr));
         QTreeWidgetItem *___qtreewidgetitem = treeWidget->headerItem();
         ___qtreewidgetitem->setText(3, QApplication::translate("QtGuiApplication1Class", "Parameters", nullptr));
-        ___qtreewidgetitem->setText(2, QApplication::translate("QtGuiApplication1Class", "Visibility", nullptr));
+        ___qtreewidgetitem->setText(2, QApplication::translate("QtGuiApplication1Class", "Color", nullptr));
         ___qtreewidgetitem->setText(1, QApplication::translate("QtGuiApplication1Class", "ObjectName", nullptr));
         ___qtreewidgetitem->setText(0, QApplication::translate("QtGuiApplication1Class", "Operation", nullptr));
         UP_command_Button->setText(QApplication::translate("QtGuiApplication1Class", "UP", nullptr));
@@ -378,7 +378,7 @@ public:
         RefParam_DOWNButton->setText(QApplication::translate("QtGuiApplication1Class", "DOWN", nullptr));
         tabWidget->setTabText(tabWidget->indexOf(ref_Params_tab), QApplication::translate("QtGuiApplication1Class", "Parameters", nullptr));
         QTreeWidgetItem *___qtreewidgetitem1 = treeWidget_2->headerItem();
-        ___qtreewidgetitem1->setText(2, QApplication::translate("QtGuiApplication1Class", "Visibility", nullptr));
+        ___qtreewidgetitem1->setText(2, QApplication::translate("QtGuiApplication1Class", "Color", nullptr));
         ___qtreewidgetitem1->setText(1, QApplication::translate("QtGuiApplication1Class", "Type", nullptr));
         ___qtreewidgetitem1->setText(0, QApplication::translate("QtGuiApplication1Class", "Name", nullptr));
         tabWidget->setTabText(tabWidget->indexOf(objects_tab), QApplication::translate("QtGuiApplication1Class", "Objects", nullptr));

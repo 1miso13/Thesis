@@ -7,26 +7,135 @@
 #include <GL/gl.h>
 #include <GL/GLU.h>
 
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
+#include "GLObject.h"
 
 #define DEBUG
-#ifdef DEBUG
-#include <iostream>
-#include <sstream>
+	#ifdef DEBUG
+	#include <iostream>
+	#include <sstream>
 
-#define DBOUT( s )            \
-{                             \
-   std::wostringstream os_;    \
-   os_ << s;                   \
-   OutputDebugString( os_.str().c_str() );  \
-}
+	#define DBOUT( s )            \
+	{                             \
+	   std::wostringstream os_;    \
+	   os_ << s;                   \
+	   OutputDebugString( os_.str().c_str() );  \
+	}
 #endif // DEBUG
-float vertices[] = {
-	-0.5f, -0.5f, 0.0f,
-	 0.5f, -0.5f, 0.0f,
-	 0.0f,  0.5f, 0.0f
+
+//struct vec3 {
+//	float x, y, z;
+//	vec3(float x, float y, float z) : x(x), y(y), z(z) {} 
+//};
+
+
+
+std::vector<glm::vec3> vertices = {
+	/*glm::vec3(-50.0f, -50.0f, 0.0f),
+	glm::vec3(50, -50.0f, 0.0f),
+	glm::vec3(0.0f,  25.0f, 0.0f),
+	glm::vec3(0.0f,  50.0f, 50.0f)*/
+	// Front face
+	glm::vec3(- 1.0, -1.0,  1.0),
+	glm::vec3(1.0, -1.0,  1.0),
+	glm::vec3(1.0,  1.0,  1.0),
+	glm::vec3(-1.0,  1.0,  1.0),
+
+	// Back face
+	glm::vec3(-1.0, -1.0, -1.0),
+	glm::vec3(-1.0,  1.0, -1.0),
+	glm::vec3( 1.0,  1.0, -1.0),
+	glm::vec3( 1.0, -1.0, -1.0),
+	
+	// Top face
+	glm::vec3(-1.0,  1.0, -1.0),
+	glm::vec3(-1.0,  1.0,  1.0),
+	glm::vec3( 1.0,  1.0,  1.0),
+	glm::vec3( 1.0,  1.0, -1.0),
+	
+	// Bottom face
+	glm::vec3(-1.0, -1.0, -1.0),
+	glm::vec3( 1.0, -1.0, -1.0),
+	glm::vec3( 1.0, -1.0,  1.0),
+	glm::vec3(-1.0, -1.0,  1.0),
+	
+	// Right face
+	glm::vec3( 1.0, -1.0, -1.0),
+	glm::vec3( 1.0,  1.0, -1.0),
+	glm::vec3( 1.0,  1.0,  1.0),
+	glm::vec3( 1.0, -1.0,  1.0),
+	
+	// Left face
+	glm::vec3(-1.0, -1.0, -1.0),
+	glm::vec3(-1.0, -1.0,  1.0),
+	glm::vec3(-1.0,  1.0,  1.0),
+	glm::vec3(-1.0,  1.0, -1.0)
+};
+float color[] = {
+	0.5f, 0.5f, 0.5f,
+	 0.5f, 0.5f, 0.0f,
+	 0.0f,  0.5f, 0.0f,
+	 0.5f, 0.5f, 0.0f,
+	0.5f, 0.5f, 0.5f,
+	 0.5f, 0.5f, 0.0f,
+	 0.0f,  0.5f, 0.0f,
+	 0.5f, 0.5f, 0.0f,
+	0.5f, 0.5f, 0.5f,
+	 0.5f, 0.5f, 0.0f,
+	 0.0f,  0.5f, 0.0f,
+	 0.5f, 0.5f, 0.0f,
+	0.5f, 0.5f, 0.5f,
+	 0.5f, 0.5f, 0.0f,
+	 0.0f,  0.5f, 0.0f,
+	 0.5f, 0.5f, 0.0f,
+	0.5f, 0.5f, 0.5f,
+	 0.5f, 0.5f, 0.0f,
+	 0.0f,  0.5f, 0.0f,
+	 0.5f, 0.5f, 0.0f,
+	0.5f, 0.5f, 0.5f,
+	 0.5f, 0.5f, 0.0f,
+	 0.0f,  0.5f, 0.0f,
+	 0.5f, 0.5f, 0.0f,
+	0.5f, 0.5f, 0.5f,
+	 0.5f, 0.5f, 0.0f,
+	 0.0f,  0.5f, 0.0f,
+	 0.5f, 0.5f, 0.0f,
+	0.5f, 0.5f, 0.5f,
+	 0.5f, 0.5f, 0.0f,
+	 0.0f,  0.5f, 0.0f,
+	 0.5f, 0.5f, 0.0f,
+	0.5f, 0.5f, 0.5f,
+	 0.5f, 0.5f, 0.0f,
+	 0.0f,  0.5f, 0.0f,
+	 0.5f, 0.5f, 0.0f,
+	0.5f, 0.5f, 0.5f,
+	 0.5f, 0.5f, 0.0f,
+	 0.0f,  0.5f, 0.0f,
+	 0.5f, 0.5f, 0.0f,
+	0.5f, 0.5f, 0.5f,
+	 0.5f, 0.5f, 0.0f,
+	 0.0f,  0.5f, 0.0f,
+	 0.5f, 0.5f, 0.0f,
+	0.5f, 0.5f, 0.5f,
+	 0.5f, 0.5f, 0.0f,
+	 0.0f,  0.5f, 0.0f,
+	 0.5f, 0.5f, 0.0f,
 };
 
-void Renderer::init(){
+
+
+
+void Renderer::SetBackgroundColor(signed char R, signed char G, signed char B, signed char A) {
+	
+}
+void Renderer::SetBackgroundColor(float R, float G, float B, float A) {
+	
+}
+
+void Renderer::init() {
 
 	// Init shaders
 	static bool glewInitializedOnceToken = false;
@@ -48,9 +157,11 @@ void Renderer::init(){
 #version 330 core
 layout (location = 0) in vec3 aPos;
 
+uniform mat4 mvp;
+
 void main()
-{
-    gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);
+{	
+    gl_Position = mvp * vec4(aPos, 1.0);
 }
 )";
 		glShaderSource(vs, 1, &vertexShaderSourceCode, NULL);
@@ -70,10 +181,12 @@ void main()
 		const char *fragmentShaderSourceCode = R"(
 #version 330 core
 out vec4 FragColor;
+uniform vec4 color;
 
 void main()
 {
-    FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);
+	FragColor = color;
+   // FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);
 } 
 )";
 		glShaderSource(fs, 1, &fragmentShaderSourceCode, NULL);
@@ -113,77 +226,45 @@ void main()
 	}
 	glDeleteShader(vs);
 	glDeleteShader(fs);
-
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glClearColor(0, 1, 0, 1);
-	glLoadIdentity();
-
-
-	// Create VBA per object buffer array contains all VBO
-	//glCreateVertexArrays()
-
-	// Create VBO vertices, normals, uvs
-	// glGenBuffers(1, &VBO);
-	glCreateBuffers(1,&VBO);
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
-	// Setup vertex pointer arrays
-	//glEnableVertexArrayAttrib(0);
-	//glVertexAttribPointer(0, 2, ...)
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-	glEnableVertexAttribArray(0);
 }
-void Renderer::draw(float aspect) {
+float scas = 0;
+#include <iostream>
+void Renderer::draw(float fov, float aspect) {
 
 	glClearColor(1, 0, 0, 1);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	/*glLoadIdentity();
+	scas += 0.001f;
+	TargetVector[0] = cos(glm::radians(cameraRotation[0])) * cos(glm::radians(cameraRotation[1]));
+	TargetVector[1] = sin(glm::radians(cameraRotation[0]));
+	TargetVector[2] = cos(glm::radians(cameraRotation[0])) * sin(glm::radians(cameraRotation[1]));
+	std::cout << cameraPosition[0]++ << ":" << cameraPosition[1] << ":" << cameraPosition[2] << ">";
+	std::cout << TargetVector[0] << ":" << TargetVector[1] << ":" << TargetVector[2] << std::endl;
 
-	glBegin(GL_TRIANGLES);
+	glm::vec3 cameraPos = glm::vec3(cameraPosition[0], cameraPosition[1], cameraPosition[2]);
+	glm::vec3 cameraTarget = glm::vec3(cameraPosition[0], cameraPosition[1], cameraPosition[2]) + glm::vec3(TargetVector[0], TargetVector[1], TargetVector[2]);
 
-	glColor3f(0, 1, 0);
+	glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f); 
 
-	glVertex2f(0, 0);
-	glVertex2f(1, 1);
-	glVertex2f(-1, 1);
+	glm::mat4 perspectiveProjection = glm::perspective(glm::radians(45.0f), aspect, nearPlane, farPlane);
+	glm::mat4 viewMatrix = glm::translate(glm::mat4(),glm::vec3(0,0,-1.0f));// glm::lookAt(cameraPos, cameraTarget, up);//(translate to -Z axis)
 
-	glEnd();
+	glm::mat4 mvp = perspectiveProjection * viewMatrix;// (model transform is identity)
 
-
-	glBegin(GL_TRIANGLES);
-	glColor3f(0, 0, 1);
-	glNormal3f(-1, 0, 0.707);
-	glVertex3f(-1, 1, 0);
-	glVertex3f(-1, -1, 0);
-	glVertex3f(0, 0, 1.2);
-	glEnd();*/
-	//glUseProgram(program);
-	// Setup program unifroms: transform, colors, etc ..
-	//glUniform
+	// Set uniform for scene (transform)
+	int mvpLocation = glGetUniformLocation(program, "mvp");
+	glUniformMatrix4fv(mvpLocation, 1, GL_FALSE, &mvp[0][0]);
 
 
-	//glBindVertexArray(VBA);
+	// Testing
+	for (auto& obj : GLObjects_map) {
 
-	//glDrawArrays = Triangles, Lines, LineLoop
-	//glDrawElements
+		auto _obj = obj.second;
+		
 
-	//SwapBuffers(this);
 
-	// 0. copy our vertices array in a buffer for OpenGL to use
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-	// 1. then set the vertex attributes pointers
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-	glEnableVertexAttribArray(0);
-	// 2. use our shader program when we want to render an object
-	glUseProgram(program);
-	// 3. now draw the object 
-	glDrawArrays(GL_TRIANGLES, 0, 3);
-
+		if (!_obj->isInitialized())
+			_obj->glInit();
+		_obj->glUpdateIfNeeded();
+		_obj->glDraw(program);
+	}
 }

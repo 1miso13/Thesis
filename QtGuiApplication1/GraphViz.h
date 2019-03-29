@@ -4,8 +4,32 @@
 #include <graphviz/gvc.h>
 #include <graphviz/cgraph.h>
 #include <QMap>
+#include <QPoint>
+#include <QPainterPath>
 
+/// A struct containing the information for a GVGraph's node
+struct GVNode
+{
+	/// The unique identifier of the node in the graph
+	QString name;
 
+	/// The position of the center point of the node from the top-left corner
+	QPoint centerPos;
+
+	/// The size of the node in pixels
+	double height, width;
+};
+
+/// A struct containing the information for a GVGraph's edge
+struct GVEdge
+{
+	/// The source and target nodes of the edge
+	QString source;
+	QString target;
+
+	/// Path of the edge's line
+	QPainterPath path;
+};
 
 /// An object containing a libgraph graph and its associated nodes and edges
 class GVGraph
@@ -36,16 +60,19 @@ public:
 
 	/// Set the font to use in all the labels
 	void setFont(QFont font);
+	void setRootNode(const QString& name);
 
 	void applyLayout();
 
-	QMap<QPair<QString, QString>, Agedge_t*> _edges;
 	void print();
+	QList<GVNode> nodes() ;
+	QList<GVEdge> edges() ;
 private:
 	GVC_t *_context;
 	Agraph_t *_graph;
 	QFont _font;
 	QMap<QString, Agnode_t*> _nodes;
+	QMap<QPair<QString, QString>, Agedge_t*> _edges;
 
 
 	///// The agopen method for opening a graph

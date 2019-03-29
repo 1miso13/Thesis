@@ -177,29 +177,29 @@ void Dialog::on_treeWidget_itemSelectionChanged()
 	ui->tableWidget->repaint();
 
 
-	//Visibility
+	//Color
 	ui->tableWidget->insertRow(ui->tableWidget->rowCount());
-	QTableWidgetItem *itemVisib = new QTableWidgetItem(QString::fromStdString("Visibility"), QTableWidgetItem::Type);
+	QTableWidgetItem *itemVisib = new QTableWidgetItem(QString::fromStdString("Color"), QTableWidgetItem::Type);
 	itemVisib->setFlags(itemVisib->flags() ^ Qt::ItemIsEditable);
 	itemVisib->setBackgroundColor(QColor(100, 150, 100));
 	ui->tableWidget->setItem(ui->tableWidget->rowCount() - 1, 0, itemVisib);
-	std::string visibilityVal="";
+	std::string colorVal="";
 	if (modif)
 	{
-		visibilityVal = std::to_string(paramModel->OperationsVec.at(index)->visibility);
+		colorVal = paramModel->OperationsVec.at(index)->getColorHEX();
 	}
 	else
 	{
-		visibilityVal = "1";
+		colorVal = "FFFFFF00";
 	}
-	QTableWidgetItem *itemVisib2 = new QTableWidgetItem(QString::fromStdString(visibilityVal), QTableWidgetItem::Type);
+	QTableWidgetItem *itemVisib2 = new QTableWidgetItem(QString::fromStdString(colorVal), QTableWidgetItem::Type);
 	itemVisib2->setBackgroundColor(QColor(255, 255, 255));
 	ui->tableWidget->setItem(ui->tableWidget->rowCount() - 1, 1, itemVisib2);
 	QTableWidgetItem *itemVisib3 = new QTableWidgetItem(QString::fromStdString("-"), QTableWidgetItem::Type);
 	itemVisib3->setFlags(itemVisib3->flags() ^ Qt::ItemIsEditable);
 	itemVisib3->setBackgroundColor(QColor(100, 150, 100));
 	ui->tableWidget->setItem(ui->tableWidget->rowCount() - 1, 2, itemVisib3);
-	QTableWidgetItem *itemVisib4 = new QTableWidgetItem(QString::fromStdString("Object visibility. [0 - invisible, 1 - fully visible]"), QTableWidgetItem::Type);
+	QTableWidgetItem *itemVisib4 = new QTableWidgetItem(QString::fromStdString("Object color. RRGGBBAA [Alpha: 00 - invisible, FF - visible]"), QTableWidgetItem::Type);
 	itemVisib4->setFlags(itemVisib4->flags() ^ Qt::ItemIsEditable);
 	itemVisib4->setBackgroundColor(QColor(100, 150, 100));
 	ui->tableWidget->setItem(ui->tableWidget->rowCount() - 1, 3, itemVisib4);
@@ -333,12 +333,15 @@ void Dialog::on_okButton_clicked()
 		}
 	}
 
-
-	std::string visibilityValue = ui->tableWidget->item(1, 1)->text().toStdString();
+	unsigned char colorArray[4] = { 0,0,0,0 };
+	
+	std::string colorHEXValue = ui->tableWidget->item(1, 1)->text().toStdString();
 	if (validName)
 	{
-		//visibility
-		validParameters = operationType::TestValidParameterType(operationType::ParameterTypesEnum::ParameterTypeFLOAT, visibilityValue, &paramModel->OperationsVec, &paramModel->OperationMap, index);
+
+		
+		//color
+		validParameters = operationType::colorParser(colorHEXValue, colorArray);  //operationType::TestValidParameterType(operationType::ParameterTypesEnum::ParameterTypeFLOAT, colorHEXValue, &paramModel->OperationsVec, &paramModel->OperationMap, index);
 		//Test parameters
 		for (size_t i = 0; i < k->size(); i++)
 		{
@@ -409,8 +412,7 @@ void Dialog::on_okButton_clicked()
 			}
 		}
 	}
-
-	*c = new Operation(objectName, std::stof(visibilityValue),(operationType::OperationTypeEnum)cStruct.operationID,commandParamVec,cStruct.ParameterID+1, (*paramVectors)[cStruct.ParameterID]);
+	*c = new Operation(objectName, colorArray,(operationType::OperationTypeEnum)cStruct.operationID,commandParamVec,cStruct.ParameterID+1, (*paramVectors)[cStruct.ParameterID]);
 	if (ui->okButton->isEnabled())
 	{
 		operationType::ClearParamVectors(&paramVectors, cStruct.ParameterID);
@@ -463,8 +465,9 @@ void Dialog::on_tableWidget_cellChanged(int row, int column)
 			}
 			else {
 				if (row == 1)
-				{//visibility
-					retType = operationType::TestValidParameterType(operationType::ParameterTypeFLOAT, cellText, &paramModel->OperationsVec, &paramModel->OperationMap, index);
+				{//color
+					retType = operationType::colorParser(cellText);
+					//retType = operationType::TestValidParameterType(operationType::ParameterTypeFLOAT, cellText, &paramModel->OperationsVec, &paramModel->OperationMap, index);
 				}
 				else
 				{

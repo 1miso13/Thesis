@@ -75,7 +75,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>D:\Workspace\lib\glew-2.1.0\include;$(IncludePath)</IncludePath>
+    <IncludePath>D:\Workspace\lib\glm;D:\Workspace\lib\glew-2.1.0\include;$(IncludePath)</IncludePath>
     <LibraryPath>D:\Workspace\lib\glew-2.1.0\lib\Release\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -208,8 +208,11 @@
     <ClCompile Include="GeometricObject.cpp" />
     <ClCompile Include="GeometricOperation.cpp" />
     <ClCompile Include="Geometry.cpp" />
+    <ClCompile Include="GLObject.cpp" />
+    <ClCompile Include="GLObject.h" />
     <ClCompile Include="Line.cpp" />
     <ClCompile Include="Operation.cpp" />
+    <ClCompile Include="ParametricModel.cpp" />
     <ClCompile Include="ParamRef.cpp" />
     <ClCompile Include="Parser.cpp" />
     <ClCompile Include="pch.cpp">

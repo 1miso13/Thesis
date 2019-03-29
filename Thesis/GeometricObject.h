@@ -23,7 +23,27 @@ namespace Object {
 	class GeometricObject
 	{
 	public:
-		float visibility = 0;
+		unsigned char  color[4] = {0, 0, 0, 0};
+		std::string getColorHEX() {
+			std::string s = "";
+			for (size_t i = 0; i < 4; i++)
+			{
+				unsigned char a[] = { (unsigned char)(color[i] / (unsigned char)16),(unsigned char)(color[i] % (unsigned char)16) };
+				for (size_t j = 0; j < 2; j++)
+				{
+					if (a[j] <= 9)
+					{
+						a[j] += '0';
+					}
+					else//10-15 = A-F
+					{
+						a[j] += 'A' - 10;
+					}
+					s += a[j];
+				}
+			}
+			return s;
+		}
 		ObjectTypeEnum GeometricType = INVALID_ObjectType;
 		std::string ObjectName;
 		std::string TypeToText()

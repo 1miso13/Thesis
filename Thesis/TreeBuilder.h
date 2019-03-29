@@ -554,7 +554,10 @@ private:
 		//	}
 		if (RetObject != NULL)
 		{
-			RetObject->visibility = operation->visibility;
+			RetObject->color[0] = operation->color[0];
+			RetObject->color[1] = operation->color[1];
+			RetObject->color[2] = operation->color[2];
+			RetObject->color[3] = operation->color[3];
 			RetObject->ObjectName = operation->name;
 		}
 		return RetObject;

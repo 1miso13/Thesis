@@ -401,10 +401,8 @@ bool Expression::parseExp(std::string s)
 	 {
 		 return 9;
 	 }
-	 else 
-	 {
-		 throw 8888888;
-	 }
+	throw 8888888;
+	 
 	 
  }
 float Expression::Evaluate(std::map<std::string, Object::GeometricObject*> *ObjectMap, std::map<std::string, Operation*>* OperationMap, ParamRef *paramRef, bool * Err) {
@@ -546,7 +544,7 @@ float Expression::Evaluate(std::map<std::string, Object::GeometricObject*> *Obje
 				}
 			}
 			std::string val = EvaluationStack.at(1).second;
-			VALUE = std::strtod(val.c_str(), 0);
+			VALUE = std::strtof(val.c_str(), 0);
 			EvaluationStack.clear();
 			tokensTMP.clear();
 			tokenTypesTMP.clear();

@@ -6,11 +6,14 @@
 #include <string>
 #include "TreeBuilder.h"
 #include <map>
+
+#include "Renderer.h"
 class ParametricModel
 {
 private :
 
 	TreeBuilder *treeBuilder;
+	Renderer renderer;
 public:
 	/// <summary>
 	/// For sorting operations
@@ -34,6 +37,7 @@ public:
 	/// Parameter referencies
 	/// </summary>
 	ParamRef paramRef;
+	void UpdateGLObjects();
 	ParametricModel() {
 		treeBuilder = new TreeBuilder(&OperationsVec,&Objects,&ObjectMap, &paramRef,&OperationMap);
 		paramRef.InitPrimary();
@@ -47,7 +51,7 @@ public:
 	/// </summary>
 	void ReBuildTree() {
 		treeBuilder->Build();
-			
+		UpdateGLObjects();
 	}
 	/// <summary>
 	/// Remove operation from stack at index
@@ -237,5 +241,28 @@ public:
 	float GetObjectValue(std::string s,bool* Err) {
 		return ObjectsValues::GetObjectValue(&ObjectMap, s, Err);
 	}
+
+	/// <summary>
+	/// Init renderer
+	/// </summary>
+	void InitRenderer() {
+		renderer.init();
+	}
+
+	/// <summary>
+	/// Draw OpenGL 
+	/// </summary>
+	/// <param name="aspect"></param>
+	void Draw(float fov,float aspect) {
+		renderer.draw(fov,aspect);
+	}
+
+	/// <summary>
+	/// Save parametric model to file
+	/// </summary>
+	/// <param name="filePath">file path</param>
+	void Save(std::string filePath);
+	void Load(std::string filePath);
+
 };
 

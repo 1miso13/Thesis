@@ -2,5 +2,5 @@
 
 OGLWidget::OGLWidget(QWidget *parent) : QOpenGLWidget(parent)
 {
-
+	
 }
