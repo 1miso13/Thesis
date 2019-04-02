@@ -85,4 +85,4 @@ float timeValue = 0;
 };
 
 
-std::unordered_map<std::string, GLObject*> GLObjects_map;
+static std::unordered_map<std::string, GLObject*> GLObjects_map;

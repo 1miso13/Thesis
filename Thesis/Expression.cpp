@@ -403,7 +403,7 @@ bool Expression::parseExp(std::string s)
 	 }
 	throw 8888888;
 	 
-	 
+	return 0;
  }
 float Expression::Evaluate(std::map<std::string, Object::GeometricObject*> *ObjectMap, std::map<std::string, Operation*>* OperationMap, ParamRef *paramRef, bool * Err) {
 	if (tokens.size() > 0)

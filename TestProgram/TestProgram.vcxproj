@@ -26,6 +26,7 @@
     <ProjectGuid>{D8A50A2D-C012-4DC0-9A29-0BACDA17AC83}</ProjectGuid>
     <RootNamespace>TestProgram</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+    <ProjectName>GLFW Application</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

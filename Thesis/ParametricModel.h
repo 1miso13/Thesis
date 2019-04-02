@@ -72,13 +72,106 @@ public:
 		OperationsVec.insert(OperationsVec.begin() + index, c);
 		OperationMap[c->name] = c;
 	}
+private:
+	bool IsNotEmpty(std::string s)
+	{
+		bool isNotEmpty = false;
+		for (size_t i = 0; i < s.length(); i++)
+		{
+			if (!isspace(s[i]))
+			{
+				isNotEmpty = true;
+			}
+		}
+		return isNotEmpty;
+	}
+	void ParseCommands(std::vector<std::string>* commandsVec, std::string s) {
+		std::string delimiter = ";";
+		size_t pos = 0;
+		std::string token;
+		while ((pos = s.find(delimiter)) != std::string::npos) {
+			token = s.substr(0, pos);
+			s.erase(0, pos + delimiter.length());
+			if (IsNotEmpty(token))
+			{
+				(*commandsVec).push_back(token);
+			}
+		}if (IsNotEmpty(s))
+		{
+			(*commandsVec).push_back(s);
+		}
+	}
+	void RemoveAllGLObjects();
+public:
+
+	/// <summary>
+	/// Resets whole instance of model
+	/// </summary>
+	/// <returns></returns>
+	void DeleteModel() {
+		paramRef.Reset();
+		for (size_t i = 0; i < OperationsVec.size(); i++)
+		{
+			delete(OperationsVec[i]);
+		}
+		OperationsVec.clear();
+		OperationMap.clear();
+		for (size_t i = 0; i < Objects.size(); i++)
+		{
+			delete(Objects[i]);
+		}
+		Objects.clear();
+		ObjectMap.clear();
+		RemoveAllGLObjects();
+	}
+	/// <summary>
+	/// Add multiple operations devided by semicolon ;
+	/// </summary>
+	/// <param name="s"></param>
+	/// <returns></returns>
+	bool AddOperations(std::string s) {
+		std::vector<std::string> commandsVec;
+		ParseCommands(&commandsVec, s);
+		bool valid = true;
+		resetTest();
+		for (size_t i = 0; i < commandsVec.size(); i++)
+		{//before creating, need to test, if all operations are valid
+			if (!TestOperation(commandsVec[i]))
+			{
+				valid = false;
+			}
+		}
+		if (!valid)
+		{
+			return false;
+		}
+		Parser parser;
+		Operation *c = NULL;
+		parser.InitParser(&OperationsVec, &OperationMap, &paramRef);
+		for (size_t i = 0; i < commandsVec.size(); i++)
+		{
+			try
+			{
+				if (parser.CreateOperation(commandsVec[i], &c))
+				{
+					AddOperation(c);
+				}
+			}
+			catch (const std::exception&)
+			{
+				return false;
+			}
+		}
+		return true;
+
+	}
 	bool AddOperation(std::string s) {
 		try
 		{
 			Parser parser;
 			Operation *c = NULL;
-			parser.InitParser(&OperationsVec,&OperationMap,&paramRef);
-			if (parser.CreateCommand(s, &c))
+			parser.InitParser(&OperationsVec, &OperationMap, &paramRef);
+			if (parser.CreateOperation(s, &c))
 			{
 				AddOperation(c);
 				return true;
@@ -131,7 +224,7 @@ public:
 
 			parser.InitParser(&GraphCommandTMP, &OperationMapTMP ,&paramRefTMP);
 
-			if (parser.CreateCommand(s, &c))
+			if (parser.CreateOperation(s, &c))
 			{
 
 				GraphCommandTMP.push_back(c);
@@ -147,12 +240,8 @@ public:
 	}
 	~ParametricModel()
 	{
+		DeleteModel();
 		delete treeBuilder;
-		for (size_t i = 0; i < OperationsVec.size(); i++)
-		{
-			delete(OperationsVec[i]);
-		}
-		OperationsVec.clear();
 	}
 
 public:
@@ -262,7 +351,7 @@ public:
 	/// </summary>
 	/// <param name="filePath">file path</param>
 	void Save(std::string filePath);
-	void Load(std::string filePath);
+	bool Load(std::string filePath);
 
 };
 

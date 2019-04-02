@@ -146,11 +146,11 @@ public:
 
 		return true;
 	}
-	bool ParseCommand(std::string *commandStringPtr, std::string *commandNamePtr, std::string *objectNamePtr, std::vector <std::string> *CommandParameterVectorPtr, unsigned char color[4], std::vector <paramRefStruct> *refStructVec) {
+	bool ParseOperation(std::string *commandStringPtr, std::string *commandNamePtr, std::string *objectNamePtr, std::vector <std::string> *CommandParameterVectorPtr, unsigned char color[4], std::vector <paramRefStruct> *refStructVec) {
 		///divide command name and parameters
-		///"commandName(parameter1,parameter2,...,parameterN)"
+		///"operationName(parameter1,parameter2,...,parameterN)"
 
-		//TODO divide commandString by '('
+		//TODO divide operationString by '('
 		//	[0] - command name 
 		//	[1] - command parameters
 		*commandStringPtr =removeSpace(*commandStringPtr);
@@ -206,8 +206,8 @@ public:
 		this->OperationsMap = OperationsMap;
 		this->paramRef = paramRef;
 	}
-	bool CreateCommand(std::string commandString,Operation **cPtrPtr) {
-		std::string commandName;
+	bool CreateOperation(std::string operationString,Operation **cPtrPtr) {
+		std::string operationName;
 		std::string objectName;
 		*cPtrPtr = NULL;
 		if (OperationsVec==NULL || OperationsMap== NULL)
@@ -219,7 +219,7 @@ public:
 		std::vector <std::string> *OperationParametersVec = new std::vector <std::string>();
 
 		std::vector <paramRefStruct> refStructVec;
-		if (!ParseCommand(&commandString, &commandName, &objectName, OperationParametersVec,color, &refStructVec))//test command syntax
+		if (!ParseOperation(&operationString, &operationName, &objectName, OperationParametersVec,color, &refStructVec))//test command syntax
 		{
 			return false;
 		}
@@ -227,12 +227,12 @@ public:
 		//test commands
 		operationType::OperationTypeEnum operationType;
 		size_t typeOfParameters=0;
-		//if ((operationType = operationType::GetOperationType(commandName, OperationParametersVec, OperationsVec ,&typeOfParameters))== operationType::INVALID)
+		//if ((operationType = operationType::GetOperationType(operationName, OperationParametersVec, OperationsVec ,&typeOfParameters))== operationType::INVALID)
 		//{
 		//	return false;
 		//}
 		std::vector<operationType::ParameterTypesEnum> *paramTypes;
-		if ((operationType = operationType::GetOperation(commandName, &typeOfParameters , OperationsVec, OperationsMap, OperationParametersVec,&paramTypes)) == operationType::INVALID)
+		if ((operationType = operationType::GetOperation(operationName, &typeOfParameters , OperationsVec, OperationsMap, OperationParametersVec,&paramTypes)) == operationType::INVALID)
 		{
 			return false;
 		}
@@ -261,7 +261,7 @@ public:
 		//get command;
 		std::string s;
 		Operation *c;
-		if (CreateCommand(s,&c)) {
+		if (CreateOperation(s,&c)) {
 			commandsVector->push_back(c);
 		}
 	}

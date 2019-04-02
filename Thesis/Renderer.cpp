@@ -237,8 +237,8 @@ void Renderer::draw(float fov, float aspect) {
 	TargetVector[0] = cos(glm::radians(cameraRotation[0])) * cos(glm::radians(cameraRotation[1]));
 	TargetVector[1] = sin(glm::radians(cameraRotation[0]));
 	TargetVector[2] = cos(glm::radians(cameraRotation[0])) * sin(glm::radians(cameraRotation[1]));
-	std::cout << cameraPosition[0]++ << ":" << cameraPosition[1] << ":" << cameraPosition[2] << ">";
-	std::cout << TargetVector[0] << ":" << TargetVector[1] << ":" << TargetVector[2] << std::endl;
+	//std::cout << cameraPosition[0]++ << ":" << cameraPosition[1] << ":" << cameraPosition[2] << ">";
+	//std::cout << TargetVector[0] << ":" << TargetVector[1] << ":" << TargetVector[2] << std::endl;
 
 	glm::vec3 cameraPos = glm::vec3(cameraPosition[0], cameraPosition[1], cameraPosition[2]);
 	glm::vec3 cameraTarget = glm::vec3(cameraPosition[0], cameraPosition[1], cameraPosition[2]) + glm::vec3(TargetVector[0], TargetVector[1], TargetVector[2]);
