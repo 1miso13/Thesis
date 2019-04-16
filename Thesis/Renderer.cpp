@@ -33,106 +33,112 @@
 
 
 
-std::vector<glm::vec3> vertices = {
-	/*glm::vec3(-50.0f, -50.0f, 0.0f),
-	glm::vec3(50, -50.0f, 0.0f),
-	glm::vec3(0.0f,  25.0f, 0.0f),
-	glm::vec3(0.0f,  50.0f, 50.0f)*/
-	// Front face
-	glm::vec3(- 1.0, -1.0,  1.0),
-	glm::vec3(1.0, -1.0,  1.0),
-	glm::vec3(1.0,  1.0,  1.0),
-	glm::vec3(-1.0,  1.0,  1.0),
-
-	// Back face
-	glm::vec3(-1.0, -1.0, -1.0),
-	glm::vec3(-1.0,  1.0, -1.0),
-	glm::vec3( 1.0,  1.0, -1.0),
-	glm::vec3( 1.0, -1.0, -1.0),
-	
-	// Top face
-	glm::vec3(-1.0,  1.0, -1.0),
-	glm::vec3(-1.0,  1.0,  1.0),
-	glm::vec3( 1.0,  1.0,  1.0),
-	glm::vec3( 1.0,  1.0, -1.0),
-	
-	// Bottom face
-	glm::vec3(-1.0, -1.0, -1.0),
-	glm::vec3( 1.0, -1.0, -1.0),
-	glm::vec3( 1.0, -1.0,  1.0),
-	glm::vec3(-1.0, -1.0,  1.0),
-	
-	// Right face
-	glm::vec3( 1.0, -1.0, -1.0),
-	glm::vec3( 1.0,  1.0, -1.0),
-	glm::vec3( 1.0,  1.0,  1.0),
-	glm::vec3( 1.0, -1.0,  1.0),
-	
-	// Left face
-	glm::vec3(-1.0, -1.0, -1.0),
-	glm::vec3(-1.0, -1.0,  1.0),
-	glm::vec3(-1.0,  1.0,  1.0),
-	glm::vec3(-1.0,  1.0, -1.0)
-};
-float color[] = {
-	0.5f, 0.5f, 0.5f,
-	 0.5f, 0.5f, 0.0f,
-	 0.0f,  0.5f, 0.0f,
-	 0.5f, 0.5f, 0.0f,
-	0.5f, 0.5f, 0.5f,
-	 0.5f, 0.5f, 0.0f,
-	 0.0f,  0.5f, 0.0f,
-	 0.5f, 0.5f, 0.0f,
-	0.5f, 0.5f, 0.5f,
-	 0.5f, 0.5f, 0.0f,
-	 0.0f,  0.5f, 0.0f,
-	 0.5f, 0.5f, 0.0f,
-	0.5f, 0.5f, 0.5f,
-	 0.5f, 0.5f, 0.0f,
-	 0.0f,  0.5f, 0.0f,
-	 0.5f, 0.5f, 0.0f,
-	0.5f, 0.5f, 0.5f,
-	 0.5f, 0.5f, 0.0f,
-	 0.0f,  0.5f, 0.0f,
-	 0.5f, 0.5f, 0.0f,
-	0.5f, 0.5f, 0.5f,
-	 0.5f, 0.5f, 0.0f,
-	 0.0f,  0.5f, 0.0f,
-	 0.5f, 0.5f, 0.0f,
-	0.5f, 0.5f, 0.5f,
-	 0.5f, 0.5f, 0.0f,
-	 0.0f,  0.5f, 0.0f,
-	 0.5f, 0.5f, 0.0f,
-	0.5f, 0.5f, 0.5f,
-	 0.5f, 0.5f, 0.0f,
-	 0.0f,  0.5f, 0.0f,
-	 0.5f, 0.5f, 0.0f,
-	0.5f, 0.5f, 0.5f,
-	 0.5f, 0.5f, 0.0f,
-	 0.0f,  0.5f, 0.0f,
-	 0.5f, 0.5f, 0.0f,
-	0.5f, 0.5f, 0.5f,
-	 0.5f, 0.5f, 0.0f,
-	 0.0f,  0.5f, 0.0f,
-	 0.5f, 0.5f, 0.0f,
-	0.5f, 0.5f, 0.5f,
-	 0.5f, 0.5f, 0.0f,
-	 0.0f,  0.5f, 0.0f,
-	 0.5f, 0.5f, 0.0f,
-	0.5f, 0.5f, 0.5f,
-	 0.5f, 0.5f, 0.0f,
-	 0.0f,  0.5f, 0.0f,
-	 0.5f, 0.5f, 0.0f,
-};
+//std::vector<glm::vec3> vertices = {
+//	/*glm::vec3(-50.0f, -50.0f, 0.0f),
+//	glm::vec3(50, -50.0f, 0.0f),
+//	glm::vec3(0.0f,  25.0f, 0.0f),
+//	glm::vec3(0.0f,  50.0f, 50.0f)*/
+//	// Front face
+//	glm::vec3(- 1.0, -1.0,  1.0),
+//	glm::vec3(1.0, -1.0,  1.0),
+//	glm::vec3(1.0,  1.0,  1.0),
+//	glm::vec3(-1.0,  1.0,  1.0),
+//
+//	// Back face
+//	glm::vec3(-1.0, -1.0, -1.0),
+//	glm::vec3(-1.0,  1.0, -1.0),
+//	glm::vec3( 1.0,  1.0, -1.0),
+//	glm::vec3( 1.0, -1.0, -1.0),
+//	
+//	// Top face
+//	glm::vec3(-1.0,  1.0, -1.0),
+//	glm::vec3(-1.0,  1.0,  1.0),
+//	glm::vec3( 1.0,  1.0,  1.0),
+//	glm::vec3( 1.0,  1.0, -1.0),
+//	
+//	// Bottom face
+//	glm::vec3(-1.0, -1.0, -1.0),
+//	glm::vec3( 1.0, -1.0, -1.0),
+//	glm::vec3( 1.0, -1.0,  1.0),
+//	glm::vec3(-1.0, -1.0,  1.0),
+//	
+//	// Right face
+//	glm::vec3( 1.0, -1.0, -1.0),
+//	glm::vec3( 1.0,  1.0, -1.0),
+//	glm::vec3( 1.0,  1.0,  1.0),
+//	glm::vec3( 1.0, -1.0,  1.0),
+//	
+//	// Left face
+//	glm::vec3(-1.0, -1.0, -1.0),
+//	glm::vec3(-1.0, -1.0,  1.0),
+//	glm::vec3(-1.0,  1.0,  1.0),
+//	glm::vec3(-1.0,  1.0, -1.0)
+//};
+//float color[] = {
+//	0.5f, 0.5f, 0.5f,
+//	 0.5f, 0.5f, 0.0f,
+//	 0.0f,  0.5f, 0.0f,
+//	 0.5f, 0.5f, 0.0f,
+//	0.5f, 0.5f, 0.5f,
+//	 0.5f, 0.5f, 0.0f,
+//	 0.0f,  0.5f, 0.0f,
+//	 0.5f, 0.5f, 0.0f,
+//	0.5f, 0.5f, 0.5f,
+//	 0.5f, 0.5f, 0.0f,
+//	 0.0f,  0.5f, 0.0f,
+//	 0.5f, 0.5f, 0.0f,
+//	0.5f, 0.5f, 0.5f,
+//	 0.5f, 0.5f, 0.0f,
+//	 0.0f,  0.5f, 0.0f,
+//	 0.5f, 0.5f, 0.0f,
+//	0.5f, 0.5f, 0.5f,
+//	 0.5f, 0.5f, 0.0f,
+//	 0.0f,  0.5f, 0.0f,
+//	 0.5f, 0.5f, 0.0f,
+//	0.5f, 0.5f, 0.5f,
+//	 0.5f, 0.5f, 0.0f,
+//	 0.0f,  0.5f, 0.0f,
+//	 0.5f, 0.5f, 0.0f,
+//	0.5f, 0.5f, 0.5f,
+//	 0.5f, 0.5f, 0.0f,
+//	 0.0f,  0.5f, 0.0f,
+//	 0.5f, 0.5f, 0.0f,
+//	0.5f, 0.5f, 0.5f,
+//	 0.5f, 0.5f, 0.0f,
+//	 0.0f,  0.5f, 0.0f,
+//	 0.5f, 0.5f, 0.0f,
+//	0.5f, 0.5f, 0.5f,
+//	 0.5f, 0.5f, 0.0f,
+//	 0.0f,  0.5f, 0.0f,
+//	 0.5f, 0.5f, 0.0f,
+//	0.5f, 0.5f, 0.5f,
+//	 0.5f, 0.5f, 0.0f,
+//	 0.0f,  0.5f, 0.0f,
+//	 0.5f, 0.5f, 0.0f,
+//	0.5f, 0.5f, 0.5f,
+//	 0.5f, 0.5f, 0.0f,
+//	 0.0f,  0.5f, 0.0f,
+//	 0.5f, 0.5f, 0.0f,
+//	0.5f, 0.5f, 0.5f,
+//	 0.5f, 0.5f, 0.0f,
+//	 0.0f,  0.5f, 0.0f,
+//	 0.5f, 0.5f, 0.0f,
+//};
 
 
 
 
 void Renderer::SetBackgroundColor(signed char R, signed char G, signed char B, signed char A) {
-	
+	backgroundColor[0] = R/255.0f;
+	backgroundColor[1] = G/255.0f;
+	backgroundColor[2] = B/255.0f;
+	backgroundColor[3] = A/255.0f;
 }
 void Renderer::SetBackgroundColor(float R, float G, float B, float A) {
-	
+	backgroundColor[0] = R;
+	backgroundColor[1] = G;
+	backgroundColor[2] = B;
+	backgroundColor[3] = A;
 }
 
 void Renderer::init() {
@@ -156,12 +162,21 @@ void Renderer::init() {
 		const char *vertexShaderSourceCode = R"(
 #version 330 core
 layout (location = 0) in vec3 aPos;
+layout (location = 1) in vec3 aNormal;
 
 uniform mat4 mvp;
+uniform vec3 lightPos;  
+
+out vec3 Normal;
+out vec3 FragPos; 
+out vec4 lightPosTran;
 
 void main()
 {	
+	lightPosTran = mvp * vec4(lightPos, 1.0);
     gl_Position = mvp * vec4(aPos, 1.0);
+	FragPos = aPos;
+	Normal = aNormal;
 }
 )";
 		glShaderSource(vs, 1, &vertexShaderSourceCode, NULL);
@@ -180,13 +195,29 @@ void main()
 		fs = glCreateShader(GL_FRAGMENT_SHADER);
 		const char *fragmentShaderSourceCode = R"(
 #version 330 core
-out vec4 FragColor;
+in vec3 Normal;  
+in vec3 FragPos; 
+in vec4 lightPosTran;
 uniform vec4 color;
+uniform vec3 lightColor;
+
+out vec4 FragColor;
 
 void main()
 {
-	FragColor = color;
-   // FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);
+	float ambientStrength = 0.3;
+	vec3 ambient = ambientStrength * lightColor;
+
+	vec3 norm = normalize(Normal);
+	vec3 lightDir = normalize(lightPosTran.xyz - FragPos);  
+
+	float diff = max(dot(norm, lightDir), 0.0);
+	vec3 diffuse = diff * lightColor;
+
+
+	
+	FragColor = vec4(ambient + diffuse,1) * color;
+	//FragColor = color*(FragPos.r+lightColor.r+lightPos.r);//lightColor.x;
 } 
 )";
 		glShaderSource(fs, 1, &fragmentShaderSourceCode, NULL);
@@ -226,45 +257,61 @@ void main()
 	}
 	glDeleteShader(vs);
 	glDeleteShader(fs);
+	//glEnable(GL_CULL_FACE);
+	//glCullFace(GL_FRONT);
+	glEnable(GL_DEPTH_TEST);
+	glDepthFunc(GL_LESS);
 }
-float scas = 0;
-#include <iostream>
-void Renderer::draw(float fov, float aspect) {
 
-	glClearColor(1, 0, 0, 1);
+void Renderer::draw(float aspect, float fov) {
+
+	glClearColor(backgroundColor[0], backgroundColor[1], backgroundColor[2], backgroundColor[3]);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	scas += 0.001f;
-	TargetVector[0] = cos(glm::radians(cameraRotation[0])) * cos(glm::radians(cameraRotation[1]));
-	TargetVector[1] = sin(glm::radians(cameraRotation[0]));
-	TargetVector[2] = cos(glm::radians(cameraRotation[0])) * sin(glm::radians(cameraRotation[1]));
-	//std::cout << cameraPosition[0]++ << ":" << cameraPosition[1] << ":" << cameraPosition[2] << ">";
-	//std::cout << TargetVector[0] << ":" << TargetVector[1] << ":" << TargetVector[2] << std::endl;
 
-	glm::vec3 cameraPos = glm::vec3(cameraPosition[0], cameraPosition[1], cameraPosition[2]);
-	glm::vec3 cameraTarget = glm::vec3(cameraPosition[0], cameraPosition[1], cameraPosition[2]) + glm::vec3(TargetVector[0], TargetVector[1], TargetVector[2]);
 
-	glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f); 
+	//Light
+	int lightLocation = glGetUniformLocation(program, "lightPos");
+	glUniform3f(lightLocation, lightPosition[0], lightPosition[1], lightPosition[2]);
+	int lightColorLocation = glGetUniformLocation(program, "lightColor");
+	glUniform3f(lightColorLocation, lightColor[0], lightColor[1], lightColor[2]);
 
-	glm::mat4 perspectiveProjection = glm::perspective(glm::radians(45.0f), aspect, nearPlane, farPlane);
-	glm::mat4 viewMatrix = glm::translate(glm::mat4(),glm::vec3(0,0,-1.0f));// glm::lookAt(cameraPos, cameraTarget, up);//(translate to -Z axis)
 
-	glm::mat4 mvp = perspectiveProjection * viewMatrix;// (model transform is identity)
+
+	//transform
+	glm::mat4 perspectiveProjection = glm::perspective(45.0f, aspect, nearPlane, farPlane);
+	
+	glm::mat4 view = glm::mat4(1.0f);
+	view = glm::translate(view, glm::vec3(cameraPosition[0], cameraPosition[1], cameraPosition[2]));
+	view = glm::rotate(view, cameraRotation[0], glm::vec3(1, 0, 0));
+	view = glm::rotate(view, cameraRotation[1], glm::vec3(0, 1, 0));
+	view = glm::rotate(view, cameraRotation[2], glm::vec3(0, 0, 1));
+
+
+	glm::mat4 mvp = perspectiveProjection * view;// (model transform is identity)
 
 	// Set uniform for scene (transform)
 	int mvpLocation = glGetUniformLocation(program, "mvp");
 	glUniformMatrix4fv(mvpLocation, 1, GL_FALSE, &mvp[0][0]);
 
+	//draw globjects
+	for (auto obj : GLObjects_map) {
 
-	// Testing
-	for (auto& obj : GLObjects_map) {
-
-		auto _obj = obj.second;
+		auto _obj = (GLObject*)obj.second;
 		
 
 
 		if (!_obj->isInitialized())
 			_obj->glInit();
 		_obj->glUpdateIfNeeded();
-		_obj->glDraw(program);
+		if (_obj->mode == GL_TRIANGLES)
+		{
+			_obj->glDraw(program);
+		}
 	}
+	std::cout << std::endl;
+	GLenum err;
+	while ((err = glGetError()) != GL_NO_ERROR) {
+		std::cout << "OpenGL error: " << err << std::endl;
+	}
+
 }

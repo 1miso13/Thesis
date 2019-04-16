@@ -173,6 +173,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Circle.h" />
+    <ClInclude Include="EarClippingTriangulator.h" />
     <ClInclude Include="Expression.h" />
     <ClInclude Include="ObjectsValues.h" />
     <ClInclude Include="Operation.h" />
@@ -204,6 +205,7 @@
   <ItemGroup>
     <ClCompile Include="Circle.cpp" />
     <ClCompile Include="Cylinder.cpp" />
+    <ClCompile Include="EarClippingTriangulator.cpp" />
     <ClCompile Include="Expression.cpp" />
     <ClCompile Include="GeometricObject.cpp" />
     <ClCompile Include="GeometricOperation.cpp" />
@@ -235,6 +237,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="FS.frag" />
+    <Text Include="VS.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

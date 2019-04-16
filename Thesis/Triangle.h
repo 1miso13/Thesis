@@ -18,6 +18,7 @@ namespace Object {
 		void CalculatePerimeter();
 
 		void CalculateArea();
+		void CreateMesh();
 	};
 
 }

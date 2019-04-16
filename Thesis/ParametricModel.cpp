@@ -1,97 +1,128 @@
 #include "pch.h"
 #include "ParametricModel.h"
 #include "GLObject.h"
-
-std::vector<glm::vec3> verticesa = {
-	/*glm::vec3(-50.0f, -50.0f, 0.0f),
-	glm::vec3(50, -50.0f, 0.0f),
-	glm::vec3(0.0f,  25.0f, 0.0f),
-	glm::vec3(0.0f,  50.0f, 50.0f)*/
-	// Front face
-	glm::vec3(-1.0, -1.0,  1.0),
-	glm::vec3(1.0, -1.0,  1.0),
-	glm::vec3(1.0,  1.0,  1.0),
-	glm::vec3(-1.0,  1.0,  1.0),
-
-	// Back face
-	glm::vec3(-1.0, -1.0, -1.0),
-	glm::vec3(-1.0,  1.0, -1.0),
-	glm::vec3(1.0,  1.0, -1.0),
-	glm::vec3(1.0, -1.0, -1.0),
-
-	// Top face
-	glm::vec3(-1.0,  1.0, -1.0),
-	glm::vec3(-1.0,  1.0,  1.0),
-	glm::vec3(1.0,  1.0,  1.0),
-	glm::vec3(1.0,  1.0, -1.0),
-
-	// Bottom face
-	glm::vec3(-1.0, -1.0, -1.0),
-	glm::vec3(1.0, -1.0, -1.0),
-	glm::vec3(1.0, -1.0,  1.0),
-	glm::vec3(-1.0, -1.0,  1.0),
-
-	// Right face
-	glm::vec3(1.0, -1.0, -1.0),
-	glm::vec3(1.0,  1.0, -1.0),
-	glm::vec3(1.0,  1.0,  1.0),
-	glm::vec3(1.0, -1.0,  1.0),
-
-	// Left face
-	glm::vec3(-1.0, -1.0, -1.0),
-	glm::vec3(-1.0, -1.0,  1.0),
-	glm::vec3(-1.0,  1.0,  1.0),
-	glm::vec3(-1.0,  1.0, -1.0)
-};
+//TODO DELETE
+//std::vector<glm::vec3> verticesa = {
+//	/*glm::vec3(-50.0f, -50.0f, 0.0f),
+//	glm::vec3(50, -50.0f, 0.0f),
+//	glm::vec3(0.0f,  25.0f, 0.0f),
+//	glm::vec3(0.0f,  50.0f, 50.0f)*/
+//	// Front face
+//	glm::vec3(-1.0, -1.0,  1.0),
+//	glm::vec3(1.0, -1.0,  1.0),
+//	glm::vec3(1.0,  1.0,  1.0),
+//	glm::vec3(-1.0,  1.0,  1.0),
+//
+//	// Back face
+//	glm::vec3(-1.0, -1.0, -1.0),
+//	glm::vec3(-1.0,  1.0, -1.0),
+//	glm::vec3(1.0,  1.0, -1.0),
+//	glm::vec3(1.0, -1.0, -1.0),
+//
+//	// Top face
+//	glm::vec3(-1.0,  1.0, -1.0),
+//	glm::vec3(-1.0,  1.0,  1.0),
+//	glm::vec3(1.0,  1.0,  1.0),
+//	glm::vec3(1.0,  1.0, -1.0),
+//
+//	// Bottom face
+//	glm::vec3(-1.0, -1.0, -1.0),
+//	glm::vec3(1.0, -1.0, -1.0),
+//	glm::vec3(1.0, -1.0,  1.0),
+//	glm::vec3(-1.0, -1.0,  1.0),
+//
+//	// Right face
+//	glm::vec3(1.0, -1.0, -1.0),
+//	glm::vec3(1.0,  1.0, -1.0),
+//	glm::vec3(1.0,  1.0,  1.0),
+//	glm::vec3(1.0, -1.0,  1.0),
+//
+//	// Left face
+//	glm::vec3(-1.0, -1.0, -1.0),
+//	glm::vec3(-1.0, -1.0,  1.0),
+//	glm::vec3(-1.0,  1.0,  1.0),
+//	glm::vec3(-1.0,  1.0, -1.0)
+//};
 void ParametricModel::RemoveAllGLObjects() {
-	for (auto it = GLObjects_map.begin(); it != GLObjects_map.end();) {
-			it->second->glDestroy();
-			delete it->second;
-			it = GLObjects_map.erase(it);
+	for (auto it : renderer.GLObjects_map) {
+		((GLObject*)it.second)->glDestroy();
+		delete it.second;
 	}
-	GLObjects_map.clear();
-}
+	renderer.GLObjects_map.clear();
+}			
+// Testing (CPU)
+std::vector<float> vert = { /*-0.5f, -0.5f, 0.0f,
+	0.5, -0.5f, 0.0f,
+	0.0f, 0.25f, 0.0f,
+	0.0f, 0.5f, 0.5f*/
+}; 
+std::vector<float> normals = { /*-0.5f, -0.5f, 0.0f,
+	0.5, -0.5f, 0.0f,
+	0.0f, 0.25f, 0.0f,
+	0.0f, 0.5f, 0.5f*/
+};
+
+std::vector<unsigned int> ind = { /*0, 1, 2, 1, 2, 3 */};
 void ParametricModel::UpdateGLObjects() {
-	//remove invalid
-	for (auto it = GLObjects_map.begin(); it != GLObjects_map.end();) {
-		if ((ObjectMap[it->first]) == NULL) {
-			it->second->glDestroy();
-			delete it->second;
-			it = GLObjects_map.erase(it);
-		}
-		else
-			it++;
-	}
 
-	//add new objects and set values 
-	for (auto object : Objects)
+	if (GLContext)
 	{
-		GLObject *glO;
-		if ((glO = GLObjects_map[object->ObjectName]) == NULL)
-		{
-			glO = new GLObject();
+		//remove invalid
+		for (auto it = renderer.GLObjects_map.begin(); it != renderer.GLObjects_map.end();) {
+			if ((ObjectMap[it->first]) == NULL) {
+				((GLObject*)it->second)->glDestroy();
+				delete it->second;
+				it = renderer.GLObjects_map.erase(it);
+			}
+			else
+				it++;
 		}
-		// Testing (CPU)
-		glO->vertices = verticesa; //TODO object.verticies
-		glO->indices =		//TODO object. indices
-		{ 0, 1, 2, 0, 2, 3,   //front
-		4, 5, 6, 4, 6, 7,   //right
-		8, 9, 10, 8, 10, 11,  //back
-		12, 13, 14, 12, 14, 15,  //left
-		16, 17, 18, 16, 18, 19,  //upper
-		20, 21, 22, 20, 22, 23 }; //bottom
-		glO->setNeedsUpdate();
-		glO->vertices;
-		glO->indices;
-		glO->color=glm::vec4(	object->color[0], //R
-								object->color[1], //G
-								object->color[2], //B
-								object->color[3]);//A
-		GLObjects_map[object->ObjectName] = glO;
+
+		//add new objects and set values 
+		for (auto object : Objects)
+		{
+			GLObject *glO;
+			if ((glO = (GLObject*)renderer.GLObjects_map[object->ObjectName]) == NULL)
+			{
+				glO = new GLObject();
+			}
+
+			glO->vertices = &vert;//verticesa; //TODO object.vertices
+			glO->indices = &ind;//TODO object. indices
+			glO->normals = &normals;
+			//{ 0, 1, 2, 0, 2, 3,   //front
+			//4, 5, 6, 4, 6, 7,   //right
+			//8, 9, 10, 8, 10, 11,  //back
+			//12, 13, 14, 12, 14, 15,  //left
+			//16, 17, 18, 16, 18, 19,  //upper
+			//20, 21, 22, 20, 22, 23 }; //bottom
+			
+			//if (object->GeometricType == Object::ObjectTypeEnum::SPHERE_ObjectType)
+			if (object->vertices.size())
+			{
+				glO->vertices = &object->vertices;
+				glO->indices = &object->indices;
+				glO->normals = &object->normals;
+			}
+			glO->setNeedsUpdate();
+
+			if (object->GeometricType == Object::ObjectTypeEnum::POINT_ObjectType)
+			{
+				glO->mode = GL_POINTS;
+			}
+			if (object->GeometricType == Object::ObjectTypeEnum::LINE_ObjectType)
+			{
+				glO->mode = GL_LINES;
+			}
+			glO->color = glm::vec4(object->color[0]/255.0f, //R
+				object->color[1] / 255.0f, //G
+				object->color[2] / 255.0f, //B
+				object->color[3] / 255.0f);//A
+			renderer.GLObjects_map[object->ObjectName] = (void*)glO;
+		}
+
+
 	}
-
-	
-
 }
 
 #include <fstream>

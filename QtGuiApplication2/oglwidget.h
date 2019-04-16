@@ -26,14 +26,10 @@ public:
 	}
 
 	void paintGL() {
-		//glClearColor(1, 0, 0, 1);
-		//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-		//glViewport(0, 0, width(), height());
 
 		// Draw
 		float aspect = (float)width() / (float)height();
-		renderer.draw(aspect);
+		renderer.draw(45,aspect);
 
 		
 		//SwapBuffers(this);

@@ -15,7 +15,7 @@ namespace Object {
 		~Circle()
 		{
 		}
-
+		void CreateMesh();
 	};
 
 }

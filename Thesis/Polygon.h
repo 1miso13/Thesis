@@ -14,7 +14,7 @@ namespace Object {
 		~Polygon();
 		void CalculatePerimeter();
 		void CalculateArea();
-
+		void CreateMesh();
 	};
 
 }

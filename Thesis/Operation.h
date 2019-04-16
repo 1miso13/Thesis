@@ -61,13 +61,17 @@ public:
 	}
 	~Operation() {
 		//free commandParamsVector
-		delete(OperationParametersVec);
+		if (OperationParametersVec!=NULL)
+			delete(OperationParametersVec);
 		for (size_t i = 0; i < Parameters->size(); i++)
 		{
 			delete Parameters->at(i).second;
 		}
 		delete Parameters;
 	}
+	/// <summary>
+	/// call this to set expressions/// </summary>
+	void ResetParameters();
 private:
 	void SetParams(std::vector<operationType::ParameterTypesEnum> *paramTypes);
 };

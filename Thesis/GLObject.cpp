@@ -1,8 +1,8 @@
 //#pragma once
 //
 //#include <Windows.h>
-//#include "pch.h"
-//#include "GLObject.h"
+#include "pch.h"
+#include "GLObject.h"
 //
 //#define GLEW_STATIC
 //#include <GL/glew.h>

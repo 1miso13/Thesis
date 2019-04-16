@@ -9,25 +9,13 @@ void Operation::SetParams(std::vector<operationType::ParameterTypesEnum> *paramT
 	{
 		void* pointer; 
 		operationType::ParameterTypesEnum parameterType = paramTypes->size()<OperationParametersVec->size()? operationType::ParameterTypesEnum::ParameterTypePOINT :(*paramTypes)[i];
-		//double num;
+
 		switch (parameterType)
 		{
 		case operationType::ParameterTypeFLOAT:
-		//case operationType::ParameterTypeEXPRESSION:
-
-			//char* end;
-			//num = strtod((*OperationParametersVec)[i].c_str(), &end);
-			//if (*end != '\0')
-			//{
 
 				pointer = (void*)new Expression((*OperationParametersVec)[i]);
-				//return e.isValid ? TestExpressionsIdentifiers(&e, OperationsMap) : false;
-				//parameterType = operationType::ParameterTypeEXPRESSION;
-			//}
-			//else
-			//{
-			//	pointer = (void*)new float((float)num);
-			//}
+
 				break;
 		default:
 			pointer = (void*)new std::string((*OperationParametersVec)[i]);
@@ -36,4 +24,13 @@ void Operation::SetParams(std::vector<operationType::ParameterTypesEnum> *paramT
 		
 		Parameters->push_back(std::make_pair(parameterType, pointer));
 	}
+}
+void Operation::ResetParameters() {
+		for (size_t i = 0; i < OperationParametersVec->size(); i++) {
+			if (Parameters->at(i).first == operationType::ParameterTypeFLOAT)
+			{
+				delete Parameters->at(i).second;
+				Parameters->at(i).second = (void*)new Expression((*OperationParametersVec)[i]);
+			}
+		}
 }

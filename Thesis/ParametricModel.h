@@ -14,7 +14,11 @@ private :
 
 	TreeBuilder *treeBuilder;
 	Renderer renderer;
+	size_t circlePointsCount = 100;
 public:
+	void setPointsCount(size_t pointCount) {
+		circlePointsCount = pointCount;
+	}
 	/// <summary>
 	/// For sorting operations
 	/// </summary>
@@ -118,11 +122,17 @@ public:
 		OperationMap.clear();
 		for (size_t i = 0; i < Objects.size(); i++)
 		{
-			delete(Objects[i]);
+			//delete(Objects[i]);
 		}
 		Objects.clear();
 		ObjectMap.clear();
-		RemoveAllGLObjects();
+
+		GraphCommandTMP.clear();
+		OperationMapTMP.clear();
+		if (GLContext)
+		{
+			RemoveAllGLObjects();
+		}
 	}
 	/// <summary>
 	/// Add multiple operations devided by semicolon ;
@@ -141,6 +151,8 @@ public:
 				valid = false;
 			}
 		}
+
+		resetTest();
 		if (!valid)
 		{
 			return false;
@@ -308,6 +320,7 @@ public:
 		{
 			operation->OperationParametersVec->at(paramindex) = value;
 		}
+		operation->ResetParameters();
 	}
 	void SetRefValue(std::string ObjectName, size_t paramindex, float value) {
 		SetRefValue(ObjectName, paramindex, std::to_string(value));
@@ -330,20 +343,34 @@ public:
 	float GetObjectValue(std::string s,bool* Err) {
 		return ObjectsValues::GetObjectValue(&ObjectMap, s, Err);
 	}
-
+private:
+	bool GLContext = false;
+public:
 	/// <summary>
 	/// Init renderer
 	/// </summary>
 	void InitRenderer() {
 		renderer.init();
+		GLContext = true;
+
+		UpdateGLObjects();
 	}
 
 	/// <summary>
 	/// Draw OpenGL 
 	/// </summary>
 	/// <param name="aspect"></param>
-	void Draw(float fov,float aspect) {
-		renderer.draw(fov,aspect);
+	void Draw(float aspect, float fov) {
+		if (GLContext)
+		{
+			renderer.draw(aspect, fov);
+		}
+	}
+	void SetRendererCameraPosition(float X, float Y, float Z) {
+		renderer.setCameraPosition(X, Y, Z);
+	}
+	void SetRendererCameraRotation(float Pitch, float Yaw, float Roll) {
+		renderer.setCameraRotation(Pitch, Yaw, Roll);
 	}
 
 	/// <summary>

@@ -538,8 +538,74 @@ private:
 		}
 									 break;
 		case operationType::Extrude: {
-			//TODO NOT IMPLEMENTED
+			Object::Surface *s = (Object::Surface*)FindObjectByName(Objects, operation->OperationParametersVec->at(0), &Err1);
+			float distance = GetNumber(&operation->Parameters->at(1), &Err2);
 
+			RetObject = new Object::Shape3D();
+			Object::Shape3D* RerObjectShape = (Object::Shape3D*)RetObject;
+			//copy surface points 
+
+			for (size_t i = 0; i < s->vertices.size(); i++)
+			{
+				RerObjectShape->vertices.push_back(s->vertices[i]);
+			}
+			for (size_t i = 0; i < s->indices.size(); i++)
+			{
+				RerObjectShape->indices.push_back(s->indices[i]);
+			}
+			
+			//surface points duplicities move by surface normal 
+			for (size_t i = 0; i < s->vertices.size(); i+=3)
+			{
+				RerObjectShape->vertices.push_back(s->vertices[i] + s->normal.X * distance);
+				RerObjectShape->vertices.push_back(s->vertices[i + 1] + s->normal.Y * distance);
+				RerObjectShape->vertices.push_back(s->vertices[i + 2] + s->normal.Z * distance);
+			}
+			for (size_t i = 0; i < s->indices.size(); i++)
+			{
+				RerObjectShape->indices.push_back(s->indices[i] + s->vertices.size() / 3);
+			}
+
+			//side
+			int j = ((int)s->vertices.size()) / 3-1;
+			for (int i = 0; i < s->vertices.size(); i++)
+			{
+				//	1*			top		- before actual
+				//	 * *		
+				//	2* * *3		base	- before actual	-	actual
+				RerObjectShape->indices.push_back(j + s->vertices.size() / 3);
+				RerObjectShape->indices.push_back(j);
+				RerObjectShape->indices.push_back(i);
+				//	1* * *3		top		- before actual	-	actual
+				//	   * *		
+				//	     *2		base	- actual
+				RerObjectShape->indices.push_back(j + s->vertices.size() / 3);
+				RerObjectShape->indices.push_back(i);
+				RerObjectShape->indices.push_back(i + s->vertices.size() / 3);
+				j = i;
+			}
+			//normals
+			//base - invert base normal
+			for (size_t i = 0; i < s->normals.size(); i++)
+			{
+				RerObjectShape->normals.push_back(-s->normals[i]);
+			}
+			//top - base normal
+			for (size_t i = 0; i < s->normals.size(); i++)
+			{
+				RerObjectShape->normals.push_back(-s->normals[i]);
+			}
+			//side - need to calculate 
+			//for (size_t i = 0; i < ; i++)
+			//{
+			//	RerObjectShape->normals.
+			//}
+
+			if (Err1 || Err2)
+			{
+				return NULL;
+			}
+			RetObject = new Object::Shape3D();
 		}
 									 break;
 		case operationType::BooleanUnion: {

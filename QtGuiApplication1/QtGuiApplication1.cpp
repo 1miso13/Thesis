@@ -22,6 +22,7 @@ QtGuiApplication1::QtGuiApplication1(QWidget *parent)
 	graph = new GVGraph("graph");
 	ui.setupUi(this);
 	ui.openGLWidget->setParamModel(&paramModel);
+
 }
 bool IsNotEmpty(std::string s)
 {
@@ -508,7 +509,7 @@ QIcon QtGuiApplication1::setObjectIcon(Object::ObjectTypeEnum type) {
 void QtGuiApplication1::RefreshObjectList()
 {
 	//rebuild tree
-	if (ReadyToBuild)
+	//if (ReadyToBuild)
 	{
 		paramModel.ReBuildTree();
 	}
@@ -608,6 +609,7 @@ void QtGuiApplication1::on_tableWidget_cellChanged(int row, int column)
 		//ui.RefParam_tableWidget->item(1, 1)
 		OperationToQStrings(paramModel.OperationsVec[i], ui.treeWidget->topLevelItem(i) );
 	}
+	paramModel.ReBuildTree();
 }
 
 void QtGuiApplication1::on_RefParam_UPButton_clicked()
@@ -668,6 +670,7 @@ void QtGuiApplication1::on_DOWN_command_Button_clicked()
 		TestOperationsValidity(row);
 		RefreshObjectList();
 	}
+
 }
 
 void QtGuiApplication1::on_UP_command_Button_clicked()

@@ -10,16 +10,17 @@
 #include <GL/GLU.h>
 #include <glm/glm.hpp>
 
-#include <unordered_map>
+#include <iostream>
 
 
 class GLObject {
-	GLuint _vbo = 0, _ebo = 0, _vao = 0;
+	GLuint _vbo = 0, _vboN = 0, _ebo = 0, _vao = 0;
 	bool _needsUpdate = false;
 	bool _initialized = false;
 public:
-	std::vector<glm::vec3> vertices;
-	std::vector<unsigned> indices;
+	std::vector<float> *vertices;
+	std::vector<float> *normals;
+	std::vector<unsigned> *indices;
 	glm::vec4 color;
 
 	void setNeedsUpdate() {
@@ -29,14 +30,20 @@ public:
 	void glInit() {
 		glGenVertexArrays(1, &_vao);
 		glGenBuffers(1, &_vbo);
+		glGenBuffers(1, &_vboN);
 		glGenBuffers(1, &_ebo);
 
 		glBindVertexArray(_vao);
 		glBindBuffer(GL_ARRAY_BUFFER, _vbo);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _ebo);
 
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), NULL);
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), NULL);
 		glEnableVertexAttribArray(0);
+
+		glBindBuffer(GL_ARRAY_BUFFER, _vboN);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _ebo);
+		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), NULL);
+		glEnableVertexAttribArray(1);
 
 		glBindVertexArray(0);
 		_initialized = true;
@@ -49,15 +56,20 @@ public:
 	void glDestroy() {
 		glDeleteVertexArrays(1, &_vao);
 		glDeleteBuffers(1, &_vbo);
+		glDeleteBuffers(1, &_vboN);
 		glDeleteBuffers(1, &_ebo);
 		_initialized = false;
 	}
 
 	void glUpdate() {
+		glBindVertexArray(_ebo); 
 		glBindBuffer(GL_ARRAY_BUFFER, _vbo);
-		glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(glm::vec3), vertices.data(), GL_DYNAMIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, vertices->size() * sizeof(float), vertices->data(), GL_DYNAMIC_DRAW);
+		//std::cout << glGetError();
+		glBindBuffer(GL_ARRAY_BUFFER, _vboN);
+		glBufferData(GL_ARRAY_BUFFER, normals->size() * sizeof(float), normals->data(), GL_DYNAMIC_DRAW);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _ebo);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned), indices.data(), GL_DYNAMIC_DRAW);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices->size() * sizeof(unsigned), indices->data(), GL_DYNAMIC_DRAW);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	}
@@ -66,23 +78,21 @@ public:
 		if (_needsUpdate) glUpdate();
 		_needsUpdate = false;
 	}
-	
-float timeValue = 0;
-	void glDraw(GLuint program, GLenum mode = GL_TRIANGLES) {
+	GLenum mode = GL_TRIANGLES;
+//float timeValue = 0;
+	void glDraw(GLuint program/*, GLenum mode = GL_TRIANGLES*/) {
 		// Uniforms (Color)
 		//glProgramUniform4fv(program,...);
 		int vertexColorLocation = glGetUniformLocation(program, "color");
 		// use our shader program when we want to render an object
 		glUseProgram(program);
-		timeValue += 0.01;
-		float greenValue = sin(timeValue) / 2.0f + 0.5f;
-		glUniform4f(vertexColorLocation, 0.0f, greenValue, 0.0f, 1.0f);
+		//timeValue += 0.01;
+		//float greenValue = sin(timeValue) / 2.0f + 0.5f;
+		//glUniform4f(vertexColorLocation, 0.0f, greenValue, 0.0f, 1.0f);
+		glUniform4f(vertexColorLocation, color.r, color.g, color.b, color.a);
 
 		glBindVertexArray(_vao);
-		glDrawElements(mode, (GLsizei)indices.size(), GL_UNSIGNED_INT, NULL);
+		glDrawElements(mode, (GLsizei)indices->size(), GL_UNSIGNED_INT, NULL);
 		glBindVertexArray(0);
 	}
 };
-
-
-static std::unordered_map<std::string, GLObject*> GLObjects_map;

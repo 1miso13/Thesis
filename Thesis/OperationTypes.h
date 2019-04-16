@@ -359,15 +359,15 @@ namespace operationType {
 		}
 		else
 		{
-			value = c[1] - 'A';
+			value = c[1] - 'A' + 10;
 		}
-		if (c[1] <= '9')
+		if (c[0] <= '9')
 		{
 			value += (c[0] - '0')*16;
 		}
 		else
 		{
-			value += (c[0] - 'A')*16;
+			value += (c[0] - 'A' + 10)*16;
 		}
 		return value;
 	}

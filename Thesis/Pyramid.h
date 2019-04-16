@@ -40,6 +40,8 @@ namespace Object {
 		void CalculateSurfaceArea();
 
 		short GetBaseType();
+	private:
+		void CreateMesh();
 	};
 
 }

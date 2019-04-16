@@ -23,6 +23,12 @@ namespace Object {
 	class GeometricObject
 	{
 	public:
+		//mesh
+		std::vector<float> vertices;
+		std::vector<float> normals;
+		std::vector<unsigned> indices;
+
+
 		unsigned char  color[4] = {0, 0, 0, 0};
 		std::string getColorHEX() {
 			std::string s = "";
@@ -77,6 +83,13 @@ namespace Object {
 			}
 			return std::string();
 		}
+	private:
+
+		void calcVertexNormals(std::vector<unsigned int> indices, size_t indiciesCount, std::vector < float> vertex, std::vector <float> *verticesNormal, size_t vertexCount, void *triangleNormal);
+		void calcTriangleNormals(std::vector<unsigned int >indices, size_t indiciesCount, std::vector<float> vertex, void *triangleNormal);
+		protected:
+			void calculateNormals();
+
 	};
 
 }

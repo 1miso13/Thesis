@@ -156,6 +156,9 @@
     <ClInclude Include="ObjectsValues.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="EarClippingTriangulator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -233,8 +236,19 @@
     <ClCompile Include="ParametricModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="EarClippingTriangulator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="FS.frag">
+      <Filter>Header Files\Renderer</Filter>
+    </Text>
+    <Text Include="VS.vert">
+      <Filter>Header Files\Renderer</Filter>
+    </Text>
   </ItemGroup>
 </Project>

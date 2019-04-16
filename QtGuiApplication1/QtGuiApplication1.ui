@@ -55,7 +55,17 @@
         <bool>true</bool>
        </property>
        <widget class="OGLWidget" name="openGLWidget"/>
-       <widget class="QGraphicsView" name="graphicsView"/>
+       <widget class="QGraphicsView" name="graphicsView">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>0</width>
+          <height>16777215</height>
+         </size>
+        </property>
+       </widget>
        <widget class="QTabWidget" name="tabWidget">
         <property name="currentIndex">
          <number>2</number>

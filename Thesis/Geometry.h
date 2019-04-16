@@ -21,13 +21,7 @@ void Plane2DTo3D(Vector3 * arrayOfPoints, unsigned int pointsCount, Vector3 * no
 float PolygonArea(std::vector <Object::Point> points);
 
 
-inline Vector3 crossProduct2Vectors(Vector3 VectorA, Vector3 VectorB) {
-	float X = VectorA.Y*VectorB.Z + VectorB.Y*VectorA.Z;
-	float Y = VectorA.Z*VectorB.X + VectorB.Z*VectorA.X;
-	float Z = VectorA.X*VectorB.Y + VectorB.X*VectorA.Y;
-
-	return Vector3(X, Y, Z);
-}
+Vector3 crossProduct2Vectors(Vector3 VectorA, Vector3 VectorB);
 inline Vector3 crossProduct3Points(Vector3 *arrayOfPoints) {
 	Vector3 VectorA = arrayOfPoints[0] - arrayOfPoints[1];
 	Vector3 VectorB = arrayOfPoints[2] - arrayOfPoints[1];
