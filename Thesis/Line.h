@@ -9,6 +9,7 @@ namespace Object {
 	{
 	private:
 		void DistanceCalc();
+		void CreateMesh();
 	public:
 		Point beginPoint;
 		Point endPoint;

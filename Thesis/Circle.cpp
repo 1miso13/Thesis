@@ -36,8 +36,8 @@ namespace Object {
 		int N = 100;
 		for (int n = 0; n < N; n++)
 		{
-			glm::vec4 circlePoint = glm::vec4(cos(2 * glm::pi<float>() * n / N), 0, sin(2 * glm::pi<float>() * n / N),0)
-									* rotmat;
+			glm::vec4 circlePoint = rotmat * glm::vec4(cos(2 * glm::pi<float>() * n / N), 0, sin(2 * glm::pi<float>() * n / N), 0);
+									
 
 
 			vertices.push_back(circlePoint.x);//X
@@ -55,13 +55,7 @@ namespace Object {
 			indices.push_back(i);
 		}
 
-		std::ofstream myfile;
-		myfile.open("example.txt");
-		for (size_t i = 0; i < vertices.size(); i+=3)
-		{
-			myfile << "Point({" << std::fixed << vertices[i] << "," << vertices[i+1] << "," << vertices[i+2] << "})\n";
-		}
-		myfile.close();
+
 	}
 
 }

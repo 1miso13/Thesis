@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "Expression.h"
-
+#include "Windows.h"
 #include "ObjectsValues.h"
 
 
@@ -125,7 +125,7 @@ bool Expression::parseExp(std::string s)
 					 //need to test if name exists
 					 i+= length;
 
-					 if (token == "cos" || token == "sin" || token == "tan" || token == "acos" || token == "asin" || token == "atan" || token == "sqrt")
+					 if (token == "cos" || token == "sin" || token == "tan" || token == "acos" || token == "asin" || token == "atan" || token == "sqrt" || token == "round" || token == "roundup" || token == "rounddown")
 					 {
 						 if (i + 1 < s.length()) {
 							 if (!isspace(s[i]) && s[i] != '(')
@@ -320,6 +320,21 @@ bool Expression::parseExp(std::string s)
  }
 
  std::string Expression::UnaryOperation(std::string operation, std::string param) {
+	 if (operation == "round")
+	 {
+		 return std::to_string(round(stod(param)));
+	 }
+	 else
+	 if (operation == "roundup")
+	 {
+		 return std::to_string(ceil(stod(param)));
+	 }
+	 else
+	 if (operation == "rounddown")
+	 {
+		 return std::to_string(floor(stod(param)));
+	 }
+	 else
 	 if (operation == "sin")
 	 {
 		 return std::to_string(sin(stod(param)));
@@ -405,10 +420,11 @@ bool Expression::parseExp(std::string s)
 	 
 	return 0;
  }
+ 
 float Expression::Evaluate(std::map<std::string, Object::GeometricObject*> *ObjectMap, std::map<std::string, Operation*>* OperationMap, ParamRef *paramRef, bool * Err) {
 	if (tokens.size() > 0)
 	{
-
+		time = GetTickCount();
 		std::vector <tokenType> tokenTypesTMP;
 		std::vector <std::string> tokensTMP;
 		for (size_t i = 0; i < tokens.size();i++)
@@ -463,6 +479,18 @@ float Expression::Evaluate(std::map<std::string, Object::GeometricObject*> *Obje
 						std::string objectNamePtr;
 						size_t index;
 						Operation * operationPtr;
+						if (token == "time")
+						{
+							EvaluationStack.erase(EvaluationStack.begin() + i);
+							EvaluationStack.push_back(std::make_pair(tokenTypeNumber, std::to_string(time)));
+							break;
+						}
+						if (token == "time_seconds")
+						{
+							EvaluationStack.erase(EvaluationStack.begin() + i);
+							EvaluationStack.push_back(std::make_pair(tokenTypeNumber, std::to_string(time/1000)));
+							break;
+						}
 						if (!(*paramRef).FindRefParameter(token, &objectNamePtr, &index)) {
 							*Err = true;
 							return 0;
@@ -486,6 +514,7 @@ float Expression::Evaluate(std::map<std::string, Object::GeometricObject*> *Obje
 					case tokenTypeUnary:			///		trigoniometric: cos, sin, tan,  
 													///		inverse trigon: acos,  asin, atan
 													///		sqrt
+													///		round,roundup,rounddown
 					{
 						std::string operation, param;
 						operation = EvaluationStack[i].second;

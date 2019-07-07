@@ -306,6 +306,10 @@ namespace operationType {
 			if ((t = (*e).getToken(i,& token)) == Expression::tokenType::tokenTypeParameter)///Test parameters
 			{
 				bool foundParameter = false;
+				if (token == "time"  || token == "time_seconds")
+				{
+					foundParameter = true;
+				}
 				for (size_t i = 0; i < ParamRef::paramRefVecPtr->size(); i++)
 				{
 					if(ParamRef::paramRefVecPtr->at(i).refName == token){

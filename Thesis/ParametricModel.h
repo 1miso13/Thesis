@@ -14,11 +14,8 @@ private :
 
 	TreeBuilder *treeBuilder;
 	Renderer renderer;
-	size_t circlePointsCount = 100;
 public:
-	void setPointsCount(size_t pointCount) {
-		circlePointsCount = pointCount;
-	}
+
 	/// <summary>
 	/// For sorting operations
 	/// </summary>
@@ -53,7 +50,7 @@ public:
 	/// Rebuild objects in model
 	/// Call this to apply modifications
 	/// </summary>
-	void ReBuildTree() {
+	void BuildModel() {
 		treeBuilder->Build();
 		UpdateGLObjects();
 	}
@@ -360,10 +357,15 @@ public:
 	/// Draw OpenGL 
 	/// </summary>
 	/// <param name="aspect"></param>
-	void Draw(float aspect, float fov) {
+	void Draw(float width, float height) {
+		if (width == 0 || height == 0)
+		{
+			return;
+		}
+		float aspect = (float)width / (float)height;
 		if (GLContext)
 		{
-			renderer.draw(aspect, fov);
+			renderer.draw(aspect, 45, width, height);
 		}
 	}
 	void SetRendererCameraPosition(float X, float Y, float Z) {

@@ -37,6 +37,16 @@ namespace Object {
 		Point operator =(Vector2 vec) {
 			return Point(vec.X, vec.Y, 0);
 		}
+	private:
+		void createMesh() {
+			vertices.push_back(Position.X);
+			vertices.push_back(Position.Y);
+			vertices.push_back(Position.Z);
+			indices.push_back(0);
+			normals.push_back(0);
+			normals.push_back(0);
+			normals.push_back(0);
+		}
 	};
 	/*inline Point operator *(float A, Vector3 B) {
 		float X = A * B.X;

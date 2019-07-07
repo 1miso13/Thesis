@@ -3,7 +3,7 @@
 #include <QtWidgets/QMainWindow>
 #include "GeneratedFiles/ui_QtGuiApplication1.h"
 #include "GraphViz.h"
-
+#include <QTimer>
 
 class QtGuiApplication1 : public QMainWindow
 {
@@ -81,6 +81,7 @@ private slots:
 
     void on_DOWN_command_Button_clicked();
 
+	void rebuild();
 
 private:
 	Ui::QtGuiApplication1Class ui;
@@ -89,8 +90,7 @@ private:
 	void DisableButtons();
 	void RefreshObjectList();
 	void CreateGraph();
-
-
+	QTimer *Timer;
 	void OperationToQStrings(Operation *c, QTreeWidgetItem* qTreeWidgetItem);
 	//~QtGuiApplication1();
 };

@@ -165,16 +165,14 @@ layout (location = 0) in vec3 aPos;
 layout (location = 1) in vec3 aNormal;
 
 uniform mat4 mvp;
-uniform vec3 lightPos;  
 
 out vec3 Normal;
 out vec3 FragPos; 
-out vec4 lightPosTran;
 
 void main()
 {	
-	lightPosTran = mvp * vec4(lightPos, 1.0);
-    gl_Position = mvp * vec4(aPos, 1.0);
+
+	gl_Position = mvp * vec4(aPos, 1.0);
 	FragPos = aPos;
 	Normal = aNormal;
 }
@@ -197,27 +195,37 @@ void main()
 #version 330 core
 in vec3 Normal;  
 in vec3 FragPos; 
-in vec4 lightPosTran;
 uniform vec4 color;
 uniform vec3 lightColor;
+uniform vec3 lightPos;  
+
+uniform bool useLight; 
 
 out vec4 FragColor;
 
 void main()
 {
-	float ambientStrength = 0.3;
-	vec3 ambient = ambientStrength * lightColor;
+	/*FragColor = vec4(FragPos/5.0,1);
+	FragColor.z = 1/0.0;
+return;*/
+	if(useLight){
+		float ambientStrength = 0.3;
+		vec3 ambient = ambientStrength * lightColor;
 
-	vec3 norm = normalize(Normal);
-	vec3 lightDir = normalize(lightPosTran.xyz - FragPos);  
+		vec3 norm = normalize(Normal);
+		vec3 lightDir = normalize(lightPos.xyz - FragPos);  
 
-	float diff = max(dot(norm, lightDir), 0.0);
-	vec3 diffuse = diff * lightColor;
+		float diff = max(dot(norm, lightDir), 0.0);
+		vec3 diffuse = diff * lightColor;
 
 
 	
-	FragColor = vec4(ambient + diffuse,1) * color;
-	//FragColor = color*(FragPos.r+lightColor.r+lightPos.r);//lightColor.x;
+		FragColor = vec4(ambient + diffuse,1) * color;
+	}
+	else
+	{
+		FragColor = color;
+	}
 } 
 )";
 		glShaderSource(fs, 1, &fragmentShaderSourceCode, NULL);
@@ -257,34 +265,43 @@ void main()
 	}
 	glDeleteShader(vs);
 	glDeleteShader(fs);
+	glDisable(GL_CULL_FACE);
 	//glEnable(GL_CULL_FACE);
 	//glCullFace(GL_FRONT);
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LESS);
+
+	glPointSize(20);
 }
 
-void Renderer::draw(float aspect, float fov) {
+void Renderer::draw(float aspect, float fov, float width, float height) {
+	glViewport(0,0,width,height);
 
 	glClearColor(backgroundColor[0], backgroundColor[1], backgroundColor[2], backgroundColor[3]);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 
-	//Light
-	int lightLocation = glGetUniformLocation(program, "lightPos");
-	glUniform3f(lightLocation, lightPosition[0], lightPosition[1], lightPosition[2]);
-	int lightColorLocation = glGetUniformLocation(program, "lightColor");
-	glUniform3f(lightColorLocation, lightColor[0], lightColor[1], lightColor[2]);
-
 
 
 	//transform
 	glm::mat4 perspectiveProjection = glm::perspective(45.0f, aspect, nearPlane, farPlane);
-	
+
 	glm::mat4 view = glm::mat4(1.0f);
 	view = glm::translate(view, glm::vec3(cameraPosition[0], cameraPosition[1], cameraPosition[2]));
 	view = glm::rotate(view, cameraRotation[0], glm::vec3(1, 0, 0));
 	view = glm::rotate(view, cameraRotation[1], glm::vec3(0, 1, 0));
 	view = glm::rotate(view, cameraRotation[2], glm::vec3(0, 0, 1));
+	
+	auto lightPosGLM =/* glm::vec4(lightPosition[0], lightPosition[1], lightPosition[2], 0) * */glm::inverse(view)*glm::vec4(1, 0, 0, 1);
+
+
+	//Light
+	int lightLocation = glGetUniformLocation(program, "lightPos");
+	//glUniform3f(lightLocation, lightPosition[0], lightPosition[1], lightPosition[2]);
+	glUniform3fv(lightLocation, 1,&lightPosGLM[0]);
+
+	int lightColorLocation = glGetUniformLocation(program, "lightColor");
+	glUniform3f(lightColorLocation, lightColor[0], lightColor[1], lightColor[2]);
 
 
 	glm::mat4 mvp = perspectiveProjection * view;// (model transform is identity)
@@ -293,22 +310,31 @@ void Renderer::draw(float aspect, float fov) {
 	int mvpLocation = glGetUniformLocation(program, "mvp");
 	glUniformMatrix4fv(mvpLocation, 1, GL_FALSE, &mvp[0][0]);
 
+	int lightToggleLocation = glGetUniformLocation(program, "useLight");
 	//draw globjects
 	for (auto obj : GLObjects_map) {
 
 		auto _obj = (GLObject*)obj.second;
 		
-
+		if (_obj->color.a <= 0.00001f)
+		{
+			continue;
+		}
 
 		if (!_obj->isInitialized())
 			_obj->glInit();
 		_obj->glUpdateIfNeeded();
 		if (_obj->mode == GL_TRIANGLES)
 		{
-			_obj->glDraw(program);
+			glUniform1i(lightToggleLocation, GL_TRUE);
 		}
+		else
+		{
+			glUniform1i(lightToggleLocation, GL_FALSE);
+		}
+		_obj->glDraw(program);
 	}
-	std::cout << std::endl;
+	//std::cout << std::endl;
 	GLenum err;
 	while ((err = glGetError()) != GL_NO_ERROR) {
 		std::cout << "OpenGL error: " << err << std::endl;

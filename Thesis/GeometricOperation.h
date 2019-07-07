@@ -433,12 +433,12 @@ Object::Circle InscribedTriangle(Object::Triangle *triangle);
 	}
 
 	//rectangle
-	inline Object::Rectangle CreateRectangle(Object::Point center, float X, float Y, float Roll/*[0,360]*/, Object::Line normalLine) {
+	inline Object::Rectangle CreateRectangle(Object::Point center, float height, float width, float Roll/*[0,360]*/, Object::Line normalLine) {
 		Vector3 planeVector = Vector3(sin(Roll), cos(Roll), 0);
 		Plane2DTo3D(&planeVector, 1, &normalLine.Normal(), Vector3());
 
 
-		return Object::Rectangle(X, Y, planeVector, center, normalLine.Normal());
+		return Object::Rectangle(height, width, planeVector, center, normalLine.Normal());
 	}
 
 	inline Object::Polygon CreatePolygon(std::vector <Object::Point> pointsVector) { //minimum 3 points 
@@ -455,8 +455,7 @@ Object::Circle InscribedTriangle(Object::Triangle *triangle);
 			2 - width to right
 			*/
 			//TODO
-		float X = (float)l.distance;
-		float Y = width;
+		float height = (float)l.distance;
 		Object::Point center;
 		Vector3 VecToEdge;
 		switch (type)
@@ -476,7 +475,7 @@ Object::Circle InscribedTriangle(Object::Triangle *triangle);
 			break;
 		}
 
-		return Object::Rectangle(X, Y, l.Normal(), center, normalVector);
+		return Object::Rectangle(height, width, l.Normal(), center, normalVector);
 	}
 	//
 	inline Object::Rectangle AddWidthToLinePoint(Object::Line l, float width, Object::Point surfacePoint, short type) {

@@ -6,12 +6,12 @@ class Rectangle:
 	public Surface
 {
 public:
-	float sizeX;
-	float sizeY;
+	float height;
+	float width;
 	Vector3 planeVector;
 	Rectangle(
-		float sizeX,
-		float sizeY,
+		float height,
+		float width,
 		Vector3 planeVector,
 		Point center,
 		Vector3 normal);
@@ -19,6 +19,8 @@ public:
 
 	void CalculatePerimeter();
 	void CalculateArea();
+private:
+	void createMesh();
 };
 
 

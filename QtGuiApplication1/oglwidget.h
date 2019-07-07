@@ -50,9 +50,7 @@ public:
 		paramModel->SetRendererCameraRotation(sin(time) * 3.14f / 5.0f, rotationP, 0);
 		paramModel->SetRendererCameraPosition(0,0,-10+distance);
 		// Draw
-		float aspect = (float)width() / (float)height();
-		//QtGuiApplication1::paramModel.Draw(aspect);
-		paramModel->Draw(aspect,45);
+		paramModel->Draw(width(), height());
 
 		
 	}

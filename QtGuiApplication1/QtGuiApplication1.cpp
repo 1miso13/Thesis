@@ -23,6 +23,12 @@ QtGuiApplication1::QtGuiApplication1(QWidget *parent)
 	ui.setupUi(this);
 	ui.openGLWidget->setParamModel(&paramModel);
 
+	Timer = new QTimer(this);
+	connect(Timer, SIGNAL(timeout()), this, SLOT(rebuild()));
+	Timer->start();
+}
+void QtGuiApplication1::rebuild() {
+	paramModel.BuildModel();
 }
 bool IsNotEmpty(std::string s)
 {
@@ -511,7 +517,7 @@ void QtGuiApplication1::RefreshObjectList()
 	//rebuild tree
 	//if (ReadyToBuild)
 	{
-		paramModel.ReBuildTree();
+		paramModel.BuildModel();
 	}
 
 	//delete
@@ -609,7 +615,7 @@ void QtGuiApplication1::on_tableWidget_cellChanged(int row, int column)
 		//ui.RefParam_tableWidget->item(1, 1)
 		OperationToQStrings(paramModel.OperationsVec[i], ui.treeWidget->topLevelItem(i) );
 	}
-	paramModel.ReBuildTree();
+	paramModel.BuildModel();
 }
 
 void QtGuiApplication1::on_RefParam_UPButton_clicked()

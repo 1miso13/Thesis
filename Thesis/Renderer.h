@@ -47,6 +47,6 @@ public:
 
 	void init();
 
-	void draw(float aspect, float fov);
+	void draw(float aspect, float fov, float width, float height);
 };
 

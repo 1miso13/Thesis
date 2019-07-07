@@ -357,14 +357,14 @@ inline double ObjectsValues::GetObjectValue(std::map<std::string, Object::Geomet
 			value = ((Object::Rectangle*)objectPtr)->area;
 		}
 		else
-			if (valueName == "sizeX")
+			if (valueName == "height")
 		{
-				value = ((Object::Rectangle*)objectPtr)->sizeX;
+				value = ((Object::Rectangle*)objectPtr)->height;
 		}
 		else
-			if (valueName == "sizeY")
+			if (valueName == "width")
 		{
-				value = ((Object::Rectangle*)objectPtr)->sizeY;
+				value = ((Object::Rectangle*)objectPtr)->width;
 		}
 		else
 		{
