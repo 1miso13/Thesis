@@ -9,6 +9,7 @@
 #include <map>
 #include <utility>
 #include "Expression.h"
+#include "CSG_Constructor.h"
 
 class TreeBuilder
 {
@@ -551,18 +552,46 @@ private:
 		}
 									 break;
 		case operationType::BooleanUnion: {
-			//TODO NOT IMPLEMENTED
+			Object::GeometricObject *object1 = FindObjectByName(Objects, operation->OperationParametersVec->at(0), &Err1);
+			Object::GeometricObject *object2 = FindObjectByName(Objects, operation->OperationParametersVec->at(1), &Err2);
+			if (Err1 || Err2)
+			{
+				return NULL;
+			}
+			csg::CSG_union(RetObject, object1, object2);
 
 		}
-										  break;
+			break;
 		case operationType::BooleanIntersection: {
-			//TODO NOT IMPLEMENTED
+			Object::GeometricObject *object1 = FindObjectByName(Objects, operation->OperationParametersVec->at(0), &Err1);
+			Object::GeometricObject *object2 = FindObjectByName(Objects, operation->OperationParametersVec->at(1), &Err2);
+			if (Err1 || Err2)
+			{
+				return NULL;
+			}
+			csg::CSG_intersection(RetObject, object1, object2);
 
 		}
-												 break;
-		case operationType::BooleanNOT: {
-			//TODO NOT IMPLEMENTED
+			break;
+		case operationType::BooleanMinus: {
+			Object::GeometricObject *object1 = FindObjectByName(Objects, operation->OperationParametersVec->at(0), &Err1);
+			Object::GeometricObject *object2 = FindObjectByName(Objects, operation->OperationParametersVec->at(1), &Err2);
+			if (Err1 || Err2)
+			{
+				return NULL;
+			}
+			csg::CSG_minus(RetObject, object1, object2);
 
+		}
+			break;
+		case operationType::BooleanXOR: {
+			Object::GeometricObject *object1 = FindObjectByName(Objects, operation->OperationParametersVec->at(0), &Err1);
+			Object::GeometricObject *object2 = FindObjectByName(Objects, operation->OperationParametersVec->at(1), &Err2);
+			if (Err1 || Err2)
+			{
+				return NULL;
+			}
+			csg::CSG_XOR(RetObject, object1, object2);
 		}
 		}
 		//else
@@ -601,17 +630,19 @@ public:
 	std::vector <Operation*> *OperationsVec;
 	void Build() {
 		//clear objects
-		try
-		{
+
 			/*for (size_t i = 0; i < Objects->size(); i++)
 			{
-				delete Objects->at(i);
-			}*/
-		}
-		catch (...)
-		{
+				try
+				{
+					delete Objects->at(i); TODO
 
-		}
+				}
+				catch (...)
+				{
+					//printf_s("Unable to delete object %d",i);
+				}
+			}*/
 
 			Objects->clear();
 			ObjectMap->clear();

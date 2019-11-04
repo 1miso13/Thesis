@@ -1,9 +1,9 @@
 #ifndef OGLWIDGET_H
 #define OGLWIDGET_H
 
-#include "Renderer.h"
 #include <QOpenGLWidget>
 #include <iostream>
+#include "ParametricModel.h"
 
 
 
@@ -11,29 +11,23 @@ class OGLWidget : public QOpenGLWidget
 {
 	Q_OBJECT
 
-		Renderer renderer;
+		ParametricModel * paramModel;
 public:
     explicit OGLWidget(QWidget *parent = nullptr);
 
 	 void initializeGL() {
-		//const GLubyte *version = glGetString(GL_VERSION);
-
-		renderer.init();
+		 paramModel->InitRenderer();
 	}
-
+	 void setParamModel(ParametricModel * paramModel) {
+		 this->paramModel = paramModel;
+	 }
 	void resizeGL(int w, int h) {
 
 	}
-
 	void paintGL() {
 
 		// Draw
-		float aspect = (float)width() / (float)height();
-		renderer.draw(45,aspect);
-
-		
-		//SwapBuffers(this);
-		//glFinish();
+		paramModel->Draw(width(), height());
 	}
 
 };

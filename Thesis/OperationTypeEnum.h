@@ -144,7 +144,8 @@ Sphere,
 
 BooleanUnion,
 BooleanIntersection,
-BooleanNOT,
+BooleanMinus,
+BooleanXOR,
 INVALID
 	};
 	

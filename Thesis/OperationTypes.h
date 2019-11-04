@@ -213,7 +213,8 @@ namespace operationType {
 			return Object::SPHERE_ObjectType;
 		case BooleanUnion:
 		case BooleanIntersection:
-		case BooleanNOT:
+		case BooleanMinus:
+		case BooleanXOR:
 			return Object::OBJECT3D_ObjectType;
 		default://INVALID
 			return Object::INVALID_ObjectType;
@@ -2574,7 +2575,7 @@ namespace operationType {
 			//BooleanIntersection(string objectName, object3D o1, object3D o2, bool visible = true)
 
 		}
-		if (commandName == "BooleanNOT")
+		if (commandName == "BooleanMinus")
 		{
 			std::vector<ParameterTypesEnum>* params1 = new std::vector<ParameterTypesEnum>();
 			params1->push_back(ParameterTypeOBJECT3D);
@@ -2590,11 +2591,31 @@ namespace operationType {
 
 				(*paramVectorsInfo)->push_back(paramInfo1);
 			}
-			RetType =  BooleanNOT;
-			//BooleanNOT(string objectName, object3D o1, object3D o2, bool visible = true)
+			RetType = BooleanMinus;
+			//BooleanMinus(string objectName, object3D o1, object3D o2, bool visible = true)
 
 		}
-			
+		if (commandName == "BooleanXOR")
+		{
+			std::vector<ParameterTypesEnum>* params1 = new std::vector<ParameterTypesEnum>();
+			params1->push_back(ParameterTypeOBJECT3D);
+			params1->push_back(ParameterTypeOBJECT3D);
+
+			(*paramVectors)->push_back(params1);
+			if (info)
+			{
+				std::vector<std::string> *paramInfo1 = new std::vector<std::string>();
+				paramInfo1->push_back("Symmetric difference between objects");
+				paramInfo1->push_back("Symmeric difference");
+				paramInfo1->push_back("Symmeric difference");
+
+				(*paramVectorsInfo)->push_back(paramInfo1);
+			}
+			RetType = BooleanXOR;
+			//BooleanXOR(string objectName, object3D o1, object3D o2, bool visible = true)
+
+		}
+
 			
 			
 		if(UsedTempParamVec)
@@ -2708,8 +2729,10 @@ namespace operationType {
 			return "BooleanUnion";
 		case BooleanIntersection:
 			return "BooleanIntersection";
-		case BooleanNOT:
-			return "BooleanNOT";
+		case BooleanMinus:
+			return "BooleanMinus";
+		case BooleanXOR:
+			return "BooleanXOR";
 		default://INVALID
 			return "INVALID";
 		}

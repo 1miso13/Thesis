@@ -9,7 +9,7 @@ class QtGuiApplication2 : public QMainWindow
 	Q_OBJECT
 
 private:
-	static ParametricModel paramModel;
+	ParametricModel paramModel;
 public:
 	QtGuiApplication2(QWidget *parent = Q_NULLPTR);
 

@@ -36,7 +36,7 @@ namespace Object {
 		int N = 100;
 		for (int n = 0; n < N; n++)
 		{
-			glm::vec4 circlePoint = rotmat * glm::vec4(cos(2 * glm::pi<float>() * n / N), 0, sin(2 * glm::pi<float>() * n / N), 0);
+			glm::vec4 circlePoint = radius * rotmat * glm::vec4(cos(2 * glm::pi<float>() * n / N), 0, sin(2 * glm::pi<float>() * n / N), 0);
 									
 
 
@@ -51,8 +51,8 @@ namespace Object {
 		for (size_t i = 2; i < N; i++)
 		{
 			indices.push_back(0);
-			indices.push_back(i - 1);
-			indices.push_back(i);
+			indices.push_back((unsigned int)i - 1);
+			indices.push_back((unsigned int)i);
 		}
 
 

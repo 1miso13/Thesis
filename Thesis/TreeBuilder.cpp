@@ -39,7 +39,7 @@ Object::GeometricObject * TreeBuilder::Extrude(Object::Surface *s, float distanc
 	}
 	for (size_t i = 0; i < s->indices.size(); i++)
 	{
-		RerObjectShape->indices.push_back(s->indices[i] + s->vertices.size() / 3);
+		RerObjectShape->indices.push_back(s->indices[i] + (unsigned int)s->vertices.size() / 3);
 	}
 	//normals
 	//base - invert base normal
@@ -56,7 +56,7 @@ Object::GeometricObject * TreeBuilder::Extrude(Object::Surface *s, float distanc
 
 	//side
 	int j = ((int)s->vertices.size())-3;
-	for (int i = 0; i < s->vertices.size(); i += 3)
+	for (unsigned int i = 0; i < s->vertices.size(); i += 3)
 	{
 		//	1*			top		- before actual
 		//	 * *
@@ -85,13 +85,13 @@ Object::GeometricObject * TreeBuilder::Extrude(Object::Surface *s, float distanc
 		RerObjectShape->vertices.push_back(s->vertices[i + 1] + s->normal.Y * distance);
 		RerObjectShape->vertices.push_back(s->vertices[i + 2] + s->normal.Z * distance);
 
-		RerObjectShape->indices.push_back(2 * s->vertices.size() / 3 + i * 2);
-		RerObjectShape->indices.push_back(2 * s->vertices.size() / 3 + i * 2 + 1);
-		RerObjectShape->indices.push_back(2 * s->vertices.size() / 3 + i * 2 + 2);
-																		  
-		RerObjectShape->indices.push_back(2 * s->vertices.size() / 3 + i * 2 + 3);
-		RerObjectShape->indices.push_back(2 * s->vertices.size() / 3 + i * 2 + 4);
-		RerObjectShape->indices.push_back(2 * s->vertices.size() / 3 + i * 2 + 5);
+		RerObjectShape->indices.push_back(2 * (unsigned int) s->vertices.size() / 3 + i * 2);
+		RerObjectShape->indices.push_back(2 * (unsigned int) s->vertices.size() / 3 + i * 2 + 1);
+		RerObjectShape->indices.push_back(2 * (unsigned int) s->vertices.size() / 3 + i * 2 + 2);
+
+		RerObjectShape->indices.push_back(2 * (unsigned int) s->vertices.size() / 3 + i * 2 + 3);
+		RerObjectShape->indices.push_back(2 * (unsigned int) s->vertices.size() / 3 + i * 2 + 4);
+		RerObjectShape->indices.push_back(2 * (unsigned int) s->vertices.size() / 3 + i * 2 + 5);
 
 
 		glm::vec3 T1A(

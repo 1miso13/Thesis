@@ -275,7 +275,7 @@ return;*/
 }
 
 void Renderer::draw(float aspect, float fov, float width, float height) {
-	glViewport(0,0,width,height);
+	glViewport(0, 0, width, height);
 
 	glClearColor(backgroundColor[0], backgroundColor[1], backgroundColor[2], backgroundColor[3]);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -292,13 +292,13 @@ void Renderer::draw(float aspect, float fov, float width, float height) {
 	view = glm::rotate(view, cameraRotation[1], glm::vec3(0, 1, 0));
 	view = glm::rotate(view, cameraRotation[2], glm::vec3(0, 0, 1));
 	
-	auto lightPosGLM =/* glm::vec4(lightPosition[0], lightPosition[1], lightPosition[2], 0) * */glm::inverse(view)*glm::vec4(1, 0, 0, 1);
+	auto lightPosGLM = glm::inverse(view)*glm::vec4(1, 0, 0, 1);
 
 
 	//Light
 	int lightLocation = glGetUniformLocation(program, "lightPos");
 	//glUniform3f(lightLocation, lightPosition[0], lightPosition[1], lightPosition[2]);
-	glUniform3fv(lightLocation, 1,&lightPosGLM[0]);
+	glUniform3fv(lightLocation, 1, &lightPosGLM[0]);
 
 	int lightColorLocation = glGetUniformLocation(program, "lightColor");
 	glUniform3f(lightColorLocation, lightColor[0], lightColor[1], lightColor[2]);
@@ -340,4 +340,13 @@ void Renderer::draw(float aspect, float fov, float width, float height) {
 		std::cout << "OpenGL error: " << err << std::endl;
 	}
 
+}
+
+void Renderer::PolygonModeFILL() {
+
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+}
+
+void Renderer::PolygonModeLINE() {
+	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 }

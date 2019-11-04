@@ -99,7 +99,7 @@ namespace Object {
 		{
 			indices.push_back((M - 1 - 1)*N + j + 1);	//		1* * *3	<-	row before	- index before,  actual index
 			indices.push_back((M - 1 - 1)*N + n + 1);	//		  * *
-			indices.push_back((M - 1) *   N - 1 + 1);	//		   *2	<-	actual row	-  actual index
+			indices.push_back((M - 1) *   N	    + 1);	//		   *2	<-	actual row	-  actual index
 			j = n;
 		}
 
