@@ -37,7 +37,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\$(ProjectName)</OutDir>
     <IncludePath>D:\Workspace\lib\glew-2.1.0\include;D:\Workspace\lib\graphviz\include;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\Workspace\Master Thesis\Thesis\x64\Release;D:\Workspace\lib\Graphviz 2.41.20190122.1819\lib;D:\Workspace\lib\glew-2.1.0\lib\Release\x64;$(LibraryPath)</LibraryPath>
+    <LibraryPath>D:\Workspace\Master Thesis\Thesis\x64\Release;D:\Workspace\lib\Graphviz 2.41.20190122.1819\lib;D:\Workspace\lib\glew-2.1.0\lib\Release\x64;D:\Workspace\lib\CGAL\lib\Release;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <Target Name="QtMsBuildNotFound" BeforeTargets="CustomBuild;ClCompile" Condition="!Exists('$(QtMsBuild)\qt.targets') or !Exists('$(QtMsBuild)\qt.props')">
     <Message Importance="High" Text="QtMsBuild: could not locate qt.targets, qt.props; project may not build correctly." />

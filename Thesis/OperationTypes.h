@@ -83,6 +83,7 @@ namespace operationType {
 			break;
 		case Object::PYRAMID_ObjectType:
 		case Object::OBJECT3D_ObjectType:
+		case Object::SPHERE_ObjectType:
 			if (commandParType == Object::OBJECT3D_ObjectType)
 			{
 				return true;
