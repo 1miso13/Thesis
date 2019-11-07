@@ -40,9 +40,9 @@ namespace Object {
 									
 
 
-			vertices.push_back(radius * circlePoint.x/* + center.Position.X*/);//X
-			vertices.push_back(radius * circlePoint.y/* + center.Position.Y*/);//Y
-			vertices.push_back(radius * circlePoint.z /*+ center.Position.Z*/);//Z
+			vertices.push_back(radius * circlePoint.x + center.Position.X);//X
+			vertices.push_back(radius * circlePoint.y + center.Position.Y);//Y
+			vertices.push_back(radius * circlePoint.z + center.Position.Z);//Z
 
 			normals.push_back(normal.X);
 			normals.push_back(normal.Y);

@@ -90,7 +90,7 @@ public:
 		glUniform4f(vertexColorLocation, color.r, color.g, color.b, color.a);
 
 		glBindVertexArray(_vao);
-		glDrawElements(mode, (GLsizei)indices->size(), GL_INT, NULL);
+		glDrawElements(mode, (GLsizei)indices->size(), GL_UNSIGNED_INT, NULL);
 		glBindVertexArray(0);
 	}
 };
