@@ -19,7 +19,7 @@
 QtGuiApplication1::QtGuiApplication1(QWidget *parent)
 	: QMainWindow(parent)
 {
-	graph = new GVGraph("graph");
+//	graph = new GVGraph("graph");
 	ui.setupUi(this);
 	ui.openGLWidget->setParamModel(&paramModel);
 
@@ -430,52 +430,52 @@ void QtGuiApplication1::DisableButtons() {
 /// <summary>
 /// Remove whole graph and create new  
 /// </summary>
-void QtGuiApplication1::CreateGraph() {
-	graph->clearNodes();
-
-	std::vector <
-		std::vector<
-		operationType::ParameterTypesEnum
-		>*
-	>* paramVectors;
-	for (size_t i = 0; i < paramModel.OperationsVec.size(); i++)
-	{
-		Operation * o = paramModel.OperationsVec.at(i);
-		graph->addNode(QString::fromStdString(o->name));
-		/*if (i==0)
-		{
-			graph->setRootNode(QString::fromStdString(o->name));
-		}*/
-		
-		operationType::GetOperationParameters(operationType::OperationToString(o->operationType), &paramVectors);
-		/// <summary>
-		/// for all non float parameters
-		/// </summary>
-		for (size_t j = 0; j < o->OperationParametersVec->size(); j++)
-		{
-			if (paramVectors->at(o->typeOfParameters - 1)->at(0) == operationType::ParameterTypesEnum::ParameterTypeMULTIPLEPOINTS || paramVectors->at(o->typeOfParameters-1)->at(j) != operationType::ParameterTypesEnum::ParameterTypeFLOAT)
-			{
-				//find parent object
-				std::string par = o->OperationParametersVec->at(j);
-				auto parent = paramModel.OperationMap[par];
-				if (parent == NULL)
-				{
-					continue;
-				}
-				std::string parentStr = parent->name;
-				//add edge from parent to this
-				graph->addEdge(QString::fromStdString(parentStr), QString::fromStdString(o->name), parentStr + "_" + o->name);
-			}
-
-		}
-		operationType::ClearParamVectors(&paramVectors);
-	}
-	graph->applyLayout();
-	graph->print();
-	//QString a = QString::fromStdString("p1");
-	//QString b = QString::fromStdString("p3");
-	//Agedge_t* p = graph->_edges[QPair<QString, QString>(a,b)];
-}
+//void QtGuiApplication1::CreateGraph() {
+//	//graph->clearNodes();
+//
+//	std::vector <
+//		std::vector<
+//		operationType::ParameterTypesEnum
+//		>*
+//	>* paramVectors;
+//	for (size_t i = 0; i < paramModel.OperationsVec.size(); i++)
+//	{
+//		Operation * o = paramModel.OperationsVec.at(i);
+//		graph->addNode(QString::fromStdString(o->name));
+//		/*if (i==0)
+//		{
+//			graph->setRootNode(QString::fromStdString(o->name));
+//		}*/
+//		
+//		operationType::GetOperationParameters(operationType::OperationToString(o->operationType), &paramVectors);
+//		/// <summary>
+//		/// for all non float parameters
+//		/// </summary>
+//		for (size_t j = 0; j < o->OperationParametersVec->size(); j++)
+//		{
+//			if (paramVectors->at(o->typeOfParameters - 1)->at(0) == operationType::ParameterTypesEnum::ParameterTypeMULTIPLEPOINTS || paramVectors->at(o->typeOfParameters-1)->at(j) != operationType::ParameterTypesEnum::ParameterTypeFLOAT)
+//			{
+//				//find parent object
+//				std::string par = o->OperationParametersVec->at(j);
+//				auto parent = paramModel.OperationMap[par];
+//				if (parent == NULL)
+//				{
+//					continue;
+//				}
+//				std::string parentStr = parent->name;
+//				//add edge from parent to this
+//				graph->addEdge(QString::fromStdString(parentStr), QString::fromStdString(o->name), parentStr + "_" + o->name);
+//			}
+//
+//		}
+//		operationType::ClearParamVectors(&paramVectors);
+//	}
+//	graph->applyLayout();
+//	graph->print();
+//	//QString a = QString::fromStdString("p1");
+//	//QString b = QString::fromStdString("p3");
+//	//Agedge_t* p = graph->_edges[QPair<QString, QString>(a,b)];
+//}
 //QtGuiApplication1::~QtGuiApplication1()
 //{
 //	//delete graph;
@@ -542,7 +542,7 @@ void QtGuiApplication1::RefreshObjectList()
 		}
 	}
 	//
-	CreateGraph();
+	//CreateGraph();
 }
 
 /// <summary>

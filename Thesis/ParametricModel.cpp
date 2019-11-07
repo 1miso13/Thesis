@@ -62,7 +62,7 @@ std::vector<float> normals = { /*-0.5f, -0.5f, 0.0f,
 	0.0f, 0.5f, 0.5f*/
 };
 
-std::vector<unsigned int> ind = { /*0, 1, 2, 1, 2, 3 */};
+std::vector<int> ind = { /*0, 1, 2, 1, 2, 3 */};
 void ParametricModel::UpdateGLObjects() {
 
 	if (GLContext)

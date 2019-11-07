@@ -23,7 +23,7 @@ bool EarClippingTriangulator::isInside(glm::vec3 & p, glm::vec3 & t1, glm::vec3 
 	return a && b && c;
 }
 
-void EarClippingTriangulator::Init(std::vector<glm::vec3>  *verticies, std::vector <unsigned int>  *indicies)
+void EarClippingTriangulator::Init(std::vector<glm::vec3>  *verticies, std::vector <int>  *indicies)
 {
 	this->verticies = verticies;
 	this->indicies = indicies;
@@ -49,7 +49,7 @@ bool EarClippingTriangulator::Step()
 		}
 	}
 
-	float convex = glm::cross(verticies->at(index[prevIndex]) - verticies->at(index[actualIndex]), verticies->at(index[nextIndex])- verticies->at(index[actualIndex])).length();
+	float convex = (float)glm::cross(verticies->at(index[prevIndex]) - verticies->at(index[actualIndex]), verticies->at(index[nextIndex])- verticies->at(index[actualIndex])).length();
 	if (!inside && 0 < convex)
 	{
 

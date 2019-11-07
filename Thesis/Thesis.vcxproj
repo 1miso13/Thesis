@@ -75,8 +75,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>D:\Workspace\lib\glm;D:\Workspace\lib\glew-2.1.0\include;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\Workspace\lib\glew-2.1.0\lib\Release\x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>D:\Workspace\lib\glm;D:\Workspace\lib\glew-2.1.0\include;C:\Users\1miso\Downloads\libigl-master\libigl-master\include;D:\Workspace\lib\boost_1_71_0;D:\Workspace\lib\CGAL-4.14\include;D:\Workspace\lib\CGAL\include;D:\Workspace\lib\CGAL-4.14\auxiliary\gmp\include;$(IncludePath)</IncludePath>
+    <LibraryPath>D:\Workspace\lib\glew-2.1.0\lib\Release\x64;C:\Users\1miso\Downloads\libigl-master\libigl-master\cmake\..\external\eigen;D:\Workspace\lib\CGAL-4.14\auxiliary\gmp\lib;D:\Workspace\lib\CGAL\lib\Debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -106,14 +106,17 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>false</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NOMINMAX;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <ShowIncludes>true</ShowIncludes>
       <BrowseInformation>true</BrowseInformation>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpp14</LanguageStandard>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <AdditionalIncludeDirectories>C:\Users\1miso\Downloads\libigl-master\libigl-master\cmake\..\external\eigen;</AdditionalIncludeDirectories>
+      <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
+      <UndefinePreprocessorDefinitions>NDEBUG;</UndefinePreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -123,7 +126,7 @@
       <PreserveSbr>true</PreserveSbr>
     </Bscmake>
     <Lib>
-      <AdditionalDependencies>glew32s.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glew32s.lib;libgmp-10.lib;libmpfr-4.lib;libCGAL_Core-vc140-mt-gd-4.14.lib;libCGAL_ImageIO-vc140-mt-gd-4.14.lib;libCGAL-vc140-mt-gd-4.14.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
     </Lib>
   </ItemDefinitionGroup>

@@ -20,7 +20,7 @@ class GLObject {
 public:
 	std::vector<float> *vertices;
 	std::vector<float> *normals;
-	std::vector<unsigned> *indices;
+	std::vector<int> *indices;
 	glm::vec4 color;
 
 	void setNeedsUpdate() {
@@ -67,7 +67,7 @@ public:
 		glBindBuffer(GL_ARRAY_BUFFER, _vboN);
 		glBufferData(GL_ARRAY_BUFFER, normals->size() * sizeof(float), normals->data(), GL_DYNAMIC_DRAW);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _ebo);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices->size() * sizeof(unsigned), indices->data(), GL_DYNAMIC_DRAW);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices->size() * sizeof(int), indices->data(), GL_DYNAMIC_DRAW);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	}
@@ -90,7 +90,7 @@ public:
 		glUniform4f(vertexColorLocation, color.r, color.g, color.b, color.a);
 
 		glBindVertexArray(_vao);
-		glDrawElements(mode, (GLsizei)indices->size(), GL_UNSIGNED_INT, NULL);
+		glDrawElements(mode, (GLsizei)indices->size(), GL_INT, NULL);
 		glBindVertexArray(0);
 	}
 };

@@ -75,7 +75,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <IncludePath>D:\Workspace\lib\glfw-3.2.1.bin.WIN64\include;D:\Workspace\Master Thesis\Thesis\Thesis;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\Workspace\lib\glfw-3.2.1.bin.WIN64\lib-vc2015;D:\Workspace\Master Thesis\Thesis\x64\Debug;$(LibraryPath)</LibraryPath>
+    <LibraryPath>D:\Workspace\lib\CGAL\lib\Debug;D:\Workspace\lib\glfw-3.2.1.bin.WIN64\lib-vc2015;D:\Workspace\Master Thesis\Thesis\x64\Debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IncludePath>D:\Workspace\lib\glfw-3.2.1.bin.WIN64\include;D:\Workspace\Master Thesis\Thesis\Thesis;$(IncludePath)</IncludePath>
@@ -88,6 +88,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
     </ClCompile>
     <Link>
       <AdditionalDependencies>Thesis.lib;glfw3.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>

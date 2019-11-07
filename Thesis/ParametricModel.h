@@ -357,7 +357,7 @@ public:
 	/// Draw OpenGL 
 	/// </summary>
 	/// <param name="aspect"></param>
-	void Draw(float width, float height) {
+	void Draw(int width, int height) {
 		if (width == 0 || height == 0)
 		{
 			return;

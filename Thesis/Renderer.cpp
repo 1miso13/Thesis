@@ -274,7 +274,7 @@ return;*/
 	glPointSize(20);
 }
 
-void Renderer::draw(float aspect, float fov, float width, float height) {
+void Renderer::draw(float aspect, float fov, int width, int height) {
 	glViewport(0, 0, width, height);
 
 	glClearColor(backgroundColor[0], backgroundColor[1], backgroundColor[2], backgroundColor[3]);

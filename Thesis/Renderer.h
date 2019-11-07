@@ -47,7 +47,7 @@ public:
 
 	void init();
 
-	void draw(float aspect, float fov, float width, float height);
+	void draw(float aspect, float fov, int width, int height);
 
 	void PolygonModeFILL();
 	void PolygonModeLINE();

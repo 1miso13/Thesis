@@ -13,7 +13,7 @@ public:
 	ParametricModel paramModel;
 	QtGuiApplication1(QWidget *parent = Q_NULLPTR);
 	static QIcon setObjectIcon(Object::ObjectTypeEnum type);
-	GVGraph *graph;
+//	GVGraph *graph;
 private slots:
 
 	/// <summary>
@@ -89,7 +89,7 @@ private:
 	void TestOperationsValidity(size_t indexFrom);
 	void DisableButtons();
 	void RefreshObjectList();
-	void CreateGraph();
+	//void CreateGraph();
 	QTimer *Timer;
 	void OperationToQStrings(Operation *c, QTreeWidgetItem* qTreeWidgetItem);
 	//~QtGuiApplication1();

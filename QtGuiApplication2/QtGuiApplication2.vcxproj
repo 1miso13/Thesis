@@ -31,7 +31,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\QtProgram\</OutDir>
     <IncludePath>D:\Workspace\Master Thesis\Thesis\Thesis;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\Workspace\Master Thesis\Thesis\x64\Debug;$(LibraryPath)</LibraryPath>
+    <LibraryPath>D:\Workspace\lib\CGAL\lib\Release;D:\Workspace\Master Thesis\Thesis\x64\Debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\QtProgram\</OutDir>
