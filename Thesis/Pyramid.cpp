@@ -147,6 +147,28 @@ namespace Object {
 		//std::vector<float> normals;
 		//std::vector<unsigned> indices;
 
+		//if base normal is pointing to apex, rotate base verticies to oposite direction
+		bool base_normal_is_pointing_toward_Apex = 0 < glm::dot(
+				glm::vec3(
+					base->vertices.at(0),
+					base->vertices.at(1),
+					base->vertices.at(2))
+			-
+				glm::vec3(
+					base->normal.X,
+					base->normal.Y,
+					base->normal.Z)
+		,
+				glm::vec3(
+					apex.Position.X,
+					apex.Position.Y,
+					apex.Position.Z)
+			-
+				glm::vec3(
+					base->normal.X,
+					base->normal.Y,
+					base->normal.Z)
+		);
 		//base verticies
 		for (size_t i = 0; i < base->vertices.size(); i++)
 		{
@@ -160,37 +182,31 @@ namespace Object {
 		{
 			indices.push_back(base->indices[i]);
 		}
-
+		if (base_normal_is_pointing_toward_Apex)
+		{
+			std::reverse(normals.begin(),normals.end());
+		}
 		//apex
-		
+		vertices.push_back(apex.Position.X);
+		vertices.push_back(apex.Position.Y);
+		vertices.push_back(apex.Position.Z);
+
 		int j = (base->vertices.size())/3-1;
-		int baseVerticies = base->vertices.size() / 3;
-		for (int i = 0; i < baseVerticies; i++)
+		int baseVerticies_count = base->vertices.size() / 3;
+		for (int i = 0; i < baseVerticies_count; i++)
 		{
 			//indices.push_back(base->vertices.size()/3);
 			//indices.push_back(base->indices[j]);
 			//indices.push_back(base->indices[i]);
 			//j = i;
 
+			//base is pointing down
+			indices.push_back(j);
+			indices.push_back(i);
+			indices.push_back(baseVerticies_count);
 
-			vertices.push_back(base->vertices[j * 3 + 0]);
-			vertices.push_back(base->vertices[j * 3 + 1]);
-			vertices.push_back(base->vertices[j * 3 + 2]);
-
-			vertices.push_back(base->vertices[i * 3 + 0]);
-			vertices.push_back(base->vertices[i * 3 + 1]);
-			vertices.push_back(base->vertices[i * 3 + 2]);
-
-			vertices.push_back(apex.Position.X);
-			vertices.push_back(apex.Position.Y);
-			vertices.push_back(apex.Position.Z);
-
-			indices.push_back(baseVerticies + i*3);
-			indices.push_back(baseVerticies + i*3+1);
-			indices.push_back(baseVerticies + i*3+2);
-
-			glm::vec3 a = glm::vec3(base->vertices[i * 3 + 0], base->vertices[i * 3 + 1], base->vertices[i * 3 + 2]);
-			glm::vec3 b = glm::vec3(base->vertices[j * 3 + 0], base->vertices[j * 3 + 1], base->vertices[j * 3 + 2]);
+			glm::vec3 a = glm::vec3(base->vertices[j * 3 + 0], base->vertices[j * 3 + 1], base->vertices[j * 3 + 2]);
+			glm::vec3 b = glm::vec3(base->vertices[i * 3 + 0], base->vertices[i * 3 + 1], base->vertices[i * 3 + 2]);
 			glm::vec3 c = glm::vec3(apex.Position.X, apex.Position.Y, apex.Position.Z);
 			auto normal = glm::normalize(cross(a-b,c-b));
 

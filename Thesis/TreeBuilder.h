@@ -558,6 +558,7 @@ private:
 			{
 				return NULL;
 			}
+			RetObject = new Object::GeometricObject();
 			csg::CSG_union(RetObject, object1, object2);
 
 		}
@@ -569,6 +570,7 @@ private:
 			{
 				return NULL;
 			}
+			RetObject = new Object::GeometricObject();
 			csg::CSG_intersection(RetObject, object1, object2);
 
 		}
@@ -580,6 +582,7 @@ private:
 			{
 				return NULL;
 			}
+			RetObject = new Object::GeometricObject();
 			csg::CSG_minus(RetObject, object1, object2);
 
 		}
@@ -591,6 +594,7 @@ private:
 			{
 				return NULL;
 			}
+			RetObject = new Object::GeometricObject();
 			csg::CSG_XOR(RetObject, object1, object2);
 		}
 		}
