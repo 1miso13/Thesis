@@ -7,6 +7,7 @@
 #include "ParametricModel.h"
 #include <QTimer>
 #include <QKeyEvent>
+#include <QMouseEvent>
 
 class OGLWidget : public QOpenGLWidget
 {
@@ -19,7 +20,34 @@ public:
 	void setParamModel(ParametricModel * paramModel) {
 		this->paramModel = paramModel;
 	}
+	int x = 0;
+	int y = 0;
+	float Pitch = 0;
+	float Yaw = 0;
+	float distance = -10;
+	void mousePressEvent(QMouseEvent* event)
+	{
+		x = event->x();
+		y = event->y();
+	}
+	void mouseMoveEvent(QMouseEvent* event)
+	{
+		if (event->buttons() & Qt::LeftButton)
+		{
+			Yaw  -= (float)(x - event->x()) / 500.f;
+			Pitch -= (float)(y - event->y()) /500.f;
 
+			x = event->x();
+			y = event->y();
+		}
+	}
+	void wheelEvent(QWheelEvent *event)
+	{
+		/*if (event->modifiers().testFlag(Qt::ControlModifier))
+		{*/
+		distance += event->delta()/10000.f*distance;
+		
+	}
 	virtual void initializeGL() {
 		//const GLubyte *version = glGetString(GL_VERSION);
 
@@ -33,22 +61,13 @@ public:
 	virtual void resizeGL(int w, int h) {
 
 	}
-	float time = 0;
-	float rotationP = 0;
-	bool rotationTimer = false;;
-	float distance=0;
 
 	void paintGL() {
 
-		/*time += 0.001f;
-		if (rotationTimer && time> rotationP)
-		{
-			time = 0;
-			rotationP += 0.1f;
-		}
+		/*
 		paramModel->SetRendererCameraRotation(sin(time) * 3.14f / 5.0f, time, 0);*/
-		paramModel->SetRendererCameraRotation(sin(time) * 3.14f / 5.0f, rotationP, 0);
-		paramModel->SetRendererCameraPosition(0,0,-10+distance);
+		paramModel->SetRendererCameraRotation(Pitch, Yaw, 0);
+		paramModel->SetRendererCameraPosition(0,0,distance);
 		// Draw
 		paramModel->Draw(width(), height());
 
@@ -60,19 +79,19 @@ public:
 		{
 		case Qt::Key_W:
 		case Qt::Key_Up:
+			Pitch += 0.1f;
 			break;
 		case Qt::Key_S:
 		case Qt::Key_Down:
+			Pitch -= 0.1f;
 			break;
-		case Qt::Key_Q:
+		case Qt::Key_A:
 		case Qt::Key_Left:
-			rotationTimer = true;
-			rotationP += 0.1f;
+			Yaw += 0.1f;
 			break;
-		case Qt::Key_E:
+		case Qt::Key_D:
 		case Qt::Key_Right:
-			rotationTimer = true;
-			rotationP -= 0.1f;
+			Yaw -= 0.1f;
 			break;
 		case Qt::Key_Z:
 			distance -= 0.1f;

@@ -139,6 +139,8 @@ public:
         splitter->setChildrenCollapsible(true);
         openGLWidget = new OGLWidget(splitter);
         openGLWidget->setObjectName(QStringLiteral("openGLWidget"));
+        openGLWidget->setCursor(QCursor(Qt::CrossCursor));
+        openGLWidget->setMouseTracking(true);
         splitter->addWidget(openGLWidget);
         graphicsView = new QGraphicsView(splitter);
         graphicsView->setObjectName(QStringLiteral("graphicsView"));
