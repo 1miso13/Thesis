@@ -25,6 +25,8 @@ public:
 	float Pitch = 0;
 	float Yaw = 0;
 	float distance = -10;
+	float positionX=0;
+	float positionY=0;
 	void mousePressEvent(QMouseEvent* event)
 	{
 		x = event->x();
@@ -45,7 +47,7 @@ public:
 	{
 		/*if (event->modifiers().testFlag(Qt::ControlModifier))
 		{*/
-		distance += event->delta()/10000.f*distance;
+		distance -= event->delta()/5000.f*distance;
 		
 	}
 	virtual void initializeGL() {
@@ -67,37 +69,76 @@ public:
 		/*
 		paramModel->SetRendererCameraRotation(sin(time) * 3.14f / 5.0f, time, 0);*/
 		paramModel->SetRendererCameraRotation(Pitch, Yaw, 0);
-		paramModel->SetRendererCameraPosition(0,0,distance);
+		paramModel->SetRendererCameraPosition(positionX, positionY,distance);
 		// Draw
 		paramModel->Draw(width(), height());
 
 		
 	}
+	float ambientStrength = 0.3f;
 	void keyPressEvent(QKeyEvent* event)
 	{
 		switch (event->key())
 		{
+		/*case 79:
+			positionX -= 0.1f;
+			break;
+		case Qt::Key_X:
+			positionX += 0.1f;
+			break;
+		case Qt::Key_Z:
+			positionY -= 0.1f;
+			break;
+		case Qt::Key_X:
+			positionY += 0.1f;
+			break;*/
 		case Qt::Key_W:
 		case Qt::Key_Up:
-			Pitch += 0.1f;
+			if (event->modifiers() & Qt::ShiftModifier)
+				positionY += 0.1f;
+			else
+				Pitch += 0.1f;
 			break;
 		case Qt::Key_S:
 		case Qt::Key_Down:
-			Pitch -= 0.1f;
+			if (event->modifiers() & Qt::ShiftModifier)
+				positionY -= 0.1f;
+			else
+				Pitch -= 0.1f;
 			break;
 		case Qt::Key_A:
 		case Qt::Key_Left:
-			Yaw += 0.1f;
+			if (event->modifiers() & Qt::ShiftModifier)
+				positionX += 0.1f;
+			else
+				Yaw += 0.1f;
 			break;
 		case Qt::Key_D:
 		case Qt::Key_Right:
-			Yaw -= 0.1f;
+			if (event->modifiers() & Qt::ShiftModifier)
+				positionX -= 0.1f;
+			else
+				Yaw -= 0.1f;
 			break;
 		case Qt::Key_Z:
 			distance -= 0.1f;
 			break;
 		case Qt::Key_X:
-			distance+=0.1f;
+			distance += 0.1f;
+			break;
+		case Qt::Key_P:
+			if (ambientStrength>=0)
+			{
+				ambientStrength += 0.1f;
+				paramModel->setRendererAmbientStrength(ambientStrength);
+			}
+			break;
+		case Qt::Key_O:
+			if (ambientStrength<=1)
+			{
+				ambientStrength -= 0.1f;
+				paramModel->setRendererAmbientStrength(ambientStrength);
+			}
 			break;
 		default:
 			event->accept();

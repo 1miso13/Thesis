@@ -201,6 +201,8 @@ uniform vec3 lightPos;
 
 uniform bool useLight; 
 
+uniform float ambientStrength = 0.3;
+
 out vec4 FragColor;
 
 void main()
@@ -209,14 +211,14 @@ void main()
 	FragColor.z = 1/0.0;
 return;*/
 	if(useLight){
-		float ambientStrength = 0.3;
+		
 		vec3 ambient = ambientStrength * lightColor;
 
 		vec3 norm = normalize(Normal);
 		vec3 lightDir = normalize(lightPos.xyz - FragPos);  
 
-		float diff = max(dot(norm, lightDir), 0.0);
-		vec3 diffuse = diff * lightColor;
+		float diff = dot(norm, lightDir);
+		vec3 diffuse = diff * sign(diff) * lightColor;
 
 
 	
@@ -274,6 +276,7 @@ return;*/
 	glPointSize(20);
 }
 
+
 void Renderer::draw(float aspect, float fov, int width, int height) {
 	glViewport(0, 0, width, height);
 
@@ -292,7 +295,7 @@ void Renderer::draw(float aspect, float fov, int width, int height) {
 	view = glm::rotate(view, cameraRotation[1], glm::vec3(0, 1, 0));
 	view = glm::rotate(view, cameraRotation[2], glm::vec3(0, 0, 1));
 	
-	auto lightPosGLM = glm::inverse(view)*glm::vec4(1, 0, 0, 1);
+	glm::vec4 lightPosGLM = lightWithCamera? glm::inverse(view)*glm::vec4(0, 0, 0, 1) : glm::vec4(lightPosition[0], lightPosition[1], lightPosition[2], 1);
 
 
 	//Light
@@ -302,6 +305,10 @@ void Renderer::draw(float aspect, float fov, int width, int height) {
 
 	int lightColorLocation = glGetUniformLocation(program, "lightColor");
 	glUniform3f(lightColorLocation, lightColor[0], lightColor[1], lightColor[2]);
+
+
+	int lightAmbientStrengthLocation = glGetUniformLocation(program, "ambientStrength");
+	glUniform1f(lightAmbientStrengthLocation, this->ambientStrength);
 
 
 	glm::mat4 mvp = perspectiveProjection * view;// (model transform is identity)

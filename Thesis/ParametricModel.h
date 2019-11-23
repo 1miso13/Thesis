@@ -382,5 +382,8 @@ public:
 	void Save(std::string filePath);
 	bool Load(std::string filePath);
 
+	void setRendererAmbientStrength(float ambientStrength) {
+		renderer.setAmbientStrength(ambientStrength);
+	}
 };
 
