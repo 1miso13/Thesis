@@ -72,6 +72,8 @@ public:
 	/// <summary>
 	/// call this to set expressions/// </summary>
 	void ResetParameters();
+
+	bool modified = true;
 private:
 	void SetParams(std::vector<operationType::ParameterTypesEnum> *paramTypes);
 };

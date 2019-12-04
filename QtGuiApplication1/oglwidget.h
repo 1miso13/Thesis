@@ -80,18 +80,6 @@ public:
 	{
 		switch (event->key())
 		{
-		/*case 79:
-			positionX -= 0.1f;
-			break;
-		case Qt::Key_X:
-			positionX += 0.1f;
-			break;
-		case Qt::Key_Z:
-			positionY -= 0.1f;
-			break;
-		case Qt::Key_X:
-			positionY += 0.1f;
-			break;*/
 		case Qt::Key_W:
 		case Qt::Key_Up:
 			if (event->modifiers() & Qt::ShiftModifier)

@@ -28,7 +28,6 @@ namespace Object {
 		std::vector<float> normals;
 		std::vector<int> indices;
 
-
 		unsigned char  color[4] = {0, 0, 0, 0};
 		std::string getColorHEX() {
 			std::string s = "";
@@ -82,6 +81,11 @@ namespace Object {
 				break;
 			}
 			return std::string();
+		}
+		void Delete() {
+			vertices.clear();
+			normals.clear();
+			indices.clear();
 		}
 	private:
 

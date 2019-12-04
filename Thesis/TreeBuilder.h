@@ -36,6 +36,9 @@ private:
 	Object::GeometricObject* BuildObject(Operation* operation)
 	{
 		Object::GeometricObject * RetObject = NULL;
+
+
+
 		bool Err1 = false, Err2 = false, Err3 = false;
 		switch (operation->operationType)
 		{
@@ -618,6 +621,53 @@ private:
 	}
 	std::map<std::string, Object::GeometricObject*> *ObjectMap;
 
+	//make a test if need to rebuild
+	Object::GeometricObject* BuildOperation(Operation* operation) {
+
+		bool needToRebuild = false;
+		bool objectNotExists = false;
+		Object::GeometricObject  *This = FindObjectByName(Objects, operation->name, &objectNotExists);
+		if (!objectNotExists && !operation->modified)
+		{
+			
+			for (size_t i = 0; i < operation->Parameters->size(); i++)
+			{
+				if (operation->Parameters->at(i).first != operationType::ParameterTypesEnum::ParameterTypeFLOAT)
+				{
+					Operation* parent = (*OperationMap)[*(std::string*)(operation->Parameters->at(i).second)];
+					if (parent==NULL)
+					{
+						return NULL;
+					}
+					else
+					{
+						if (parent->modified)//parent were modified, need to rebuild 
+						{
+							needToRebuild = true;
+						}
+					}
+				}
+			}
+			if (needToRebuild)
+			{
+				This->Delete();//TODO delete
+
+				Objects->erase(std::find(Objects->begin(), Objects->end(), This));
+				ObjectMap->erase(operation->name);
+			}
+
+		}
+		else
+		{
+			needToRebuild = true;
+		}
+
+
+		if (needToRebuild)
+		{
+			return BuildObject(operation);
+		}
+	}
 public:
 	TreeBuilder(std::vector <Operation*> *GraphCommandPtr,
 		std::vector <Object::GeometricObject*> *ObjectsPtr,
@@ -635,36 +685,50 @@ public:
 	void Build() {
 		//clear objects
 
-			/*for (size_t i = 0; i < Objects->size(); i++)
+			//for (size_t i = Objects->size(); i >0; i--)
+			////for (size_t i = 0; i < Objects->size(); i++)
+			//{
+			//	try
+			//	{
+			//		/*delete*/ Objects->at(i-1)->Delete();
+			//	}
+			//	catch (...)
+			//	{
+			//	//	printf_s("Unable to delete object %d",i-1);
+			//	}
+			//}
+
+		//if rebuild is needed, remove all objects
+		//Objects->clear(); TODO
+		//ObjectMap->clear();
+
+		//remove all objects which operation no longer exists
+		for (size_t i = 0; i < Objects->size(); i++)
+		{
+			if ((OperationMap->at(Objects->at(i)->ObjectName))==NULL)
 			{
-				try
-				{
-					delete Objects->at(i); TODO
+				Object::GeometricObject* obj = ObjectMap->at(Objects->at(i)->ObjectName);
+				Objects->erase(std::find(Objects->begin(),Objects->end(),obj));
+				ObjectMap->erase(obj->ObjectName);
+				obj->Delete();//delete TODO
+			}
+		}
 
-				}
-				catch (...)
-				{
-					//printf_s("Unable to delete object %d",i);
-				}
-			}*/
-
-			Objects->clear();
-			ObjectMap->clear();
 
 		Object::GeometricObject * o = NULL;
 		//Create new objects
 		for (size_t i = 0; i < OperationsVec->size(); i++)
 		{
-			if ((o = BuildObject(OperationsVec->at(i))) != NULL) {
+			if ((o = BuildOperation(OperationsVec->at(i))) != NULL) {
 				Objects->push_back(o);
 				(*ObjectMap)[o->ObjectName] = o;
 			}
 		}
-	}
-	//rebuild object and all their childs
-	[[deprecated]]
-	void BuildOperation(Operation* operationPtr) {
 
+		//after build need to set all modified flag to false
+		for (std::vector<Operation*>::iterator it = OperationsVec->begin(); it != OperationsVec->end(); ++it) {
+			(*it)->modified = false;
+		}
 	}
 	Object::GeometricObject* FindObjectByName(std::vector <Object::GeometricObject*> *Objects,std::string objectName, bool *Err)
 	{

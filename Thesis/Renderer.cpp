@@ -13,8 +13,11 @@
 
 #include "GLObject.h"
 
-#define DEBUG
-	#ifdef DEBUG
+#ifndef DEBUG
+	#define DEBUG //comment if debug is not wanted
+#endif //DEBUG
+
+#ifdef DEBUG
 	#include <iostream>
 	#include <sstream>
 

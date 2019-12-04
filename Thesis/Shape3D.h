@@ -19,7 +19,6 @@ namespace Object {
 		double volume;
 		double surfaceArea;
 		Shape3D();
-		~Shape3D();
 	protected:
 		void virtual CreateMesh() {
 

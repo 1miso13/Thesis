@@ -25,6 +25,9 @@ void Operation::SetParams(std::vector<operationType::ParameterTypesEnum> *paramT
 		Parameters->push_back(std::make_pair(parameterType, pointer));
 	}
 }
+/// <summary>
+/// Need to call every time, if parameters value is changed
+/// </summary>
 void Operation::ResetParameters() {
 		for (size_t i = 0; i < OperationParametersVec->size(); i++) {
 			if (Parameters->at(i).first == operationType::ParameterTypeFLOAT)
@@ -33,4 +36,5 @@ void Operation::ResetParameters() {
 				Parameters->at(i).second = (void*)new Expression((*OperationParametersVec)[i]);
 			}
 		}
+		this->modified = true;
 }

@@ -29,11 +29,6 @@ namespace Object {
 		CreateMesh();
 	}
 
-
-	inline Sphere::~Sphere()
-	{
-	}
-
 	inline void Sphere::CalculateVolume()
 	{
 

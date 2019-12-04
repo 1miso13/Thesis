@@ -77,6 +77,8 @@
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>D:\Workspace\lib\glm;D:\Workspace\lib\glew-2.1.0\include;C:\Users\1miso\Downloads\libigl-master\libigl-master\include;D:\Workspace\lib\boost_1_71_0;D:\Workspace\lib\CGAL-4.14\include;D:\Workspace\lib\CGAL\include;D:\Workspace\lib\CGAL-4.14\auxiliary\gmp\include;$(IncludePath)</IncludePath>
     <LibraryPath>D:\Workspace\lib\glew-2.1.0\lib\Release\x64;C:\Users\1miso\Downloads\libigl-master\libigl-master\cmake\..\external\eigen;D:\Workspace\lib\CGAL-4.14\auxiliary\gmp\lib;D:\Workspace\lib\CGAL\lib\Debug;$(LibraryPath)</LibraryPath>
+    <CodeAnalysisRuleSet>NativeRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -85,6 +87,8 @@
     <LinkIncremental>false</LinkIncremental>
     <IncludePath>D:\Workspace\lib\glm;D:\Workspace\lib\glew-2.1.0\include;C:\Users\1miso\Downloads\libigl-master\libigl-master\include;D:\Workspace\lib\boost_1_71_0;D:\Workspace\lib\CGAL-4.14\include;D:\Workspace\lib\CGAL\include;D:\Workspace\lib\CGAL-4.14\auxiliary\gmp\include;$(IncludePath)</IncludePath>
     <LibraryPath>D:\Workspace\lib\glew-2.1.0\lib\Release\x64;D:\Workspace\lib\CGAL-4.14\auxiliary\gmp\lib;D:\Workspace\lib\CGAL\lib\Release;$(LibraryPath)</LibraryPath>
+    <CodeAnalysisRuleSet>NativeRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -117,6 +121,7 @@
       <AdditionalIncludeDirectories>C:\Users\1miso\Downloads\libigl-master\libigl-master\cmake\..\external\eigen;</AdditionalIncludeDirectories>
       <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
       <UndefinePreprocessorDefinitions>NDEBUG;</UndefinePreprocessorDefinitions>
+      <EnablePREfast>true</EnablePREfast>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -164,6 +169,7 @@
       <LanguageStandard>stdcpp14</LanguageStandard>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <AdditionalIncludeDirectories>C:\Users\1miso\Downloads\libigl-master\libigl-master\cmake\..\external\eigen;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <EnablePREfast>true</EnablePREfast>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

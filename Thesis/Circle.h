@@ -11,10 +11,6 @@ namespace Object {
 
 		void CalculateArea();
 
-
-		~Circle()
-		{
-		}
 		void CreateMesh();
 	};
 
