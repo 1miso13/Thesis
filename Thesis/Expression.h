@@ -25,7 +25,6 @@ class Expression
 	//	};
 	static char PrecedenceTable[11][11]; 
 
-	unsigned long time;
 public:
 	enum tokenType
 	{
@@ -78,7 +77,7 @@ public:
 	/// Expression can contain invalid identifier, if invalid return 0 and error = true
 	/// </summary>
 	/// <returns></returns>
-	float Evaluate(std::map<std::string, Object::GeometricObject*> *ObjectMap, std::map<std::string, Operation*>* OperationMap, ParamRef *paramRef, bool * Err);
+	float Evaluate(std::map<std::string, Object::GeometricObject*> *ObjectMap, std::map<std::string, Operation*>* OperationMap, ParamRef *paramRef, unsigned long time, bool * Err);
 	bool isValid = false;
 	tokenType getToken(size_t pos, std::string  *token = NULL) {
 		if (token != NULL)
@@ -88,6 +87,8 @@ public:
 		return tokenTypes.at(pos);
 	}
 	size_t tokenCount();
+
+	bool objectInExpressionModified(std::map<std::string, Object::GeometricObject*> *ObjectMap, std::map<std::string, Operation*>* OperationMap, ParamRef *paramRef);
 private:
 	std::string BinaryOperation(std::string operation, std::string left, std::string right);
 	std::string UnaryOperation(std::string operation, std::string param);

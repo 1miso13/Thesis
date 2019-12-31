@@ -385,5 +385,12 @@ public:
 	void setRendererAmbientStrength(float ambientStrength) {
 		renderer.setAmbientStrength(ambientStrength);
 	}
+	void SaveOBJ(std::string filePath);
+	void setTime(unsigned long miliseconds) {
+		treeBuilder->setTime(miliseconds);
+	}
+	void useManualTimer(bool enable) {
+		treeBuilder->useManualTimer(enable);
+	}
 };
 

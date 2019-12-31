@@ -34,7 +34,7 @@
 //	return std::string();
 //}
 namespace Object {
-	float VectorAngle(glm::vec3 A,glm::vec3 B) {
+	/*float VectorAngle(glm::vec3 A,glm::vec3 B) {
 		return glm::acos(glm::dot(A, B));//radians
 	}
 	void GeometricObject::calcVertexNormals(std::vector<int> indices, size_t indiciesCount, std::vector <float> vertex, std::vector <float> *verticesNormal, size_t vertexCount, void *triangleNormal)
@@ -48,7 +48,7 @@ namespace Object {
 		}
 		size_t count = indiciesCount / 3;
 		//vertex
-		for (size_t i = 0; i < count; i++)
+		for (int i = 0; i < count; i++)
 		{
 			glm::vec3 PointA(vertex[indices[i * 3	 ] * 3 + 0], vertex[indices[i * 3	 ] * 3 + 1], vertex[indices[i * 3	 ] * 3 + 2]);
 			glm::vec3 PointB(vertex[indices[i * 3 + 1] * 3 + 0], vertex[indices[i * 3 + 1] * 3 + 1], vertex[indices[i * 3 + 1] * 3 + 2]);
@@ -155,5 +155,5 @@ namespace Object {
 		//}
 		calcTriangleNormals(indices, indices.size(), vertices, (void*)&triangleNormals);
 		calcVertexNormals(indices, indices.size(), vertices,&normals, vertices.size(), (void*)&triangleNormals);
-	}
+	}*/
 }

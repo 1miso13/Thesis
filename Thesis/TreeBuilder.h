@@ -16,14 +16,16 @@ class TreeBuilder
 private:
 	Object::GeometricObject * Extrude(Object::Surface *s, float distance);
 	ParamRef *paramRef;
-
+	unsigned long timeMiliseconds=0;
+	unsigned long LastTime=0;
+	bool manualTimer = false;
 	std::map<std::string, Operation*> *OperationMap;
 	float GetNumber(std::pair <operationType::ParameterTypesEnum, void*> *pair, bool * Err) {
 		
 		switch (pair->first)
 		{
 		case operationType::ParameterTypesEnum::ParameterTypeFLOAT/* || operationType::ParameterTypesEnum::ParameterTypeEXPRESSION*/:
-			return ((Expression*)pair->second)->Evaluate(ObjectMap,OperationMap , paramRef, Err);//std::stof(n);
+			return ((Expression*)pair->second)->Evaluate(ObjectMap,OperationMap , paramRef, timeMiliseconds, Err);//std::stof(n);
 		default:
 			return 0;
 		}
@@ -648,8 +650,30 @@ private:
 					}
 				}
 			}
+			if (!needToRebuild)
+			{ ///if expression variables are changed
+
+				for (size_t i = 0; i < operation->Parameters->size(); i++)
+				{
+					if (operation->Parameters->at(i).first == operationType::ParameterTypesEnum::ParameterTypeFLOAT)
+					{
+						Expression* expression = (Expression*)(operation->Parameters->at(i).second);
+						if (expression == NULL)
+						{
+							return NULL;
+						}
+						else
+						{
+							if (expression->objectInExpressionModified(ObjectMap,OperationMap,paramRef))//parent were modified, need to rebuild 
+							{
+								needToRebuild = true;
+							}
+						}
+					}
+				}
+			} 
 			if (needToRebuild)
-			{
+				{
 				This->Delete();//TODO delete
 
 				Objects->erase(std::find(Objects->begin(), Objects->end(), This));
@@ -668,6 +692,7 @@ private:
 			return BuildObject(operation);
 		}
 	}
+	bool needToInitializeTime = true;
 public:
 	TreeBuilder(std::vector <Operation*> *GraphCommandPtr,
 		std::vector <Object::GeometricObject*> *ObjectsPtr,
@@ -682,54 +707,7 @@ public:
 	}
 	std::vector <Object::GeometricObject*> *Objects;
 	std::vector <Operation*> *OperationsVec;
-	void Build() {
-		//clear objects
-
-			//for (size_t i = Objects->size(); i >0; i--)
-			////for (size_t i = 0; i < Objects->size(); i++)
-			//{
-			//	try
-			//	{
-			//		/*delete*/ Objects->at(i-1)->Delete();
-			//	}
-			//	catch (...)
-			//	{
-			//	//	printf_s("Unable to delete object %d",i-1);
-			//	}
-			//}
-
-		//if rebuild is needed, remove all objects
-		//Objects->clear(); TODO
-		//ObjectMap->clear();
-
-		//remove all objects which operation no longer exists
-		for (size_t i = 0; i < Objects->size(); i++)
-		{
-			if ((OperationMap->at(Objects->at(i)->ObjectName))==NULL)
-			{
-				Object::GeometricObject* obj = ObjectMap->at(Objects->at(i)->ObjectName);
-				Objects->erase(std::find(Objects->begin(),Objects->end(),obj));
-				ObjectMap->erase(obj->ObjectName);
-				obj->Delete();//delete TODO
-			}
-		}
-
-
-		Object::GeometricObject * o = NULL;
-		//Create new objects
-		for (size_t i = 0; i < OperationsVec->size(); i++)
-		{
-			if ((o = BuildOperation(OperationsVec->at(i))) != NULL) {
-				Objects->push_back(o);
-				(*ObjectMap)[o->ObjectName] = o;
-			}
-		}
-
-		//after build need to set all modified flag to false
-		for (std::vector<Operation*>::iterator it = OperationsVec->begin(); it != OperationsVec->end(); ++it) {
-			(*it)->modified = false;
-		}
-	}
+	void Build();
 	Object::GeometricObject* FindObjectByName(std::vector <Object::GeometricObject*> *Objects,std::string objectName, bool *Err)
 	{
 		/*for (size_t i = 0; i < Objects->size(); i++)
@@ -743,6 +721,16 @@ public:
 		Object::GeometricObject* objectPtr = (*ObjectMap)[objectName];
 		*Err = objectPtr == NULL;
 		return objectPtr;
+	}
+	void setTime(unsigned long miliseconds) {
+		this->timeMiliseconds = miliseconds;
+	}
+	void useManualTimer(bool enable) {
+		manualTimer = enable;
+		if (!enable)
+		{
+			needToInitializeTime = true;
+		}
 	}
 };
 

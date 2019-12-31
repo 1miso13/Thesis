@@ -29,12 +29,12 @@ void Operation::SetParams(std::vector<operationType::ParameterTypesEnum> *paramT
 /// Need to call every time, if parameters value is changed
 /// </summary>
 void Operation::ResetParameters() {
-		for (size_t i = 0; i < OperationParametersVec->size(); i++) {
-			if (Parameters->at(i).first == operationType::ParameterTypeFLOAT)
-			{
-				delete Parameters->at(i).second;
-				Parameters->at(i).second = (void*)new Expression((*OperationParametersVec)[i]);
-			}
+	for (size_t i = 0; i < OperationParametersVec->size(); i++) {
+		if (Parameters->at(i).first == operationType::ParameterTypeFLOAT)
+		{
+			delete Parameters->at(i).second;
+			Parameters->at(i).second = (void*)new Expression((*OperationParametersVec)[i]);
 		}
-		this->modified = true;
+	}
+	this->modified = true;
 }

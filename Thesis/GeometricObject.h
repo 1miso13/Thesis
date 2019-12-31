@@ -87,12 +87,12 @@ namespace Object {
 			normals.clear();
 			indices.clear();
 		}
-	private:
+	/*private:
 
 		void calcVertexNormals(std::vector<int> indices, size_t indiciesCount, std::vector < float> vertex, std::vector <float> *verticesNormal, size_t vertexCount, void *triangleNormal);
 		void calcTriangleNormals(std::vector<int >indices, size_t indiciesCount, std::vector<float> vertex, void *triangleNormal);
 		protected:
-			void calculateNormals();
+			void calculateNormals();*/
 
 	};
 

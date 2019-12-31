@@ -6,6 +6,7 @@
 #include "Sphere.h"
 
 
+#include "Windows.h"
 #include <glm/glm.hpp>
 
 Object::GeometricObject * TreeBuilder::Extrude(Object::Surface *s, float distance) {
@@ -149,4 +150,68 @@ Object::GeometricObject * TreeBuilder::Extrude(Object::Surface *s, float distanc
 
 	RetObject = RerObjectShape;
 	return RetObject;
+}
+
+void TreeBuilder::Build() {
+	//clear objects
+
+		//for (size_t i = Objects->size(); i >0; i--)
+		////for (size_t i = 0; i < Objects->size(); i++)
+		//{
+		//	try
+		//	{
+		//		/*delete*/ Objects->at(i-1)->Delete();
+		//	}
+		//	catch (...)
+		//	{
+		//	//	printf_s("Unable to delete object %d",i-1);
+		//	}
+		//}
+
+	//if rebuild is needed, remove all objects
+	//Objects->clear(); TODO
+	//ObjectMap->clear();
+
+	//remove all objects which operation no longer exists
+	for (size_t i = 0; i < Objects->size(); i++)
+	{
+		if ((OperationMap->at(Objects->at(i)->ObjectName)) == NULL)
+		{
+			Object::GeometricObject* obj = ObjectMap->at(Objects->at(i)->ObjectName);
+			Objects->erase(std::find(Objects->begin(), Objects->end(), obj));
+			ObjectMap->erase(obj->ObjectName);
+			obj->Delete();//delete TODO
+		}
+	}
+
+	//set time
+	if (!manualTimer)
+	{
+		//initialize timer
+		if (needToInitializeTime)
+		{
+			needToInitializeTime = false;
+			LastTime = GetTickCount();
+		}
+
+		unsigned long actualTime = GetTickCount();
+		timeMiliseconds += actualTime - LastTime;
+		LastTime = actualTime;
+	}
+
+
+	Object::GeometricObject * o = NULL;
+	//Create new objects
+	for (size_t i = 0; i < OperationsVec->size(); i++)
+	{
+		if ((o = BuildOperation(OperationsVec->at(i))) != NULL) {
+			Objects->push_back(o);
+			(*ObjectMap)[o->ObjectName] = o;
+		}
+	}
+
+	//after build need to set all modified flag to false
+	for (std::vector<Operation*>::iterator it = OperationsVec->begin(); it != OperationsVec->end(); ++it) {
+		(*it)->modified = false;
+	}
 }

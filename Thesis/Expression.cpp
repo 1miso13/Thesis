@@ -1,6 +1,5 @@
 #include "pch.h"
 #include "Expression.h"
-#include "Windows.h"
 #include "ObjectsValues.h"
 
 
@@ -421,10 +420,10 @@ bool Expression::parseExp(std::string s)
 	return 0;
  }
  
-float Expression::Evaluate(std::map<std::string, Object::GeometricObject*> *ObjectMap, std::map<std::string, Operation*>* OperationMap, ParamRef *paramRef, bool * Err) {
+float Expression::Evaluate(std::map<std::string, Object::GeometricObject*> *ObjectMap, std::map<std::string, Operation*>* OperationMap, ParamRef *paramRef, unsigned long time, bool * Err) {
 	if (tokens.size() > 0)
 	{
-		time = GetTickCount();
+		
 		std::vector <tokenType> tokenTypesTMP;
 		std::vector <std::string> tokensTMP;
 		for (size_t i = 0; i < tokens.size();i++)
@@ -596,4 +595,40 @@ size_t Expression::tokenCount() {
 	return tokens.size();
 }
 
+bool Expression::objectInExpressionModified(std::map<std::string, Object::GeometricObject*> *ObjectMap, std::map<std::string, Operation*>* OperationMap, ParamRef *paramRef) {
+	for (size_t i = 0; i < tokens.size(); i++)
+	{
+		std::string token = tokens.at(i);
+		if (tokenTypes[i] == tokenTypeParameter)
+		{
+			if (token == "time" || token == "time_seconds")
+			{
+				return true;
+			}
 
+			std::string objectNamePtr;
+			size_t index;
+			Operation * operationPtr;
+			if (!(*paramRef).FindRefParameter(token, &objectNamePtr, &index)) {
+				return true;
+			}
+			if ((operationPtr = (*OperationMap)[objectNamePtr]) == NULL) {
+				return true;
+			}
+			if (operationPtr->modified)
+			{
+				return true;
+			}
+		}
+		if (tokenTypes[i] == tokenTypeObjectValue)
+		{
+			Operation* o;
+			if (NULL != (o = (*OperationMap)[token]) && o->modified)
+			{
+				return true;
+			}
+		}
+	}
+
+	return false;
+}

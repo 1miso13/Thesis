@@ -162,6 +162,9 @@
     <ClInclude Include="CSG_Constructor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="CalculateMeshNormals.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -243,6 +246,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CSG_Constructor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CalculateMeshNormals.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

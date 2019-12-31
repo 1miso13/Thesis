@@ -180,3 +180,38 @@ bool ParametricModel::Load(std::string filePath)
 	//send whole string to application
 	return AddOperations(s);
 }
+void ParametricModel::SaveOBJ(std::string filePath) {
+	std::ofstream SaveFile;
+	SaveFile.open(filePath);
+	unsigned long objectVerticesOffset = 1;
+	//for every item
+	for (Object::GeometricObject* object: Objects)
+	{
+		if (object->color[3] != 0) //Alfa
+		{
+			//object name
+			SaveFile << "o " << object->ObjectName << std::endl;
+			//vertices
+
+			for (size_t i = 0; i < object->vertices.size(); i+=3)
+			{
+				SaveFile << "v " << object->vertices[i] << " " << object->vertices[i+1] << " " << object->vertices[i+2] << std::endl;
+			}
+			for (size_t i = 0; i < object->normals.size(); i+=3)
+			{
+				SaveFile << "vn " << object->normals[i] << " " << object->normals[i+1] << " " << object->normals[i+2] << std::endl;
+			}
+			//indices
+			for (size_t i = 0; i < object->indices.size(); i += 3)
+			{
+					SaveFile
+						<< "f " << object->indices[i]	  + objectVerticesOffset << "//" << object->indices[i]     + objectVerticesOffset
+						<< " "  << object->indices[i + 1] + objectVerticesOffset << "//" << object->indices[i + 1] + objectVerticesOffset
+						<< " "  << object->indices[i + 2] + objectVerticesOffset << "//" << object->indices[i + 2] + objectVerticesOffset << std::endl;
+				
+			}
+			objectVerticesOffset += object->vertices.size();
+		}
+	}
+	SaveFile.close();
+}
