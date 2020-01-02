@@ -77,16 +77,12 @@ public:
 		_needsUpdate = false;
 	}
 	GLenum mode = GL_TRIANGLES;
-//float timeValue = 0;
 	void glDraw(GLuint program/*, GLenum mode = GL_TRIANGLES*/) {
 		// Uniforms (Color)
 		//glProgramUniform4fv(program,...);
 		int vertexColorLocation = glGetUniformLocation(program, "color");
 		// use our shader program when we want to render an object
 		glUseProgram(program);
-		//timeValue += 0.01;
-		//float greenValue = sin(timeValue) / 2.0f + 0.5f;
-		//glUniform4f(vertexColorLocation, 0.0f, greenValue, 0.0f, 1.0f);
 		glUniform4f(vertexColorLocation, color.r, color.g, color.b, color.a);
 
 		glBindVertexArray(_vao);

@@ -60,7 +60,7 @@ bool Expression::parseExp(std::string s)
 				 {
 					 return false;//more ) than ( 
 				 }
-				 if (/*old!=PARENTHESIS && */expected == EXPRESSION)
+				 if (expected == EXPRESSION)
 				 {
 					 return false;
 				 }
@@ -104,7 +104,6 @@ bool Expression::parseExp(std::string s)
 				 //value
 				 if (isdigit(s[i]) || s[i] == '-')
 				 {//number
-					 //if (i + 1 < s.length()) {
 					 size_t numLength = 0;
 					 if (!parseNum(s/*whole expression*/, i/*from index*/, &numLength/*return length of number*/, &token/*return number in string form*/))
 					 {
@@ -114,7 +113,6 @@ bool Expression::parseExp(std::string s)
 					 tokens.push_back(token);
 					 tokenTypes.push_back(tokenTypeNumber);
 					 token = "";
-					 //}
 					 expected = OPERATOR;
 				 }
 				 else
@@ -268,10 +266,6 @@ bool Expression::parseExp(std::string s)
 	 *token = (*token).substr(0, (*token).size() - spacesCount);
  }
 
- /*Expression::Expression()
- {
-
- }*/
 
  Expression::Expression(std::string s)
  {

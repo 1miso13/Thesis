@@ -450,9 +450,9 @@ Object::Circle InscribedTriangle(Object::Triangle *triangle);
 	//if normal vector is same direction as line normal, exception occurred
 	inline Object::Rectangle AddWidthToLineVec(Object::Line l, float width, Vector3 normalVector, short type) {
 		/*type:
-			0 - width/2 to left, width/2 to right
-			1 - width to left
-			2 - width to right
+		*	0 - width/2 to left, width/2 to right
+		*	1 - width to left
+		*	2 - width to right
 			*/
 			//TODO
 		float height = (float)l.distance;
@@ -480,9 +480,9 @@ Object::Circle InscribedTriangle(Object::Triangle *triangle);
 	//
 	inline Object::Rectangle AddWidthToLinePoint(Object::Line l, float width, Object::Point surfacePoint, short type) {
 		/*type:
-			0 - width/2 to left, width/2 to right
-			1 - width to left
-			2 - width to right
+		*	0 - width/2 to left, width/2 to right
+		*	1 - width to left
+		*	2 - width to right
 			*/
 			//TODO
 		Vector3 normalVector = crossProduct2Vectors(l.Normal(), surfacePoint - l.beginPoint).Normalize();
@@ -491,9 +491,9 @@ Object::Circle InscribedTriangle(Object::Triangle *triangle);
 
 	inline Object::Rectangle *AddWidthToLineVec(Object::Line l, float width, Object::Line normal, short type) {
 	/*type:
-		0 - width/2 to left, width/2 to right
-		1 - width to left
-		2 - width to right
+	*	0 - width/2 to left, width/2 to right
+	*	1 - width to left
+	*	2 - width to right
 		*/
 	Vector3 normalVector = normal.Vector();
 	float X = (float)l.distance;
@@ -599,9 +599,6 @@ Object::Circle InscribedTriangle(Object::Triangle *triangle);
 
 		float radius = (float)MinLineBetweenLineAndPoint(Object::Line(triangle->p1, triangle->p2), arrayOfPoints[3]).Distance();
 
-		/*//find normal
-		Vector3 arrayOfPoints[] = { triangle->p1.Position, triangle->p2.Position, triangle->p3.Position };
-		Vector3 normal = crossProduct3Points(arrayOfPoints).Normalize();*/
 
 		//to 3D
 		Plane2DTo3D(arrayOfPoints, 4/* 3 triangle + 1 circle center*/, &normal, origin);

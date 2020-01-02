@@ -58,9 +58,9 @@ inline void Plane3DTo2D(Vector3 *arrayOfPoints, unsigned int pointsCount, Vector
 		Vector3 axis = crossProduct2Vectors(*normal, normal2D);
 		double s = sqrt(1 - c * c);
 		double C = 1 - c;
-		/*rmat = matrix(	[x*x*C + c		x*y*C - z * s	x*z*C + y * s],
-							[y*x*C + z * s  y*y*C + c	    y*z*C - x * s]
-							[z*x*C - y * s  z*y*C + x * s	z*z*C + c])*/
+		//rmat = matrix(	[x*x*C + c		x*y*C - z * s	x*z*C + y * s],
+		//					[y*x*C + z * s  y*y*C + c	    y*z*C - x * s]
+		//					[z*x*C - y * s  z*y*C + x * s	z*z*C + c])
 		Matrix rotationMatrix = Matrix();
 		rotationMatrix.m00 = (double)axis.X * (double)axis.X * C + c;					rotationMatrix.m01 = (double)axis.X * (double)axis.Y * C - axis.Z * s;			rotationMatrix.m02 = (double)axis.X * (double)axis.Z*C + axis.Y * s;
 		rotationMatrix.m10 = (double)axis.Y * (double)axis.X * C + axis.Z * s;			rotationMatrix.m11 = (double)axis.Y * (double)axis.Y * C + c;					rotationMatrix.m12 = (double)axis.Y * (double)axis.Z*C - axis.X * s;
@@ -88,9 +88,9 @@ inline void Plane2DTo3D(Vector3 *arrayOfPoints, unsigned int pointsCount, Vector
 		Vector3 axis = crossProduct2Vectors(normal2D, *normal);
 		double s = sqrt(1 - c * c);
 		double C = 1 - c;
-		/*rmat = matrix(	[x*x*C + c		x*y*C - z * s	x*z*C + y * s],
-							[y*x*C + z * s  y*y*C + c	    y*z*C - x * s]
-							[z*x*C - y * s  z*y*C + x * s	z*z*C + c])*/
+		//rmat = matrix(	[x*x*C + c		x*y*C - z * s	x*z*C + y * s],
+		//					[y*x*C + z * s  y*y*C + c	    y*z*C - x * s]
+		//					[z*x*C - y * s  z*y*C + x * s	z*z*C + c])
 		Matrix rotationMatrix = Matrix();
 		rotationMatrix.m00 = axis.X * axis.X *C + c;					rotationMatrix.m01 = axis.X * axis.Y*C - axis.Z * s;			rotationMatrix.m02 = axis.X * axis.Z*C + axis.Y * s;
 		rotationMatrix.m10 = axis.Y * axis.X*C + axis.Z * s;			rotationMatrix.m11 = axis.Y * axis.Y*C + c;						rotationMatrix.m12 = axis.Y * axis.Z*C - axis.X * s;

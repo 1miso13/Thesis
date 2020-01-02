@@ -58,15 +58,15 @@ namespace operationType {
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 	inline  bool CompareTypes(Object::ObjectTypeEnum commandParType, Object::ObjectTypeEnum tested) {
-		/*POINT,
-			LINE,
-			SURFACE,
-			CIRCLE,
-			RECTANGLE,
-			Polygon,
-			TRIANGLE,
-			PYRAMID,
-			OBJECT3D*/
+			//POINT,
+			//LINE,
+			//SURFACE,
+			//CIRCLE,
+			//RECTANGLE,
+			//Polygon,
+			//TRIANGLE,
+			//PYRAMID,
+			//OBJECT3D
 		if (commandParType == tested)
 			return true;
 		switch (tested)
@@ -141,15 +141,15 @@ namespace operationType {
 
 	}
 	inline Object::ObjectTypeEnum findTypeOfOperation(operationType::OperationTypeEnum operationType) {
-		/*POINT,
-		LINE,
-		SURFACE,
-		CIRCLE,
-		RECTANGLE,
-		Polygon,
-		TRIANGLE,
-		PYRAMID,
-		OBJECT3D*/
+		//POINT,
+		//LINE,
+		//SURFACE,
+		//CIRCLE,
+		//RECTANGLE,
+		//Polygon,
+		//TRIANGLE,
+		//PYRAMID,
+		//OBJECT3D
 		switch (operationType) {
 		case Point:
 		case LinearInterpolationDist:
@@ -392,17 +392,16 @@ namespace operationType {
 		return !Err;
 	}
 	inline bool TestValidParameterType(ParameterTypesEnum parameterType, std::string paramValue, std::vector <Operation*> *OperationsVec, std::map <std::string, Operation*> * OperationsMap,int to=-1) {
-		/*POINTObjectType,
-	LINE,
-	SURFACE,
-	CIRCLE,
-	RECTANGLE,
-	Polygon,
-	TRIANGLE,
-	PYRAMID,
-	OBJECT3D,
-	INVALIDObjectType
-	*/
+	//POINTObjectType,
+	//LINE,
+	//SURFACE,
+	//CIRCLE,
+	//RECTANGLE,
+	//Polygon,
+	//TRIANGLE,
+	//PYRAMID,
+	//OBJECT3D,
+	//INVALIDObjectType
 
 		if (parameterType == ParameterTypeMULTIPLEPOINTS)//multiple points are defined as: point1;point2;point3;point4;...pointN
 		{
@@ -1402,19 +1401,6 @@ namespace operationType {
 		}
 		if (commandName == "Intersection_Plane_Line")
 		{
-			/*if (CountOfParams != 2)
-			{
-				RetType = INVALID;
-			}
-			if (!CompareTypes(LINE, Find(OperationsVec, *it)))
-			{
-				RetType = INVALID;
-			}
-			it++;
-			if (!CompareTypes(SURFACE, Find(OperationsVec, *it)))
-			{
-				RetType = INVALID;
-			}*/
 			std::vector<ParameterTypesEnum>* params1 = new std::vector<ParameterTypesEnum>();
 			params1->push_back(ParameterTypeLINE);
 			params1->push_back(ParameterTypeSURFACE); 
@@ -1440,15 +1426,6 @@ namespace operationType {
 		}
 		if (commandName == "SurfaceCenterBoundingSquare")
 		{
-			/*if (CountOfParams != 1)
-			{
-				RetType = INVALID;
-			}
-			if (!CompareTypes(SURFACE, Find(OperationsVec, *it)))
-			{
-				RetType = INVALID;
-			}*/
-
 			std::vector<ParameterTypesEnum>* params1 = new std::vector<ParameterTypesEnum>();
 			params1->push_back(ParameterTypeSURFACE);
 
@@ -1472,15 +1449,6 @@ namespace operationType {
 		}
 		if (commandName == "SurfaceCenterAverage")
 		{
-			/*if (CountOfParams != 1)
-			{
-				RetType = INVALID;
-			}
-			if (!CompareTypes(SURFACE, Find(OperationsVec, *it)))
-			{
-				RetType = INVALID;
-			}*/
-
 			std::vector<ParameterTypesEnum>* params1 = new std::vector<ParameterTypesEnum>();
 			params1->push_back(ParameterTypeSURFACE);
 
@@ -1589,14 +1557,6 @@ namespace operationType {
 			}
 		if (commandName == "ObjectCenterBoundingBox")
 		{
-			/*if (CountOfParams != 1)
-			{
-				RetType = INVALID;
-			}
-			if (!CompareTypes(OBJECT3D, Find(OperationsVec, *it)))
-			{
-				RetType = INVALID;
-			}*/
 			std::vector<ParameterTypesEnum>* params1 = new std::vector<ParameterTypesEnum>();
 			params1->push_back(ParameterTypeOBJECT3D);
 
@@ -1614,14 +1574,6 @@ namespace operationType {
 		}
 		if (commandName == "ObjectCenterAverage")
 		{
-			/*if (CountOfParams != 1)
-			{
-				RetType = INVALID;
-			}
-			if (!CompareTypes(OBJECT3D, Find(OperationsVec, *it)))
-			{
-				RetType = INVALID;
-			}*/
 			std::vector<ParameterTypesEnum>* params1 = new std::vector<ParameterTypesEnum>();
 			params1->push_back(ParameterTypeOBJECT3D);
 
@@ -1640,14 +1592,6 @@ namespace operationType {
 		}
 		if (commandName == "LineFirstPoint")
 		{
-			/*if (CountOfParams != 1)
-			{
-				RetType = INVALID;
-			}
-			if (!CompareTypes(LINE, Find(OperationsVec, *it)))
-			{
-				RetType = INVALID;
-			}*/
 			std::vector<ParameterTypesEnum>* params1 = new std::vector<ParameterTypesEnum>();
 			params1->push_back(ParameterTypeLINE);
 			(*paramVectors)->push_back(params1);
@@ -1664,14 +1608,6 @@ namespace operationType {
 		}
 		if (commandName == "LineSecondPoint")
 		{
-			/*if (CountOfParams != 1)
-			{
-				RetType = INVALID;
-			}
-			if (!CompareTypes(LINE, Find(OperationsVec, *it)))
-			{
-				RetType = INVALID;
-			}*/
 			std::vector<ParameterTypesEnum>* params1 = new std::vector<ParameterTypesEnum>();
 			params1->push_back(ParameterTypeLINE);
 
@@ -1695,19 +1631,6 @@ namespace operationType {
 		}
 		if (commandName == "Line")
 		{
-			/*if (CountOfParams != 2)
-			{
-				RetType = INVALID;
-			}
-			if (!CompareTypes(POINTObjectType, Find(OperationsVec, *it)))
-			{
-				RetType = INVALID;
-			}
-			it++;
-			if (!CompareTypes(POINTObjectType, Find(OperationsVec, *it)))
-			{
-				RetType = INVALID;
-			}*/
 			std::vector<ParameterTypesEnum>* params1 = new std::vector<ParameterTypesEnum>();
 			params1->push_back(ParameterTypePOINT);
 			params1->push_back(ParameterTypePOINT);
@@ -1727,14 +1650,6 @@ namespace operationType {
 		}
 		if (commandName == "LineNormalize")
 		{
-			/*if (CountOfParams != 1)
-			{
-				RetType = INVALID;
-			}
-			if (!CompareTypes(LINE, Find(OperationsVec, *it)))
-			{
-				RetType = INVALID;
-			}*/
 			std::vector<ParameterTypesEnum>* params1 = new std::vector<ParameterTypesEnum>();
 			params1->push_back(ParameterTypeLINE);
 
@@ -1752,18 +1667,6 @@ namespace operationType {
 		}
 		if (commandName == "LineChangeLengthDist") //redundant TODO
 		{
-			/*if (CountOfParams != 2)
-			{
-				RetType = INVALID;
-			}
-			if (!CompareTypes(LINE, Find(OperationsVec, *it)))
-			{
-				RetType = INVALID;
-			}
-			it++;
-			if (!IsFloat(*it)) {
-				RetType = INVALID;
-			}*/
 			std::vector<ParameterTypesEnum>* params1 = new std::vector<ParameterTypesEnum>();
 			params1->push_back(ParameterTypeLINE);
 			params1->push_back(ParameterTypeFLOAT);
@@ -1782,18 +1685,6 @@ namespace operationType {
 		}
 		if (commandName == "LineChangeLengthPerc")
 		{
-			/*if (CountOfParams != 2)
-			{
-				RetType = INVALID;
-			}
-			if (!CompareTypes(LINE, Find(OperationsVec, *it)))
-			{
-				RetType = INVALID;
-			}
-			it++;
-			if (!IsFloat(*it)) {
-				RetType = INVALID;
-			}*/
 			std::vector<ParameterTypesEnum>* params1 = new std::vector<ParameterTypesEnum>();
 			params1->push_back(ParameterTypeLINE);
 			params1->push_back(ParameterTypeFLOAT);
@@ -1816,18 +1707,6 @@ namespace operationType {
 		}
 		if (commandName == "MinLineBetweenLineAndLine")
 		{
-			/*if (CountOfParams != 2)
-			{
-				RetType = INVALID;
-			}
-			if (!CompareTypes(LINE, Find(OperationsVec, *it)))
-			{
-				RetType = INVALID;
-			}
-			it++;
-			if (!CompareTypes(LINE, Find(OperationsVec, *it))) {
-				RetType = INVALID;
-			}*/
 			std::vector<ParameterTypesEnum>* params1 = new std::vector<ParameterTypesEnum>();
 			params1->push_back(ParameterTypeLINE);
 			params1->push_back(ParameterTypeLINE);
@@ -1846,18 +1725,6 @@ namespace operationType {
 		}
 		if (commandName == "MinLineBetweenPointAndLine")
 		{
-			/*if (CountOfParams != 2)
-			{
-				RetType = INVALID;
-			}
-			if (!CompareTypes(POINTObjectType, Find(OperationsVec, *it)))
-			{
-				RetType = INVALID;
-			}
-			it++;
-			if (!CompareTypes(LINE, Find(OperationsVec, *it))) {
-				RetType = INVALID;
-			}*/
 			std::vector<ParameterTypesEnum>* params1 = new std::vector<ParameterTypesEnum>();
 			params1->push_back(ParameterTypePOINT);
 			params1->push_back(ParameterTypeLINE);
@@ -1876,18 +1743,6 @@ namespace operationType {
 		}
 		if (commandName == "MinLineBetweenPointAndSurface")
 		{
-			/*if (CountOfParams != 2)
-			{
-				RetType = INVALID;
-			}
-			if (!CompareTypes(POINTObjectType, Find(OperationsVec, *it)))
-			{
-				RetType = INVALID;
-			}
-			it++;
-			if (!CompareTypes(SURFACE, Find(OperationsVec, *it))) {
-				RetType = INVALID;
-			}*/
 			std::vector<ParameterTypesEnum>* params1 = new std::vector<ParameterTypesEnum>();
 			params1->push_back(ParameterTypePOINT);
 			params1->push_back(ParameterTypeSURFACE);
@@ -1956,14 +1811,6 @@ namespace operationType {
 		}
 		if (commandName == "SurfaceNormal")
 		{
-			/*if (CountOfParams != 1)
-			{
-				RetType = INVALID;
-			}
-			if (!CompareTypes(SURFACE, Find(OperationsVec, *it)))
-			{
-				RetType = INVALID;
-			}*/
 			std::vector<ParameterTypesEnum>* params1 = new std::vector<ParameterTypesEnum>();
 			params1->push_back(ParameterTypeSURFACE);
 
@@ -1983,19 +1830,6 @@ namespace operationType {
 		}
 		if (commandName == "LineRelocationByPoint")
 		{
-			/*if (CountOfParams != 2)
-			{
-				RetType = INVALID;
-			}
-			if (!CompareTypes(LINE, Find(OperationsVec, *it)))
-			{
-				RetType = INVALID;
-			}
-			it++;
-			if (!CompareTypes(POINTObjectType, Find(OperationsVec, *it)))
-			{
-				RetType = INVALID;
-			}*/
 			std::vector<ParameterTypesEnum>* params1 = new std::vector<ParameterTypesEnum>();
 			params1->push_back(ParameterTypeLINE);
 			params1->push_back(ParameterTypePOINT);
@@ -2013,26 +1847,8 @@ namespace operationType {
 			RetType =  LineRelocationByPoint;//LineRelocationByPoint(string lineName, Line l, Point p, bool visible = true)
 
 		}
-		/*if (commandName == "OrthogonalLeastSquares")
-		{
-			RetType =  OrthogonalLeastSquares;//OrthogonalLeastSquares(string lineName, Point p1, Point p2, Point p3, ..., bool visible = true) //min 3
-
-		}*/
 		if (commandName == "CrossProduct")
 		{
-			/*if (CountOfParams != 2)
-			{
-				RetType = INVALID;
-			}
-			if (!CompareTypes(LINE, Find(OperationsVec, *it)))
-			{
-				RetType = INVALID;
-			}
-			it++;
-			if (!CompareTypes(LINE, Find(OperationsVec, *it)))
-			{
-				RetType = INVALID;
-			}*/
 			std::vector<ParameterTypesEnum>* params1 = new std::vector<ParameterTypesEnum>();
 			params1->push_back(ParameterTypeLINE);
 			params1->push_back(ParameterTypeLINE);
@@ -2057,22 +1873,6 @@ namespace operationType {
 		}
 		if (commandName == "RectangleFromLine")
 		{//1 - surface point, 2 - normal vector
-			/*if (CountOfParams != 4)
-			{
-				RetType = INVALID;
-			}
-			if (CompareTypes(LINE, Find(OperationsVec, *it)))
-			{
-				it++;
-				if (IsFloat(*it))
-				{
-
-					it++;
-					if (CompareTypes(POINTObjectType, Find(OperationsVec, *it)) || CompareTypes(LINE, Find(OperationsVec, *it)))
-					{
-						it++;
-						//	if ()type is short TODO
-						{*/
 
 			std::vector<ParameterTypesEnum>* params1 = new std::vector<ParameterTypesEnum>();
 			params1->push_back(ParameterTypeLINE);
@@ -2108,47 +1908,21 @@ namespace operationType {
 				(*paramVectorsInfo)->push_back(paramInfo2);
 			}
 			RetType = RectangleFromLine;
-						/*}
-					}
-				}
-			}*/
-			//RetType =  INVALID;
+						
 			//RectangleFromLine(string surfaceName, Line l, float width, Point surfacePoint, short type, bool visible = true)
 			//RectangleFromLine(string surfaceName, Line l, float width, Vector3 normalVector, short type, bool visible = true)
 			//create Rectangle from Line l
-			/*type:
-				0 - width/2 to left, width/2 to right
-				1 - width to left
-				2 - width to right
-				*/
+			//type:
+			//	0 - width/2 to left, width/2 to right
+			//	1 - width to left
+			//	2 - width to right
+				
 				//if normal vector is not perpendicular to line, as normal is used normalized dot product between line and normal vector
 				//if normal vector is same direction as line normal, exception occure
 				//If surface point is not on line l, exception occure
 		}
 		if (commandName == "Circle")
 		{
-			/*if (CountOfParams != 3)
-			{
-				RetType = INVALID;
-			}
-			if (CompareTypes(POINTObjectType, Find(OperationsVec, *it)))
-			{
-				it++;
-				if (IsFloat(*it))
-				{
-					it++;
-					if (CompareTypes(LINE, Find(OperationsVec, *it)))
-					{
-						RetType = Circle;
-					}
-				}
-				else if (CompareTypes(POINTObjectType, Find(OperationsVec, *it)))
-				{
-					it++;
-					if (CompareTypes(POINTObjectType, Find(OperationsVec, *it)))
-					{*/
-
-
 			std::vector<ParameterTypesEnum>* params1 = new std::vector<ParameterTypesEnum>();
 			params1->push_back(ParameterTypePOINT);
 			params1->push_back(ParameterTypeFLOAT);
@@ -2184,28 +1958,6 @@ namespace operationType {
 		}
 		if (commandName == "Triangle")
 		{
-			/*if (CountOfParams == 3)
-			{
-				if (CompareTypes(POINTObjectType, Find(OperationsVec, *it)))
-				{
-					it++;
-					if (CompareTypes(POINTObjectType, Find(OperationsVec, *it)))
-					{
-						it++;
-						if (CompareTypes(POINTObjectType, Find(OperationsVec, *it)))
-						{
-							RetType = Triangle;
-						}
-					}
-				}
-			}
-			if (CountOfParams == 2)
-			{
-				if (CompareTypes(LINE, Find(OperationsVec, *it)))
-				{
-					it++;
-					if (CompareTypes(POINTObjectType, Find(OperationsVec, *it)))
-					{*/
 			std::vector<ParameterTypesEnum>* params1 = new std::vector<ParameterTypesEnum>();
 			params1->push_back(ParameterTypeLINE);
 			params1->push_back(ParameterTypePOINT);
@@ -2237,40 +1989,9 @@ namespace operationType {
 			//2 - 3 Points
 			//Triangle(string surfaceName, Line l, Point p, bool visible = true)
 			//Triangle(string surfaceName, Point p1, Point p2, Point p3, bool visible = true)
-
-				//rectangle
 		}
 		if (commandName == "Rectangle")
 		{
-			/*if (CountOfParams != 5)
-			{
-				RetType = INVALID;
-			}
-
-			if (!CompareTypes(POINTObjectType, Find(OperationsVec, *it)))//center
-			{
-				RetType = INVALID;
-			}
-			it++;
-			if (!IsFloat(*it))//X
-			{
-				RetType = INVALID;
-			}
-			it++;
-			if (!IsFloat(*it))//Y
-			{
-				RetType = INVALID;
-			}
-			it++;
-			if (!IsFloat(*it))//roll
-			{
-				RetType = INVALID;
-			}
-			it++;
-			if (!CompareTypes(LINE, Find(OperationsVec, *it)))//normal
-			{
-				RetType = INVALID;
-			}*/
 			std::vector<ParameterTypesEnum>* params1 = new std::vector<ParameterTypesEnum>();
 			params1->push_back(ParameterTypePOINT);
 			params1->push_back(ParameterTypeFLOAT);
@@ -2297,24 +2018,13 @@ namespace operationType {
 		}
 		if (commandName == "Polygon")//TODO
 		{
-			/*for (size_t i = 0; i < CountOfParams; i++)
-			{
-				if (!CompareTypes(POINTObjectType, Find(OperationsVec, *it)))//normal
-				{
-					RetType = INVALID;
-				}
-				it++;
-			}*/
-
 			std::vector<ParameterTypesEnum>* params1 = new std::vector<ParameterTypesEnum>();
-			//params1->push_back(ParameterTypePOINT);
 			params1->push_back(ParameterTypeMULTIPLEPOINTS);
 
 			if (info)
 			{
 				std::vector<std::string> *paramInfo1 = new std::vector<std::string>();
 				paramInfo1->push_back("Create Polygon by connecting points");
-				//paramInfo1->push_back("Origin point");
 				paramInfo1->push_back("Multiple points - ; divider");
 
 				(*paramVectorsInfo)->push_back(paramInfo1);
@@ -2327,15 +2037,6 @@ namespace operationType {
 		}
 		if (commandName == "Circumscribed")
 		{
-			/*if (CountOfParams != 1)
-			{
-				RetType = INVALID;
-			}
-
-			if (!CompareTypes(TRIANGLE, Find(OperationsVec, *it)))//center
-			{
-				RetType = INVALID;
-			}*/
 			std::vector<ParameterTypesEnum>* params1 = new std::vector<ParameterTypesEnum>();
 			params1->push_back(ParameterTypeTRIANGLE);
 
@@ -2353,15 +2054,6 @@ namespace operationType {
 		}
 		if (commandName == "Inscribed")
 		{
-			/*if (CountOfParams != 1)
-			{
-				RetType = INVALID;
-			}
-
-			if (!CompareTypes(TRIANGLE, Find(OperationsVec, *it)))//center
-			{
-				RetType = INVALID;
-			}*/
 			std::vector<ParameterTypesEnum>* params1 = new std::vector<ParameterTypesEnum>();
 			params1->push_back(ParameterTypeTRIANGLE);
 
@@ -2377,21 +2069,11 @@ namespace operationType {
 			RetType =  Inscribed;
 			//Inscribed(string surfaceName, Triangle t, bool visible = true)		//Create circle in triangle
 
-			///Objects Commands:
 
 		}
+			///Objects Commands:
 		if (commandName == "Pyramid")
 		{
-			/*if (CountOfParams != 2)
-			{
-				RetType = INVALID;
-			}
-
-			if (CompareTypes(SURFACE, Find(OperationsVec, *it)))//center
-			{
-				it++;
-				if (IsFloat(*it) || CompareTypes(POINTObjectType, Find(OperationsVec, *it)))//center
-				{*/
 			std::vector<ParameterTypesEnum>* params1 = new std::vector<ParameterTypesEnum>();
 			params1->push_back(ParameterTypeSURFACE);
 			params1->push_back(ParameterTypeFLOAT);
@@ -2417,32 +2099,15 @@ namespace operationType {
 				(*paramVectorsInfo)->push_back(paramInfo2);
 			}
 			RetType = Pyramid;
-				/*}
 
-			}*/
 			//1 - distance
 			//2 - point
-			//RetType =  INVALID;
 			//Pyramid(string objectName, Surface s, float distance, bool visible = true) //Create Pyramid by distance from center
 			//Pyramid(string objectName, Surface s, Point p, bool visible = true) //Create Pyramid by Point
 
 		}
 		if (commandName == "Extrude")
 		{
-			/*if (CountOfParams != 2)
-			{
-				RetType = INVALID;
-			}
-
-			if (!CompareTypes(SURFACE, Find(OperationsVec, *it)))//center
-			{
-				RetType = INVALID;
-			}
-			it++;
-			if (!IsFloat(*it))//center
-			{
-				RetType = INVALID;
-			}*/
 			std::vector<ParameterTypesEnum>* params1 = new std::vector<ParameterTypesEnum>();
 			params1->push_back(ParameterTypeSURFACE);
 			params1->push_back(ParameterTypeFLOAT);
@@ -2461,61 +2126,6 @@ namespace operationType {
 			//Extrude(string objectName, Surface s, float distance, bool visible = true) //add width to 
 
 		}
-		//if (commandName == "SpericalCurvedSurface") //TODO
-		//{
-		//	std::vector<ParameterTypesEnum>* params1 = new std::vector<ParameterTypesEnum>();
-		//	params1->push_back(ParameterTypeSURFACE);
-		//	params1->push_back(ParameterTypeFLOAT);
-
-		//	(*paramVectors)->push_back(params1);
-		//	if (info)
-		//	{
-		//		std::vector<std::string> *paramInfo1 = new std::vector<std::string>();
-		//		paramInfo1->push_back("Create spherical curved surfaces from surface");
-		//		paramInfo1->push_back("Base");
-		//		paramInfo1->push_back("Distance");
-
-		//		(*paramVectorsInfo)->push_back(paramInfo1);
-		//	}
-		//	RetType =  SpericalCurvedSurface;
-		//	//SpericalCurvedSurface(string objectName, Surface s, float distance, bool visible = true)
-
-
-		//}
-		//if (commandName == "Cylinder")
-		//{
-		//	/*if (CountOfParams != 2)
-		//	{
-		//		RetType = INVALID;
-		//	}
-
-		//	if (!CompareTypes(LINE, Find(OperationsVec, *it)))//center
-		//	{
-		//		RetType = INVALID;
-		//	}
-		//	it++;
-		//	if (!IsFloat(*it))//center
-		//	{
-		//		RetType = INVALID;
-		//	}*/
-		//	std::vector<ParameterTypesEnum>* params1 = new std::vector<ParameterTypesEnum>();
-		//	params1->push_back(ParameterTypeLINE);
-		//	params1->push_back(ParameterTypeFLOAT);
-
-		//	(*paramVectors)->push_back(params1);
-		//	if (info)
-		//	{
-		//		std::vector<std::string> *paramInfo1 = new std::vector<std::string>();
-		//		paramInfo1->push_back("Create cylinder from line and radius");
-		//		paramInfo1->push_back("Line");
-		//		paramInfo1->push_back("Radius");
-
-		//		(*paramVectorsInfo)->push_back(paramInfo1);
-		//	}
-		//	RetType =  Cylinder;
-		//	//Cylinder(string objectName, Line l, float radius, bool visible = true)
-
-		//}
 		if (commandName == "Sphere")
 		{
 			std::vector<ParameterTypesEnum>* params1 = new std::vector<ParameterTypesEnum>();
@@ -2631,15 +2241,15 @@ namespace operationType {
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 	inline std::string OperationToString(operationType::OperationTypeEnum operationType) {
-		/*POINT,
-		LINE,
-		SURFACE,
-		CIRCLE,
-		RECTANGLE,
-		Polygon,
-		TRIANGLE,
-		PYRAMID,
-		OBJECT3D*/
+		//POINT,
+		//LINE,
+		//SURFACE,
+		//CIRCLE,
+		//RECTANGLE,
+		//Polygon,
+		//TRIANGLE,
+		//PYRAMID,
+		//OBJECT3D
 		switch (operationType) {
 //Point Commands:
 		case Point:
@@ -2720,10 +2330,6 @@ namespace operationType {
 			return "Pyramid";
 		case Extrude:
 			return "Extrude";
-		/*case SpericalCurvedSurface:
-			return "SpericalCurvedSurface";
-		case Cylinder:
-			return "Cylinder";*/
 		case Sphere:
 			return "Sphere";
 		case BooleanUnion:

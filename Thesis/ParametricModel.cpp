@@ -1,48 +1,6 @@
 #include "pch.h"
 #include "ParametricModel.h"
 #include "GLObject.h"
-//TODO DELETE
-//std::vector<glm::vec3> verticesa = {
-//	/*glm::vec3(-50.0f, -50.0f, 0.0f),
-//	glm::vec3(50, -50.0f, 0.0f),
-//	glm::vec3(0.0f,  25.0f, 0.0f),
-//	glm::vec3(0.0f,  50.0f, 50.0f)*/
-//	// Front face
-//	glm::vec3(-1.0, -1.0,  1.0),
-//	glm::vec3(1.0, -1.0,  1.0),
-//	glm::vec3(1.0,  1.0,  1.0),
-//	glm::vec3(-1.0,  1.0,  1.0),
-//
-//	// Back face
-//	glm::vec3(-1.0, -1.0, -1.0),
-//	glm::vec3(-1.0,  1.0, -1.0),
-//	glm::vec3(1.0,  1.0, -1.0),
-//	glm::vec3(1.0, -1.0, -1.0),
-//
-//	// Top face
-//	glm::vec3(-1.0,  1.0, -1.0),
-//	glm::vec3(-1.0,  1.0,  1.0),
-//	glm::vec3(1.0,  1.0,  1.0),
-//	glm::vec3(1.0,  1.0, -1.0),
-//
-//	// Bottom face
-//	glm::vec3(-1.0, -1.0, -1.0),
-//	glm::vec3(1.0, -1.0, -1.0),
-//	glm::vec3(1.0, -1.0,  1.0),
-//	glm::vec3(-1.0, -1.0,  1.0),
-//
-//	// Right face
-//	glm::vec3(1.0, -1.0, -1.0),
-//	glm::vec3(1.0,  1.0, -1.0),
-//	glm::vec3(1.0,  1.0,  1.0),
-//	glm::vec3(1.0, -1.0,  1.0),
-//
-//	// Left face
-//	glm::vec3(-1.0, -1.0, -1.0),
-//	glm::vec3(-1.0, -1.0,  1.0),
-//	glm::vec3(-1.0,  1.0,  1.0),
-//	glm::vec3(-1.0,  1.0, -1.0)
-//};
 void ParametricModel::RemoveAllGLObjects() {
 	for (auto it : renderer.GLObjects_map) {
 		((GLObject*)it.second)->glDestroy();
@@ -51,18 +9,10 @@ void ParametricModel::RemoveAllGLObjects() {
 	renderer.GLObjects_map.clear();
 }			
 // Testing (CPU)
-std::vector<float> vert = { /*-0.5f, -0.5f, 0.0f,
-	0.5, -0.5f, 0.0f,
-	0.0f, 0.25f, 0.0f,
-	0.0f, 0.5f, 0.5f*/
-}; 
-std::vector<float> normals = { /*-0.5f, -0.5f, 0.0f,
-	0.5, -0.5f, 0.0f,
-	0.0f, 0.25f, 0.0f,
-	0.0f, 0.5f, 0.5f*/
-};
+std::vector<float> vert = {}; 
+std::vector<float> normals = {};
 
-std::vector<int> ind = { /*0, 1, 2, 1, 2, 3 */};
+std::vector<int> ind = {};
 void ParametricModel::UpdateGLObjects() {
 
 	if (GLContext)

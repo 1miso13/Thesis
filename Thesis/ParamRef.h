@@ -6,9 +6,6 @@ class ParamRef
 public:
 	static std::vector <paramRefStruct> *paramRefVecPtr;
 	std::vector <paramRefStruct> paramRefVec;
-	/*std::vector <std::string>	referecedObjectVec;
-	std::vector <size_t>		referecedParamIndexVec;
-	std::vector <std::string>	paramRefNameVec;*/
 	void Reset() {
 		paramRefVec.clear();
 	}

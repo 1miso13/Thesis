@@ -103,11 +103,11 @@ namespace operationType {
 	//RectangleFromLine,//(string surfaceName, Line l, float width, Point surfacePoint, short type, float visibility)
 	//RectangleFromLine(string surfaceName, Line l, float width, Vector3 normalVector, short type, float visibility)
 //create Rectangle from Line l
-/*type:
-	0 - width/2 to left, width/2 to right
-	1 - width to left
-	2 - width to right
-	*/
+//type:
+//	0 - width/2 to left, width/2 to right
+//	1 - width to left
+//	2 - width to right
+
 	//if normal vector is not perpendicular to line, as normal is used normalized dot product between line and normal vector
 	//if normal vector is same direction as line normal, exception occure
 	//If surface point is not on line l, exception occure

@@ -189,7 +189,6 @@
     <ClInclude Include="Expression.h" />
     <ClInclude Include="ObjectsValues.h" />
     <ClInclude Include="Operation.h" />
-    <ClInclude Include="Cylinder.h" />
     <ClInclude Include="GeometricOperation.h" />
     <ClInclude Include="Geometry.h" />
     <ClInclude Include="Matrix.h" />
@@ -218,7 +217,6 @@
     <ClCompile Include="CalculateMeshNormals.cpp" />
     <ClCompile Include="Circle.cpp" />
     <ClCompile Include="CSG_Constructor.cpp" />
-    <ClCompile Include="Cylinder.cpp" />
     <ClCompile Include="EarClippingTriangulator.cpp" />
     <ClCompile Include="Expression.cpp" />
     <ClCompile Include="GeometricObject.cpp" />

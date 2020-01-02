@@ -41,27 +41,8 @@ class Parser
 		}
 		return in;
 	}
-/*(std::string s,std::vector<std::string> *OperationParametersVec) {
-		size_t  pos;
-		std::string token; 
-		std::string delimiter = ",";
-		while ((pos = s.find(delimiter)) != std::string::npos) {
-			token = s.substr(0, pos);
-			OperationParametersVec->push_back(removeSpace(token));
-			s.erase(0, pos + delimiter.length());
-		}
-		OperationParametersVec->push_back(removeSpace(s));
-	}*/
 	bool TestValidObjectName(std::string objectName) {
 		//test valid name
-		/*std::vector<Operation*>::iterator it;
-		//test, if name not exist
-		for (it= (*OperationsVec).begin(); it != (*OperationsVec).end();it++)
-		{
-			if ((*it)->name == objectName)
-				return false;
-		}
-		return true;*/
 		return (*OperationsMap)[objectName] == NULL;
 	}
 	bool toFloat(const std::string s,float * val) {
@@ -115,10 +96,6 @@ public:
 		size_t paramIndex = 0;
 		for (;  i< length; i++)
 		{
-			//if ((*sPtr)[i] == ')')
-			//{
-			//	break;
-			//}
 			if ((*sPtr)[i] == ',')
 			{
 				if (token=="")
@@ -137,10 +114,6 @@ public:
 		if (!RemoveParenthesisChar(token)) {
 			return false;
 		}
-		//if (token == "")
-		//{
-		//	return false;
-		//}
 
 		OperationParametersVec->push_back(removeSpace(token));
 

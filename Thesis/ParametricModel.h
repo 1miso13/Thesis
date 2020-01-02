@@ -259,16 +259,6 @@ public:
 		if (OperationMap[refObjectName]!= NULL) {
 			return paramRef.AddRefParameter(ParamRefName, refObjectName, paramIndex);
 		}
-
-		/*old
-		for (size_t i = 0; i < OperationsVec.size(); i++)
-		{
-			if (OperationsVec.at(i)->name == refObjectName)
-			{
-				return paramRef.AddRefParameter(ParamRefName, refObjectName, paramIndex);
-			}
-
-		}*/
 		return false;
 	}
 	bool AddReferenceParamWithoutValidCheck(std::string ParamRefName, std::string refObjectName, size_t paramIndex) {
@@ -299,19 +289,6 @@ public:
 	}
 
 	void SetRefValue(std::string ObjectName, size_t paramindex, std::string value) {
-		
-		/*old
-		for (size_t i = 0; i < OperationsVec.size(); i++)
-		{
-			if (OperationsVec.at(i)->name == ObjectName) {
-				//set value
-				OperationsVec.at(i)->OperationParametersVec->at(paramindex) = value;
-				break;
-			}
-		}
-		*/
-
-
 		Operation*  operation = OperationMap[ObjectName];
 		if (operation != NULL)
 		{

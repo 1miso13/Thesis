@@ -120,9 +120,6 @@
     <ClInclude Include="Polygon.h">
       <Filter>Header Files\Geometry\Geometric objects\2D</Filter>
     </ClInclude>
-    <ClInclude Include="Cylinder.h">
-      <Filter>Header Files\Geometry\Geometric objects\3D</Filter>
-    </ClInclude>
     <ClInclude Include="Pyramid.h">
       <Filter>Header Files\Geometry\Geometric objects\3D</Filter>
     </ClInclude>
@@ -202,9 +199,6 @@
     </ClCompile>
     <ClCompile Include="Polygon.cpp">
       <Filter>Source Files\Geometry\Objects\2D</Filter>
-    </ClCompile>
-    <ClCompile Include="Cylinder.cpp">
-      <Filter>Source Files\Geometry\Objects\3D</Filter>
     </ClCompile>
     <ClCompile Include="Pyramid.cpp">
       <Filter>Source Files\Geometry\Objects\3D</Filter>

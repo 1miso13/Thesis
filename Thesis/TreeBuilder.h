@@ -710,14 +710,6 @@ public:
 	void Build();
 	Object::GeometricObject* FindObjectByName(std::vector <Object::GeometricObject*> *Objects,std::string objectName, bool *Err)
 	{
-		/*for (size_t i = 0; i < Objects->size(); i++)
-		{
-			if (Objects->at(i)->ObjectName == objectName)
-			{
-				return Objects->at(i);
-			}
-		}
-		return nullptr;*/
 		Object::GeometricObject* objectPtr = (*ObjectMap)[objectName];
 		*Err = objectPtr == NULL;
 		return objectPtr;
