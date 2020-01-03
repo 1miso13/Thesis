@@ -58,12 +58,12 @@ namespace Object {
 
 	void Object::Pyramid::CalculateVolume()
 	{
-		volume = base->area * height * 1 / 3;
+		volume = base->GetArea() * height * 1 / 3;
 	}
 
 	void Object::Pyramid::CalculateSurfaceArea()
 	{
-		surfaceArea = base->area;
+		surfaceArea = base->GetArea();
 
 		//rozdielne pre rozdielne tvary
 		if (BaseType == 1) {// circle

@@ -28,12 +28,6 @@
       <Extensions>moc;h;cpp</Extensions>
       <SourceControlFiles>False</SourceControlFiles>
     </Filter>
-    <Filter Include="Header Files\GraphViz">
-      <UniqueIdentifier>{deb648d9-f2b1-4c33-a6b0-666687b13e6c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\GraphViz">
-      <UniqueIdentifier>{1075d0bf-cb7f-434a-933a-b2d5f7fc022b}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -50,9 +44,6 @@
     </ClCompile>
     <ClCompile Include="reftablewidget.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GraphViz.cpp">
-      <Filter>Source Files\GraphViz</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -91,9 +82,6 @@
     </ClInclude>
     <ClInclude Include="Header.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GraphViz.h">
-      <Filter>Header Files\GraphViz</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

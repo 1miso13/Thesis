@@ -2,7 +2,9 @@
 
 #include "CSG_Constructor.h"
 #ifndef _WITHOUT_LIBIGL
+//#pragma warning(push ,0)
 #include <igl/copyleft/cgal/mesh_boolean.h>
+//#pragma warning(pop)
 #include "CalculateMeshNormals.h"
 
 namespace csg {

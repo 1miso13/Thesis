@@ -16,7 +16,7 @@ namespace Object {
 		this->planeVector = planeVector;
 		this->normal = normal;
 		GeometricType = RECTANGLE_ObjectType;
-		createMesh();
+		CreateMesh();
 	}
 	Rectangle::~Rectangle()
 	{
@@ -31,7 +31,7 @@ namespace Object {
 	{
 		area = (double)height * (double)width;
 	}
-	void Rectangle::createMesh() {
+	void Rectangle::CreateMesh() {
 		glm::vec3 glmCenter(center.Position.X, center.Position.Y, center.Position.Z);
 		glm::vec3 glmPlaneVector(planeVector.X, planeVector.Y, planeVector.Z);
 		glm::vec3 glmNormal(normal.X, normal.Y, normal.Z);

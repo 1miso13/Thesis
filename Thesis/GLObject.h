@@ -18,9 +18,9 @@ class GLObject {
 	bool _needsUpdate = false;
 	bool _initialized = false;
 public:
-	std::vector<float> *vertices;
-	std::vector<float> *normals;
-	std::vector<int> *indices;
+	std::vector<float> *vertices = NULL;
+	std::vector<float> *normals = NULL;
+	std::vector<int> *indices = NULL;
 	glm::vec4 color;
 
 	void setNeedsUpdate() {

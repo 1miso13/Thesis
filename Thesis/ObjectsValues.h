@@ -316,12 +316,12 @@ inline double ObjectsValues::GetObjectValue(std::map<std::string, Object::Geomet
 	case Object::ObjectTypeEnum::SURFACE_ObjectType:
 		if (valueName == "perimeter")
 		{
-			value = ((Object::Surface*)objectPtr)->perimeter;
+			value = ((Object::Surface*)objectPtr)->GetPerimeter();
 		}
 		else
 			if (valueName == "area")
 		{
-				value = ((Object::Surface*)objectPtr)->area;
+				value = ((Object::Surface*)objectPtr)->GetArea();
 		}
 		else
 		{
@@ -330,12 +330,12 @@ inline double ObjectsValues::GetObjectValue(std::map<std::string, Object::Geomet
 	case Object::ObjectTypeEnum::CIRCLE_ObjectType:
 		if (valueName == "perimeter")
 		{
-			value = ((Object::Circle*)objectPtr)->perimeter;
+			value = ((Object::Circle*)objectPtr)->GetPerimeter();
 		}
 		else
 			if (valueName == "area")
 			{
-				value = ((Object::Circle*)objectPtr)->area;
+				value = ((Object::Circle*)objectPtr)->GetArea();
 			}
 		else
 			if (valueName == "radius")
@@ -349,12 +349,12 @@ inline double ObjectsValues::GetObjectValue(std::map<std::string, Object::Geomet
 	case Object::ObjectTypeEnum::RECTANGLE_ObjectType:
 		if (valueName == "perimeter")
 		{
-			value = ((Object::Rectangle*)objectPtr)->perimeter;
+			value = ((Object::Rectangle*)objectPtr)->GetPerimeter();
 		}
 		else
 			if (valueName == "area")
 		{
-			value = ((Object::Rectangle*)objectPtr)->area;
+			value = ((Object::Rectangle*)objectPtr)->GetArea();
 		}
 		else
 			if (valueName == "height")
@@ -373,12 +373,12 @@ inline double ObjectsValues::GetObjectValue(std::map<std::string, Object::Geomet
 	case Object::ObjectTypeEnum::POLYGON_ObjectType:
 		if (valueName == "perimeter")
 		{
-			value = ((Object::Polygon*)objectPtr)->perimeter;
+			value = ((Object::Polygon*)objectPtr)->GetPerimeter();
 		}
 		else
 			if (valueName == "area")
 		{
-			value = ((Object::Polygon*)objectPtr)->area;
+			value = ((Object::Polygon*)objectPtr)->GetArea();
 		}
 		else
 		{
@@ -387,12 +387,12 @@ inline double ObjectsValues::GetObjectValue(std::map<std::string, Object::Geomet
 	case Object::ObjectTypeEnum::TRIANGLE_ObjectType:
 		if (valueName == "perimeter")
 		{
-			value = ((Object::Triangle*)objectPtr)->perimeter;
+			value = ((Object::Triangle*)objectPtr)->GetPerimeter();
 		}
 		else
 			if (valueName == "area")
 		{
-			value = ((Object::Triangle*)objectPtr)->area;
+			value = ((Object::Triangle*)objectPtr)->GetArea();
 		}
 		else
 		{
@@ -401,12 +401,12 @@ inline double ObjectsValues::GetObjectValue(std::map<std::string, Object::Geomet
 	case Object::ObjectTypeEnum::OBJECT3D_ObjectType:
 		if (valueName == "volume")
 		{
-			value = ((Object::Shape3D*)objectPtr)->volume;
+			value = ((Object::Shape3D*)objectPtr)->GetVolume();
 		}
 		else
 			if (valueName == "surfaceArea")
 		{
-				value = ((Object::Shape3D*)objectPtr)->surfaceArea;
+				value = ((Object::Shape3D*)objectPtr)->GetSurfaceArea();
 		}
 		else
 		{
@@ -415,12 +415,12 @@ inline double ObjectsValues::GetObjectValue(std::map<std::string, Object::Geomet
 	case Object::ObjectTypeEnum::SPHERE_ObjectType:
 		if (valueName == "volume")
 		{
-			value = ((Object::Sphere*)objectPtr)->volume;
+			value = ((Object::Sphere*)objectPtr)->GetVolume();
 		}
 		else
 			if (valueName == "surfaceArea")
 			{
-				value = ((Object::Sphere*)objectPtr)->surfaceArea;
+				value = ((Object::Sphere*)objectPtr)->GetSurfaceArea();
 			}
 			else
 				if (valueName == "radius")
@@ -434,12 +434,12 @@ inline double ObjectsValues::GetObjectValue(std::map<std::string, Object::Geomet
 	case Object::ObjectTypeEnum::PYRAMID_ObjectType:
 		if (valueName == "volume")
 		{
-			value = ((Object::Pyramid*)objectPtr)->volume;
+			value = ((Object::Pyramid*)objectPtr)->GetVolume();
 		}
 		else
 			if (valueName == "surfaceArea")
 		{
-				value = ((Object::Pyramid*)objectPtr)->surfaceArea;
+				value = ((Object::Pyramid*)objectPtr)->GetSurfaceArea();
 		}
 		else
 			if (valueName == "height")

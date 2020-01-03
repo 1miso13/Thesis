@@ -2,7 +2,6 @@
 
 #include <QtWidgets/QMainWindow>
 #include "GeneratedFiles/ui_QtGuiApplication1.h"
-#include "GraphViz.h"
 #include <QTimer>
 
 class QtGuiApplication1 : public QMainWindow

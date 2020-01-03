@@ -13,7 +13,7 @@ namespace Object {
 	public:
 		Point beginPoint;
 		Point endPoint;
-		double distance;
+		double distance=0;
 
 		Line(Point beginPoint, Point endPoint);
 		Line(Vector3 beginPoint, Vector3 endPoint);

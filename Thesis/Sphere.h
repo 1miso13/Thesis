@@ -13,7 +13,6 @@ namespace Object {
 		Point center;
 		float radius;
 		Sphere(Point center, float radius);
-		~Sphere();
 		void CalculateVolume();
 		void CalculateSurfaceArea();
 	private:

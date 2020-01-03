@@ -123,7 +123,7 @@ public:
 		///divide command name and parameters
 		///"operationName(parameter1,parameter2,...,parameterN)"
 
-		//TODO divide operationString by '('
+		//divide operationString by '('
 		//	[0] - command name 
 		//	[1] - command parameters
 		*commandStringPtr =removeSpace(*commandStringPtr);

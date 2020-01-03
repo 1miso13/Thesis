@@ -20,7 +20,7 @@ public:
 	void CalculatePerimeter();
 	void CalculateArea();
 private:
-	void createMesh();
+	void CreateMesh();
 };
 
 

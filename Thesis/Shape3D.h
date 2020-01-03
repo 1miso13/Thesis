@@ -15,9 +15,29 @@ namespace Object {
 		/// After creating object call this
 		/// </summary>
 		void virtual CalculateSurfaceArea();
+	protected:
+		double volume=0;
+		double surfaceArea=0;
+	private:
+		bool volumeSet = false;
+		bool surfaceAreaSet = false;
 	public:
-		double volume;
-		double surfaceArea;
+		virtual double GetVolume() final {
+			if (volumeSet)
+			{
+				volumeSet = true;
+				CalculateVolume();
+			}
+			return volume;
+		}
+		virtual double GetSurfaceArea() final {
+			if (surfaceAreaSet)
+			{
+				surfaceAreaSet = true;
+				CalculateSurfaceArea();
+			}
+			return surfaceArea;
+		}
 		Shape3D();
 	protected:
 		void virtual CreateMesh() {

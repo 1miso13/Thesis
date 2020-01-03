@@ -10,7 +10,10 @@ namespace Object {
 		this->p1 = p1;
 		this->p2 = p2;
 		this->p3 = p3;
+		Initialize();
+	}
 
+	void Triangle::Initialize() {
 		Vector3 AB = p2 - p1;
 		Vector3 AC = p3 - p1;
 		normal = crossProduct2Vectors(AB, AC).Normalize();
@@ -18,7 +21,6 @@ namespace Object {
 		GeometricType = TRIANGLE_ObjectType;
 		CreateMesh();
 	}
-
 
 	Triangle::~Triangle()
 	{
@@ -66,5 +68,29 @@ namespace Object {
 		normals.push_back(normal.Z);
 	}
 
+	void Triangle::setP1(Point p) {
+		this->p1 = p;
+	}
+	void Triangle::setP1(float x, float y, float z) {
+		this->p1.Position.X = x;
+		this->p1.Position.Y = y;
+		this->p1.Position.Z = z;
+	}
+	void Triangle::setP2(Point p) {
+		this->p2 = p;
+	}
+	void Triangle::setP2(float x, float y, float z) {
+		this->p2.Position.X = x;
+		this->p2.Position.Y = y;
+		this->p2.Position.Z = z;
+	}
+	void Triangle::setP3(Point p) {
+		this->p3 = p;
+	}
+	void Triangle::setP3(float x, float y, float z) {
+		this->p3.Position.X = x;
+		this->p3.Position.Y = y;
+		this->p3.Position.Z = z;
+	}
 
 }

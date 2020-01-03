@@ -298,7 +298,6 @@ namespace operationType {
 		return false;
 	}
 	inline bool TestExpressionsIdentifiers(Expression *e, std::map <std::string, Operation*> *OperationsMap){
-		//TODO
 		bool valid = true;
 		
 		for (size_t i = 0; i < e->tokenCount(); i++)
@@ -2016,7 +2015,7 @@ namespace operationType {
 			//Rectangle(string surfaceName, Point center, float X, float Y, float Roll/*[0,360]*/, Line normal, bool visible = true)
 
 		}
-		if (commandName == "Polygon")//TODO
+		if (commandName == "Polygon")
 		{
 			std::vector<ParameterTypesEnum>* params1 = new std::vector<ParameterTypesEnum>();
 			params1->push_back(ParameterTypeMULTIPLEPOINTS);
@@ -2025,7 +2024,7 @@ namespace operationType {
 			{
 				std::vector<std::string> *paramInfo1 = new std::vector<std::string>();
 				paramInfo1->push_back("Create Polygon by connecting points");
-				paramInfo1->push_back("Multiple points - ; divider");
+				paramInfo1->push_back("Multiple points divided by ';'");
 
 				(*paramVectorsInfo)->push_back(paramInfo1);
 			}

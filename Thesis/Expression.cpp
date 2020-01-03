@@ -361,7 +361,7 @@ bool Expression::parseExp(std::string s)
 		 return "";
 	 }
  }
- size_t Expression::GetCharacterPosition(Expression::tokenType tokenType,std::string s) {///TODO
+ size_t Expression::GetCharacterPosition(Expression::tokenType tokenType,std::string s) {
 	 if (s=="$")
 	 {
 		 return 10;
