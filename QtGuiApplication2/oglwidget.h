@@ -27,7 +27,7 @@ public:
 	void paintGL() {
 
 		// Draw
-		paramModel->Draw(width(), height());
+		paramModel->Draw(0,0,45,width(), height());
 	}
 
 };

@@ -77,6 +77,10 @@ bool compareParamIndex(const paramRefStruct &a, const paramRefStruct &b)
 }
 void ParametricModel::Save(std::string filePath)
 {
+	if (filePath == "")
+	{
+		return;
+	}
 	std::ofstream SaveFile;
 	SaveFile.open(filePath);
 	//for every item
@@ -122,6 +126,10 @@ void ParametricModel::Save(std::string filePath)
 }
 bool ParametricModel::Load(std::string filePath)
 {
+	if (filePath == "")
+	{
+		return false;
+	}
 	std::ifstream ifs(filePath);
 	//load whole string from file
 	std::string s((std::istreambuf_iterator<char>(ifs)),
@@ -131,6 +139,10 @@ bool ParametricModel::Load(std::string filePath)
 	return AddOperations(s);
 }
 void ParametricModel::SaveOBJ(std::string filePath) {
+	if (filePath == "")
+	{
+		return;
+	}
 	std::ofstream SaveFile;
 	SaveFile.open(filePath);
 	unsigned long objectVerticesOffset = 1;
@@ -160,7 +172,7 @@ void ParametricModel::SaveOBJ(std::string filePath) {
 						<< " "  << object->indices[i + 2] + objectVerticesOffset << "//" << object->indices[i + 2] + objectVerticesOffset << std::endl;
 				
 			}
-			objectVerticesOffset += object->vertices.size();
+			objectVerticesOffset += (unsigned long)object->vertices.size();
 		}
 	}
 	SaveFile.close();

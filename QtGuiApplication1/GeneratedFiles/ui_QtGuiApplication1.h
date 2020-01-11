@@ -42,7 +42,7 @@ public:
     QAction *actionDelete_all;
     QAction *actionOpen;
     QAction *actionSave;
-    QAction *actionSave_as;
+    QAction *actionSave_obj;
     QAction *actionQuit;
     QAction *actionNew;
     QAction *actionAplication_info;
@@ -106,8 +106,8 @@ public:
         actionOpen->setObjectName(QStringLiteral("actionOpen"));
         actionSave = new QAction(QtGuiApplication1Class);
         actionSave->setObjectName(QStringLiteral("actionSave"));
-        actionSave_as = new QAction(QtGuiApplication1Class);
-        actionSave_as->setObjectName(QStringLiteral("actionSave_as"));
+        actionSave_obj = new QAction(QtGuiApplication1Class);
+        actionSave_obj->setObjectName(QStringLiteral("actionSave_obj"));
         actionQuit = new QAction(QtGuiApplication1Class);
         actionQuit->setObjectName(QStringLiteral("actionQuit"));
         actionNew = new QAction(QtGuiApplication1Class);
@@ -327,9 +327,9 @@ public:
         menuHelp->addAction(actionHelp);
         menuHelp->addAction(actionAplication_info);
         menuFile->addAction(actionNew);
-        menuFile->addAction(actionSave);
-        menuFile->addAction(actionSave_as);
         menuFile->addAction(actionOpen);
+        menuFile->addAction(actionSave);
+        menuFile->addAction(actionSave_obj);
         menuFile->addSeparator();
         menuFile->addAction(actionQuit);
         menuObjects->addAction(actionAdd);
@@ -354,7 +354,10 @@ public:
         actionDelete_all->setText(QApplication::translate("QtGuiApplication1Class", "Delete all", nullptr));
         actionOpen->setText(QApplication::translate("QtGuiApplication1Class", "Load ...", nullptr));
         actionSave->setText(QApplication::translate("QtGuiApplication1Class", "Save", nullptr));
-        actionSave_as->setText(QApplication::translate("QtGuiApplication1Class", "Save as ...", nullptr));
+        actionSave_obj->setText(QApplication::translate("QtGuiApplication1Class", "Save OBJ", nullptr));
+#ifndef QT_NO_TOOLTIP
+        actionSave_obj->setToolTip(QApplication::translate("QtGuiApplication1Class", "Save OBJ", nullptr));
+#endif // QT_NO_TOOLTIP
         actionQuit->setText(QApplication::translate("QtGuiApplication1Class", "Quit", nullptr));
         actionNew->setText(QApplication::translate("QtGuiApplication1Class", "New", nullptr));
         actionAplication_info->setText(QApplication::translate("QtGuiApplication1Class", "About", nullptr));

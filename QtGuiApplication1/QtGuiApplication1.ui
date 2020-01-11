@@ -378,9 +378,9 @@
      <string>File</string>
     </property>
     <addaction name="actionNew"/>
-    <addaction name="actionSave"/>
-    <addaction name="actionSave_as"/>
     <addaction name="actionOpen"/>
+    <addaction name="actionSave"/>
+    <addaction name="actionSave_obj"/>
     <addaction name="separator"/>
     <addaction name="actionQuit"/>
    </widget>
@@ -439,9 +439,12 @@
     <string>Save</string>
    </property>
   </action>
-  <action name="actionSave_as">
+  <action name="actionSave_obj">
    <property name="text">
-    <string>Save as ...</string>
+    <string>Save OBJ</string>
+   </property>
+   <property name="toolTip">
+    <string>Save OBJ</string>
    </property>
   </action>
   <action name="actionQuit">

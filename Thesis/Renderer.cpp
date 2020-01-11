@@ -14,7 +14,7 @@
 #include "GLObject.h"
 
 #ifndef DEBUG
-	#define DEBUG //comment if debug is not wanted
+	//#define DEBUG //comment if debug is not wanted
 #endif //DEBUG
 
 #ifdef DEBUG
@@ -181,17 +181,18 @@ return;*/
 }
 
 
-void Renderer::draw(float aspect, float fov, int width, int height) {
-	glViewport(0, 0, width, height);
+void Renderer::draw(int x, int y, float fov, int width, int height) {
+	glViewport(x, y, width, height);
 
 	glClearColor(backgroundColor[0], backgroundColor[1], backgroundColor[2], backgroundColor[3]);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 
 
+	float aspect = (float)width / (float)height;
 
 	//transform
-	glm::mat4 perspectiveProjection = glm::perspective(45.0f, aspect, nearPlane, farPlane);
+	glm::mat4 perspectiveProjection = glm::perspective(fov, aspect, nearPlane, farPlane);
 
 	glm::mat4 view = glm::mat4(1.0f);
 	view = glm::translate(view, glm::vec3(cameraPosition[0], cameraPosition[1], cameraPosition[2]));

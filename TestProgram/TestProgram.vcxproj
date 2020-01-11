@@ -74,12 +74,12 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>D:\Workspace\lib\glfw-3.2.1.bin.WIN64\include;D:\Workspace\Master Thesis\Thesis\Thesis;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\Workspace\lib\CGAL\lib\Debug;D:\Workspace\lib\glfw-3.2.1.bin.WIN64\lib-vc2015;D:\Workspace\Master Thesis\Thesis\x64\Debug;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)..\ExternalLibraries\glfw-3.2.1.bin.WIN64\include;$(SolutionDir)Thesis;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)..\ExternalLibraries\CGAL\lib\Debug;$(SolutionDir)..\ExternalLibraries\glfw-3.2.1.bin.WIN64\lib-vc2015;$(SolutionDir)x64\Debug\ThesisLibrary;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>D:\Workspace\lib\glfw-3.2.1.bin.WIN64\include;D:\Workspace\Master Thesis\Thesis\Thesis;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\Workspace\lib\glfw-3.2.1.bin.WIN64\lib-vc2015;D:\Workspace\Master Thesis\Thesis\x64\Release;D:\Workspace\lib\CGAL\lib\Release;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)..\ExternalLibraries\glfw-3.2.1.bin.WIN64\include;$(SolutionDir)Thesis;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)..\ExternalLibraries\glfw-3.2.1.bin.WIN64\lib-vc2015;$(SolutionDir)x64\Release\ThesisLibrary;$(SolutionDir)..\ExternalLibraries\CGAL\lib\Release;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>

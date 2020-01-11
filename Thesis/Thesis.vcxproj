@@ -75,20 +75,22 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>D:\Workspace\lib\glm;D:\Workspace\lib\glew-2.1.0\include;C:\Users\1miso\Downloads\libigl-master\libigl-master\include;D:\Workspace\lib\boost_1_71_0;D:\Workspace\lib\CGAL-4.14\include;D:\Workspace\lib\CGAL\include;D:\Workspace\lib\CGAL-4.14\auxiliary\gmp\include;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\Workspace\lib\glew-2.1.0\lib\Release\x64;C:\Users\1miso\Downloads\libigl-master\libigl-master\cmake\..\external\eigen;D:\Workspace\lib\CGAL-4.14\auxiliary\gmp\lib;D:\Workspace\lib\CGAL\lib\Debug;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)..\ExternalLibraries\glm;$(SolutionDir)..\ExternalLibraries\glew-2.1.0\include;$(SolutionDir)..\ExternalLibraries\libigl-master\include;$(SolutionDir)..\ExternalLibraries\boost_1_71_0;$(SolutionDir)..\ExternalLibraries\CGAL-4.14\include;$(SolutionDir)..\ExternalLibraries\CGAL\include;$(SolutionDir)..\ExternalLibraries\CGAL-4.14\auxiliary\gmp\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)..\ExternalLibraries\glew-2.1.0\lib\Release\x64;$(SolutionDir)..\ExternalLibraries\libigl-master\external\eigen;$(SolutionDir)..\ExternalLibraries\CGAL-4.14\auxiliary\gmp\lib;$(SolutionDir)..\ExternalLibraries\CGAL\lib\Debug;$(LibraryPath)</LibraryPath>
     <CodeAnalysisRuleSet>NativeRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <RunCodeAnalysis>true</RunCodeAnalysis>
+    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\ThesisLibrary\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>D:\Workspace\lib\glm;D:\Workspace\lib\glew-2.1.0\include;C:\Users\1miso\Downloads\libigl-master\libigl-master\include;D:\Workspace\lib\boost_1_71_0;D:\Workspace\lib\CGAL-4.14\include;D:\Workspace\lib\CGAL\include;D:\Workspace\lib\CGAL-4.14\auxiliary\gmp\include;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\Workspace\lib\glew-2.1.0\lib\Release\x64;D:\Workspace\lib\CGAL-4.14\auxiliary\gmp\lib;D:\Workspace\lib\CGAL\lib\Release;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)..\ExternalLibraries\glm;$(SolutionDir)..\ExternalLibraries\glew-2.1.0\include;$(SolutionDir)..\ExternalLibraries\libigl-master\include;$(SolutionDir)..\ExternalLibraries\boost_1_71_0;$(SolutionDir)..\ExternalLibraries\CGAL-4.14\include;$(SolutionDir)..\ExternalLibraries\CGAL\include;$(SolutionDir)..\ExternalLibraries\CGAL-4.14\auxiliary\gmp\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)..\ExternalLibraries\glew-2.1.0\lib\Release\x64;$(SolutionDir)..\ExternalLibraries\CGAL-4.14\auxiliary\gmp\lib;$(SolutionDir)..\ExternalLibraries\CGAL\lib\Release;$(LibraryPath)</LibraryPath>
     <CodeAnalysisRuleSet>NativeRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <RunCodeAnalysis>true</RunCodeAnalysis>
+    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\ThesisLibrary\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -118,7 +120,7 @@
       <BrowseInformation>true</BrowseInformation>
       <LanguageStandard>stdcpp14</LanguageStandard>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
-      <AdditionalIncludeDirectories>C:\Users\1miso\Downloads\libigl-master\libigl-master\cmake\..\external\eigen;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\ExternalLibraries\libigl-master\external\eigen</AdditionalIncludeDirectories>
       <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
       <UndefinePreprocessorDefinitions>NDEBUG;</UndefinePreprocessorDefinitions>
       <EnablePREfast>true</EnablePREfast>
@@ -168,7 +170,7 @@
       <ShowIncludes>true</ShowIncludes>
       <LanguageStandard>stdcpp14</LanguageStandard>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
-      <AdditionalIncludeDirectories>C:\Users\1miso\Downloads\libigl-master\libigl-master\cmake\..\external\eigen;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\ExternalLibraries\libigl-master\external\eigen;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <EnablePREfast>true</EnablePREfast>
     </ClCompile>
     <Link>
@@ -178,7 +180,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>glew32s.lib;libgmp-10.lib;libmpfr-4.lib;libCGAL_Core-vc140-mt-4.14.lib;libCGAL_ImageIO-vc140-mt-4.14.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glew32s.lib;libgmp-10.lib;libmpfr-4.lib;libCGAL_Core-vc140-mt-4.14.lib;libCGAL_ImageIO-vc140-mt-4.14.lib;libCGAL-vc140-mt-4.14.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>

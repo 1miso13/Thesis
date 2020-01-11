@@ -13,6 +13,7 @@
 #include "OperationTypes.h"
 #include <utility>
 
+#include <QFileDialog>
 
 //ParametricModel QtGuiApplication1::paramModel;
 
@@ -181,20 +182,27 @@ void QtGuiApplication1::on_actionDelete_all_triggered()
 	DisableButtons();
 	RefreshObjectList();
 }
-
+#ifdef _WIN32
+#define DEFAULT_PATH "C://"
+#else
+#define DEFAULT_PATH "/home"
+#endif _WIN32
 void QtGuiApplication1::on_actionOpen_triggered()
 {
-
+	QString filePath = QFileDialog::getOpenFileName(this, tr("Open file"), DEFAULT_PATH, "Parametric model files (*.param);; All files (*.*)");
+	paramModel.Load(filePath.toStdString());
 }
 
 void QtGuiApplication1::on_actionSave_triggered()
 {
-
+	QString filePath = QFileDialog::getSaveFileName(this, tr("Save file"), DEFAULT_PATH, "Parametric model files (*.param);; All files (*.*)");
+	paramModel.Save(filePath.toStdString());
 }
 
-void QtGuiApplication1::on_actionSave_as_triggered()
+void QtGuiApplication1::on_actionSave_obj_triggered()
 {
-
+	QString filePath = QFileDialog::getSaveFileName(this, tr("Save OBJ"), DEFAULT_PATH, "Parametric model files (*.param);; All files (*.*)");
+	paramModel.SaveOBJ(filePath.toStdString());
 }
 
 void QtGuiApplication1::on_actionNew_triggered()

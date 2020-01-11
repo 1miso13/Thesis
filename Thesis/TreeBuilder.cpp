@@ -6,7 +6,7 @@
 #include "Sphere.h"
 
 
-#include "Windows.h"
+#include <chrono>
 #include <glm/glm.hpp>
 
 Object::GeometricObject * TreeBuilder::Extrude(Object::Surface *s, float distance) {
@@ -151,7 +151,7 @@ Object::GeometricObject * TreeBuilder::Extrude(Object::Surface *s, float distanc
 	RetObject = RerObjectShape;
 	return RetObject;
 }
-
+std::chrono::time_point< std::chrono::steady_clock> LastTime = std::chrono::steady_clock::now();
 void TreeBuilder::Build() {
 	//clear objects
 
@@ -191,11 +191,11 @@ void TreeBuilder::Build() {
 		if (needToInitializeTime)
 		{
 			needToInitializeTime = false;
-			LastTime = GetTickCount();
+			LastTime =std::chrono::steady_clock::now();
 		}
-
-		unsigned long actualTime = GetTickCount();
-		timeMiliseconds += actualTime - LastTime;
+		
+		auto  actualTime = std::chrono::steady_clock::now();
+		timeMiliseconds += std::chrono::duration_cast<std::chrono::milliseconds>(actualTime - LastTime).count();
 		LastTime = actualTime;
 	}
 

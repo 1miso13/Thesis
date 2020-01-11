@@ -71,7 +71,7 @@ public:
 		paramModel->SetRendererCameraRotation(Pitch, Yaw, 0);
 		paramModel->SetRendererCameraPosition(positionX, positionY,distance);
 		// Draw
-		paramModel->Draw(width(), height());
+		paramModel->Draw(0,0,120,width(), height());
 
 		
 	}

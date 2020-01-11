@@ -314,7 +314,7 @@ public:
 	/// Get object value in string form
 	/// </summary>
 	/// <returns>object value</returns>
-	float GetObjectValue(std::string s,bool* Err) {
+	double GetObjectValue(std::string s,bool* Err) {
 		return ObjectsValues::GetObjectValue(&ObjectMap, s, Err);
 	}
 private:
@@ -334,15 +334,14 @@ public:
 	/// Draw OpenGL 
 	/// </summary>
 	/// <param name="aspect"></param>
-	void Draw(int width, int height) {
+	void Draw(int x, int y, float fov, int width, int height) {
 		if (width == 0 || height == 0)
 		{
 			return;
 		}
-		float aspect = (float)width / (float)height;
 		if (GLContext)
 		{
-			renderer.draw(aspect, 45, width, height);
+			renderer.draw(x,y, fov, width, height);
 		}
 	}
 	void SetRendererCameraPosition(float X, float Y, float Z) {

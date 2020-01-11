@@ -17,7 +17,6 @@ private:
 	Object::GeometricObject * Extrude(Object::Surface *s, float distance);
 	ParamRef *paramRef;
 	unsigned long timeMiliseconds=0;
-	unsigned long LastTime=0;
 	bool manualTimer = false;
 	std::map<std::string, Operation*> *OperationMap;
 	float GetNumber(std::pair <operationType::ParameterTypesEnum, void*> *pair, bool * Err) {

@@ -45,7 +45,7 @@ private slots:
 
     void on_actionSave_triggered();
 
-    void on_actionSave_as_triggered();
+	void on_actionSave_obj_triggered();
 
     void on_actionNew_triggered();
 
@@ -81,6 +81,7 @@ private slots:
     void on_DOWN_command_Button_clicked();
 
 	void rebuild();
+
 
 private:
 	Ui::QtGuiApplication1Class ui;

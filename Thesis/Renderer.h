@@ -1,6 +1,5 @@
 #pragma once
 
-#include <Windows.h>
 #include <vector>
 #include <unordered_map>
 class Renderer
@@ -16,7 +15,7 @@ public:
 	std::unordered_map<std::string, void*> GLObjects_map;
 	float nearPlane=0.1f;
 	float farPlane=1000;
-	float ambientStrength =0.3;
+	float ambientStrength =0.3f;
 	Renderer() {}
 	~Renderer() {}
 
@@ -54,7 +53,7 @@ public:
 
 	void init();
 
-	void draw(float aspect, float fov, int width, int height);
+	void draw(int x, int y, float fov, int width, int height);
 
 	void PolygonModeFILL();
 	void PolygonModeLINE();

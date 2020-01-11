@@ -13,7 +13,7 @@
 	/*i*/		{'>', '>', '>', '>', '>', 'X',	'X', '>',  '>',	 '>',  '>'},
 	/*(*/		{'<', '<', '<', '<', '<', '<',	'<', '=',  '<',	 '<',  'X'},
 	/*)*/		{'>', '>', '>', '>', '>', 'X',	'X', '>',  '>',  'X',  '>'},
-	/*^*/		{'>', '>', '>', '>', '>', '<',  '<', '>',  '<',  '<',  ' '},
+	/*^*/		{'>', '>', '>', '>', '>', '<',  '<', '>',  '<',  '<',  'X'},
 	/*unary*/	{'>', '>', '>', '>', '>', '<',	'<', '>',  '>',  '>',  '>'},
 	/*$*/		{'<', '<', '<', '<', '<', '<',	'<', '<',  '<',  '<',  'O'}///empty stack 
 };
@@ -122,7 +122,7 @@ bool Expression::parseExp(std::string s)
 					 //need to test if name exists
 					 i+= length;
 
-					 if (token == "cos" || token == "sin" || token == "tan" || token == "acos" || token == "asin" || token == "atan" || token == "sqrt" || token == "round" || token == "roundup" || token == "rounddown")
+					 if (token == "cos" || token == "sin" || token == "tan" || token == "acos" || token == "asin" || token == "atan" || token == "sqrt" || token == "round" || token == "floor" || token == "ceil" || token == "trunc")
 					 {
 						 if (i + 1 < s.length()) {
 							 if (!isspace(s[i]) && s[i] != '(')
@@ -318,15 +318,20 @@ bool Expression::parseExp(std::string s)
 		 return std::to_string(round(stod(param)));
 	 }
 	 else
-	 if (operation == "roundup")
+	 if (operation == "ceil")
 	 {
 		 return std::to_string(ceil(stod(param)));
 	 }
 	 else
-	 if (operation == "rounddown")
-	 {
-		 return std::to_string(floor(stod(param)));
-	 }
+	if (operation == "floor")
+	{
+		return std::to_string(floor(stod(param)));
+	}
+	else
+	if (operation == "trunc")
+	{
+	return std::to_string(trunc(stod(param)));
+	}
 	 else
 	 if (operation == "sin")
 	 {
@@ -507,7 +512,7 @@ float Expression::Evaluate(std::map<std::string, Object::GeometricObject*> *Obje
 					case tokenTypeUnary:			///		trigoniometric: cos, sin, tan,  
 													///		inverse trigon: acos,  asin, atan
 													///		sqrt
-													///		round,roundup,rounddown
+													///		round,ceil,floor, trunc
 					{
 						std::string operation, param;
 						operation = EvaluationStack[i].second;
