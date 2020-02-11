@@ -28,17 +28,17 @@ namespace Object {
 		for (size_t i = 0; i < this->indices.size(); i+=3)
 		{
 			Point p1(
-				this->vertices[this->indices[i] + 0],
-				this->vertices[this->indices[i] + 1],
-				this->vertices[this->indices[i] + 2]);
+				this->vertices[(size_t)(this->indices[i] + 0)],
+				this->vertices[(size_t)(this->indices[i] + 1)],
+				this->vertices[(size_t)(this->indices[i] + 2)]);
 			Point p2(
-				this->vertices[this->indices[i+1] + 0],
-				this->vertices[this->indices[i+1] + 1],
-				this->vertices[this->indices[i+1] + 2]);
+				this->vertices[(size_t)(this->indices[i+1] + 0)],
+				this->vertices[(size_t)(this->indices[i+1] + 1)],
+				this->vertices[(size_t)(this->indices[i+1] + 2)]);
 			Point p3(
-				this->vertices[this->indices[i+2] + 0],
-				this->vertices[this->indices[i+2] + 1],
-				this->vertices[this->indices[i+2] + 2]);
+				this->vertices[(size_t)(this->indices[i+2] + 0)],
+				this->vertices[(size_t)(this->indices[i+2] + 1)],
+				this->vertices[(size_t)(this->indices[i+2] + 2)]);
 
 			Triangle *basePtr = new Triangle(
 				p1,
@@ -64,21 +64,21 @@ namespace Object {
 		surfaceArea = 0;
 		//cycle thought mesh triangles
 		//for every triangle calculate area
-		for (int i = 0; i < this->indices.size(); i+=3)
+		for (size_t i = 0; i < this->indices.size(); i+=3)
 		{
 			//get points of triangle 
 			Vector3 A = Vector3(
-				this->vertices[this->indices[i + 0] * 3 + 0],
-				this->vertices[this->indices[i + 0] * 3 + 1],
-				this->vertices[this->indices[i + 0] * 3 + 2]);
+				this->vertices[this->indices[i + (size_t)0] * (size_t)3 + (size_t)0],
+				this->vertices[this->indices[i + (size_t)0] * (size_t)3 + (size_t)1],
+				this->vertices[this->indices[i + (size_t)0] * (size_t)3 + (size_t)2]);
 			Vector3 B = Vector3(
-				this->vertices[this->indices[i + 1] * 3 + 0],
-				this->vertices[this->indices[i + 1] * 3 + 1],
-				this->vertices[this->indices[i + 1] * 3 + 2]);
+				this->vertices[this->indices[i + (size_t)1] * (size_t)3 + (size_t)0],
+				this->vertices[this->indices[i + (size_t)1] * (size_t)3 + (size_t)1],
+				this->vertices[this->indices[i + (size_t)1] * (size_t)3 + (size_t)2]);
 			Vector3 C = Vector3(
-				this->vertices[this->indices[i + 2] * 3 + 0],
-				this->vertices[this->indices[i + 2] * 3 + 1],
-				this->vertices[this->indices[i + 2] * 3 + 2]);
+				this->vertices[this->indices[i + (size_t)2] * (size_t)3 + (size_t)0],
+				this->vertices[this->indices[i + (size_t)2] * (size_t)3 + (size_t)1],
+				this->vertices[this->indices[i + (size_t)2] * (size_t)3 + (size_t)2]);
 			Vector3 AB = B - A;
 			Vector3 AC = C - A;
 			//calculate area

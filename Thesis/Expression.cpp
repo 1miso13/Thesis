@@ -246,7 +246,7 @@ bool Expression::parseExp(std::string s)
 	 *token = "";
 	 for (*length = 0; i < s.length(); i++)
 	 {
-		 if (s[i] == '+' || s[i] == '-' || s[i] == '*' || s[i] == '/' || s[i] == '%' || s[i] == '(' || s[i] == ')')
+		 if (s[i] == '+' || s[i] == '-' || s[i] == '*' || s[i] == '/' || s[i] == '%' || s[i] == '(' || s[i] == ')' || s[i] == '^')
 		 {
 			 break;
 		 }
@@ -621,11 +621,15 @@ bool Expression::objectInExpressionModified(std::map<std::string, Object::Geomet
 		}
 		if (tokenTypes[i] == tokenTypeObjectValue)
 		{
+			size_t pos = 0;
+			pos = token.find('.');
 			Operation* o;
-			if (NULL != (o = (*OperationMap)[token]) && o->modified)
-			{
-				return true;
-			}
+			if (NULL != (o = (*OperationMap)[token.substr(0, pos)]))
+				if(o->modified)
+				{
+					return true;
+				}
+			
 		}
 	}
 

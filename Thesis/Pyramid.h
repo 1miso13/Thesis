@@ -23,7 +23,7 @@ namespace Object {
 
 		Point apex;
 		Surface *base;
-		float height;
+		float height=0;
 		Pyramid(Point apex, Surface* base);
 		Pyramid(float height, Surface* base);
 		~Pyramid();

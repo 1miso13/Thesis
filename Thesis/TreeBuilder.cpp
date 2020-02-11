@@ -13,14 +13,28 @@ Object::GeometricObject * TreeBuilder::Extrude(Object::Surface *s, float distanc
 	auto RetObject = new Object::Shape3D();
 	Object::Shape3D* RerObjectShape = (Object::Shape3D*)RetObject;
 	//copy surface points 
-
+	
 	for (size_t i = 0; i < s->vertices.size(); i++)
 	{
 		RerObjectShape->vertices.push_back(s->vertices[i]);
 	}
-	for (size_t i = 0; i < s->indices.size(); i++)
+	if (distance >= 0)
 	{
-		RerObjectShape->indices.push_back(s->indices[i]);
+		for (size_t i = 0; i < s->indices.size(); i += 3)
+		{
+			RerObjectShape->indices.push_back(s->indices[i]);
+			RerObjectShape->indices.push_back(s->indices[i+1]);
+			RerObjectShape->indices.push_back(s->indices[i+2]);
+		}
+	}
+	else
+	{
+		for (size_t i = 0; i < s->indices.size(); i += 3)
+		{
+			RerObjectShape->indices.push_back(s->indices[i]);
+			RerObjectShape->indices.push_back(s->indices[i+2]);
+			RerObjectShape->indices.push_back(s->indices[i+1]);
+		}
 	}
 
 	//surface points duplicities move by surface normal 
@@ -30,9 +44,23 @@ Object::GeometricObject * TreeBuilder::Extrude(Object::Surface *s, float distanc
 		RerObjectShape->vertices.push_back(s->vertices[i + 1] + s->normal.Y * distance);
 		RerObjectShape->vertices.push_back(s->vertices[i + 2] + s->normal.Z * distance);
 	}
-	for (size_t i = 0; i < s->indices.size(); i++)
+	if (distance >= 0)
 	{
-		RerObjectShape->indices.push_back(s->indices[i] + (unsigned int)s->vertices.size() / 3);
+		for (size_t i = 0; i < s->indices.size(); i+=3)
+		{
+			RerObjectShape->indices.push_back(s->indices[i] + (unsigned int)s->vertices.size() / 3);
+			RerObjectShape->indices.push_back(s->indices[i+2] + (unsigned int)s->vertices.size() / 3);
+			RerObjectShape->indices.push_back(s->indices[i+1] + (unsigned int)s->vertices.size() / 3);
+		}
+	}
+	else
+	{
+		for (size_t i = 0; i < s->indices.size(); i += 3)
+		{
+			RerObjectShape->indices.push_back(s->indices[i] + (unsigned int)s->vertices.size() / 3);
+			RerObjectShape->indices.push_back(s->indices[i+1] + (unsigned int)s->vertices.size() / 3);
+			RerObjectShape->indices.push_back(s->indices[i+2] + (unsigned int)s->vertices.size() / 3);
+		}
 	}
 	//normals
 	//base - invert base normal
@@ -45,60 +73,67 @@ Object::GeometricObject * TreeBuilder::Extrude(Object::Surface *s, float distanc
 	{
 		RerObjectShape->normals.push_back(s->normals[i] * (distance >= 0 ? 1 : -1));
 	}
-
-
 	//side
-	int j = ((int)s->vertices.size())-3;
-	for (unsigned int i = 0; i < s->vertices.size(); i += 3)
+	for (size_t i = 0; i < RerObjectShape->indices.size(); i++)
+	{
+		RerObjectShape->indicesR.push_back(RerObjectShape->indices[i]);
+	}
+	for (size_t i = 0; i < RerObjectShape->vertices.size(); i++)
+	{
+		RerObjectShape->verticesR.push_back(RerObjectShape->vertices[i]);
+	}
+	//side
+	size_t j = s->vertices.size()-(size_t)3;
+	for (size_t i = 0; i < s->vertices.size(); i += 3)
 	{
 		//	1*			top		- before actual
 		//	 * *
 		//	2* * *3		base	- before actual	-	actual
-		RerObjectShape->vertices.push_back(s->vertices[j+ 0] + s->normal.X * distance);
-		RerObjectShape->vertices.push_back(s->vertices[j+ 1] + s->normal.Y * distance);
-		RerObjectShape->vertices.push_back(s->vertices[j+ 2] + s->normal.Z * distance);
-		RerObjectShape->vertices.push_back(s->vertices[j+ 0]);
-		RerObjectShape->vertices.push_back(s->vertices[j+ 1]);
-		RerObjectShape->vertices.push_back(s->vertices[j+ 2]);
-		RerObjectShape->vertices.push_back(s->vertices[i+ 0]);
-		RerObjectShape->vertices.push_back(s->vertices[i+ 1]);
-		RerObjectShape->vertices.push_back(s->vertices[i+ 2]);
+		RerObjectShape->vertices.push_back(s->vertices[j+ (size_t)0] + s->normal.X * distance);
+		RerObjectShape->vertices.push_back(s->vertices[j+ (size_t)1] + s->normal.Y * distance);
+		RerObjectShape->vertices.push_back(s->vertices[j+ (size_t)2] + s->normal.Z * distance);
+		RerObjectShape->vertices.push_back(s->vertices[j+ (size_t)0]);
+		RerObjectShape->vertices.push_back(s->vertices[j+ (size_t)1]);
+		RerObjectShape->vertices.push_back(s->vertices[j+ (size_t)2]);
+		RerObjectShape->vertices.push_back(s->vertices[i+ (size_t)0]);
+		RerObjectShape->vertices.push_back(s->vertices[i+ (size_t)1]);
+		RerObjectShape->vertices.push_back(s->vertices[i+ (size_t)2]);
 
 
 		////	1* * *3		top		- before actual	-	actual
 		////	   * *
 		////	     *2		base	- actual
-		RerObjectShape->vertices.push_back(s->vertices[j + 0] + s->normal.X * distance);
-		RerObjectShape->vertices.push_back(s->vertices[j + 1] + s->normal.Y * distance);
-		RerObjectShape->vertices.push_back(s->vertices[j + 2] + s->normal.Z * distance);
-		RerObjectShape->vertices.push_back(s->vertices[i + 0]);
-		RerObjectShape->vertices.push_back(s->vertices[i + 1]);
-		RerObjectShape->vertices.push_back(s->vertices[i + 2]);
-		RerObjectShape->vertices.push_back(s->vertices[i + 0] + s->normal.X * distance);
-		RerObjectShape->vertices.push_back(s->vertices[i + 1] + s->normal.Y * distance);
-		RerObjectShape->vertices.push_back(s->vertices[i + 2] + s->normal.Z * distance);
+		RerObjectShape->vertices.push_back(s->vertices[j + (size_t)0] + s->normal.X * distance);
+		RerObjectShape->vertices.push_back(s->vertices[j + (size_t)1] + s->normal.Y * distance);
+		RerObjectShape->vertices.push_back(s->vertices[j + (size_t)2] + s->normal.Z * distance);
+		RerObjectShape->vertices.push_back(s->vertices[i + (size_t)0]);
+		RerObjectShape->vertices.push_back(s->vertices[i + (size_t)1]);
+		RerObjectShape->vertices.push_back(s->vertices[i + (size_t)2]);
+		RerObjectShape->vertices.push_back(s->vertices[i + (size_t)0] + s->normal.X * distance);
+		RerObjectShape->vertices.push_back(s->vertices[i + (size_t)1] + s->normal.Y * distance);
+		RerObjectShape->vertices.push_back(s->vertices[i + (size_t)2] + s->normal.Z * distance);
 
-		RerObjectShape->indices.push_back(2 * (unsigned int) s->vertices.size() / 3 + i * 2);
-		RerObjectShape->indices.push_back(2 * (unsigned int) s->vertices.size() / 3 + i * 2 + 1);
-		RerObjectShape->indices.push_back(2 * (unsigned int) s->vertices.size() / 3 + i * 2 + 2);
+		RerObjectShape->indices.push_back((size_t)2 * s->vertices.size() / (size_t)3 + i * (size_t)2);
+		RerObjectShape->indices.push_back((size_t)2 * s->vertices.size() / (size_t)3 + i * (size_t)2 + (size_t)1);
+		RerObjectShape->indices.push_back((size_t)2 * s->vertices.size() / (size_t)3 + i * (size_t)2 + (size_t)2);
 
-		RerObjectShape->indices.push_back(2 * (unsigned int) s->vertices.size() / 3 + i * 2 + 3);
-		RerObjectShape->indices.push_back(2 * (unsigned int) s->vertices.size() / 3 + i * 2 + 4);
-		RerObjectShape->indices.push_back(2 * (unsigned int) s->vertices.size() / 3 + i * 2 + 5);
+		RerObjectShape->indices.push_back((size_t)2 * s->vertices.size() / (size_t)3 + i * (size_t)2 + (size_t)3);
+		RerObjectShape->indices.push_back((size_t)2 * s->vertices.size() / (size_t)3 + i * (size_t)2 + (size_t)4);
+		RerObjectShape->indices.push_back((size_t)2 * s->vertices.size() / (size_t)3 + i * (size_t)2 + (size_t)5);
 
 
 		glm::vec3 T1A(
-			s->vertices[j + 0] + s->normal.X * distance,
-			s->vertices[j + 1] + s->normal.Y * distance,
-			s->vertices[j + 2] + s->normal.Z * distance);
+			s->vertices[j + (size_t)0] + s->normal.X * distance,
+			s->vertices[j + (size_t)1] + s->normal.Y * distance,
+			s->vertices[j + (size_t)2] + s->normal.Z * distance);
 		glm::vec3 T1B(
-			s->vertices[j + 0],
-			s->vertices[j + 1],
-			s->vertices[j + 2]);
+			s->vertices[j + (size_t)0],
+			s->vertices[j + (size_t)1],
+			s->vertices[j + (size_t)2]);
 		glm::vec3 T1C(
-			s->vertices[i + 0],
-			s->vertices[i + 1],
-			s->vertices[i + 2]);
+			s->vertices[i + (size_t)0],
+			s->vertices[i + (size_t)1],
+			s->vertices[i + (size_t)2]);
 
 		auto normal1 = glm::normalize(glm::cross(T1A-T1B,T1C-T1B));
 
@@ -117,17 +152,17 @@ Object::GeometricObject * TreeBuilder::Extrude(Object::Surface *s, float distanc
 		
 
 		glm::vec3 T2A(
-			s->vertices[j + 0] + s->normal.X * distance,
-			s->vertices[j + 1] + s->normal.Y * distance,
-			s->vertices[j + 2] + s->normal.Z * distance);
+			s->vertices[j + (size_t)0] + s->normal.X * distance,
+			s->vertices[j + (size_t)1] + s->normal.Y * distance,
+			s->vertices[j + (size_t)2] + s->normal.Z * distance);
 		glm::vec3 T2B(
-			s->vertices[i + 0],
-			s->vertices[i + 1],
-			s->vertices[i + 2]);
+			s->vertices[i + (size_t)0],
+			s->vertices[i + (size_t)1],
+			s->vertices[i + (size_t)2]);
 		glm::vec3 T2C(
-			s->vertices[i + 0] + s->normal.X * distance,
-			s->vertices[i + 1] + s->normal.Y * distance,
-			s->vertices[i + 2] + s->normal.Z * distance);
+			s->vertices[i + (size_t)0] + s->normal.X * distance,
+			s->vertices[i + (size_t)1] + s->normal.Y * distance,
+			s->vertices[i + (size_t)2] + s->normal.Z * distance);
 
 		auto normal2 = glm::normalize(glm::cross(T2A - T2B, T2C - T2B));
 
@@ -147,7 +182,43 @@ Object::GeometricObject * TreeBuilder::Extrude(Object::Surface *s, float distanc
 
 		j = i;
 	}
+	
+	//side
+	 j = s->vertices.size() - (size_t)3;
+	for (size_t i = 0; i < s->vertices.size(); i += 3)
+	{
+		//RerObjectShape->vertices.push_back(s->vertices[j + (size_t)0] + s->normal.X * distance);
+		//RerObjectShape->vertices.push_back(s->vertices[j + (size_t)1] + s->normal.Y * distance);
+		//RerObjectShape->vertices.push_back(s->vertices[j + (size_t)2] + s->normal.Z * distance);
 
+		//RerObjectShape->vertices.push_back(s->vertices[j + (size_t)0]);
+		//RerObjectShape->vertices.push_back(s->vertices[j + (size_t)1]);
+		//RerObjectShape->vertices.push_back(s->vertices[j + (size_t)2]);
+
+		//RerObjectShape->vertices.push_back(s->vertices[i + (size_t)0]);
+		//RerObjectShape->vertices.push_back(s->vertices[i + (size_t)1]);
+		//RerObjectShape->vertices.push_back(s->vertices[i + (size_t)2]);
+
+		//RerObjectShape->vertices.push_back(s->vertices[i + (size_t)0] + s->normal.X * distance);
+		//RerObjectShape->vertices.push_back(s->vertices[i + (size_t)1] + s->normal.Y * distance);
+		//RerObjectShape->vertices.push_back(s->vertices[i + (size_t)2] + s->normal.Z * distance);
+		//	1*			top		- before actual
+		//	 * *
+		//	3* * *2		base	- before actual	-	actual
+		RerObjectShape->indicesR.push_back(j/3+s->vertices.size()/3);
+		RerObjectShape->indicesR.push_back(i / 3);
+		RerObjectShape->indicesR.push_back(j/3);
+
+		////	1* * *2		top		- before actual	-	actual
+		////	   * *
+		////	     *3		base	- actual
+		RerObjectShape->indicesR.push_back(j/3+s->vertices.size() / 3);
+		RerObjectShape->indicesR.push_back(i / 3 + s->vertices.size() / 3);
+		RerObjectShape->indicesR.push_back(i/3);
+
+
+		j = i;
+	}
 	RetObject = RerObjectShape;
 	return RetObject;
 }
@@ -175,10 +246,11 @@ void TreeBuilder::Build() {
 	//remove all objects which operation no longer exists
 	for (size_t i = 0; i < Objects->size(); i++)
 	{
-		if ((OperationMap->at(Objects->at(i)->ObjectName)) == NULL)
+		if (((*OperationMap)[Objects->at(i)->ObjectName]) == NULL)
 		{
 			Object::GeometricObject* obj = ObjectMap->at(Objects->at(i)->ObjectName);
-			Objects->erase(std::find(Objects->begin(), Objects->end(), obj));
+			//Objects->erase(std::find(Objects->begin(), Objects->end(), obj));
+			Objects->erase(Objects->begin()+i);
 			ObjectMap->erase(obj->ObjectName);
 			obj->Delete();//delete TODO
 		}
@@ -204,8 +276,23 @@ void TreeBuilder::Build() {
 	//Create new objects
 	for (size_t i = 0; i < OperationsVec->size(); i++)
 	{
-		if ((o = BuildOperation(OperationsVec->at(i))) != NULL) {
-			Objects->push_back(o);
+		
+		if ((o = BuildOperation(OperationsVec->at(i))) != NULL ) {
+			bool Found = false;
+			for (size_t i = 0; i < Objects->size(); i++)
+			{
+				if (Objects->at(i)->ObjectName == o->ObjectName)
+				{
+					Objects->at(i)= o;
+					Found = true;
+					break;
+				}
+			}
+			if (!Found)
+			{
+				Objects->push_back(o);
+			}
+			
 			(*ObjectMap)[o->ObjectName] = o;
 		}
 	}

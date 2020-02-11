@@ -11,7 +11,7 @@ class Parser
 {
 	std::vector <Operation*> *OperationsVec = NULL;
 	std::map <std::string,Operation*> *OperationsMap = NULL;
-	ParamRef *paramRef;
+	ParamRef *paramRef = NULL;
 	std::string removeSpace(std::string param) {
 		//remove first empty char
 		size_t i = 0;
@@ -119,7 +119,7 @@ public:
 
 		return true;
 	}
-	bool ParseOperation(std::string *commandStringPtr, std::string *commandNamePtr, std::string *objectNamePtr, std::vector <std::string> *CommandParameterVectorPtr, unsigned char color[4], std::vector <paramRefStruct> *refStructVec) {
+	bool ParseOperation(std::string *commandStringPtr, std::string *commandNamePtr, std::string *objectNamePtr, std::vector <std::string> *CommandParameterVectorPtr, unsigned char color[4], std::vector <paramRefStruct> *refStructVec, ParamRef *paramRef) {
 		///divide command name and parameters
 		///"operationName(parameter1,parameter2,...,parameterN)"
 
@@ -192,7 +192,7 @@ public:
 		std::vector <std::string> *OperationParametersVec = new std::vector <std::string>();
 
 		std::vector <paramRefStruct> refStructVec;
-		if (!ParseOperation(&operationString, &operationName, &objectName, OperationParametersVec,color, &refStructVec))//test command syntax
+		if (!ParseOperation(&operationString, &operationName, &objectName, OperationParametersVec,color, &refStructVec,paramRef))//test command syntax
 		{
 			return false;
 		}
@@ -205,7 +205,7 @@ public:
 		//	return false;
 		//}
 		std::vector<operationType::ParameterTypesEnum> *paramTypes;
-		if ((operationType = operationType::GetOperation(operationName, &typeOfParameters , OperationsVec, OperationsMap, OperationParametersVec,&paramTypes)) == operationType::INVALID)
+		if ((operationType = operationType::GetOperation(operationName, &typeOfParameters , OperationsVec, OperationsMap, OperationParametersVec,&paramTypes,paramRef)) == operationType::INVALID)
 		{
 			return false;
 		}

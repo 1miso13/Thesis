@@ -7,5 +7,5 @@
 struct paramRefStruct {
 	std::string refName;
 	std::string ObjectName;
-	size_t paramindex;
+	size_t paramindex = 0;
 };

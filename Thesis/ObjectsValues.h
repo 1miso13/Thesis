@@ -172,13 +172,11 @@ inline double ObjectsValues::GetObjectValue(std::map<std::string, Object::Geomet
 	std::string valueName = tokenVec.at(tokenVec.size() - 1);
 	tokenVec.pop_back();
 
-	for (size_t i = 1; i < tokenVec.size()-2; i++)
+	for (size_t i = 1; (int)i < (int)(tokenVec.size())-2; i++)
 	{
 		switch (type) {
 
-		case Object::ObjectTypeEnum::POINT_ObjectType:
-			*Err = true;
-			return 0;
+		case Object::ObjectTypeEnum::POINT_ObjectType: 
 			break;
 		case Object::ObjectTypeEnum::LINE_ObjectType:
 			if (tokenVec[i] == "beginPoint")//Object::POINT_ObjectType 

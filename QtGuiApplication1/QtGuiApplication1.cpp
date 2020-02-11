@@ -118,7 +118,7 @@ void QtGuiApplication1::on_pushButton_clicked()
 	   }
 
    }
-   ui.RefParam_tableWidget->RefillRefTable(&paramModel);
+   ui.RefParam_tableWidget->RefillRefTable(&paramModel,this);
    RefreshObjectList();
 }
 /*
@@ -201,7 +201,7 @@ void QtGuiApplication1::on_actionSave_triggered()
 
 void QtGuiApplication1::on_actionSave_obj_triggered()
 {
-	QString filePath = QFileDialog::getSaveFileName(this, tr("Save OBJ"), DEFAULT_PATH, "Parametric model files (*.param);; All files (*.*)");
+	QString filePath = QFileDialog::getSaveFileName(this, tr("Save OBJ"), DEFAULT_PATH, "Parametric model files (*.obj);; All files (*.*)");
 	paramModel.SaveOBJ(filePath.toStdString());
 }
 
@@ -253,7 +253,7 @@ void QtGuiApplication1::on_lineEdit_textEdited(const QString &arg1)
 /// </summary>
 /// <param name="cFROM"></param>
 /// <param name="cTO"></param>
-void CopyCommand(Operation * cFROM, Operation *& cTO) {
+void CopyOperation(Operation * cFROM, Operation *& cTO) {
 	std::vector <std::string> * commandParameterVector = new std::vector <std::string>();
 	for (size_t i = 0; i < cFROM->OperationParametersVec->size(); i++)
 	{
@@ -274,7 +274,7 @@ void CopyCommand(Operation * cFROM, Operation *& cTO) {
 /// <param name="paramModel">Operation list</param>
 /// <param name="index">item index</param>
 /// <returns>If all referencies in command are valid</returns>
-bool TestCommandSemantic(ParametricModel *paramModel, size_t index) {
+bool TestOperationSemantic(ParametricModel *paramModel, size_t index) {
 	std::string operationName = operationType::OperationToString(paramModel->OperationsVec.at(index)->operationType);//operationType::OperationToString((operationType::OperationTypeEnum) i);
 	std::vector<std::vector<operationType::ParameterTypesEnum>*> *paramVectors;
 	operationType::GetOperationParameters(operationName,
@@ -289,7 +289,7 @@ bool TestCommandSemantic(ParametricModel *paramModel, size_t index) {
 			for (size_t j = 0;  j + i < paramModel->OperationsVec.at(index)->OperationParametersVec->size();  j++)
 			{//Last parameter can be multipoits
 				std::string parameterText = paramModel->OperationsVec.at(index)->OperationParametersVec->at(i+j);
-				if (!operationType::TestValidParameterType(k->at(i), parameterText, &paramModel->OperationsVec, &paramModel->OperationMap, index))
+				if (!operationType::TestValidParameterType(k->at(i), parameterText, &paramModel->OperationsVec, &paramModel->OperationMap, &paramModel->paramRef, index))
 				{
 					return false;
 				}
@@ -298,7 +298,7 @@ bool TestCommandSemantic(ParametricModel *paramModel, size_t index) {
 		else
 		{
 			std::string parameterText = paramModel->OperationsVec.at(index)->OperationParametersVec->at(i);
-			if (!operationType::TestValidParameterType(k->at(i), parameterText, &paramModel->OperationsVec, &paramModel->OperationMap, index))
+			if (!operationType::TestValidParameterType(k->at(i), parameterText, &paramModel->OperationsVec, &paramModel->OperationMap, &paramModel->paramRef, index))
 			{
 				return false;
 			}
@@ -313,7 +313,7 @@ void QtGuiApplication1::TestOperationsValidity(size_t indexFrom=0) {
 	for (size_t i = indexFrom; i < paramModel.OperationsVec.size(); i++)
 	{
 		//TODO;
-		if (!TestCommandSemantic(&paramModel, i))
+		if (!TestOperationSemantic(&paramModel, i))
 		{
 			countOfInvalid++;
 			//set red color on invalid item
@@ -332,7 +332,7 @@ void QtGuiApplication1::on_treeWidget_itemDoubleClicked(QTreeWidgetItem *item, i
 	QTreeWidgetItem* currentItem = ui.treeWidget->currentItem();
 	int index = ui.treeWidget->currentIndex().row();
 	Operation * c;
-	CopyCommand(paramModel.OperationsVec[index], c);
+	CopyOperation(paramModel.OperationsVec[index], c);
 	Dialog dialog(&paramModel, &c, DialogWindowType::MODIFY, index, this);
 	dialog.setModal(true);
 	dialog.setWindowTitle("Modify command");
@@ -522,35 +522,33 @@ QIcon QtGuiApplication1::setObjectIcon(Object::ObjectTypeEnum type) {
 /// </summary>
 void QtGuiApplication1::RefreshObjectList()
 {
+	cellChangedEventPaused = true;
+	Timer->stop();
 	//rebuild tree
-	//if (ReadyToBuild)
-	{
-		paramModel.BuildModel();
-	}
 
+	paramModel.BuildModel();
+	Timer->start();
 	//delete
 	ui.treeWidget_2->clear();
 
-	if (ReadyToBuild)
+	for (size_t i = 0; i < paramModel.Objects.size(); i++)
 	{
-		for (size_t i = 0; i < paramModel.Objects.size(); i++)
-		{
+		// Create new item (top level item)
+		QTreeWidgetItem *qTreeWidgetItem = new QTreeWidgetItem(ui.treeWidget_2);
+		// Add it on our tree as the top item.
+		ui.treeWidget_2->addTopLevelItem(qTreeWidgetItem);
 
-			// Create new item (top level item)
-			QTreeWidgetItem *qTreeWidgetItem = new QTreeWidgetItem(ui.treeWidget_2);
-			// Add it on our tree as the top item.
-			ui.treeWidget_2->addTopLevelItem(qTreeWidgetItem);
-
-			qTreeWidgetItem->setText(0, QString::fromStdString(paramModel.Objects.at(i)->ObjectName));
-			qTreeWidgetItem->setText(1, QString::fromStdString(paramModel.Objects.at(i)->TypeToText()));
-			qTreeWidgetItem->setText(2, QString::fromStdString(paramModel.Objects.at(i)->getColorHEX()));
-			qTreeWidgetItem->setIcon(0, setObjectIcon(paramModel.Objects.at(i)->GeometricType));
+		qTreeWidgetItem->setText(0, QString::fromStdString(paramModel.Objects.at(i)->ObjectName));
+		qTreeWidgetItem->setText(1, QString::fromStdString(paramModel.Objects.at(i)->TypeToText()));
+		qTreeWidgetItem->setText(2, QString::fromStdString(paramModel.Objects.at(i)->getColorHEX()));
+		qTreeWidgetItem->setIcon(0, setObjectIcon(paramModel.Objects.at(i)->GeometricType));
 		
-			ui.treeWidget_2->repaint();
-		}
+		ui.treeWidget_2->repaint();
 	}
+	
 	//
 	//CreateGraph();
+	cellChangedEventPaused = false;
 }
 
 /// <summary>
@@ -566,7 +564,7 @@ void QtGuiApplication1::on_tabWidget_currentChanged(int index){
 		break;
 	case 1://Referenced Variables
 		//refill ref param list
-		ui.RefParam_tableWidget->RefillRefTable(&paramModel);
+		ui.RefParam_tableWidget->RefillRefTable(&paramModel,this);
 		break;
 	case 2://Objects
 		break;
@@ -590,6 +588,10 @@ bool isFloat(const std::string& s) {
 /// <param name="column"></param>
 void QtGuiApplication1::on_tableWidget_cellChanged(int row, int column)
 {
+	if (cellChangedEventPaused == true)
+	{
+		return;
+	}
 	if (column != 1)
 	{
 		return;

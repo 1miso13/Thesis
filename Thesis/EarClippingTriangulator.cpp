@@ -67,7 +67,7 @@ bool EarClippingTriangulator::Step()
 		//Next points
 		prevIndex = actualIndex;
 		actualIndex = nextIndex;
-		nextIndex = (nextIndex + 1) % index.size();
+		nextIndex = (nextIndex + 1U) % index.size();
 		return false;
 	}
 }

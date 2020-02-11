@@ -191,9 +191,9 @@ namespace Object {
 		vertices.push_back(apex.Position.Y);
 		vertices.push_back(apex.Position.Z);
 
-		int j = (base->vertices.size())/3-1;
-		int baseVerticies_count = base->vertices.size() / 3;
-		for (int i = 0; i < baseVerticies_count; i++)
+		size_t j = (base->vertices.size())/3- (size_t)1;
+		size_t baseVerticies_count = base->vertices.size() / 3;
+		for (size_t i = 0; i < baseVerticies_count; i++)
 		{
 			//indices.push_back(base->vertices.size()/3);
 			//indices.push_back(base->indices[j]);
@@ -201,12 +201,12 @@ namespace Object {
 			//j = i;
 
 			//base is pointing down
-			indices.push_back(j);
-			indices.push_back(i);
-			indices.push_back(baseVerticies_count);
+			indices.push_back((int)j);
+			indices.push_back((int)i);
+			indices.push_back((int)baseVerticies_count);
 
-			glm::vec3 a = glm::vec3(base->vertices[j * 3 + 0], base->vertices[j * 3 + 1], base->vertices[j * 3 + 2]);
-			glm::vec3 b = glm::vec3(base->vertices[i * 3 + 0], base->vertices[i * 3 + 1], base->vertices[i * 3 + 2]);
+			glm::vec3 a = glm::vec3(base->vertices[j * (size_t)3 + (size_t)0], base->vertices[j * (size_t)3 + (size_t)1], base->vertices[j * (size_t)3 + (size_t)2]);
+			glm::vec3 b = glm::vec3(base->vertices[i * (size_t)3 + (size_t)0], base->vertices[i * (size_t)3 + (size_t)1], base->vertices[i * (size_t)3 + (size_t)2]);
 			glm::vec3 c = glm::vec3(apex.Position.X, apex.Position.Y, apex.Position.Z);
 			auto normal = glm::normalize(cross(a-b,c-b));
 

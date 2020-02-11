@@ -4,7 +4,7 @@
 class ParamRef
 {
 public:
-	static std::vector <paramRefStruct> *paramRefVecPtr;
+	std::vector <paramRefStruct> *paramRefVecPtr;
 	std::vector <paramRefStruct> paramRefVec;
 	void Reset() {
 		paramRefVec.clear();

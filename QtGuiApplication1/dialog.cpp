@@ -346,7 +346,7 @@ void Dialog::on_okButton_clicked()
 		for (size_t i = 0; i < k->size(); i++)
 		{
 			std::string cellText = ui->tableWidget->item(i+2, 1)->text().toStdString();
-			if (cellText == "" || !operationType::TestValidParameterType(k->at(i), cellText, &paramModel->OperationsVec, &paramModel->OperationMap, index))
+			if (cellText == "" || !operationType::TestValidParameterType(k->at(i), cellText, &paramModel->OperationsVec, &paramModel->OperationMap,&paramModel->paramRef, index))
 			{
 				validParameters = false;
 			}
@@ -477,7 +477,7 @@ void Dialog::on_tableWidget_cellChanged(int row, int column)
 					//	for (size_t i = 0; i < k->size(); i++)
 					{
 						//operationType::CompareTypes(k->at(i), operationType::Find(&(paramModel->OperationsVec), cellText));
-						retType = operationType::TestValidParameterType(k->at((size_t)(row - 2)), cellText, &paramModel->OperationsVec, &paramModel->OperationMap, index);
+						retType = operationType::TestValidParameterType(k->at((size_t)(row - 2)), cellText, &paramModel->OperationsVec, &paramModel->OperationMap, &paramModel->paramRef, index);
 						//k->at(i);
 					}
 

@@ -124,7 +124,7 @@ public:
 		Objects.clear();
 		ObjectMap.clear();
 
-		GraphCommandTMP.clear();
+		OperationsVecTMP.clear();
 		OperationMapTMP.clear();
 		if (GLContext)
 		{
@@ -194,17 +194,17 @@ public:
 		}
 	}
 private:
-	std::vector <Operation*> GraphCommandTMP;
+	std::vector <Operation*> OperationsVecTMP;
 	std::map <std::string,Operation*> OperationMapTMP;
 	ParamRef paramRefTMP;
 	size_t InsertedTests=0;
 public:
 	void resetTest() {
-		for (size_t i = OperationsVec.size() ; i < GraphCommandTMP.size(); i++)
+		for (size_t i = OperationsVec.size() ; i < OperationsVecTMP.size(); i++)
 		{
-			delete(GraphCommandTMP[i]);
+			delete(OperationsVecTMP[i]);
 		}
-		GraphCommandTMP.clear();
+		OperationsVecTMP.clear();
 		paramRefTMP.Reset();
 		OperationMapTMP.clear();
 		StartTest();
@@ -214,7 +214,7 @@ private:
 
 		for (size_t i = 0; i < OperationsVec.size(); i++)
 		{
-			GraphCommandTMP.push_back(OperationsVec.at(i));
+			OperationsVecTMP.push_back(OperationsVec.at(i));
 			OperationMapTMP[OperationsVec.at(i)->name] = OperationsVec.at(i);
 		}
 		for (size_t i = 0; i < paramRef.paramRefVec.size(); i++)
@@ -231,12 +231,13 @@ public:
 
 			//copy GCs
 
-			parser.InitParser(&GraphCommandTMP, &OperationMapTMP ,&paramRefTMP);
+			parser.InitParser(&OperationsVecTMP, &OperationMapTMP ,&paramRefTMP);
 
 			if (parser.CreateOperation(s, &c))
 			{
 
-				GraphCommandTMP.push_back(c);
+				OperationsVecTMP.push_back(c);
+				OperationMapTMP[c->name] = c;
 				return true;
 			}
 			return false;
@@ -367,6 +368,12 @@ public:
 	}
 	void useManualTimer(bool enable) {
 		treeBuilder->useManualTimer(enable);
+	}
+	void SetBackgroundColor(float R, float G, float B, float A) {
+		renderer.SetBackgroundColor(R,G,B,A);
+	}
+	void SetBackgroundColor(signed char R, signed char G, signed char B, signed char A) {
+		renderer.SetBackgroundColor(R, G, B, A);
 	}
 };
 

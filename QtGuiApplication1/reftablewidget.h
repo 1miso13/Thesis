@@ -8,7 +8,7 @@ class RefTableWidget :
 	Q_OBJECT
 public:
 	void Move(size_t index, bool up);
-	void RefillRefTable(ParametricModel *paramModel);
+	void RefillRefTable(ParametricModel *paramModel, QObject* par);
 	explicit RefTableWidget(QWidget *parent = nullptr);
 };
 

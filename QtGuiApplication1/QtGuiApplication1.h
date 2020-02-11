@@ -85,7 +85,6 @@ private slots:
 
 private:
 	Ui::QtGuiApplication1Class ui;
-	bool ReadyToBuild = true;
 	void TestOperationsValidity(size_t indexFrom);
 	void DisableButtons();
 	void RefreshObjectList();
@@ -93,4 +92,6 @@ private:
 	QTimer *Timer;
 	void OperationToQStrings(Operation *c, QTreeWidgetItem* qTreeWidgetItem);
 	//~QtGuiApplication1();
+public:	
+	bool cellChangedEventPaused = false;
 };

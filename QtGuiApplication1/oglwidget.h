@@ -55,6 +55,7 @@ public:
 
 		//QtGuiApplication1::paramModel.InitRenderer();
 		paramModel->InitRenderer();
+		paramModel->SetBackgroundColor(1,1,1,0.5f);
 		drawTimer = new QTimer(this);
 		connect(drawTimer, SIGNAL(timeout()), this, SLOT(update()));
 		drawTimer->start();
@@ -115,14 +116,14 @@ public:
 			distance += 0.1f;
 			break;
 		case Qt::Key_P:
-			if (ambientStrength>=0)
+			if (ambientStrength <= 1)
 			{
 				ambientStrength += 0.1f;
 				paramModel->setRendererAmbientStrength(ambientStrength);
 			}
 			break;
 		case Qt::Key_O:
-			if (ambientStrength<=1)
+			if (ambientStrength >= 0)
 			{
 				ambientStrength -= 0.1f;
 				paramModel->setRendererAmbientStrength(ambientStrength);

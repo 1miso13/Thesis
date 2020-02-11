@@ -110,7 +110,7 @@ namespace operationType {
 
 			try
 			{
-				std::stof(num);
+				std::stod(num);
 			}
 			catch (...)
 			{
@@ -226,7 +226,10 @@ namespace operationType {
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 	inline bool IsValidObjectValue(Operation *o,std::string objectName, std::string token) {
-		
+		if (objectName=="" || token=="")
+		{
+			return false;
+		}
 		std::vector <std::string> v;
 		size_t pos = 0;
 		std::string t;
@@ -297,7 +300,7 @@ namespace operationType {
 		}
 		return false;
 	}
-	inline bool TestExpressionsIdentifiers(Expression *e, std::map <std::string, Operation*> *OperationsMap){
+	inline bool TestExpressionsIdentifiers(Expression *e, std::map <std::string, Operation*> *OperationsMap, std::vector <paramRefStruct> * paramRefVecPtr){
 		bool valid = true;
 		
 		for (size_t i = 0; i < e->tokenCount(); i++)
@@ -311,9 +314,9 @@ namespace operationType {
 				{
 					foundParameter = true;
 				}
-				for (size_t i = 0; i < ParamRef::paramRefVecPtr->size(); i++)
+				for (size_t i = 0; i < paramRefVecPtr->size(); i++)
 				{
-					if(ParamRef::paramRefVecPtr->at(i).refName == token){
+					if(paramRefVecPtr->at(i).refName == token){
 						foundParameter = true;
 					}
 				}
@@ -339,7 +342,7 @@ namespace operationType {
 					}
 					Operation* o = (*OperationsMap)[objectName];
 					
-					if (!IsValidObjectValue(o, objectName, token))
+					if (o==NULL || !IsValidObjectValue(o, objectName, token))
 					{
 						valid = false;//NOT FOUND PARAMETER WITH SAME NAME - NOT VALID
 					}
@@ -383,14 +386,14 @@ namespace operationType {
 			return false;
 		}
 		bool Err = false;
-		for (unsigned char i = 0; i < 4; i++)
+		for (unsigned char i = 0; i < (unsigned char)4; i++)
 		{
-			unsigned char c[] = { (unsigned char)colorHEXStr_RRGGBBAA[i * 2], (unsigned char)colorHEXStr_RRGGBBAA[i * 2 + 1] };
+			unsigned char c[] = { (unsigned char)colorHEXStr_RRGGBBAA[i * (unsigned char)2], (unsigned char)colorHEXStr_RRGGBBAA[i * (unsigned char)2 + (unsigned char)1] };
 			color[i] = HEXtoUChar(c, &Err);
 		}
 		return !Err;
 	}
-	inline bool TestValidParameterType(ParameterTypesEnum parameterType, std::string paramValue, std::vector <Operation*> *OperationsVec, std::map <std::string, Operation*> * OperationsMap,int to=-1) {
+	inline bool TestValidParameterType(ParameterTypesEnum parameterType, std::string paramValue, std::vector <Operation*> *OperationsVec, std::map <std::string, Operation*> * OperationsMap, ParamRef *paramRef,int to=-1) {
 	//POINTObjectType,
 	//LINE,
 	//SURFACE,
@@ -435,7 +438,7 @@ namespace operationType {
 			else
 			{
 				Expression e(paramValue);
-				return e.isValid ? TestExpressionsIdentifiers(&e, OperationsMap) : false;
+				return e.isValid ? TestExpressionsIdentifiers(&e, OperationsMap, paramRef->GetVec()) : false;
 			}
 			break;
 		case ParameterTypeLINE:
@@ -2376,7 +2379,7 @@ namespace operationType {
 
 
 
-	inline OperationTypeEnum GetOperation(std::string commandName,size_t *paramIndex, std::vector <Operation*> *OperationsVec, std::map <std::string, Operation*> *OperationMap, std::vector <std::string> *OperationParametersVec,std::vector <ParameterTypesEnum> **paramTypes) {
+	inline OperationTypeEnum GetOperation(std::string commandName,size_t *paramIndex, std::vector <Operation*> *OperationsVec, std::map <std::string, Operation*> *OperationMap, std::vector <std::string> *OperationParametersVec,std::vector <ParameterTypesEnum> **paramTypes, ParamRef *paramRef) {
 		size_t parameterCount= OperationParametersVec->size();
 		std::vector <
 			std::vector<
@@ -2399,7 +2402,7 @@ namespace operationType {
 				if (!TestValidParameterType(
 					paramVectors->at(i)->at(0) == ParameterTypesEnum::ParameterTypeMULTIPLEPOINTS ? 
 					ParameterTypesEnum::ParameterTypePOINT : paramVectors->at(i)->at(j), 
-					OperationParametersVec->at(j),OperationsVec,OperationMap))
+					OperationParametersVec->at(j),OperationsVec,OperationMap,paramRef))
 				{
 					found = false;
 				}

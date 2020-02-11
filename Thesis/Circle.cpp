@@ -31,6 +31,8 @@ namespace Object {
 		const glm::vec3 a = glm::vec3(normal.X, normal.Y, normal.Z);
 		const glm::vec3 b = glm::vec3(0, 1, 0); //up
 		glm::vec3 v = glm::cross(b, a);
+		if (v == glm::vec3(0, 0, 0))
+			v = glm::vec3(1, 0, 0);
 		float angle = acos(glm::dot(b, a) / (glm::length(b) * glm::length(a)));
 		glm::mat4 rotmat = glm::rotate(angle, v);
 		int N = 100;

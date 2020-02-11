@@ -121,7 +121,9 @@ return;*/
 		vec3 norm = normalize(Normal);
 		vec3 lightDir = normalize(lightPos.xyz - FragPos);  
 
-		float diff = dot(norm, lightDir);
+		float diff = abs(dot(norm, lightDir));
+if(diff==0)
+diff = 1;
 		vec3 diffuse = diff * sign(diff) * lightColor;
 
 

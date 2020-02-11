@@ -9,18 +9,35 @@
 
 namespace csg {
 	void objectToMatrices(Eigen::MatrixXf *V, Eigen::MatrixXi *F, Object::GeometricObject * object) {
-
-		*F = Eigen::MatrixXi(object->indices.size() / 3, 3);
-
-
-		for (size_t i = 0; i < object->indices.size() / 3; i++)
+		if (object->verticesR.size()!=0)
 		{
-			F->row(i) << object->indices[i * 3], object->indices[i * 3 + 1], object->indices[i * 3 + 2];
+			*F = Eigen::MatrixXi(object->indicesR.size() / 3, 3);
+
+
+			for (size_t i = 0; i < object->indicesR.size() / 3; i++)
+			{
+				F->row(i) << object->indicesR[i * 3], object->indicesR[i * 3 + 1], object->indicesR[i * 3 + 2];
+			}
+			*V = Eigen::MatrixXf(object->verticesR.size() / 3, 3);
+			for (size_t i = 0; i < object->verticesR.size() / 3; i++)
+			{
+				V->row(i) << object->verticesR[i * 3], object->verticesR[i * 3 + 1], object->verticesR[i * 3 + 2];
+			}
 		}
-		*V = Eigen::MatrixXf(object->vertices.size() / 3, 3);
-		for (size_t i = 0; i < object->vertices.size() / 3; i++)
-		{
-			V->row(i) << object->vertices[i * 3], object->vertices[i * 3 + 1], object->vertices[i * 3 + 2];
+		else {
+
+			*F = Eigen::MatrixXi(object->indices.size() / 3, 3);
+
+
+			for (size_t i = 0; i < object->indices.size() / 3; i++)
+			{
+				F->row(i) << object->indices[i * 3], object->indices[i * 3 + 1], object->indices[i * 3 + 2];
+			}
+			*V = Eigen::MatrixXf(object->vertices.size() / 3, 3);
+			for (size_t i = 0; i < object->vertices.size() / 3; i++)
+			{
+				V->row(i) << object->vertices[i * 3], object->vertices[i * 3 + 1], object->vertices[i * 3 + 2];
+			}
 		}
 		
 
@@ -30,9 +47,9 @@ namespace csg {
 		F->transposeInPlace();
 		V->transposeInPlace();
 
-		object->indices = std::vector<int>(F->data(), F->data() + F->rows() * F->cols());
-		object->vertices = std::vector<float>(V->data(), V->data() + V->rows() * V->cols());
-		CalculateMeshNormals::calculateNormals(object->indices,object->vertices, &object->normals);
+		object->indicesR = std::vector<int>(F->data(), F->data() + F->rows() * F->cols());
+		object->verticesR = std::vector<float>(V->data(), V->data() + V->rows() * V->cols());
+		CalculateMeshNormals::calculateNormals(&object->indicesR,&object->verticesR, &object->indices, &object->vertices, &object->normals);
 
 	}
 	void computeCSG(Object::GeometricObject * objectA, Object::GeometricObject * objectB, igl::MeshBooleanType booleanType, Object::GeometricObject * objectOUT) {

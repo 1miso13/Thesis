@@ -617,6 +617,7 @@ private:
 			RetObject->color[2] = operation->color[2];
 			RetObject->color[3] = operation->color[3];
 			RetObject->ObjectName = operation->name;
+			operation->modified = true;
 		}
 		return RetObject;
 	}
@@ -645,6 +646,7 @@ private:
 						if (parent->modified)//parent were modified, need to rebuild 
 						{
 							needToRebuild = true;
+							break;
 						}
 					}
 				}
@@ -666,17 +668,18 @@ private:
 							if (expression->objectInExpressionModified(ObjectMap,OperationMap,paramRef))//parent were modified, need to rebuild 
 							{
 								needToRebuild = true;
+								break;
 							}
 						}
 					}
 				}
 			} 
 			if (needToRebuild)
-				{
+			{
 				This->Delete();//TODO delete
 
-				Objects->erase(std::find(Objects->begin(), Objects->end(), This));
-				ObjectMap->erase(operation->name);
+				/*Objects->erase(std::find(Objects->begin(), Objects->end(), This));
+				ObjectMap->erase(operation->name);*/
 			}
 
 		}
@@ -689,6 +692,10 @@ private:
 		if (needToRebuild)
 		{
 			return BuildObject(operation);
+		}
+		else
+		{
+			return NULL;
 		}
 	}
 	bool needToInitializeTime = true;

@@ -1,5 +1,5 @@
 #include "reftablewidget.h"
-
+#include "QtGuiApplication1.h"
 void RefTableWidget::Move(size_t index ,bool up) {
 	//GET
 	QList<QTableWidgetItem*> rowItems1;
@@ -22,8 +22,9 @@ void RefTableWidget::Move(size_t index ,bool up) {
 	this->setCurrentCell(this->currentIndex().row() + (up ? -1 : 1), this->currentIndex().column());
 }
 
-void RefTableWidget::RefillRefTable(ParametricModel *paramModel)
+void RefTableWidget::RefillRefTable(ParametricModel *paramModel, QObject* par)
 {
+	((QtGuiApplication1*)par)->cellChangedEventPaused = true;
 	//clear all
 	this->setRowCount(0);
 	size_t count = paramModel->paramRef.paramRefVec.size();
@@ -60,6 +61,7 @@ void RefTableWidget::RefillRefTable(ParametricModel *paramModel)
 		setItem(rowCount() - 1, 3, item4);
 	}
 	repaint();
+	((QtGuiApplication1*)par)->cellChangedEventPaused = false;
 }
 
 RefTableWidget::RefTableWidget(QWidget *parent) : QTableWidget(parent)
