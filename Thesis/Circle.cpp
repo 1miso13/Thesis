@@ -35,7 +35,7 @@ namespace Object {
 			v = glm::vec3(1, 0, 0);
 		float angle = acos(glm::dot(b, a) / (glm::length(b) * glm::length(a)));
 		glm::mat4 rotmat = glm::rotate(angle, v);
-		int N = 100;
+		int N = 25;
 		for (int n = 0; n < N; n++)
 		{
 			glm::vec4 circlePoint = rotmat * glm::vec4(cos(2 * glm::pi<float>() * n / N), 0, sin(2 * glm::pi<float>() * n / N), 0);

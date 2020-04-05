@@ -1,6 +1,7 @@
 #pragma once
 #include "GeometricObject.h"
 #include "Point.h"
+#include <locale>
 
 /// <summary>
 /// 0D
@@ -132,6 +133,7 @@ public:
 
 	static double GetObjectValue(std::map<std::string, Object::GeometricObject*> *ObjectMap, std::string token, bool * Err);
 };
+
 /// <summary>
 /// Get value from object 
 /// </summary>
@@ -141,6 +143,7 @@ public:
 /// <returns></returns>
 inline double ObjectsValues::GetObjectValue(std::map<std::string, Object::GeometricObject*>* ObjectMap, std::string token, bool * Err)
 {
+	
 	*Err = false;
 	///Parse by dots
 	std::vector <std::string> tokenVec;
@@ -151,6 +154,9 @@ inline double ObjectsValues::GetObjectValue(std::map<std::string, Object::Geomet
 		tokenVec.push_back(tokenParser);
 		token.erase(0, pos + 1);
 	}
+
+	for (std::string::size_type i = 0; i < token.length(); ++i)
+		token[i] = std::tolower(token[i], std::locale());
 	tokenVec.push_back(token);
 
 	Object::GeometricObject* objectPtr = (*ObjectMap)[tokenVec[0]];
@@ -172,6 +178,7 @@ inline double ObjectsValues::GetObjectValue(std::map<std::string, Object::Geomet
 	std::string valueName = tokenVec.at(tokenVec.size() - 1);
 	tokenVec.pop_back();
 
+
 	for (size_t i = 1; (int)i < (int)(tokenVec.size())-2; i++)
 	{
 		switch (type) {
@@ -179,12 +186,12 @@ inline double ObjectsValues::GetObjectValue(std::map<std::string, Object::Geomet
 		case Object::ObjectTypeEnum::POINT_ObjectType: 
 			break;
 		case Object::ObjectTypeEnum::LINE_ObjectType:
-			if (tokenVec[i] == "beginPoint")//Object::POINT_ObjectType 
+			if (tokenVec[i] == "begin_point")//Object::POINT_ObjectType 
 			{
 				lastChild = ((Object::Line*)objectPtr)->beginPoint;
 			}
 			else
-			if (tokenVec[i] == "endPoint")//Object::POINT_ObjectType 
+			if (tokenVec[i] == "end_point")//Object::POINT_ObjectType 
 			{
 				lastChild = ((Object::Line*)objectPtr)->beginPoint;
 			}
@@ -207,6 +214,7 @@ inline double ObjectsValues::GetObjectValue(std::map<std::string, Object::Geomet
 			{
 				*Err = true;
 			}
+			break;
 		case Object::ObjectTypeEnum::CIRCLE_ObjectType:
 			if (tokenVec[i] == "center")//Object::ObjectTypeEnum::POINT_ObjectType
 			{
@@ -216,12 +224,13 @@ inline double ObjectsValues::GetObjectValue(std::map<std::string, Object::Geomet
 			{
 				*Err = true;
 			}
-				
+			break;
 		case Object::ObjectTypeEnum::RECTANGLE_ObjectType:
 			if (tokenVec[i] == "center")//Object::ObjectTypeEnum::POINT_ObjectType,
 			{
 				lastChild = ((Object::Rectangle*)objectPtr)->center;
 			}
+			break;
 		case Object::ObjectTypeEnum::POLYGON_ObjectType:
 		
 				*Err = true;
@@ -243,6 +252,7 @@ inline double ObjectsValues::GetObjectValue(std::map<std::string, Object::Geomet
 
 				lastChild = ((Object::Triangle*)objectPtr)->p3;
 			}
+			break;
 		case Object::ObjectTypeEnum::OBJECT3D_ObjectType:
 			*Err = true;
 			return 0;
@@ -255,6 +265,7 @@ inline double ObjectsValues::GetObjectValue(std::map<std::string, Object::Geomet
 			{
 				*Err = true;
 			}
+			break;
 		case Object::ObjectTypeEnum::PYRAMID_ObjectType:
 			if (tokenVec[i] == "apex")//Object::ObjectTypeEnum::POINT_ObjectType,
 			{
@@ -269,6 +280,7 @@ inline double ObjectsValues::GetObjectValue(std::map<std::string, Object::Geomet
 				{
 					*Err = true;
 				}
+			break;
 		default:
 			break;
 
@@ -281,17 +293,17 @@ inline double ObjectsValues::GetObjectValue(std::map<std::string, Object::Geomet
 	switch (objectPtr->GeometricType)
 	{
 	case Object::ObjectTypeEnum::POINT_ObjectType:
-		if (valueName == "X")
+		if (valueName == "x")
 		{
 			value = ((Object::Point*)objectPtr)->Position.X;
 		}
 		else
-			if (valueName == "Y")
+			if (valueName == "y")
 			{
 				value = ((Object::Point*)objectPtr)->Position.Y;
 			}
 			else
-				if (valueName == "Z")
+				if (valueName == "z")
 				{
 					value = ((Object::Point*)objectPtr)->Position.Z;
 				}
@@ -325,6 +337,7 @@ inline double ObjectsValues::GetObjectValue(std::map<std::string, Object::Geomet
 		{
 			*Err = true;
 		}
+		break;
 	case Object::ObjectTypeEnum::CIRCLE_ObjectType:
 		if (valueName == "perimeter")
 		{
@@ -344,6 +357,7 @@ inline double ObjectsValues::GetObjectValue(std::map<std::string, Object::Geomet
 		{
 			*Err = true;
 		}
+		break;
 	case Object::ObjectTypeEnum::RECTANGLE_ObjectType:
 		if (valueName == "perimeter")
 		{
@@ -368,6 +382,7 @@ inline double ObjectsValues::GetObjectValue(std::map<std::string, Object::Geomet
 		{
 			*Err = true;
 		}
+		break;
 	case Object::ObjectTypeEnum::POLYGON_ObjectType:
 		if (valueName == "perimeter")
 		{
@@ -381,7 +396,8 @@ inline double ObjectsValues::GetObjectValue(std::map<std::string, Object::Geomet
 		else
 		{
 			*Err = true;
-		}break;
+		}
+		break;
 	case Object::ObjectTypeEnum::TRIANGLE_ObjectType:
 		if (valueName == "perimeter")
 		{
@@ -396,6 +412,7 @@ inline double ObjectsValues::GetObjectValue(std::map<std::string, Object::Geomet
 		{
 			*Err = true;
 		}
+		break;
 	case Object::ObjectTypeEnum::OBJECT3D_ObjectType:
 		if (valueName == "volume")
 		{
@@ -410,6 +427,7 @@ inline double ObjectsValues::GetObjectValue(std::map<std::string, Object::Geomet
 		{
 			*Err = true;
 		}
+		break;
 	case Object::ObjectTypeEnum::SPHERE_ObjectType:
 		if (valueName == "volume")
 		{
@@ -429,6 +447,7 @@ inline double ObjectsValues::GetObjectValue(std::map<std::string, Object::Geomet
 		{
 			*Err = true;
 		}
+		break;
 	case Object::ObjectTypeEnum::PYRAMID_ObjectType:
 		if (valueName == "volume")
 		{
@@ -448,6 +467,7 @@ inline double ObjectsValues::GetObjectValue(std::map<std::string, Object::Geomet
 		{
 			*Err = true;
 		}
+		break;
 	default:
 		*Err = true;
 		return 0;

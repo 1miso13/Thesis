@@ -315,7 +315,12 @@ public:
 	/// Get object value in string form
 	/// </summary>
 	/// <returns>object value</returns>
-	double GetObjectValue(std::string s,bool* Err) {
+	double GetObjectValue(std::string s,bool* Err = NULL) {
+		bool tmperr;
+		if (Err == NULL)
+		{
+			Err = &tmperr;
+		}
 		return ObjectsValues::GetObjectValue(&ObjectMap, s, Err);
 	}
 private:

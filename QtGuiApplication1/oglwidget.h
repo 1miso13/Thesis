@@ -45,15 +45,10 @@ public:
 	}
 	void wheelEvent(QWheelEvent *event)
 	{
-		/*if (event->modifiers().testFlag(Qt::ControlModifier))
-		{*/
 		distance -= event->delta()/5000.f*distance;
 		
 	}
 	virtual void initializeGL() {
-		//const GLubyte *version = glGetString(GL_VERSION);
-
-		//QtGuiApplication1::paramModel.InitRenderer();
 		paramModel->InitRenderer();
 		paramModel->SetBackgroundColor(1,1,1,0.5f);
 		drawTimer = new QTimer(this);

@@ -18,3 +18,5 @@ Line(Normala,Pociatocny bod,Koncovy bod,12345678);
 Point(Stred zakladne,7,8,9,12345678);
 Circle(Podstava,Stred zakladne,5:polomer,Normala,12345678);
 Pyramid(Kuzel,Podstava,10:vyska,12345678);
+Sphere(Sphere1,Stred zakladne, 2,FFFFFFFF);
+BooleanIntersection()

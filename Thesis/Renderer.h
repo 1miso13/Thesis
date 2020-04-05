@@ -7,7 +7,7 @@ class Renderer
 
 	float backgroundColor[4] = {0.3f,0.53f,0.8f,1};//R,G,B,A
 	float cameraPosition[3] = { 0,0,-10 };//X,Y,Z
-	float cameraRotation[3] = { 0,-90,0 };//Pitch, Yaw, Roll
+	float cameraRotation[3] = { 0,0,0 };//Pitch, Yaw, Roll
 	float lightPosition[3] = { 0, 0, -10 };//X,Y,Z
 	float lightColor[3] = { 1,1,1};//R,G,B
 	bool lightWithCamera = true;

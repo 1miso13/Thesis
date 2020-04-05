@@ -29,10 +29,13 @@
          <property name="geometry">
           <rect>
            <x>10</x>
-           <y>140</y>
+           <y>70</y>
            <width>271</width>
            <height>22</height>
           </rect>
+         </property>
+         <property name="value">
+          <number>0</number>
          </property>
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
@@ -42,7 +45,7 @@
          <property name="geometry">
           <rect>
            <x>10</x>
-           <y>200</y>
+           <y>130</y>
            <width>271</width>
            <height>22</height>
           </rect>
@@ -55,7 +58,7 @@
          <property name="geometry">
           <rect>
            <x>10</x>
-           <y>260</y>
+           <y>190</y>
            <width>271</width>
            <height>22</height>
           </rect>
@@ -68,13 +71,117 @@
          <property name="geometry">
           <rect>
            <x>10</x>
-           <y>310</y>
+           <y>240</y>
            <width>271</width>
            <height>22</height>
           </rect>
          </property>
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+        <widget class="QSlider" name="horizontalSlider_5">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>300</y>
+           <width>271</width>
+           <height>22</height>
+          </rect>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+        <widget class="QSlider" name="horizontalSlider_6">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>350</y>
+           <width>271</width>
+           <height>22</height>
+          </rect>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>50</y>
+           <width>91</width>
+           <height>16</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Head radius:</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_2">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>110</y>
+           <width>91</width>
+           <height>16</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Ear size:</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_3">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>170</y>
+           <width>91</width>
+           <height>16</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Eye size:</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_4">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>220</y>
+           <width>91</width>
+           <height>16</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Eye width:</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_5">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>280</y>
+           <width>91</width>
+           <height>16</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Eye height:</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_6">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>330</y>
+           <width>91</width>
+           <height>16</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Ear distance:</string>
          </property>
         </widget>
        </widget>
