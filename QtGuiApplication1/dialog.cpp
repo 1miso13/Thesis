@@ -11,9 +11,7 @@ Dialog::Dialog(ParametricModel *paramModel, Operation ** c, DialogWindowType Dia
 	this->index = index;
 	this->paramModel = paramModel;
 	this->DialogType = DialogType;
-   // ui->splitter->setSizes(QList<int>() << 200 << 100 );
 	this->c = c;
-	//ui->buttonBox->setEnabled(false);
 	FillCommandList();
 	if (DialogType == DialogWindowType::MODIFY)
 	{
@@ -37,7 +35,6 @@ Dialog::Dialog(ParametricModel *paramModel, Operation ** c, DialogWindowType Dia
 	{
 		//new Operation
 	}
-	//ui->tableWidget->setItem(0, 1, new QTableWidgetItem("dvddfvdvsd"));
 }
 
 Dialog::~Dialog()
@@ -246,8 +243,6 @@ void Dialog::on_treeWidget_itemSelectionChanged()
 			{
 				item2->setText(QString::fromStdString(paramRefName));
 			} 
-			
-			//= !paramModel->TestRefParam(paramModel->paramRef.FindRefParameterByObject(), objectName, i);
 		}
 		ui->tableWidget->setItem(ui->tableWidget->rowCount() - 1, 2, item2);
 		QTableWidgetItem *item3 = new QTableWidgetItem(QString::fromStdString(f->at(i + 1)), QTableWidgetItem::Type);
@@ -296,15 +291,6 @@ void Dialog::on_cancelButton_clicked()
 /// </summary>
 void Dialog::on_okButton_clicked()
 {
-
-	//get values
-	/*for (size_t i = 0; i < length; i++)
-	{
-		ui->tableWidget->item(0, 0)->text().toStdString();
-	}*/
-
-
-
 	//test valid parameters
 	bool validParameters = true;
 	
@@ -341,7 +327,7 @@ void Dialog::on_okButton_clicked()
 
 		
 		//color
-		validParameters = operationType::colorParser(colorHEXValue, colorArray);  //operationType::TestValidParameterType(operationType::ParameterTypesEnum::ParameterTypeFLOAT, colorHEXValue, &paramModel->OperationsVec, &paramModel->OperationMap, index);
+		validParameters = operationType::colorParser(colorHEXValue, colorArray); 
 		//Test parameters
 		for (size_t i = 0; i < k->size(); i++)
 		{
@@ -467,19 +453,15 @@ void Dialog::on_tableWidget_cellChanged(int row, int column)
 				if (row == 1)
 				{//color
 					retType = operationType::colorParser(cellText);
-					//retType = operationType::TestValidParameterType(operationType::ParameterTypeFLOAT, cellText, &paramModel->OperationsVec, &paramModel->OperationMap, index);
 				}
 				else
 				{
 					//test valid parameter
 					CommandStruct c = CommandsVec.at(ui->treeWidget->currentIndex().row());
 					std::vector <operationType::ParameterTypesEnum> *  k = paramVectors->at(c.ParameterID);
-					//	for (size_t i = 0; i < k->size(); i++)
-					{
-						//operationType::CompareTypes(k->at(i), operationType::Find(&(paramModel->OperationsVec), cellText));
-						retType = operationType::TestValidParameterType(k->at((size_t)(row - 2)), cellText, &paramModel->OperationsVec, &paramModel->OperationMap, &paramModel->paramRef, index);
-						//k->at(i);
-					}
+					
+					retType = operationType::TestValidParameterType(k->at((size_t)(row - 2)), cellText, &paramModel->OperationsVec, &paramModel->OperationMap, &paramModel->paramRef, index);
+					
 
 				}
 			}

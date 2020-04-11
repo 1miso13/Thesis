@@ -2,8 +2,6 @@
 #include <QTreeWidgetItem>
 #include <QTreeWidget>
 #include "dialog.h"
-//#include "../Thesis/ParametricModel.h"
-//#include "../Thesis/OperationTypes.h"
 #include "DialogWindowType.h"
 #include <qgraphicsscene.h>
 
@@ -15,18 +13,17 @@
 
 #include <QFileDialog>
 
-//ParametricModel QtGuiApplication1::paramModel;
-
 QtGuiApplication1::QtGuiApplication1(QWidget *parent)
 	: QMainWindow(parent)
 {
-//	graph = new GVGraph("graph");
 	ui.setupUi(this);
 	ui.openGLWidget->setParamModel(&paramModel);
 
 	Timer = new QTimer(this);
 	connect(Timer, SIGNAL(timeout()), this, SLOT(rebuild()));
 	Timer->start();
+
+	ui.lineEdit->setPlaceholderText("Enter operation:");
 }
 void QtGuiApplication1::rebuild() {
 	paramModel.BuildModel();
@@ -121,11 +118,6 @@ void QtGuiApplication1::on_pushButton_clicked()
    ui.RefParam_tableWidget->RefillRefTable(&paramModel,this);
    RefreshObjectList();
 }
-/*
-void QtGuiApplication1::on_listWidget_itemDoubleClicked(QListWidgetItem *item)
-{
-    item->setText(item->text()+"ng");
-}*/
 
 void QtGuiApplication1::on_actionHelp_triggered()
 {
@@ -223,6 +215,7 @@ void QtGuiApplication1::on_lineEdit_textEdited(const QString &arg1)
 	bool noError = true;
 	if (arg1.isEmpty())
 	{
+		ui.lineEdit->setStyleSheet("color: #888888");
 		return;
 	}
 	std::vector<std::string> commandsVec;
@@ -275,7 +268,7 @@ void CopyOperation(Operation * cFROM, Operation *& cTO) {
 /// <param name="index">item index</param>
 /// <returns>If all referencies in command are valid</returns>
 bool TestOperationSemantic(ParametricModel *paramModel, size_t index) {
-	std::string operationName = operationType::OperationToString(paramModel->OperationsVec.at(index)->operationType);//operationType::OperationToString((operationType::OperationTypeEnum) i);
+	std::string operationName = operationType::OperationToString(paramModel->OperationsVec.at(index)->operationType);
 	std::vector<std::vector<operationType::ParameterTypesEnum>*> *paramVectors;
 	operationType::GetOperationParameters(operationName,
 		&paramVectors);
@@ -312,7 +305,6 @@ void QtGuiApplication1::TestOperationsValidity(size_t indexFrom=0) {
 	size_t countOfInvalid = 0;
 	for (size_t i = indexFrom; i < paramModel.OperationsVec.size(); i++)
 	{
-		//TODO;
 		if (!TestOperationSemantic(&paramModel, i))
 		{
 			countOfInvalid++;
@@ -325,7 +317,6 @@ void QtGuiApplication1::TestOperationsValidity(size_t indexFrom=0) {
 			ui.treeWidget->topLevelItem(i)->setBackgroundColor(1, QColor(255, 255, 255));
 		}
 	}
-	//ReadyToBuild = countOfInvalid == 0;
 }
 void QtGuiApplication1::on_treeWidget_itemDoubleClicked(QTreeWidgetItem *item, int column)
 {
@@ -369,8 +360,6 @@ void QtGuiApplication1::on_treeWidget_itemDoubleClicked(QTreeWidgetItem *item, i
 	
 	//test
 	TestOperationsValidity(index);
-
-	//currentItem->setText(0,"csc" + QString::number()); ///for testing
 }
 /// <summary>
 /// Insert command after selected item in ui.treeWidget
@@ -396,7 +385,6 @@ void QtGuiApplication1::on_InsertButton_clicked()
 
 		RefreshObjectList();
 	}
-	//ui.treeWidget->topLevelItem(3)->setBackgroundColor(1, QColor(123, 147, 158));
 	//test
 	TestOperationsValidity(index);
 }
@@ -411,6 +399,7 @@ void QtGuiApplication1::on_NewButton_clicked()
 {
 	on_actionAdd_triggered();
 }
+
 /// <summary>
 /// Delete selected item
 /// </summary>
@@ -419,7 +408,7 @@ void QtGuiApplication1::on_DeleteButton_clicked()
 	size_t index = ui.treeWidget->currentIndex().row();
 	//delete
 	delete ui.treeWidget->takeTopLevelItem(index);
-	paramModel.RemoveOperation(index); //.OperationsVec.erase(paramModel.OperationsVec.begin()+index);
+	paramModel.RemoveOperation(index);
 	//test
 	TestOperationsValidity(index);
 	if (ui.treeWidget->topLevelItemCount()==0)
@@ -428,6 +417,7 @@ void QtGuiApplication1::on_DeleteButton_clicked()
 	}
 	RefreshObjectList();
 }
+
 /// <summary>
 /// Disable Insert and delete buttons
 /// </summary>
@@ -435,59 +425,7 @@ void QtGuiApplication1::DisableButtons() {
 	ui.InsertButton->setEnabled(false);
 	ui.DeleteButton->setEnabled(false);
 }
-/// <summary>
-/// Remove whole graph and create new  
-/// </summary>
-//void QtGuiApplication1::CreateGraph() {
-//	//graph->clearNodes();
-//
-//	std::vector <
-//		std::vector<
-//		operationType::ParameterTypesEnum
-//		>*
-//	>* paramVectors;
-//	for (size_t i = 0; i < paramModel.OperationsVec.size(); i++)
-//	{
-//		Operation * o = paramModel.OperationsVec.at(i);
-//		graph->addNode(QString::fromStdString(o->name));
-//		/*if (i==0)
-//		{
-//			graph->setRootNode(QString::fromStdString(o->name));
-//		}*/
-//		
-//		operationType::GetOperationParameters(operationType::OperationToString(o->operationType), &paramVectors);
-//		/// <summary>
-//		/// for all non float parameters
-//		/// </summary>
-//		for (size_t j = 0; j < o->OperationParametersVec->size(); j++)
-//		{
-//			if (paramVectors->at(o->typeOfParameters - 1)->at(0) == operationType::ParameterTypesEnum::ParameterTypeMULTIPLEPOINTS || paramVectors->at(o->typeOfParameters-1)->at(j) != operationType::ParameterTypesEnum::ParameterTypeFLOAT)
-//			{
-//				//find parent object
-//				std::string par = o->OperationParametersVec->at(j);
-//				auto parent = paramModel.OperationMap[par];
-//				if (parent == NULL)
-//				{
-//					continue;
-//				}
-//				std::string parentStr = parent->name;
-//				//add edge from parent to this
-//				graph->addEdge(QString::fromStdString(parentStr), QString::fromStdString(o->name), parentStr + "_" + o->name);
-//			}
-//
-//		}
-//		operationType::ClearParamVectors(&paramVectors);
-//	}
-//	graph->applyLayout();
-//	graph->print();
-//	//QString a = QString::fromStdString("p1");
-//	//QString b = QString::fromStdString("p3");
-//	//Agedge_t* p = graph->_edges[QPair<QString, QString>(a,b)];
-//}
-//QtGuiApplication1::~QtGuiApplication1()
-//{
-//	//delete graph;
-//}
+
 QIcon QtGuiApplication1::setObjectIcon(Object::ObjectTypeEnum type) {
 	switch (type)
 	{
@@ -517,6 +455,7 @@ QIcon QtGuiApplication1::setObjectIcon(Object::ObjectTypeEnum type) {
 		return QIcon("Icons/Object icons/Invalid.png");
 	}
 }
+
 /// <summary>
 /// refresh object list
 /// </summary>
@@ -545,9 +484,6 @@ void QtGuiApplication1::RefreshObjectList()
 		
 		ui.treeWidget_2->repaint();
 	}
-	
-	//
-	//CreateGraph();
 	cellChangedEventPaused = false;
 }
 
@@ -581,6 +517,7 @@ bool isFloat(const std::string& s) {
 		return false;
 	}
 }
+
 /// <summary>
 /// Parameter list
 /// </summary>
@@ -597,7 +534,6 @@ void QtGuiApplication1::on_tableWidget_cellChanged(int row, int column)
 		return;
 	}
 	std::string ParamValue = ui.RefParam_tableWidget->item(row, 1)->text().toStdString();
-	//if (!isFloat(ParamValue))
 	Expression e(ParamValue);
 	if (!e.isValid)
 	{
@@ -622,7 +558,6 @@ void QtGuiApplication1::on_tableWidget_cellChanged(int row, int column)
 		//set new value d
 		paramModel.SetRefValue(paramRefVec->at(row).ObjectName, paramRefVec->at(row).paramindex, ParamValue);
 		//modify tree view
-		//ui.RefParam_tableWidget->item(1, 1)
 		OperationToQStrings(paramModel.OperationsVec[i], ui.treeWidget->topLevelItem(i) );
 	}
 	paramModel.BuildModel();

@@ -12,15 +12,12 @@ public:
 	ParametricModel paramModel;
 	QtGuiApplication1(QWidget *parent = Q_NULLPTR);
 	static QIcon setObjectIcon(Object::ObjectTypeEnum type);
-//	GVGraph *graph;
 private slots:
 
 	/// <summary>
 	/// add new operations from text
 	/// </summary>
     void on_pushButton_clicked();
-
-   // void on_listWidget_itemDoubleClicked(QListWidgetItem *item);
 
     void on_actionHelp_triggered();
 
@@ -88,10 +85,8 @@ private:
 	void TestOperationsValidity(size_t indexFrom);
 	void DisableButtons();
 	void RefreshObjectList();
-	//void CreateGraph();
 	QTimer *Timer;
 	void OperationToQStrings(Operation *c, QTreeWidgetItem* qTreeWidgetItem);
-	//~QtGuiApplication1();
 public:	
 	bool cellChangedEventPaused = false;
 };
