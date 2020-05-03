@@ -15,7 +15,7 @@ namespace Object {
 		TRIANGLE_ObjectType,
 		OBJECT3D_ObjectType,
 		//CYLINDER_ObjectType,
-		PYRAMID_ObjectType,
+		Cone_ObjectType,
 		SPHERE_ObjectType,
 		INVALID_ObjectType
 	};
@@ -73,8 +73,8 @@ namespace Object {
 				return "Triangle";
 			case OBJECT3D_ObjectType:
 				return "3D object";
-			case PYRAMID_ObjectType:
-				return "Pyramid";
+			case Cone_ObjectType:
+				return "Cone";
 			case SPHERE_ObjectType:
 				return "Sphere";
 			case INVALID_ObjectType:

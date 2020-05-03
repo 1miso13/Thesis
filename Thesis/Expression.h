@@ -61,7 +61,7 @@ public:
 	/// -variables: 
 	///		model parameters
 	///		object.innerObject.value
-	///			example:pyramid.base.area 
+	///			example:Cone.base.area 
 	/// 
 	/// 
 	/// Dev notes: need to know all name of objects created before this

@@ -1,6 +1,6 @@
 
 #include "pch.h"
-#include "Pyramid.h"
+#include "Cone.h"
 #include "Geometry.h"
 #include "Polygon.h"
 
@@ -14,13 +14,13 @@ namespace Object {
 	/// </summary>
 	/// <param name="apex"></param>
 	/// <param name="base"></param>
-	Pyramid::Pyramid(Point apex, Surface * base)
+	Cone::Cone(Point apex, Surface * base)
 	{
 		this->apex = apex;
 		this->base = base;
 		this->BaseType = GetBaseType();
 		CalculateHeight();
-		GeometricType = PYRAMID_ObjectType;
+		GeometricType = Cone_ObjectType;
 	}
 	/// <summary>
 	/// 
@@ -31,37 +31,37 @@ namespace Object {
 	/// 2-triangle
 	/// 3-rectangle
 	/// 4-polygon</param>
-	Object::Pyramid::Pyramid(float height, Surface * base)
+	Object::Cone::Cone(float height, Surface * base)
 	{
 		this->height = height;
 		this->apex = Point(base->center) + base->normal*height;
 		this->base = base;
 		this->BaseType = GetBaseType();
-		GeometricType = PYRAMID_ObjectType;
+		GeometricType = Cone_ObjectType;
 
 		CreateMesh();
 	}
 
-	Object::Pyramid::~Pyramid()
+	Object::Cone::~Cone()
 	{
 	}
 
 	/// <summary>
 	/// If not entered 
 	/// </summary>
-	void Object::Pyramid::CalculateHeight()
+	void Object::Cone::CalculateHeight()
 	{
 		double distPointToPlane = DotProduct((this->apex.Position - this->base->center), this->base->normal);
 		Point p2 = this->apex.Position - (this->base->normal * distPointToPlane);
 		height = Line(p2, this->apex).Distance();
 	}
 
-	void Object::Pyramid::CalculateVolume()
+	void Object::Cone::CalculateVolume()
 	{
 		volume = base->GetArea() * height * 1 / 3;
 	}
 
-	void Object::Pyramid::CalculateSurfaceArea()
+	void Object::Cone::CalculateSurfaceArea()
 	{
 		surfaceArea = base->GetArea();
 
@@ -100,7 +100,7 @@ namespace Object {
 			else
 				if (BaseType == 3)//rectangle
 				{
-					//TODO rectangle base pyramid - surface area
+					//TODO rectangle base Cone - surface area
 
 				}
 				else
@@ -121,7 +121,7 @@ namespace Object {
 					}
 	}
 
-	short Object::Pyramid::GetBaseType()
+	short Object::Cone::GetBaseType()
 	{
 		/// 1-circle
 		/// 2-triangle
@@ -142,7 +142,7 @@ namespace Object {
 		}
 		return 0;
 	}
-	void Pyramid::CreateMesh() {
+	void Cone::CreateMesh() {
 		//std::vector<float> vertices;
 		//std::vector<float> normals;
 		//std::vector<unsigned> indices;

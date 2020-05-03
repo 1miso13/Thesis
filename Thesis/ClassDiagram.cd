@@ -84,11 +84,11 @@
       <FileName>Surface.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Pyramid" Collapsed="true">
+  <Class Name="Cone" Collapsed="true">
     <Position X="11.75" Y="3.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AABIBAAAAAAgAEQAIAAAAAAAAAAAAAEIAAAAAAAAAAA=</HashCode>
-      <FileName>Pyramid.h</FileName>
+      <FileName>Cone.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Sphere" Collapsed="true">

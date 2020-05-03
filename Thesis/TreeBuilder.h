@@ -3,7 +3,7 @@
 #include "GeometricOperation.h"
 #include "Operation.h"
 #include "Shape3D.h"
-#include "Pyramid.h"
+#include "Cone.h"
 #include "Sphere.h"
 #include "Polygon.h"
 #include <map>
@@ -162,7 +162,7 @@ private:
 			{
 				return NULL;
 			}
-			RetObject = new Object::Point(Operations::Orthocenter(t));
+			RetObject = Operations::Orthocenter(t);
 		}
 										 break;
 		case operationType::NinePointCenter: {
@@ -494,7 +494,7 @@ private:
 			{
 				return NULL;
 			}
-			RetObject = new Object::Circle(Operations::InscribedTriangle(t));
+			RetObject = new Object::Circle(Operations::CircumscribedTriangle(*t));
 		}
 										   break;
 		case operationType::Inscribed: {
@@ -503,7 +503,7 @@ private:
 			{
 				return NULL;
 			}
-			RetObject = new Object::Circle(Operations::CircumscribedTriangle(*t));
+			RetObject = new Object::Circle(Operations::InscribedTriangle(t));
 		}
 
 									   ///Objects Commands:
@@ -520,7 +520,7 @@ private:
 			// //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		}
 									break;
-		case operationType::Pyramid: {
+		case operationType::Cone: {
 			if (operation->typeOfParameters == 1)
 			{
 				Object::Surface *s = (Object::Surface*)FindObjectByName(Objects, operation->OperationParametersVec->at(0), &Err1);
@@ -529,7 +529,7 @@ private:
 				{
 					return NULL;
 				}
-				RetObject = new Object::Pyramid(height, s);
+				RetObject = new Object::Cone(height, s);
 			}
 			else
 			{
@@ -539,7 +539,7 @@ private:
 				{
 					return NULL;
 				}
-				RetObject = new Object::Pyramid(*p, s);
+				RetObject = new Object::Cone(*p, s);
 			}
 		}
 									 break;

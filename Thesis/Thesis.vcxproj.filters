@@ -120,9 +120,6 @@
     <ClInclude Include="Polygon.h">
       <Filter>Header Files\Geometry\Geometric objects\2D</Filter>
     </ClInclude>
-    <ClInclude Include="Pyramid.h">
-      <Filter>Header Files\Geometry\Geometric objects\3D</Filter>
-    </ClInclude>
     <ClInclude Include="Sphere.h">
       <Filter>Header Files\Geometry\Geometric objects\3D</Filter>
     </ClInclude>
@@ -162,6 +159,9 @@
     <ClInclude Include="CalculateMeshNormals.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Cone.h">
+      <Filter>Header Files\Geometry\Geometric objects\3D</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -199,9 +199,6 @@
     </ClCompile>
     <ClCompile Include="Polygon.cpp">
       <Filter>Source Files\Geometry\Objects\2D</Filter>
-    </ClCompile>
-    <ClCompile Include="Pyramid.cpp">
-      <Filter>Source Files\Geometry\Objects\3D</Filter>
     </ClCompile>
     <ClCompile Include="Sphere.cpp">
       <Filter>Source Files\Geometry\Objects\3D</Filter>
@@ -244,6 +241,9 @@
     </ClCompile>
     <ClCompile Include="CalculateMeshNormals.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Cone.cpp">
+      <Filter>Source Files\Geometry\Objects\3D</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

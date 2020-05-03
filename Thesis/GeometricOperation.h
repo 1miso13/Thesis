@@ -54,7 +54,7 @@ Object::Point SurfaceMiddleCir(Object::Circle *c);
 Object::Point Centroid(Object::Triangle* t);
 Object::Point Incenter(Object::Triangle* t);
 Object::Point Circumcenter(Object::Triangle* t);
-Object::Point Orthocenter(Object::Triangle* t);
+Object::Point* Orthocenter(Object::Triangle* t);
 Object::Point NinePointCenter(Object::Triangle* t);
 
 
@@ -210,8 +210,10 @@ Object::Circle InscribedTriangle(Object::Triangle *triangle);
 		float y3 = l2.beginPoint.Position.Y;
 		float y4 = l2.endPoint.Position.Y;
 
-		double numerator = ((double)x1 - (double)x3)*((double)y3 - (double)y4) - ((double)y1 - (double)y3)*((double)x3 - (double)x4);
-		double denominator = ((double)x1 - (double)x2)*((double)y3 - (double)y4) - ((double)y1 - (double)y2)*((double)x3 - (double)x4);
+		//double numerator = ((double)x1 - (double)x3)*((double)y3 - (double)y4) - ((double)y1 - (double)y3)*((double)x3 - (double)x4);
+		//double denominator = ((double)x1 - (double)x2)*((double)y3 - (double)y4) - ((double)y1 - (double)y2)*((double)x3 - (double)x4);
+		double numerator = ((double)x4 - (double)x3)*((double)y1 - (double)y3) - ((double)y4 - (double)y3)*((double)x1 - (double)x3);
+		double denominator = ((double)y4 - (double)y3)*((double)x2 - (double)x1) - ((double)x4 - (double)x3)*((double)y2 - (double)y1);
 
 		double u = numerator / denominator;
 		Vector3 v = (l1.beginPoint.Position + (u * (l1.endPoint.Position - l1.beginPoint.Position)));
@@ -280,13 +282,13 @@ Object::Circle InscribedTriangle(Object::Triangle *triangle);
 	inline Object::Point Circumcenter(Object::Triangle* t) {
 		return CircumscribedTriangle(*t).center;
 	}
-	inline Object::Point Orthocenter(Object::Triangle* t) {
+	inline Object::Point* Orthocenter(Object::Triangle* t) {
 		Object::Line l1 = MinLineBetweenLineAndPoint(Object::Line(t->p1, t->p2), t->p3);
 		Object::Line l2 = MinLineBetweenLineAndPoint(Object::Line(t->p2, t->p3), t->p1);
 
 		bool errOut;
 		Object::Line lOut = MinLineBetweenLineAndLine(&l1/*p1-p2*/, &l2/*p3-p4*/, &errOut);
-		return lOut.beginPoint;;
+		return new Object::Point(lOut.beginPoint.Position);
 	}
 	inline Object::Point NinePointCenter(Object::Triangle* t) {
 		Object::Triangle t2((t->p1 + t->p2) / 2,
@@ -522,22 +524,22 @@ Object::Circle InscribedTriangle(Object::Triangle *triangle);
 	//Circumscribed
 	inline Object::Line PerpendicularLineOnPoint(Object::Point origin, Object::Point p1, Object::Point p2) {
 		//move line points origin to center
-		p1 = p1 - origin;
-		p2 = p2 - origin;
+		Object::Point p1a = p1 - origin;
+		Object::Point p2a = p2 - origin;
 
 		//rotate
-		Vector3 temp = p1.Position;
-		p1.Position.X = -temp.Y;
-		p1.Position.Y = temp.X;
+		Vector3 temp = p1a.Position;
+		p1a.Position.X = -temp.Y;
+		p1a.Position.Y = temp.X;
 
-		temp = p2.Position;
-		p2.Position.X = -temp.Y;
-		p2.Position.Y = temp.X;
+		temp = p2a.Position;
+		p2a.Position.X = -temp.Y;
+		p2a.Position.Y = temp.X;
 
 		//move points back
-		p1 = p1 + origin;
-		p2 = p2 + origin;
-		return Object::Line(p1, p2);
+		p1a = p1a + origin;
+		p2a = p2a + origin;
+		return Object::Line(p1a, p2a);
 	}
 	inline Object::Circle CircumscribedTriangle(Object::Triangle triangle) {
 		//to 2D
@@ -582,7 +584,6 @@ Object::Circle InscribedTriangle(Object::Triangle *triangle);
 
 		//point in middle
 		Object::Point Middle1 = LinearInterpolation_Percent(v12, v13, 0.5f);
-		Vector3 vectorFromPoint1 = (Middle1 - triangle->p1).Normalize();
 		//find Line between l21 and l23 (point p1)
 			//find angle/2 - bisector
 		Object::Point v21 = LinearInterpolation_Distance(&triangle->p2, &triangle->p1, 1);
@@ -590,11 +591,10 @@ Object::Circle InscribedTriangle(Object::Triangle *triangle);
 
 		//
 		Object::Point Middle2 = LinearInterpolation_Percent(v21, v23, 0.5f);
-		Vector3 vectorFromPoint2 = (Middle2 - triangle->p2).Normalize();
 
 		//find middle between vectorFromPoint2 and vectorFromPoint2
 
-		arrayOfPoints[3] = Intersection_Line_Line2D(Object::Line(triangle->p1, vectorFromPoint1), Object::Line(triangle->p2, vectorFromPoint2)).Position;
+		arrayOfPoints[3] = Intersection_Line_Line2D(Object::Line(triangle->p1, Middle1), Object::Line(triangle->p2, Middle2)).Position;
 		//find range of lines (all distances between middle to lines are same)
 
 		float radius = (float)MinLineBetweenLineAndPoint(Object::Line(triangle->p1, triangle->p2), arrayOfPoints[3]).Distance();

@@ -65,7 +65,7 @@ namespace operationType {
 			//RECTANGLE,
 			//Polygon,
 			//TRIANGLE,
-			//PYRAMID,
+			//Cone,
 			//OBJECT3D
 		if (commandParType == tested)
 			return true;
@@ -81,7 +81,7 @@ namespace operationType {
 				return true;
 			}
 			break;
-		case Object::PYRAMID_ObjectType:
+		case Object::Cone_ObjectType:
 		case Object::OBJECT3D_ObjectType:
 		case Object::SPHERE_ObjectType:
 			if (commandParType == Object::OBJECT3D_ObjectType)
@@ -148,7 +148,7 @@ namespace operationType {
 		//RECTANGLE,
 		//Polygon,
 		//TRIANGLE,
-		//PYRAMID,
+		//Cone,
 		//OBJECT3D
 		switch (operationType) {
 		case Point:
@@ -202,8 +202,8 @@ namespace operationType {
 			///Objects Commands:
 
 
-		case Pyramid:
-			return Object::PYRAMID_ObjectType;
+		case Cone:
+			return Object::Cone_ObjectType;
 		case Extrude:
 			return Object::OBJECT3D_ObjectType;
 			//case SpericalCurvedSurface:
@@ -290,7 +290,7 @@ namespace operationType {
 			//	break;
 			//case Object::ObjectTypeEnum::OBJECT3D_ObjectType:
 			//	break;
-			//case Object::ObjectTypeEnum::PYRAMID_ObjectType:
+			//case Object::ObjectTypeEnum::Cone_ObjectType:
 			//	break;
 			//case Object::ObjectTypeEnum::SPHERE_ObjectType:
 			//	break;
@@ -401,7 +401,7 @@ namespace operationType {
 	//RECTANGLE,
 	//Polygon,
 	//TRIANGLE,
-	//PYRAMID,
+	//Cone,
 	//OBJECT3D,
 	//INVALIDObjectType
 
@@ -1167,7 +1167,7 @@ namespace operationType {
 				///Objects Commands:
 
 			}
-			if (commandName == "Pyramid")
+			if (commandName == "Cone")
 			{
 				if (CountOfParams != 2)
 				{
@@ -1180,20 +1180,20 @@ namespace operationType {
 					if (IsFloat(*it))//center
 					{
 						*typeOfParams = 1;
-						return Pyramid;
+						return Cone;
 					}
 					if (CompareTypes(POINTObjectType, Find(OperationsVec, *it)))
 					{
 						*typeOfParams = 2;
-						return Pyramid;
+						return Cone;
 					}
 
 				}
 				//1 - distance
 				//2 - point
 				return  INVALID;
-				//Pyramid(string objectName, Surface s, float distance, bool visible = true) //Create Pyramid by distance from center
-				//Pyramid(string objectName, Surface s, Point p, bool visible = true) //Create Pyramid by Point
+				//Cone(string objectName, Surface s, float distance, bool visible = true) //Create Cone by distance from center
+				//Cone(string objectName, Surface s, Point p, bool visible = true) //Create Cone by Point
 
 			}
 			if (commandName == "Extrude")
@@ -1533,7 +1533,7 @@ namespace operationType {
 				if (info)
 				{
 					std::vector<std::string> *paramInfo1 = new std::vector<std::string>();
-					paramInfo1->push_back("Create orthocentrum of tringle");
+					paramInfo1->push_back("Create orthocentrum of triangle");
 					paramInfo1->push_back("Triangle");
 
 					(*paramVectorsInfo)->push_back(paramInfo1);
@@ -1600,7 +1600,7 @@ namespace operationType {
 			if (info)
 			{
 				std::vector<std::string> *paramInfo1 = new std::vector<std::string>();
-				paramInfo1->push_back("RetType = beginning point of Line");
+				paramInfo1->push_back("Beginning point of Line");
 				paramInfo1->push_back("Line");
 
 				(*paramVectorsInfo)->push_back(paramInfo1);
@@ -1617,7 +1617,7 @@ namespace operationType {
 			if (info)
 			{
 				std::vector<std::string> *paramInfo1 = new std::vector<std::string>();
-				paramInfo1->push_back("RetType = end point of Line");
+				paramInfo1->push_back("End point of Line");
 				paramInfo1->push_back("Line");
 
 				(*paramVectorsInfo)->push_back(paramInfo1);
@@ -1717,7 +1717,7 @@ namespace operationType {
 			if (info)
 			{
 				std::vector<std::string> *paramInfo1 = new std::vector<std::string>();
-				paramInfo1->push_back("RetType = minimal line between two lines");
+				paramInfo1->push_back("Minimal line between two lines");
 				paramInfo1->push_back("first line");
 				paramInfo1->push_back("second line");
 
@@ -1735,7 +1735,7 @@ namespace operationType {
 			if (info)
 			{
 				std::vector<std::string> *paramInfo1 = new std::vector<std::string>();
-				paramInfo1->push_back("RetType = minimal line between point and line");
+				paramInfo1->push_back("Minimal line between point and line");
 				paramInfo1->push_back("Point");
 				paramInfo1->push_back("Line");
 
@@ -1753,7 +1753,7 @@ namespace operationType {
 			if (info)
 			{
 				std::vector<std::string> *paramInfo1 = new std::vector<std::string>();
-				paramInfo1->push_back("RetType = minimal line between point and surface");
+				paramInfo1->push_back("Minimal line between point and surface");
 				paramInfo1->push_back("Point");
 				paramInfo1->push_back("Surface");
 
@@ -1820,7 +1820,7 @@ namespace operationType {
 			if (info)
 			{
 				std::vector<std::string> *paramInfo1 = new std::vector<std::string>();
-				paramInfo1->push_back("RetType = normal vector of surface");
+				paramInfo1->push_back("Normal vector of surface");
 				paramInfo1->push_back("Surface");
 
 				(*paramVectorsInfo)->push_back(paramInfo1);
@@ -2074,7 +2074,7 @@ namespace operationType {
 
 		}
 			///Objects Commands:
-		if (commandName == "Pyramid")
+		if (commandName == "Cone")
 		{
 			std::vector<ParameterTypesEnum>* params1 = new std::vector<ParameterTypesEnum>();
 			params1->push_back(ParameterTypeSURFACE);
@@ -2089,23 +2089,23 @@ namespace operationType {
 			if (info)
 			{
 				std::vector<std::string> *paramInfo1 = new std::vector<std::string>();
-				paramInfo1->push_back("Create pyramid from surface and distance from center");
+				paramInfo1->push_back("Create Cone from surface and distance from center");
 				paramInfo1->push_back("Base");
 				paramInfo1->push_back("Base");
 				std::vector<std::string> *paramInfo2 = new std::vector<std::string>();
-				paramInfo2->push_back("Create pyramid from surface and specific point");
+				paramInfo2->push_back("Create Cone from surface and specific point");
 				paramInfo2->push_back("Base");
 				paramInfo2->push_back("Point");
 
 				(*paramVectorsInfo)->push_back(paramInfo1);
 				(*paramVectorsInfo)->push_back(paramInfo2);
 			}
-			RetType = Pyramid;
+			RetType = Cone;
 
 			//1 - distance
 			//2 - point
-			//Pyramid(string objectName, Surface s, float distance, bool visible = true) //Create Pyramid by distance from center
-			//Pyramid(string objectName, Surface s, Point p, bool visible = true) //Create Pyramid by Point
+			//Cone(string objectName, Surface s, float distance, bool visible = true) //Create Cone by distance from center
+			//Cone(string objectName, Surface s, Point p, bool visible = true) //Create Cone by Point
 
 		}
 		if (commandName == "Extrude")
@@ -2250,7 +2250,7 @@ namespace operationType {
 		//RECTANGLE,
 		//Polygon,
 		//TRIANGLE,
-		//PYRAMID,
+		//Cone,
 		//OBJECT3D
 		switch (operationType) {
 //Point Commands:
@@ -2328,8 +2328,8 @@ namespace operationType {
 //Objects Commands:
 
 
-		case Pyramid:
-			return "Pyramid";
+		case Cone:
+			return "Cone";
 		case Extrude:
 			return "Extrude";
 		case Sphere:

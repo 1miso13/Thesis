@@ -105,8 +105,8 @@ QIcon Dialog::setObjectIcon(Object::ObjectTypeEnum type) {
 		return QIcon("Icons/Object icons/Triangle.png");
 	case Object::OBJECT3D_ObjectType:
 		return QIcon("Icons/Object icons/point.jpg");
-	case Object::PYRAMID_ObjectType:
-		return QIcon("Icons/Object icons/Pyramid.png");
+	case Object::Cone_ObjectType:
+		return QIcon("Icons/Object icons/Cone.png");
 	case Object::SPHERE_ObjectType:
 		return QIcon("Icons/Object icons/Sphere.png");
 	case Object::INVALID_ObjectType:

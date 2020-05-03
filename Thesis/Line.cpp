@@ -14,8 +14,8 @@ namespace Object {
 
 	 Line::Line(Vector3 beginPoint, Vector3 endPoint)
 	{
-		this->beginPoint = beginPoint;
-		this->endPoint = endPoint;
+		this->beginPoint.Position = beginPoint;
+		this->endPoint.Position = endPoint;
 		DistanceCalc();
 		GeometricType = LINE_ObjectType;
 		CreateMesh();
@@ -31,7 +31,7 @@ namespace Object {
 	 Line::Line(Vector3 point)
 	{
 		this->beginPoint = Vector3(0, 0, 0);
-		this->endPoint = point;
+		this->endPoint.Position = point;
 		DistanceCalc();
 		GeometricType = LINE_ObjectType;
 		CreateMesh();

@@ -2,7 +2,7 @@
 #include "TreeBuilder.h"
 #include <string>
 #include "Shape3D.h"
-#include "Pyramid.h"
+#include "Cone.h"
 #include "Sphere.h"
 
 

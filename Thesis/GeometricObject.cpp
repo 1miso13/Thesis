@@ -22,8 +22,8 @@
 //		return "Triangle";
 //	case OBJECT3D:
 //		return "3D object";
-//	case PYRAMID:
-//		return "Pyramid";
+//	case Cone:
+//		return "Cone";
 //	case SPHERE:
 //		return "Sphere";
 //	case INVALIDObjectType:

@@ -12,7 +12,7 @@ class Operation
 	RECTANGLE,
 	Polygon,
 	TRIANGLE,
-	PYRAMID*/
+	Cone*/
 
 public:
 	std::vector <std::string> *OperationParametersVec=NULL;

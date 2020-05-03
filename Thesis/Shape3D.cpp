@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "Shape3D.h"
 #include "GeometricOperation.h"
-#include "Pyramid.h"
+#include "Cone.h"
 
 namespace Object {
 
@@ -44,7 +44,7 @@ namespace Object {
 				p1,
 				p2,
 				p3);
-			Pyramid p(apex, basePtr);
+			Cone p(apex, basePtr);
 			p.CalculateVolume();
 			if (DotProduct(basePtr->normal- p1.GetPosition(),apex.GetPosition() - p1.GetPosition())>0)
 			{

@@ -15,7 +15,6 @@ float DotProduct(Vector3 VectorA, Vector3 VectorB);
 
 void Plane3DTo2D(Vector3 * arrayOfPoints, unsigned int pointsCount, Vector3 * normal);
 void Plane3DTo2D(Vector3 * arrayOfPoints, unsigned int pointsCount, Vector3 * normal, Vector3 origin);
-
 void Plane2DTo3D(Vector3 * arrayOfPoints, unsigned int pointsCount, Vector3 * normal, Vector3 origin);
 
 float PolygonArea(std::vector <Object::Point> points);

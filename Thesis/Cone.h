@@ -9,7 +9,7 @@
 #include "Rectangle.h"
 #include "Polygon.h"
 namespace Object {
-	class Pyramid :
+	class Cone :
 		public Object::Shape3D
 	{
 	public:
@@ -24,9 +24,9 @@ namespace Object {
 		Point apex;
 		Surface *base;
 		float height=0;
-		Pyramid(Point apex, Surface* base);
-		Pyramid(float height, Surface* base);
-		~Pyramid();
+		Cone(Point apex, Surface* base);
+		Cone(float height, Surface* base);
+		~Cone();
 
 		void CalculateHeight();
 

@@ -179,7 +179,7 @@ diff = 1;
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LESS);
 
-	glPointSize(20);
+	glPointSize(5);
 }
 
 

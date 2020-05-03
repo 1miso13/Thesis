@@ -23,7 +23,7 @@
 /// 3D
 /// </summary>
 #include "Shape3D.h"
-#include "Pyramid.h"
+#include "Cone.h"
 #include "Sphere.h"
 class ObjectsValues
 {
@@ -111,7 +111,7 @@ public:
 				Object::ObjectTypeEnum::INVALID_ObjectType,
 				Object::ObjectTypeEnum::POINT_ObjectType,
 				Object::ObjectTypeEnum::INVALID_ObjectType};
-		case Object::ObjectTypeEnum::PYRAMID_ObjectType:
+		case Object::ObjectTypeEnum::Cone_ObjectType:
 			*ObjectValues_Options = {
 			"volume",
 			"surfaceArea",
@@ -266,15 +266,15 @@ inline double ObjectsValues::GetObjectValue(std::map<std::string, Object::Geomet
 				*Err = true;
 			}
 			break;
-		case Object::ObjectTypeEnum::PYRAMID_ObjectType:
+		case Object::ObjectTypeEnum::Cone_ObjectType:
 			if (tokenVec[i] == "apex")//Object::ObjectTypeEnum::POINT_ObjectType,
 			{
-				lastChild = ((Object::Pyramid*)objectPtr)->apex;
+				lastChild = ((Object::Cone*)objectPtr)->apex;
 			}
 			else
 				if (tokenVec[i] == "base")//Object::ObjectTypeEnum::SURFACE_ObjectType
 			{
-					lastChild = *((Object::Pyramid*)objectPtr)->base;
+					lastChild = *((Object::Cone*)objectPtr)->base;
 			}
 				else
 				{
@@ -448,20 +448,20 @@ inline double ObjectsValues::GetObjectValue(std::map<std::string, Object::Geomet
 			*Err = true;
 		}
 		break;
-	case Object::ObjectTypeEnum::PYRAMID_ObjectType:
+	case Object::ObjectTypeEnum::Cone_ObjectType:
 		if (valueName == "volume")
 		{
-			value = ((Object::Pyramid*)objectPtr)->GetVolume();
+			value = ((Object::Cone*)objectPtr)->GetVolume();
 		}
 		else
 			if (valueName == "surfaceArea")
 		{
-				value = ((Object::Pyramid*)objectPtr)->GetSurfaceArea();
+				value = ((Object::Cone*)objectPtr)->GetSurfaceArea();
 		}
 		else
 			if (valueName == "height")
 		{
-				value = ((Object::Pyramid*)objectPtr)->height;
+				value = ((Object::Cone*)objectPtr)->height;
 		}
 		else
 		{

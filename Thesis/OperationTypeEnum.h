@@ -130,8 +130,8 @@ namespace operationType {
 
 
 
-Pyramid,//(string objectName, Surface s, float distance, float visibility) //Create Pyramid by distance from center
-//Pyramid(string objectName, Surface s, Point p, float visibility) //Create Pyramid by Point
+Cone,//(string objectName, Surface s, float distance, float visibility) //Create Cone by distance from center
+//Cone(string objectName, Surface s, Point p, float visibility) //Create Cone by Point
 
 Extrude,//(string objectName, Surface s, float distance, float visibility) //add width to plane
 
