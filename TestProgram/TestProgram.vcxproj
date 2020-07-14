@@ -76,10 +76,12 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <IncludePath>$(SolutionDir)..\ExternalLibraries\glfw-3.2.1.bin.WIN64\include;$(SolutionDir)Thesis;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)..\ExternalLibraries\CGAL\lib\Debug;$(SolutionDir)..\ExternalLibraries\glfw-3.2.1.bin.WIN64\lib-vc2015;$(SolutionDir)x64\Debug\ThesisLibrary;$(LibraryPath)</LibraryPath>
+    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\GLFW_Application\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IncludePath>$(SolutionDir)..\ExternalLibraries\glfw-3.2.1.bin.WIN64\include;$(SolutionDir)Thesis;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)..\ExternalLibraries\glfw-3.2.1.bin.WIN64\lib-vc2015;$(SolutionDir)x64\Release\ThesisLibrary;$(SolutionDir)..\ExternalLibraries\CGAL\lib\Release;$(LibraryPath)</LibraryPath>
+    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\GLFW_Application\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>

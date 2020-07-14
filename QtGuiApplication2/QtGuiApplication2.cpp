@@ -6,7 +6,7 @@ QtGuiApplication2::QtGuiApplication2(QWidget *parent)
 	: QMainWindow(parent)
 {
 	ui.setupUi(this);
-
+	this->setWindowTitle("QtGuiApplication");
 
 	std::ifstream file("head.parammodel");
 	std::string content((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());

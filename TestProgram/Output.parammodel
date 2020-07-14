@@ -1,22 +1,5 @@
-Point(Name,5,6,0.5,00112233);
-Point(Name2,5,6,0.5,Name,00112233);
-Point(p1,1:p1_X,2:p1_Y,3:p1_Z,12345678);
-Point(p2,7,8:p_Y,9: abc,12345678);
-Point(p3,1,2,3,p1,12345678);
-Point(p4,sin(1 - 0.5),2,3,12345678);
-Line(l1,p1,p2,12345678);
-Line(l2,p1,p3,12345678);
-Triangle(t1,l1,p1,12345678);
-LinearInterpolationDist(lp,p1,p3,2,12345678);
-Point(p5,7,8,9,12345678);
-Point(p6,1,2,3,p1,12345678);
-Point(p7,1,2,3,p5,12345678);
-Polygon(poly_1,p1,p2,p3,p4,p5,p6,p7,12345678);
-Point(Pociatocny bod,0,0:o,0,12345678);
-Point(Koncovy bod,1,2,3,Pociatocny bod,12345678);
-Line(Normala,Pociatocny bod,Koncovy bod,12345678);
-Point(Stred zakladne,7,8,9,12345678);
-Circle(Podstava,Stred zakladne,5:polomer,Normala,12345678);
-Pyramid(Kuzel,Podstava,10:vyska,12345678);
-Sphere(Sphere1,Stred zakladne, 2,FFFFFFFF);
-BooleanIntersection()
+Point(HouseTopCenter,0,2:houseHeight,0,00000000);
+Point(PointUP,0,1,0,HouseTopCenter,00000000);
+Line(LineUP,HouseTopCenter,PointUP,00000000);
+Rectangle(Top,HouseTopCenter,3:houseX,2+sin(time/1500):houseY,sin(time/1000)-0.2:rotation,LineUP,00000000);
+Extrude(House,Top,0-houseHeight,00FF00FF);

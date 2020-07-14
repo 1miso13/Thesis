@@ -2,7 +2,7 @@
 #define OGLWIDGET_H
 
 #include <QOpenGLWidget>
-#include <iostream>
+//#include <iostream>
 #include "ParametricModel.h"
 #include <QKeyEvent>
 #include <QMouseEvent>

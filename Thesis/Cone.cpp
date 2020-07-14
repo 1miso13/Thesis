@@ -186,29 +186,31 @@ namespace Object {
 		{
 			std::reverse(normals.begin(),normals.end());
 		}
-		//apex
-		vertices.push_back(apex.Position.X);
-		vertices.push_back(apex.Position.Y);
-		vertices.push_back(apex.Position.Z);
 
 		size_t j = (base->vertices.size())/3- (size_t)1;
 		size_t baseVerticies_count = base->vertices.size() / 3;
 		for (size_t i = 0; i < baseVerticies_count; i++)
 		{
-			//indices.push_back(base->vertices.size()/3);
-			//indices.push_back(base->indices[j]);
-			//indices.push_back(base->indices[i]);
-			//j = i;
+			//apex
+			vertices.push_back(base->vertices.at(j * 3 + 0));
+			vertices.push_back(base->vertices.at(j * 3 + 1));
+			vertices.push_back(base->vertices.at(j * 3 + 2));
+			vertices.push_back(base->vertices.at(i * 3 + 0));
+			vertices.push_back(base->vertices.at(i * 3 + 1));
+			vertices.push_back(base->vertices.at(i * 3 + 2));
+			vertices.push_back(apex.Position.X);
+			vertices.push_back(apex.Position.Y);
+			vertices.push_back(apex.Position.Z);
 
-			//base is pointing down
-			indices.push_back((int)j);
-			indices.push_back((int)i);
-			indices.push_back((int)baseVerticies_count);
+
+			indices.push_back((int)baseVerticies_count + i * 3 + 0);
+			indices.push_back((int)baseVerticies_count + i * 3 + 1);
+			indices.push_back((int)baseVerticies_count + i * 3 + 2);
 
 			glm::vec3 a = glm::vec3(base->vertices[j * (size_t)3 + (size_t)0], base->vertices[j * (size_t)3 + (size_t)1], base->vertices[j * (size_t)3 + (size_t)2]);
 			glm::vec3 b = glm::vec3(base->vertices[i * (size_t)3 + (size_t)0], base->vertices[i * (size_t)3 + (size_t)1], base->vertices[i * (size_t)3 + (size_t)2]);
 			glm::vec3 c = glm::vec3(apex.Position.X, apex.Position.Y, apex.Position.Z);
-			auto normal = glm::normalize(cross(a-b,c-b));
+			glm::vec3 normal = glm::normalize(cross(a-b,c-b));
 
 			normals.push_back(normal.x);
 			normals.push_back(normal.y);
@@ -223,5 +225,27 @@ namespace Object {
 			normals.push_back(normal.z);
 			j = i;
 		}
+
+		//verticesR
+		for (size_t i = 0; i < vertices.size(); i++)
+		{
+			verticesR.push_back(vertices.at(i));
+		}
+		//indicesR
+		for (size_t i = 0; i < indices.size(); i++)
+		{
+			indicesR.push_back(indices.at(i));
+		}
+		//apex
+		verticesR.push_back(apex.Position.X);
+		verticesR.push_back(apex.Position.Y);
+		verticesR.push_back(apex.Position.Z);
+		for (size_t i = 0; i < baseVerticies_count; i++)
+		{
+			indicesR.push_back((int)j);
+			indicesR.push_back((int)i);
+			indicesR.push_back((int)baseVerticies_count);
+		}
+		
 	}
 }
